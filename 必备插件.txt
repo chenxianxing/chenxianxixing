@@ -1,0 +1,18 @@
+﻿Membership by Supsystic
+myCRED
+cos-html-cache
+Advanced Custom Fields
+
+WP-Postviews
+WP No Category Base
+wechat-reward(微信打赏)
+
+Theme My Login(登录用的插件) 用过
+WP User Manager (用户管理)
+WP Custom Register Login(登录)
+Read More Login （强制用户登录后才能阅读）
+
+https://www.wpdaxue.com/add-baidu-share-bar.html 侧边栏加分享
+https://www.wpdaxue.com/login-logout-return-just-visited-page.html(WordPress 登录/登出（注销）后返回之前访问的页面)
+AlipayDonate(支付宝捐助)
+WordPress支付宝Alipay|财付通Tenpay(慎用，支付宝插件)
