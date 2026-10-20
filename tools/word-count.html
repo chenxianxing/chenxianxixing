@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>在线统计字数 - 实时统计中文字数/英文单词/字符数 | 便捷工具箱</title>
+  <meta name="description" content="免费在线字数统计工具，实时统计中文字数、英文单词数、字符数（含/不含空格）、行数、段落数、句子数，并估算阅读时长。支持粘贴文本或拖入 txt 文件，无需注册，即开即用。">
+  <meta name="keywords" content="在线统计字数,字数统计,在线字数统计,字数统计工具,字符统计,英文单词统计,字数统计器,字数查询,word count,字数在线计算">
+  <meta name="author" content="便捷工具箱">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/word-count.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="在线统计字数 - 实时统计中文字数/英文单词/字符数">
+  <meta property="og:description" content="免费在线字数统计工具，实时统计中文字数、英文单词数、字符数、行数、段落数、句子数，并估算阅读时长。">
+  <meta property="og:url" content="https://example.com/tools/word-count.html">
+  <meta property="og:site_name" content="便捷工具箱">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%B0%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "在线统计字数",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "免费在线字数统计工具，实时统计中文字数、英文单词数、字符数（含/不含空格）、行数、段落数、句子数，并估算阅读时长。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": [
+      "实时统计中文字数与英文单词数",
+      "统计字符数（含/不含空格）",
+      "统计行数、段落数、句子数",
+      "估算阅读时长",
+      "支持拖入 txt 文件"
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "在线统计字数是怎么计算的？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "中文字数按汉字逐字统计（一个汉字记 1 字），英文单词按连续字母或数字串统计（一个单词记 1 个），总字数为两者之和。字符数统计所有可见字符，可选择是否包含空格与换行。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "统计结果会上传服务器吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "不会。所有统计均在您的浏览器本地完成，文本内容不会上传到任何服务器，请放心使用。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "支持统计 txt 文件吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "支持。您可以直接把 .txt 或 .md 文件拖拽到输入框中，工具会自动读取文件内容并进行统计，文件需小于 5MB。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "阅读时长是怎么估算的？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "按成年人中文阅读速度约每分钟 300 字估算，中英文混合内容按总字数折算，结果仅供参考。"
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>便捷工具箱<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- 工具头部 -->
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>在线统计字数</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">📝</div>
+        <h1>在线统计字数</h1>
+      </div>
+      <p class="tool-desc">实时统计中文字数、英文单词数、字符数、行数、段落数与句子数，并估算阅读时长。支持粘贴文本或拖入 txt 文件，所有计算均在本地完成，不上传任何内容。</p>
+    </section>
+
+    <!-- 工具主体 -->
+    <section class="tool-panel" id="wcEditor">
+      <div class="wc-toolbar">
+        <button class="btn btn-primary" id="btnCopy" type="button">复制统计结果</button>
+        <button class="btn" id="btnSample" type="button">填入示例</button>
+        <button class="btn" id="btnClear" type="button">清空</button>
+      </div>
+      <div class="wc-editor">
+        <textarea id="wcInput" placeholder="在此输入或粘贴需要统计的文本，也可以把 .txt 文件直接拖进来……" spellcheck="false" aria-label="文本输入框"></textarea>
+        <div class="drop-hint">松开鼠标，读取文件内容</div>
+      </div>
+
+      <div class="wc-stats" role="list">
+        <div class="wc-stat primary" role="listitem"><div class="num" id="statTotal">0</div><div class="label">总字数（中+英）</div></div>
+        <div class="wc-stat" role="listitem"><div class="num" id="statChinese">0</div><div class="label">中文字数</div></div>
+        <div class="wc-stat" role="listitem"><div class="num" id="statWords">0</div><div class="label">英文单词数</div></div>
+        <div class="wc-stat" role="listitem"><div class="num" id="statChars">0</div><div class="label">字符数（含空格）</div></div>
+        <div class="wc-stat" role="listitem"><div class="num" id="statCharsNoSpace">0</div><div class="label">字符数（不含空格）</div></div>
+        <div class="wc-stat" role="listitem"><div class="num" id="statLines">0</div><div class="label">行数</div></div>
+        <div class="wc-stat" role="listitem"><div class="num" id="statNonEmptyLines">0</div><div class="label">非空行数</div></div>
+        <div class="wc-stat" role="listitem"><div class="num" id="statParagraphs">0</div><div class="label">段落数</div></div>
+        <div class="wc-stat" role="listitem"><div class="num" id="statSentences">0</div><div class="label">句子数</div></div>
+        <div class="wc-stat" role="listitem"><div class="num" id="statReadTime">0 分钟</div><div class="label">预计阅读时长</div></div>
+      </div>
+
+      <p class="wc-note">说明：中文按「字」统计，英文按「词」统计；标点计入字符数、不计入字数；阅读时长按每分钟 300 字估算，仅供参考。所有数据仅在浏览器本地计算，不会上传服务器。</p>
+    </section>
+
+    <!-- FAQ（SEO） -->
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>在线统计字数是怎么计算的？</h3>
+        <p>中文字数按汉字逐字统计（一个汉字记 1 字），英文单词按连续字母或数字串统计（一个单词记 1 个），总字数为两者之和。字符数统计所有可见字符，可选择是否包含空格与换行。</p>
+      </div>
+      <div class="faq-item">
+        <h3>统计结果会上传服务器吗？</h3>
+        <p>不会。所有统计均在您的浏览器本地完成，文本内容不会上传到任何服务器，请放心使用。</p>
+      </div>
+      <div class="faq-item">
+        <h3>支持统计 txt 文件吗？</h3>
+        <p>支持。您可以直接把 .txt 或 .md 文件拖拽到输入框中，工具会自动读取文件内容并进行统计，文件需小于 5MB。</p>
+      </div>
+      <div class="faq-item">
+        <h3>阅读时长是怎么估算的？</h3>
+        <p>按成年人中文阅读速度约每分钟 300 字估算，中英文混合内容按总字数折算，结果仅供参考。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 便捷工具箱 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/word-count.js"></script>
+</body>
+</html>
