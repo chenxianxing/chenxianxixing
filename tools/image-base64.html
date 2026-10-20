@@ -17,6 +17,7 @@
   <meta property="og:site_name" content="在线工具大全">
   <meta property="og:locale" content="zh_CN">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%96%BC%3C/text%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem("ot-theme");if(t==="dark"){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();</script>
   <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="stylesheet" href="../assets/css/tool.css">
   <script type="application/ld+json">
@@ -76,16 +77,21 @@
     }
     .drop-zone:hover { border-color: var(--primary); background: var(--primary-light); }
     .drop-zone.dragover { border-color: var(--primary); background: var(--primary-light); }
-    .preview-wrap { text-align: center; background:#fbfcfe; border:1px solid var(--border); border-radius:12px; padding:14px; margin-top:12px; }
+    .preview-wrap { text-align: center; background:var(--card); border:1px solid var(--border); border-radius:12px; padding:14px; margin-top:12px; }
     .preview-wrap img { max-width: 100%; max-height: 280px; border-radius: 8px; }
     .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px,1fr)); gap: 12px; margin-top: 12px; }
-    .info-card { background:#fbfcfe; border:1px solid var(--border); border-radius:11px; padding:12px 14px; }
+    .info-card { background:var(--card); border:1px solid var(--border); border-radius:11px; padding:12px 14px; }
     .info-card .num { font-size:17px; font-weight:700; color:var(--primary); word-break:break-all; }
     .info-card .label { font-size:13px; color:var(--muted); margin-top:2px; }
     #b64Output { max-height: 320px; }
     .split-2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
     @media (max-width:720px){ .split-2{ grid-template-columns:1fr; } }
   </style>
+
+
+
+
+
 
 
 
@@ -108,6 +114,11 @@
         <a href="../index.html">首页</a>
         <a href="../index.html#tools">全部工具</a>
               <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="../en/tools/image-base64.html">English</a></span>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"></path></svg>
+          <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5a8.5 8.5 0 1 0 10.8 10.8z"></path></svg>
+        </button>
+
       </nav>
     </div>
   </header>

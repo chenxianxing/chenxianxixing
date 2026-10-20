@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>图片裁剪 - 在线自由裁剪/比例裁剪/旋转翻转导出工具 | 在线工具大全</title>
+  <meta name="description" content="免费在线图片裁剪工具，支持自由裁剪与 1:1、4:3、3:4、16:9、9:16 比例锁定，可旋转 90°、水平垂直翻转，导出 PNG、JPEG、WebP，实时预览裁剪结果与预估体积，所有处理均在浏览器本地完成。">
+  <meta name="keywords" content="图片裁剪,在线裁剪图片,图片裁切,比例裁剪,1比1裁剪,图片旋转,图片翻转,局部截图">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/image-crop.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="图片裁剪 - 在线自由裁剪/比例裁剪/旋转翻转导出工具">
+  <meta property="og:description" content="支持比例锁定、旋转翻转的在线图片裁剪工具，可按原图像素精确框选并导出 PNG/JPEG/WebP。">
+  <meta property="og:url" content="https://example.com/tools/image-crop.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9C%82%EF%B8%8F%3C/text%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem("ot-theme");if(t==="dark"){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();</script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "图片裁剪",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线图片裁剪工具，支持自由裁剪框拖动缩放、比例锁定、旋转与翻转，导出 PNG/JPEG/WebP。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["自由裁剪框拖动缩放", "比例锁定 1:1/4:3/3:4/16:9/9:16", "旋转 90° 与水平垂直翻转", "PNG/JPEG/WebP 导出", "实时预览与体积估算", "本地处理不上传"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "裁剪时锁定比例有什么作用？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "锁定比例后，拖动裁剪框手柄会保持宽高比不变，适合生成头像（1:1）、封面（16:9）或竖屏壁纸（9:16）等固定尺寸需求，避免裁出变形画面。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "旋转和翻转后画质会变差吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "旋转与翻转只是对像素做几何变换，本身不会损失清晰度；除非导出为 JPEG 时把质量调得很低，或源图本身分辨率不足被放大，才会出现模糊。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "为什么导出的 JPEG 背景变成白色？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "JPEG 格式不支持透明通道，透明区域会被填充为白色；如果需要保留透明背景，请选择 PNG 或 WebP 格式导出。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .crop-wrap { margin-top: 14px; }
+    .crop-stage {
+      position: relative;
+      margin: 0 auto;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background-color: var(--card);
+      background-image:
+        linear-gradient(45deg, rgba(120,120,120,0.14) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(120,120,120,0.14) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, rgba(120,120,120,0.14) 75%),
+        linear-gradient(-45deg, transparent 75%, rgba(120,120,120,0.14) 75%);
+      background-size: 16px 16px;
+      background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+      line-height: 0;
+      touch-action: none;
+    }
+    .crop-stage canvas { display: block; }
+    .crop-mask { position: absolute; background: rgba(0,0,0,0.5); pointer-events: none; }
+    .crop-box {
+      position: absolute;
+      border: 1px solid #fff;
+      cursor: move;
+      box-sizing: border-box;
+      z-index: 5;
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.35);
+    }
+    .crop-handle {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: var(--card);
+      border: 1.5px solid var(--primary);
+      border-radius: 2px;
+      box-sizing: border-box;
+      z-index: 6;
+    }
+    .crop-handle[data-dir="nw"] { top: -6px; left: -6px; cursor: nwse-resize; }
+    .crop-handle[data-dir="n"]  { top: -6px; left: calc(50% - 6px); cursor: ns-resize; }
+    .crop-handle[data-dir="ne"] { top: -6px; right: -6px; cursor: nesw-resize; }
+    .crop-handle[data-dir="e"]  { top: calc(50% - 6px); right: -6px; cursor: ew-resize; }
+    .crop-handle[data-dir="se"] { bottom: -6px; right: -6px; cursor: nwse-resize; }
+    .crop-handle[data-dir="s"]  { bottom: -6px; left: calc(50% - 6px); cursor: ns-resize; }
+    .crop-handle[data-dir="sw"] { bottom: -6px; left: -6px; cursor: nesw-resize; }
+    .crop-handle[data-dir="w"]  { top: calc(50% - 6px); left: -6px; cursor: ew-resize; }
+    .crop-preview {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      text-align: center;
+    }
+    .crop-preview img { max-width: 100%; max-height: 320px; border-radius: 8px; }
+    .slider-item { display: flex; flex-direction: column; gap: 6px; }
+    .slider-item .val { font-size: 13px; color: var(--primary); font-weight: 600; }
+    .out-stat { display: flex; flex-wrap: wrap; gap: 18px; font-size: 14px; color: var(--text); }
+    .out-stat b { color: var(--primary); font-weight: 700; }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/image-crop.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/image-crop.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/image-crop.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="../en/tools/image-crop.html">English</a></span>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"></path></svg>
+          <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5a8.5 8.5 0 1 0 10.8 10.8z"></path></svg>
+        </button>
+
+        
+
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>图片裁剪</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">✂️</div>
+        <h1>图片裁剪</h1>
+      </div>
+      <p class="tool-desc">在线图片裁剪工具，支持自由裁剪框拖动缩放、1:1 / 4:3 / 3:4 / 16:9 / 9:16 比例锁定，可旋转 90° 与水平垂直翻转，导出 PNG、JPEG、WebP 并实时预览结果，所有处理均在浏览器本地完成。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="drop-zone" id="cropDrop">
+        点击选择图片，或将图片拖拽到此处，也可直接 Ctrl+V 粘贴（仅支持图片）
+      </div>
+      <input type="file" id="cropInput" accept="image/*" hidden>
+
+      <div id="cropControls" hidden>
+
+        <div class="op-row">
+          <div class="radio-row" id="cropRatio" role="radiogroup" aria-label="裁剪比例">
+            <label class="checked"><input type="radio" name="cropRatio" value="0" checked>自由</label>
+            <label><input type="radio" name="cropRatio" value="1">1:1</label>
+            <label><input type="radio" name="cropRatio" value="1.3333">4:3</label>
+            <label><input type="radio" name="cropRatio" value="0.75">3:4</label>
+            <label><input type="radio" name="cropRatio" value="1.7778">16:9</label>
+            <label><input type="radio" name="cropRatio" value="0.5625">9:16</label>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-item">
+            <label for="cropX">X（像素）</label>
+            <input type="number" id="cropX" class="form-input" min="0" step="1">
+          </div>
+          <div class="form-item">
+            <label for="cropY">Y（像素）</label>
+            <input type="number" id="cropY" class="form-input" min="0" step="1">
+          </div>
+          <div class="form-item">
+            <label for="cropW">宽（像素）</label>
+            <input type="number" id="cropW" class="form-input" min="20" step="1">
+          </div>
+          <div class="form-item">
+            <label for="cropH">高（像素）</label>
+            <input type="number" id="cropH" class="form-input" min="20" step="1">
+          </div>
+        </div>
+
+        <div class="op-row">
+          <button class="btn" id="cropRotate" type="button">旋转 90°</button>
+          <button class="btn" id="cropFlipH" type="button">水平翻转</button>
+          <button class="btn" id="cropFlipV" type="button">垂直翻转</button>
+          <button class="btn" id="cropReset" type="button">重置</button>
+        </div>
+
+        <div class="op-row">
+          <div class="radio-row" id="cropFmt" role="radiogroup" aria-label="输出格式">
+            <label class="checked"><input type="radio" name="cropfmt" value="image/png" checked>PNG</label>
+            <label><input type="radio" name="cropfmt" value="image/jpeg">JPEG</label>
+            <label><input type="radio" name="cropfmt" value="image/webp">WebP</label>
+          </div>
+          <span class="spacer"></span>
+          <div class="slider-item" id="cropQualityWrap" style="display:none; flex:1; max-width:240px;">
+            <label for="cropQuality">质量：<span class="val" id="cropQualityVal">0.92</span></label>
+            <input type="range" id="cropQuality" min="0.1" max="1" step="0.02" value="0.92">
+          </div>
+        </div>
+
+        <div class="crop-wrap" id="cropWrap">
+          <div class="crop-stage" id="cropStage">
+            <canvas id="cropCanvas"></canvas>
+            <div class="crop-mask" id="cropMaskTop"></div>
+            <div class="crop-mask" id="cropMaskBottom"></div>
+            <div class="crop-mask" id="cropMaskLeft"></div>
+            <div class="crop-mask" id="cropMaskRight"></div>
+            <div class="crop-box" id="cropBox">
+              <span class="crop-handle" data-dir="nw"></span>
+              <span class="crop-handle" data-dir="n"></span>
+              <span class="crop-handle" data-dir="ne"></span>
+              <span class="crop-handle" data-dir="e"></span>
+              <span class="crop-handle" data-dir="se"></span>
+              <span class="crop-handle" data-dir="s"></span>
+              <span class="crop-handle" data-dir="sw"></span>
+              <span class="crop-handle" data-dir="w"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="warn-note" id="cropError" hidden></div>
+
+        <div id="cropOut" hidden style="margin-top:16px;">
+          <div class="out-stat">
+            <span>输出尺寸：<b id="cropOutSize">-</b></span>
+            <span>预估体积：<b id="cropOutSize2">-</b></span>
+          </div>
+          <div class="crop-preview" style="margin-top:12px;">
+            <div class="cap" style="font-size:13px;color:var(--muted);margin-bottom:8px;">裁剪结果预览</div>
+            <img id="cropResult" alt="裁剪结果">
+          </div>
+          <div class="op-row" style="margin-top:12px;">
+            <button class="btn btn-primary" id="cropDownload" type="button">下载图片</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>裁剪时锁定比例有什么作用？</h3>
+        <p>锁定比例后，拖动裁剪框手柄会保持宽高比不变，适合生成头像（1:1）、封面（16:9）或竖屏壁纸（9:16）等固定尺寸需求，避免裁出变形画面。</p>
+      </div>
+      <div class="faq-item">
+        <h3>旋转和翻转后画质会变差吗？</h3>
+        <p>旋转与翻转只是对像素做几何变换，本身不会损失清晰度；除非导出为 JPEG 时把质量调得很低，或源图本身分辨率不足被放大，才会出现模糊。</p>
+      </div>
+      <div class="faq-item">
+        <h3>为什么导出的 JPEG 背景变成白色？</h3>
+        <p>JPEG 格式不支持透明通道，透明区域会被填充为白色；如果需要保留透明背景，请选择 PNG 或 WebP 格式导出。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/image-crop.js"></script>
+</body>
+</html>

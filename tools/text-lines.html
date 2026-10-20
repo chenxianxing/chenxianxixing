@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>文本行处理 - 在线文本去重排序查找替换与行编辑工具 | 在线工具大全</title>
+  <meta name="description" content="免费在线文本行处理工具，支持去重、排序、去除空行与首尾空格、大小写转换、加前后缀、行号、按分隔符拆分合并、查找替换（正则），可撤销、复制并下载为txt，全部本地完成。">
+  <meta name="keywords" content="文本行处理,文本去重,文本排序,查找替换,正则替换,行编辑,文本工具,在线文本处理">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/text-lines.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="文本行处理 - 在线文本去重排序查找替换与行编辑工具">
+  <meta property="og:description" content="支持去重、排序、去除空行与首尾空格、大小写转换、加前后缀、行号、拆分合并、查找替换（正则），可撤销、复制并下载txt。">
+  <meta property="og:url" content="https://example.com/tools/text-lines.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9A%96%EF%B8%8F%3C/text%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem("ot-theme");if(t==="dark"){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();</script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "文本行处理",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线文本行处理工具，支持去重、排序、去除空行与首尾空格、大小写转换、加前后缀、行号、按分隔符拆分合并、查找替换（正则）。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["文本去重", "行排序", "去除空行", "首尾去空格", "大小写转换", "加前缀后缀", "行号前缀", "按分隔符拆分合并", "正则查找替换", "撤销与下载txt"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "去重之后行的顺序会变化吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "本工具的去重采用“保留首次出现”策略，即从上到下扫描，第一次出现的行保留，后续重复行被删除，因此去重后各行仍按原有先后顺序排列，不会重新排序。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "查找替换支持正则表达式吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "支持。勾选“正则表达式”后，查找框中的内容会作为 JavaScript 正则表达式处理，替换框可使用 $1、$2 等捕获组引用；勾选“忽略大小写”则会以不区分大小写的方式匹配。每次替换都会显示替换次数。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "操作可以撤销吗？结果能保存到哪里？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "所有行处理操作都会进入历史栈，点击“撤销上一步”可逐步回退，点击“重置”则清空输入与全部历史。处理完成的结果可一键复制到剪贴板，也可下载为 .txt 文本文件。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .tl-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .tl-stat {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 12px 16px;
+      transition: border-color 0.15s;
+    }
+    .tl-stat:hover { border-color: var(--primary); }
+    .tl-stat .num {
+      font-size: 24px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      color: var(--primary);
+      line-height: 1.2;
+    }
+    .tl-stat .label { font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+    .tl-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .tl-actions .group-label {
+      display: inline-flex;
+      align-items: center;
+      font-size: 12.5px;
+      color: var(--muted);
+      padding: 0 4px;
+      width: 100%;
+      border-top: 1px dashed var(--border);
+      padding-top: 12px;
+      margin-top: 2px;
+    }
+    .tl-actions .group-label:first-child { border-top: none; padding-top: 0; margin-top: 0; }
+
+    .tl-input, .tl-output {
+      width: 100%;
+      min-height: 300px;
+      resize: vertical;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 14px 16px;
+      font-size: 14px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, "Courier New", monospace;
+      line-height: 1.7;
+      color: var(--text);
+      background: var(--card);
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .tl-input:focus, .tl-output:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.10);
+      background: var(--card);
+    }
+    .tl-output { background: var(--card); }
+
+    .he-io-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+
+    .tl-fr {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 14px 16px;
+      margin: 14px 0;
+    }
+    .tl-fr-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+    .tl-fr-row .form-input { width: auto; min-width: 160px; flex: 1; }
+    .tl-fr-row .tl-fr-sep { color: var(--muted); font-size: 13px; }
+    .tl-fr-count { font-size: 13px; color: var(--muted); margin-top: 8px; }
+    .tl-fr-count b { color: var(--primary); }
+
+    @media (max-width: 640px) {
+      .tl-input, .tl-output { min-height: 220px; }
+    }
+  </style>
+
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/text-lines.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/text-lines.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/text-lines.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="../en/tools/text-lines.html">English</a></span>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"></path></svg>
+          <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5a8.5 8.5 0 1 0 10.8 10.8z"></path></svg>
+        </button>
+
+
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>文本行处理</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">📝</div>
+        <h1>文本行处理</h1>
+      </div>
+      <p class="tool-desc">在线文本行处理工具，支持去重、排序、去除空行与首尾空格、大小写转换、加前后缀、行号、按分隔符拆分合并、查找替换（正则），可逐步撤销、复制并下载为txt，全部在浏览器本地完成。</p>
+    </section>
+
+    <section class="tool-panel">
+
+      <div class="tl-stats">
+        <div class="tl-stat"><div class="num" id="tlLines">0</div><div class="label">行数</div></div>
+        <div class="tl-stat"><div class="num" id="tlChars">0</div><div class="label">字符数</div></div>
+        <div class="tl-stat"><div class="num" id="tlUnique">0</div><div class="label">去重后行数</div></div>
+      </div>
+
+      <div class="tl-actions">
+        <span class="group-label">行处理（可叠加执行）</span>
+        <button class="btn" data-op="dedup" type="button">去重</button>
+        <button class="btn" data-op="blank" type="button">去除空行</button>
+        <button class="btn" data-op="trim" type="button">首尾去空格</button>
+        <button class="btn" data-op="lower" type="button">转小写</button>
+        <button class="btn" data-op="upper" type="button">转大写</button>
+        <button class="btn" data-op="sort-asc" type="button">排序升序</button>
+        <button class="btn" data-op="sort-desc" type="button">排序降序</button>
+        <button class="btn" data-op="len-asc" type="button">按长度升序</button>
+        <button class="btn" data-op="len-desc" type="button">按长度降序</button>
+        <button class="btn" data-op="reverse" type="button">行反转</button>
+        <button class="btn" data-op="prefix" type="button">加前缀</button>
+        <button class="btn" data-op="suffix" type="button">加后缀</button>
+        <button class="btn" data-op="lineno" type="button">行号前缀</button>
+        <button class="btn" data-op="split" type="button">按分隔符拆分</button>
+        <button class="btn" data-op="join" type="button">合并成一行</button>
+        <span class="group-label">操作</span>
+        <button class="btn" id="tlUndo" type="button">撤销上一步</button>
+        <button class="btn" id="tlReset" type="button">重置</button>
+        <button class="btn" id="tlCopy" type="button">复制结果</button>
+        <button class="btn" id="tlDownload" type="button">下载 .txt</button>
+        <button class="btn" id="tlSample" type="button">载入示例</button>
+      </div>
+
+      <div class="tl-fr">
+        <div class="tl-fr-row">
+          <input class="form-input" id="tlAffix" type="text" placeholder="前缀 / 后缀 / 分隔符">
+          <input class="form-input" id="tlFind" type="text" placeholder="查找词">
+          <input class="form-input" id="tlReplace" type="text" placeholder="替换为（正则可用 $1 $2）">
+          <label class="checkbox-row"><input type="checkbox" id="tlRegex">正则表达式</label>
+          <label class="checkbox-row"><input type="checkbox" id="tlIgnoreCase">忽略大小写</label>
+          <button class="btn btn-primary" id="tlReplaceBtn" type="button">替换全部</button>
+        </div>
+        <div class="tl-fr-count" id="tlReplaceCount">替换次数：<b>0</b></div>
+      </div>
+
+      <div class="split-2">
+        <div>
+          <div class="he-io-label"><span>输入</span></div>
+          <textarea class="tl-input" id="tlInput" placeholder="在此粘贴多行文本..." spellcheck="false"></textarea>
+        </div>
+        <div>
+          <div class="he-io-label"><span>输出</span></div>
+          <textarea class="tl-output" id="tlOutput" readonly placeholder="处理结果将显示在这里..." spellcheck="false"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>去重之后行的顺序会变化吗？</h3>
+        <p>本工具的去重采用“保留首次出现”策略，即从上到下扫描，第一次出现的行保留，后续重复行被删除，因此去重后各行仍按原有先后顺序排列，不会重新排序。</p>
+      </div>
+      <div class="faq-item">
+        <h3>查找替换支持正则表达式吗？</h3>
+        <p>支持。勾选“正则表达式”后，查找框中的内容会作为 JavaScript 正则表达式处理，替换框可使用 $1、$2 等捕获组引用；勾选“忽略大小写”则会以不区分大小写的方式匹配。每次替换都会显示替换次数。</p>
+      </div>
+      <div class="faq-item">
+        <h3>操作可以撤销吗？结果能保存到哪里？</h3>
+        <p>所有行处理操作都会进入历史栈，点击“撤销上一步”可逐步回退，点击“重置”则清空输入与全部历史。处理完成的结果可一键复制到剪贴板，也可下载为 .txt 文本文件。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/text-lines.js"></script>
+</body>
+</html>

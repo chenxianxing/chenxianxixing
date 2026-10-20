@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>番茄钟 - 在线专注计时与倒计时提醒工具 | 在线工具大全</title>
+  <meta name="description" content="免费在线番茄钟，支持自定义专注、短休息、长休息时长与长休息周期，圆环进度可视化，阶段自动切换，Web Audio合成提示音，统计今日完成番茄数，全部本地运行。">
+  <meta name="keywords" content="番茄钟,番茄工作法,专注计时,倒计时,休息提醒,时间管理,在线计时器">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/pomodoro.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="番茄钟 - 在线专注计时与倒计时提醒工具">
+  <meta property="og:description" content="支持自定义专注、短休息、长休息时长与长休息周期，圆环进度可视化，阶段自动切换，Web Audio合成提示音，统计今日完成番茄数。">
+  <meta property="og:url" content="https://example.com/tools/pomodoro.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9A%96%EF%B8%8F%3C/text%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem("ot-theme");if(t==="dark"){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();</script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "番茄钟",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线番茄钟，支持自定义专注、短休息、长休息时长与长休息周期，圆环进度可视化，阶段自动切换，Web Audio合成提示音，统计今日完成番茄数。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["圆环进度", "专注/短休/长休自动切换", "自定义时长", "Web Audio提示音", "今日番茄统计", "页面标题倒计时"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "番茄钟的工作节奏是怎样的？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "默认每 25 分钟专注后进入 5 分钟短休息，每完成 4 个专注周期后改为 15 分钟长休息，之后重新开始。你可以在设置中调整专注、短休息、长休息时长，以及触发长休息所需的专注次数。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "提示音会占用权限或依赖外部文件吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "不会。提示音使用浏览器内置的 Web Audio API 实时合成短促“叮”声，不加载任何外部音频文件，也不会弹出通知或麦克风权限请求。AudioContext 会在你首次点击“开始”后创建，符合浏览器的自动播放策略。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "计时准确吗？切到后台标签页会漂移吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "计时基于 Date.now() 的真实时间差计算，而不是依赖定时器的累计，因此即使标签页被节流或切到后台，倒计时依然准确，不会累积漂移。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .pomo-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+    .pomo-ring-box {
+      position: relative;
+      width: 260px;
+      height: 260px;
+    }
+    .pomo-ring {
+      width: 260px;
+      height: 260px;
+      transform: rotate(-90deg);
+    }
+    .pomo-ring .pomo-track {
+      fill: none;
+      stroke: var(--border);
+      stroke-width: 14;
+    }
+    .pomo-ring .pomo-prog {
+      fill: none;
+      stroke: var(--pomo-color, var(--primary));
+      stroke-width: 14;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 0.25s linear, stroke 0.25s;
+    }
+    .pomo-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+    .pomo-time {
+      font-size: 52px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      color: var(--text);
+      line-height: 1.1;
+    }
+    .pomo-phase {
+      font-size: 15px;
+      color: var(--pomo-color, var(--primary));
+      font-weight: 600;
+      margin-top: 4px;
+    }
+    .pomo-count {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+    .pomo-settings {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 14px;
+      width: 100%;
+      max-width: 640px;
+    }
+    .pomo-set {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .pomo-set label {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .pomo-set .form-input {
+      width: 100%;
+    }
+    .pomo-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+    .pomo-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--text);
+      cursor: pointer;
+    }
+    .pomo-toggle input { width: 16px; height: 16px; accent-color: var(--primary); }
+    .pomo-hint {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 6px;
+      line-height: 1.7;
+      text-align: center;
+    }
+    @media (max-width: 640px) {
+      .pomo-ring-box, .pomo-ring { width: 220px; height: 220px; }
+      .pomo-time { font-size: 44px; }
+    }
+  </style>
+
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/pomodoro.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/pomodoro.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/pomodoro.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="../en/tools/pomodoro.html">English</a></span>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"></path></svg>
+          <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5a8.5 8.5 0 1 0 10.8 10.8z"></path></svg>
+        </button>
+
+
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>番茄钟</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🍅</div>
+        <h1>番茄钟</h1>
+      </div>
+      <p class="tool-desc">在线番茄钟，支持自定义专注、短休息、长休息时长与长休息周期，圆环进度可视化，阶段自动切换，Web Audio 合成“叮”声提示，统计今日完成番茄数，全部在浏览器本地运行。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="pomo-wrap">
+        <div class="pomo-ring-box">
+          <svg class="pomo-ring" viewBox="0 0 260 260" aria-hidden="true">
+            <circle class="pomo-track" cx="130" cy="130" r="116"></circle>
+            <circle class="pomo-prog" id="pomoProg" cx="130" cy="130" r="116"></circle>
+          </svg>
+          <div class="pomo-center">
+            <div class="pomo-time" id="pomoTime">25:00</div>
+            <div class="pomo-phase" id="pomoPhase">专注</div>
+            <div class="pomo-count" id="pomoCount">今日完成：0 个番茄</div>
+          </div>
+        </div>
+
+        <div class="pomo-settings">
+          <div class="pomo-set">
+            <label for="pomoFocus">专注时长（分钟）</label>
+            <input class="form-input" id="pomoFocus" type="number" value="25" min="1" max="180" step="1">
+          </div>
+          <div class="pomo-set">
+            <label for="pomoShort">短休息（分钟）</label>
+            <input class="form-input" id="pomoShort" type="number" value="5" min="1" max="60" step="1">
+          </div>
+          <div class="pomo-set">
+            <label for="pomoLong">长休息（分钟）</label>
+            <input class="form-input" id="pomoLong" type="number" value="15" min="1" max="60" step="1">
+          </div>
+          <div class="pomo-set">
+            <label for="pomoCycle">长休息周期（专注数）</label>
+            <input class="form-input" id="pomoCycle" type="number" value="4" min="2" max="12" step="1">
+          </div>
+        </div>
+
+        <div class="pomo-controls">
+          <button class="btn btn-primary" id="pomoStart" type="button">开始</button>
+          <button class="btn" id="pomoReset" type="button">重置</button>
+          <button class="btn" id="pomoSkip" type="button">跳过当前阶段</button>
+          <label class="pomo-toggle"><input type="checkbox" id="pomoSound" checked>结束提示音</label>
+        </div>
+
+        <p class="pomo-hint">提示：计时基于真实时间差计算，切到后台也不会漂移；阶段切换时若开启提示音会播放“叮”声。关闭页面后今日番茄数会清零。</p>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>番茄钟的工作节奏是怎样的？</h3>
+        <p>默认每 25 分钟专注后进入 5 分钟短休息，每完成 4 个专注周期后改为 15 分钟长休息，之后重新开始。你可以在设置中调整专注、短休息、长休息时长，以及触发长休息所需的专注次数。</p>
+      </div>
+      <div class="faq-item">
+        <h3>提示音会占用权限或依赖外部文件吗？</h3>
+        <p>不会。提示音使用浏览器内置的 Web Audio API 实时合成短促“叮”声，不加载任何外部音频文件，也不会弹出通知或麦克风权限请求。AudioContext 会在你首次点击“开始”后创建，符合浏览器的自动播放策略。</p>
+      </div>
+      <div class="faq-item">
+        <h3>计时准确吗？切到后台标签页会漂移吗？</h3>
+        <p>计时基于 Date.now() 的真实时间差计算，而不是依赖定时器的累计，因此即使标签页被节流或切到后台，倒计时依然准确，不会累积漂移。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/pomodoro.js"></script>
+</body>
+</html>

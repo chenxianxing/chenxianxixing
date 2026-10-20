@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>图片取色器 - 在线图片吸管/颜色提取/主色调分析工具 | 在线工具大全</title>
+  <meta name="description" content="免费在线图片取色器，上传图片后用放大镜吸取任意像素颜色，输出 HEX、RGB、HSL 并可一键复制，支持历史色卡、提取主色调与手动 HEX 反查，所有处理均在浏览器本地完成。">
+  <meta name="keywords" content="图片取色器,在线吸管,颜色提取,图片取色,主色调提取,HEX取色,RGB取色">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/image-color-picker.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="图片取色器 - 在线图片吸管/颜色提取/主色调分析工具">
+  <meta property="og:description" content="支持放大镜取色、HEX/RGB/HSL 输出与历史色卡的在线图片取色工具。">
+  <meta property="og:url" content="https://example.com/tools/image-color-picker.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%A8%3C/text%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem("ot-theme");if(t==="dark"){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();</script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "图片取色器",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线图片取色工具，支持放大镜吸取像素颜色、HEX/RGB/HSL 输出复制、历史色卡与主色调提取。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["放大镜取色", "HEX/RGB/HSL 输出复制", "历史色卡", "主色调提取", "HEX 反查 RGB/HSL", "本地处理"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "取色器能拾取网页上的任意颜色吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "本工具只能拾取你上传到本页面的图片中的颜色，不能直接吸取浏览器里其他网页的颜色；如果需要取屏幕任意位置的颜色，请使用操作系统自带的屏幕取色工具。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "“提取主色调”的原理是什么？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "工具会先把图片缩小到最长边 160 像素以内以降低计算量，再把每个像素的 RGB 三个通道各压缩到 16 级（右移 4 位）做分桶统计，出现次数最多的若干种颜色即为主色调。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "手动输入 HEX 反查有什么用？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "当你手头只有一个 HEX 色值（例如设计稿里抄来的颜色），可以用反查功能快速换算出对应的 RGB 与 HSL 数值，方便在不同工具或代码中使用，无需再打开其他转换页面。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .pick-stage {
+      position: relative;
+      margin-top: 14px;
+      display: inline-block;
+      max-width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      background-image:
+        linear-gradient(45deg, rgba(120,120,120,0.14) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(120,120,120,0.14) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, rgba(120,120,120,0.14) 75%),
+        linear-gradient(-45deg, transparent 75%, rgba(120,120,120,0.14) 75%);
+      background-size: 16px 16px;
+      background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+      line-height: 0;
+      cursor: crosshair;
+    }
+    .pick-stage canvas#pickCanvas { display: block; max-width: 100%; height: auto; }
+    .pick-mag {
+      position: absolute;
+      width: 90px;
+      height: 90px;
+      border: 2px solid var(--card);
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      pointer-events: none;
+      display: none;
+      overflow: hidden;
+      z-index: 5;
+    }
+    .pick-mag canvas { display: block; width: 90px; height: 90px; }
+    .pick-live {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 14px;
+      font-size: 14px;
+      color: var(--text);
+      flex-wrap: wrap;
+    }
+    .pick-live .swatch {
+      width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--border);
+      flex-shrink: 0; background: var(--primary-light);
+    }
+    .pick-live b { color: var(--primary); font-variant-numeric: tabular-nums; }
+    .pick-formats { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin-top: 14px; }
+    .pick-fmt {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: border-color 0.15s;
+    }
+    .pick-fmt:hover { border-color: var(--primary); }
+    .pick-fmt .k { font-size: 12px; color: var(--muted); width: 34px; flex-shrink: 0; }
+    .pick-fmt .v { font-size: 14px; color: var(--text); font-variant-numeric: tabular-nums; word-break: break-all; }
+    .pick-fmt .cp { margin-left: auto; font-size: 12px; color: var(--primary); flex-shrink: 0; }
+    .pick-section-title { font-size: 15px; font-weight: 600; margin-top: 20px; color: var(--text); }
+    .swatch-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .swatch-item {
+      width: 54px; height: 54px; border-radius: 8px; border: 1px solid var(--border);
+      cursor: pointer; position: relative; overflow: hidden;
+    }
+    .swatch-item .hx {
+      position: absolute; left: 0; right: 0; bottom: 0;
+      font-size: 10px; text-align: center; padding: 1px 0;
+      background: rgba(0,0,0,0.55); color: #fff; line-height: 1.3;
+    }
+    .swatch-empty { font-size: 13px; color: var(--muted); margin-top: 10px; }
+    .reverse-out {
+      margin-top: 10px; display: none;
+      font-size: 14px; color: var(--text); font-variant-numeric: tabular-nums;
+    }
+    .reverse-out b { color: var(--primary); }
+    .color-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .color-row input[type="color"] { width: 40px; height: 34px; padding: 2px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); cursor: pointer; }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/image-color-picker.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/image-color-picker.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/image-color-picker.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="../en/tools/image-color-picker.html">English</a></span>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"></path></svg>
+          <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5a8.5 8.5 0 1 0 10.8 10.8z"></path></svg>
+        </button>
+
+        
+
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>图片取色器</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🎨</div>
+        <h1>图片取色器</h1>
+      </div>
+      <p class="tool-desc">在线图片取色器，上传图片后用放大镜吸取任意像素颜色，输出 HEX、RGB、HSL 并可一键复制，支持历史色卡、提取主色调与手动 HEX 反查，所有处理均在浏览器本地完成。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="drop-zone" id="pickDrop">
+        点击选择图片，或将图片拖拽到此处（仅支持图片）
+      </div>
+      <input type="file" id="pickInput" accept="image/*" hidden>
+
+      <div id="pickControls" hidden>
+        <div class="pick-stage" id="pickStage">
+          <canvas id="pickCanvas"></canvas>
+          <div class="pick-mag" id="pickMag"><canvas id="pickMagCanvas" width="90" height="90"></canvas></div>
+        </div>
+
+        <div class="pick-live">
+          <span class="swatch" id="pickLiveSwatch"></span>
+          <span>坐标 (<b id="pickCoord">-, -</b>) · 颜色 <b id="pickLiveHex">#------</b></span>
+        </div>
+
+        <div class="pick-formats">
+          <div class="pick-fmt" id="pickFmtHex" title="点击复制">
+            <span class="k">HEX</span><span class="v" id="pickHexVal">#------</span><span class="cp">复制</span>
+          </div>
+          <div class="pick-fmt" id="pickFmtRgb" title="点击复制">
+            <span class="k">RGB</span><span class="v" id="pickRgbVal">rgb(0, 0, 0)</span><span class="cp">复制</span>
+          </div>
+          <div class="pick-fmt" id="pickFmtHsl" title="点击复制">
+            <span class="k">HSL</span><span class="v" id="pickHslVal">hsl(0, 0%, 0%)</span><span class="cp">复制</span>
+          </div>
+        </div>
+
+        <div class="pick-section-title">手动 HEX 反查</div>
+        <div class="color-row">
+          <input type="text" id="pickManual" class="form-input" style="max-width:160px;" placeholder="#3366cc" value="#3366cc">
+          <button class="btn" id="pickReverseBtn" type="button">反查</button>
+          <span class="swatch" id="pickRevSwatch"></span>
+        </div>
+        <div class="reverse-out" id="pickReverse"></div>
+
+        <div class="pick-section-title">历史色卡 <span style="font-size:13px;color:var(--muted);font-weight:400;">（最多 12 个，点击复制）</span></div>
+        <div class="swatch-row" id="pickHistory"></div>
+        <div class="swatch-empty" id="pickHistoryEmpty">尚未拾取颜色。</div>
+        <div class="op-row" style="margin-top:10px;">
+          <button class="btn" id="pickClearHistory" type="button">清空历史</button>
+        </div>
+
+        <div class="pick-section-title">主色调提取</div>
+        <div class="op-row" style="margin-top:8px;">
+          <button class="btn btn-primary" id="pickMainBtn" type="button">提取主色调</button>
+        </div>
+        <div class="swatch-row" id="pickMain"></div>
+        <div class="swatch-empty" id="pickMainEmpty">点击上方按钮，从图片中提取出现最多的主色调。</div>
+      </div>
+
+      <div class="warn-note" id="pickError" hidden></div>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>取色器能拾取网页上的任意颜色吗？</h3>
+        <p>本工具只能拾取你上传到本页面的图片中的颜色，不能直接吸取浏览器里其他网页的颜色；如果需要取屏幕任意位置的颜色，请使用操作系统自带的屏幕取色工具。</p>
+      </div>
+      <div class="faq-item">
+        <h3>“提取主色调”的原理是什么？</h3>
+        <p>工具会先把图片缩小到最长边 160 像素以内以降低计算量，再把每个像素的 RGB 三个通道各压缩到 16 级（右移 4 位）做分桶统计，出现次数最多的若干种颜色即为主色调。</p>
+      </div>
+      <div class="faq-item">
+        <h3>手动输入 HEX 反查有什么用？</h3>
+        <p>当你手头只有一个 HEX 色值（例如设计稿里抄来的颜色），可以用反查功能快速换算出对应的 RGB 与 HSL 数值，方便在不同工具或代码中使用，无需再打开其他转换页面。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/image-color-picker.js"></script>
+</body>
+</html>

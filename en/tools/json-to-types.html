@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON to Type Definition - Convert JSON to TypeScript/Go/Python/Rust Types Online | Online Tools</title>
+  <meta name="description" content="Free online JSON to type definition tool. It automatically infers JSON and generates TypeScript, Go, Python, Rust types and JSON Schema, with named sub-types for nested objects, merged array union types and invalid key handling. Everything runs locally in your browser.">
+  <meta name="keywords" content="JSON to Types, online tools, free tools, web tools, browser tools">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/json-to-types.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="JSON to Type Definition - Convert JSON to TypeScript/Go/Python/Rust Types Online">
+  <meta property="og:description" content="Paste JSON to automatically infer and generate TypeScript, Go, Python, Rust types and JSON Schema, with nested sub-types and array merging, processed locally.">
+  <meta property="og:url" content="https://example.com/en/tools/json-to-types.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%AC%3C/text%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem("ot-theme");if(t==="dark"){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();</script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "JSON to Type Definition",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online JSON to type definition tool that automatically infers JSON and generates TypeScript, Go, Python, Rust types and JSON Schema.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["TypeScript interface/type generation", "Go struct with json tags", "Python TypedDict", "Rust struct with serde", "JSON Schema output", "Named sub-types for nested objects", "Merged array union types", "Automatic invalid key handling"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is generated when array elements have inconsistent types?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "工具会遍历ArrayMedium的每 total CNY素并Merge它们的Field与Type。当同MonPosition出现不同Type时，会Generate联合Type，例如 [1, \"a\"] 会推断为 number | string；空Array则Output any[]（or对应语言的可空/任意Type）。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How are nested objects handled?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Nested objects are processed recursively and produce named sub-types: TypeScript emits a standalone interface or type, Go emits a standalone struct and preserves the original field names via json tags, Python emits a standalone TypedDict, and Rust emits a standalone struct with serde derives."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What if a key is not a valid identifier?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "TypeScript 会对非法标识符keys名加引号（如 \"foo-bar\"）；Go 会把Field名Convert为 PascalCase 并用 json Tag保留原keys；Python 与 Rust Convert为 snake_case。这样Generate的Code既合法又能在序 columns化时对应原始 JSON keys。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .jts-controls .form-item { min-width: 160px; }
+    #jtsStyleWrap { transition: opacity 0.15s; }
+    #jtsStyleWrap.disabled { opacity: 0.45; pointer-events: none; }
+    .jts-col-label { display: block; margin-bottom: 6px; font-size: 13px; color: var(--muted); font-weight: 500; }
+    textarea#jtsInput { min-height: 360px; font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, "Courier New", monospace; font-size: 13.5px; }
+    .code-box#jtsOutput { min-height: 360px; }
+    .jts-empty { color: var(--muted); font-style: normal; }
+  </style>
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/json-to-types.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/json-to-types.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/json-to-types.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/json-to-types.html">中文</a><span class="lang-cur">English</span></span>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"></path></svg>
+          <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5a8.5 8.5 0 1 0 10.8 10.8z"></path></svg>
+        </button>
+
+
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>JSON to Type Definition</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🧬</div>
+        <h1>JSON to Type Definition</h1>
+      </div>
+      <p class="tool-desc">Paste JSON to automatically infer its structure and generate TypeScript, Go, Python, Rust types or JSON Schema. It supports named sub-types for nested objects, merged array union types and invalid key handling. All conversion is done locally in your browser, with no data sent anywhere.</p>
+    </section>
+
+    <section class="tool-panel">
+
+      <div class="form-grid jts-controls">
+        <div class="form-item">
+          <label for="jtsLang">Output Language</label>
+          <select id="jtsLang" class="form-select">
+            <option value="ts">TypeScript</option>
+            <option value="go">Go</option>
+            <option value="py">Python</option>
+            <option value="rust">Rust</option>
+            <option value="schema">JSON Schema</option>
+          </select>
+        </div>
+        <div class="form-item">
+          <label for="jtsRoot">Root Type Name</label>
+          <input type="text" id="jtsRoot" class="form-input" value="Root">
+        </div>
+        <div class="form-item" id="jtsStyleWrap">
+          <label>Type Form (TS only)</label>
+          <div class="radio-row" id="jtsStyleRow" role="radiogroup" aria-label="Type Form">
+            <label class="checked"><input type="radio" name="jtsStyle" value="interface" checked>interface</label>
+            <label><input type="radio" name="jtsStyle" value="type">type</label>
+          </div>
+        </div>
+        <div class="form-item">
+          <label>Fields Optional</label>
+          <div class="radio-row" id="jtsOptRow" role="radiogroup" aria-label="Fields Optional">
+            <label class="checked"><input type="radio" name="jtsOpt" value="req" checked>Required</label>
+            <label><input type="radio" name="jtsOpt" value="opt">Optional ?</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="op-row">
+        <button class="btn btn-primary" id="jtsBtnConvert" type="button">Convert</button>
+        <button class="btn" id="jtsBtnSample" type="button">Load Sample</button>
+        <button class="btn" id="jtsBtnCopy" type="button">Copy result</button>
+        <button class="btn" id="jtsBtnDownload" type="button">Download</button>
+        <span class="spacer"></span>
+        <span class="badge blue" id="jtsExtBadge">.ts</span>
+      </div>
+
+      <div class="warn-note" id="jtsError" hidden></div>
+
+      <div class="split-2">
+        <div>
+          <span class="jts-col-label" for="jtsInput">Input JSON</span>
+          <textarea id="jtsInput" class="form-input" spellcheck="false" placeholder="Paste JSON here, e.g.:&#10;{&#10;  &quot;name&quot;: &quot;Alice&quot;,&#10;  &quot;age&quot;: 30&#10;}"></textarea>
+        </div>
+        <div>
+          <span class="jts-col-label" for="jtsOutput">Output</span>
+          <pre class="code-box" id="jtsOutput" aria-readonly="true"></pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>What is generated when array elements have inconsistent types?</h3>
+        <p>The tool iterates over every element in the array and merges their fields and types. When different types appear at the same position, it generates a union type, for example [1, "a"] is inferred as number | string; an empty array outputs any[] (or the nullable/any type of the target language).</p>
+      </div>
+      <div class="faq-item">
+        <h3>How are nested objects handled?</h3>
+        <p>Nested objects are processed recursively and produce named sub-types: TypeScript emits a standalone interface or type, Go emits a standalone struct and preserves the original field names via json tags, Python emits a standalone TypedDict, and Rust emits a standalone struct with serde derives.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What if a key is not a valid identifier?</h3>
+        <p>TypeScript quotes invalid identifier keys (e.g. "foo-bar"); Go converts field names to PascalCase and preserves the original keys via json tags; Python and Rust convert to snake_case. This makes the generated code both valid and able to map back to the original JSON keys during serialization.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/json-to-types.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

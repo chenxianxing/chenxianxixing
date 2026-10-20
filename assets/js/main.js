@@ -24,6 +24,33 @@
     el.textContent = String(new Date().getFullYear());
   });
 
+  /* ---------- 日间 / 夜间主题 ---------- */
+  var THEME_KEY = "ot-theme";
+  var root = document.documentElement;
+
+  function setTheme(theme, persist) {
+    if (theme === "dark") root.setAttribute("data-theme", "dark");
+    else root.removeAttribute("data-theme");
+    var btn = document.getElementById("themeToggle");
+    if (btn) btn.setAttribute("aria-pressed", theme === "dark" ? "true" : "false");
+    if (persist) {
+      try { localStorage.setItem(THEME_KEY, theme); } catch (e) { /* 隐私模式忽略 */ }
+    }
+  }
+
+  var themeBtn = document.getElementById("themeToggle");
+  if (themeBtn) {
+    setTheme(root.getAttribute("data-theme") === "dark" ? "dark" : "light", false);
+    themeBtn.addEventListener("click", function () {
+      var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      setTheme(next, true);
+    });
+    /* 多标签页同步 */
+    window.addEventListener("storage", function (e) {
+      if (e.key === THEME_KEY) setTheme(e.newValue === "dark" ? "dark" : "light", false);
+    });
+  }
+
   /* 首页工具搜索过滤（跨分类） */
   var searchInput = document.getElementById("toolSearch");
   if (!searchInput) return;

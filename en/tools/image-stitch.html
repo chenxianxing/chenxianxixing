@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Stitch - Online Vertical / Horizontal Multi-image Merge Tool | Online Tools</title>
+  <meta name="description" content="Free online image stitching tool that merges multiple images vertically or horizontally, with unified sizing, gap, padding, background color and alignment options. Export to PNG or JPEG. All processing runs locally in your browser.">
+  <meta name="keywords" content="Image Stitch, online tools, free tools, web tools, browser tools">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/image-stitch.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Image Stitch - Online Vertical / Horizontal Multi-image Merge Tool">
+  <meta property="og:description" content="An online image stitching tool with batch upload, unified size and background color, exporting PNG/JPEG.">
+  <meta property="og:url" content="https://example.com/en/tools/image-stitch.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%A9%3C/text%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem("ot-theme");if(t==="dark"){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();</script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Image Stitch",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "An online multi-image stitching tool supporting vertical and horizontal merging, unified size, gap, padding, background color and alignment, exporting PNG/JPEG.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Batch upload and drag-and-drop", "Vertical / horizontal image stitching", "Unify size by target or largest side", "Gap / padding / background / alignment settings", "PNG/JPEG export", "Local Processing"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What scenarios is image stitching good for?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It is often used to arrange chat logs, tutorial screenshots, product details or photo series into one long image for easy saving and sharing, and also works well for merging multiple portrait screenshots into a continuous vertical image."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What does \"use largest side\" mean?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "For vertical stitching, all images are scaled to the same largest width before merging, avoiding misalignment from differing widths. For horizontal stitching, heights align to the largest height to keep seams even."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Will the stitched image become blurry?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Stitching only arranges the source pixels and does not reduce sharpness. However, when unifying size, upscaling small images to the target dimension may look less clear due to insufficient source resolution. Prefer \"use largest side\" instead."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .st-list { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+    .st-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 10px;
+    }
+    .st-item img { width: 56px; height: 56px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border); flex-shrink: 0; background: var(--primary-light); }
+    .st-item .st-meta { flex: 1; min-width: 0; }
+    .st-item .st-name { font-size: 14px; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .st-item .st-dim { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .st-item .st-actions { display: flex; gap: 6px; flex-shrink: 0; }
+    .st-item .st-btn {
+      width: 30px; height: 30px; border: 1px solid var(--border); background: var(--card);
+      border-radius: 8px; cursor: pointer; color: var(--muted); font-size: 15px; line-height: 1;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .st-item .st-btn:hover { color: var(--primary); border-color: var(--primary); }
+    .st-item .st-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .st-preview-wrap { margin-top: 16px; overflow-x: auto; }
+    .st-preview {
+      display: block; margin: 0 auto;
+      border: 1px solid var(--border); border-radius: 8px;
+      background-image:
+        linear-gradient(45deg, rgba(120,120,120,0.14) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(120,120,120,0.14) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, rgba(120,120,120,0.14) 75%),
+        linear-gradient(-45deg, transparent 75%, rgba(120,120,120,0.14) 75%);
+      background-size: 16px 16px;
+      background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+    }
+    .st-size { font-size: 14px; color: var(--text); margin-top: 12px; }
+    .st-size b { color: var(--primary); }
+    .slider-item { display: flex; flex-direction: column; gap: 6px; }
+    .slider-item .val { font-size: 13px; color: var(--primary); font-weight: 600; }
+    .color-row { display: flex; align-items: center; gap: 8px; }
+    .color-row input[type="color"] { width: 40px; height: 34px; padding: 2px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); cursor: pointer; }
+    .empty-tip { text-align: center; color: var(--muted); font-size: 14px; padding: 20px 0; }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/image-stitch.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/image-stitch.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/image-stitch.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/image-stitch.html">中文</a><span class="lang-cur">English</span></span>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"></path></svg>
+          <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5a8.5 8.5 0 1 0 10.8 10.8z"></path></svg>
+        </button>
+
+        
+
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>Image Stitch</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🧩</div>
+        <h1>Image Stitch</h1>
+      </div>
+      <p class="tool-desc">An online multi-image stitching tool supporting vertical or horizontal merging, with unified size, gap, padding, background color and alignment. Export to PNG or JPEG. All processing runs locally in your browser.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="drop-zone" id="stDrop">
+        Click to choose multiple images, or drag them here (select several at once)
+      </div>
+      <input type="file" id="stInput" accept="image/*" multiple hidden>
+
+      <div class="warn-note" id="stError" hidden></div>
+
+      <div id="stListBox" hidden>
+        <div class="st-list" id="stList"></div>
+
+        <div class="form-grid" style="margin-top:16px;">
+          <div class="form-item">
+            <label>Stitch direction</label>
+            <div class="radio-row" id="stDir" role="radiogroup" aria-label="Stitch direction">
+              <label class="checked"><input type="radio" name="stdir" value="v" checked>Vertical</label>
+              <label><input type="radio" name="stdir" value="h">Horizontal</label>
+            </div>
+          </div>
+          <div class="form-item">
+            <label>Unify size</label>
+            <div class="radio-row" id="stSizeMode" role="radiogroup" aria-label="Unify size">
+              <label class="checked"><input type="radio" name="stsize" value="target" checked>Target value</label>
+              <label><input type="radio" name="stsize" value="max">Use largest side</label>
+            </div>
+          </div>
+          <div class="form-item" id="stTargetWrap">
+            <label for="stTarget" id="stTargetLabel">Target width (px)</label>
+            <input type="number" id="stTarget" class="form-input" value="1080" min="1" step="10">
+          </div>
+          <div class="form-item">
+            <label for="stGap">Gap (px, 0-40)</label>
+            <input type="number" id="stGap" class="form-input" value="0" min="0" max="40" step="1">
+          </div>
+          <div class="form-item">
+            <label for="stPad">Padding (px, 0-40)</label>
+            <input type="number" id="stPad" class="form-input" value="0" min="0" max="40" step="1">
+          </div>
+          <div class="form-item">
+            <label for="stBg">Background Color</label>
+            <div class="color-row">
+              <input type="color" id="stBg" value="#ffffff">
+              <span style="font-size:13px;color:var(--muted);" id="stBgVal">#ffffff</span>
+            </div>
+          </div>
+          <div class="form-item">
+            <label>Align</label>
+            <div class="radio-row" id="stAlign" role="radiogroup" aria-label="Align">
+              <label class="checked"><input type="radio" name="stalign" value="start" checked>Start</label>
+              <label><input type="radio" name="stalign" value="center">Center</label>
+              <label><input type="radio" name="stalign" value="end">End</label>
+            </div>
+          </div>
+          <div class="form-item">
+            <label>Output Format</label>
+            <div class="radio-row" id="stFmt" role="radiogroup" aria-label="Output Format">
+              <label class="checked"><input type="radio" name="stfmt" value="image/png" checked>PNG</label>
+              <label><input type="radio" name="stfmt" value="image/jpeg">JPEG</label>
+            </div>
+          </div>
+          <div class="form-item" id="stQualityWrap" style="display:none;">
+            <label for="stQuality">Quality: <span class="val" id="stQualityVal">0.92</span></label>
+            <input type="range" id="stQuality" min="0.1" max="1" step="0.02" value="0.92">
+          </div>
+        </div>
+
+        <div class="st-preview-wrap">
+          <canvas id="stPreview" class="st-preview"></canvas>
+        </div>
+        <div class="st-size" id="stSize">Final size: -</div>
+
+        <div class="op-row" style="margin-top:14px;">
+          <button class="btn btn-primary" id="stDownload" type="button" disabled>Download stitched image</button>
+          <button class="btn" id="stClear" type="button">Clear List</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>What scenarios is image stitching good for?</h3>
+        <p>It is often used to arrange chat logs, tutorial screenshots, product details or photo series into one long image for easy saving and sharing, and also works well for merging multiple portrait screenshots into a continuous vertical image.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What does "use largest side" mean?</h3>
+        <p>For vertical stitching, all images are scaled to the same largest width before merging, avoiding misalignment from differing widths. For horizontal stitching, heights align to the largest height to keep seams even.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Will the stitched image become blurry?</h3>
+        <p>Stitching only arranges the source pixels and does not reduce sharpness. However, when unifying size, upscaling small images to the target dimension may look less clear due to insufficient source resolution. Prefer "use largest side" instead.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/image-stitch.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON 转类型定义 - 在线将 JSON 转换为 TypeScript/Go/Python/Rust 类型 | 在线工具大全</title>
+  <meta name="description" content="免费在线 JSON 转类型定义工具，将 JSON 自动推断并生成 TypeScript、Go、Python、Rust 类型与 JSON Schema，支持嵌套对象具名子类型、数组联合类型合并、非法键名处理，全部在浏览器本地完成。">
+  <meta name="keywords" content="JSON转类型,JSON转TypeScript,JSON转Go,JSON转Python,JSON转Rust,JSON Schema生成,类型推断,接口生成">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/json-to-types.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="JSON 转类型定义 - 在线将 JSON 转换为 TypeScript/Go/Python/Rust 类型">
+  <meta property="og:description" content="粘贴 JSON 即可自动推断并生成 TypeScript、Go、Python、Rust 类型与 JSON Schema，支持嵌套子类型与数组合并，本地处理。">
+  <meta property="og:url" content="https://example.com/tools/json-to-types.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%AC%3C/text%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem("ot-theme");if(t==="dark"){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();</script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "JSON 转类型定义",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线 JSON 转类型定义工具，将 JSON 自动推断并生成 TypeScript、Go、Python、Rust 类型与 JSON Schema。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["TypeScript interface/type 生成", "Go struct 与 json 标签", "Python TypedDict", "Rust struct 与 serde", "JSON Schema 输出", "嵌套对象具名子类型", "数组合并联合类型", "非法键名自动处理"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "数组里元素类型不一致时会生成什么？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "工具会遍历数组中的每个元素并合并它们的字段与类型。当同一位置出现不同类型时，会生成联合类型，例如 [1, \"a\"] 会推断为 number | string；空数组则输出 any[]（或对应语言的可空/任意类型）。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "嵌套对象会如何处理？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "嵌套对象会被递归处理并生成带名字的子类型：TypeScript 会生成独立的 interface 或 type，Go 生成独立的 struct 并通过 json 标签保留原字段名，Python 生成独立的 TypedDict，Rust 生成独立的 struct 并附带 serde 派生。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "键名不是合法标识符时怎么办？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "TypeScript 会对非法标识符键名加引号（如 \"foo-bar\"）；Go 会把字段名转换为 PascalCase 并用 json 标签保留原键；Python 与 Rust 转换为 snake_case。这样生成的代码既合法又能在序列化时对应原始 JSON 键。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .jts-controls .form-item { min-width: 160px; }
+    #jtsStyleWrap { transition: opacity 0.15s; }
+    #jtsStyleWrap.disabled { opacity: 0.45; pointer-events: none; }
+    .jts-col-label { display: block; margin-bottom: 6px; font-size: 13px; color: var(--muted); font-weight: 500; }
+    textarea#jtsInput { min-height: 360px; font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, "Courier New", monospace; font-size: 13.5px; }
+    .code-box#jtsOutput { min-height: 360px; }
+    .jts-empty { color: var(--muted); font-style: normal; }
+  </style>
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/json-to-types.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/json-to-types.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/json-to-types.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="../en/tools/json-to-types.html">English</a></span>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"></path></svg>
+          <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5a8.5 8.5 0 1 0 10.8 10.8z"></path></svg>
+        </button>
+
+
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>JSON 转类型定义</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🧬</div>
+        <h1>JSON 转类型定义</h1>
+      </div>
+      <p class="tool-desc">粘贴 JSON，自动推断结构并生成 TypeScript、Go、Python、Rust 类型或 JSON Schema。支持嵌套对象具名子类型、数组合并联合类型、非法键名处理，所有转换均在浏览器本地完成，不发送任何数据。</p>
+    </section>
+
+    <section class="tool-panel">
+
+      <div class="form-grid jts-controls">
+        <div class="form-item">
+          <label for="jtsLang">输出语言</label>
+          <select id="jtsLang" class="form-select">
+            <option value="ts">TypeScript</option>
+            <option value="go">Go</option>
+            <option value="py">Python</option>
+            <option value="rust">Rust</option>
+            <option value="schema">JSON Schema</option>
+          </select>
+        </div>
+        <div class="form-item">
+          <label for="jtsRoot">根类型名</label>
+          <input type="text" id="jtsRoot" class="form-input" value="Root">
+        </div>
+        <div class="form-item" id="jtsStyleWrap">
+          <label>类型形式（仅 TS）</label>
+          <div class="radio-row" id="jtsStyleRow" role="radiogroup" aria-label="类型形式">
+            <label class="checked"><input type="radio" name="jtsStyle" value="interface" checked>interface</label>
+            <label><input type="radio" name="jtsStyle" value="type">type</label>
+          </div>
+        </div>
+        <div class="form-item">
+          <label>字段可选</label>
+          <div class="radio-row" id="jtsOptRow" role="radiogroup" aria-label="字段可选">
+            <label class="checked"><input type="radio" name="jtsOpt" value="req" checked>必填</label>
+            <label><input type="radio" name="jtsOpt" value="opt">可选 ?</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="op-row">
+        <button class="btn btn-primary" id="jtsBtnConvert" type="button">转换</button>
+        <button class="btn" id="jtsBtnSample" type="button">载入示例</button>
+        <button class="btn" id="jtsBtnCopy" type="button">复制结果</button>
+        <button class="btn" id="jtsBtnDownload" type="button">下载</button>
+        <span class="spacer"></span>
+        <span class="badge blue" id="jtsExtBadge">.ts</span>
+      </div>
+
+      <div class="warn-note" id="jtsError" hidden></div>
+
+      <div class="split-2">
+        <div>
+          <span class="jts-col-label" for="jtsInput">输入 JSON</span>
+          <textarea id="jtsInput" class="form-input" spellcheck="false" placeholder="在此粘贴 JSON，例如：&#10;{&#10;  &quot;name&quot;: &quot;Alice&quot;,&#10;  &quot;age&quot;: 30&#10;}"></textarea>
+        </div>
+        <div>
+          <span class="jts-col-label" for="jtsOutput">输出</span>
+          <pre class="code-box" id="jtsOutput" aria-readonly="true"></pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>数组里元素类型不一致时会生成什么？</h3>
+        <p>工具会遍历数组中的每个元素并合并它们的字段与类型。当同一位置出现不同类型时，会生成联合类型，例如 [1, "a"] 会推断为 number | string；空数组则输出 any[]（或对应语言的可空/任意类型）。</p>
+      </div>
+      <div class="faq-item">
+        <h3>嵌套对象会如何处理？</h3>
+        <p>嵌套对象会被递归处理并生成带名字的子类型：TypeScript 会生成独立的 interface 或 type，Go 生成独立的 struct 并通过 json 标签保留原字段名，Python 生成独立的 TypedDict，Rust 生成独立的 struct 并附带 serde 派生。</p>
+      </div>
+      <div class="faq-item">
+        <h3>键名不是合法标识符时怎么办？</h3>
+        <p>TypeScript 会对非法标识符键名加引号（如 "foo-bar"）；Go 会把字段名转换为 PascalCase 并用 json 标签保留原键；Python 与 Rust 转换为 snake_case。这样生成的代码既合法又能在序列化时对应原始 JSON 键。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/json-to-types.js"></script>
+</body>
+</html>

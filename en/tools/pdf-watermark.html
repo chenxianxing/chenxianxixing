@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDF Watermark - Text and Image Watermark Tool | Online Tools</title>
+  <meta name="description" content="Free online PDF watermark tool supporting text and image watermarks. Set font size, color, opacity, rotation angle, tiling density and page range. Uses pdf-lib to generate the watermarked PDF locally in your browser; the original is unchanged and not uploaded.">
+  <meta name="keywords" content="PDF Watermark, online tools, free tools, web tools, browser tools">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://example.com/en/tools/pdf-watermark.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="PDF Watermark - Text and Image Watermark Tool">
+  <meta property="og:description" content="Supports text and image watermarks. Set font size, color, opacity, rotation angle, tiling density and page range; generate the watermarked PDF locally.">
+  <meta property="og:url" content="https://example.com/en/tools/pdf-watermark.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%B7%EF%B8%8F%3C/text%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem("ot-theme");if(t==="dark"){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();</script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "PDF Watermark",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Free online PDF watermark tool supporting text and image watermarks. Set font size, color, opacity, rotation angle, tiling density and page range; generate the watermarked PDF locally.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Text watermark", "Image watermark", "Font size / Color / Opacity", "Rotation", "Center / Tile", "Page range filter", "Generated locally, not uploaded"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Will adding a watermark damage the original PDF?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. The tool reads the original PDF and generates a brand-new watermarked file; the original content stays unchanged. The downloaded file is saved as \"original-watermark.pdf\" for easy distinction."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can an encrypted PDF be watermarked?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. An encrypted PDF with an open password or permission restrictions cannot be parsed; the tool shows \"Encrypted PDF not supported\". Remove the password protection first, then use this tool to add a watermark."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can the added watermark be removed?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The watermark is drawn onto the page as a layer, which can be modified or removed with professional PDF editing tools. For stronger copyright protection, combine it with methods such as digital signatures."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .wm-drop {
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 22px 18px;
+      text-align: center;
+      color: var(--muted);
+      background: var(--card);
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .wm-drop:hover, .wm-drop.dragover {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+    .wm-drop .big { font-size: 15px; font-weight: 600; }
+    .wm-fileinfo {
+      display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center;
+      margin-top: 12px; font-size: 14px; color: var(--text);
+    }
+    .wm-fileinfo b { color: var(--primary); }
+    .wm-section { margin-top: 18px; }
+    .wm-section > h3 { font-size: 15px; color: var(--text); margin-bottom: 10px; }
+    .wm-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px;
+    }
+    .wm-grid .form-item { margin: 0; }
+    .wm-type-row { display: flex; gap: 10px; margin-bottom: 12px; }
+    .wm-img-pick { display: flex; align-items: center; gap: 10px; margin-top: 4px; }
+    .wm-img-thumb {
+      width: 60px; height: 60px; border-radius: 8px; object-fit: contain;
+      border: 1px solid var(--border); background: var(--card); display: none;
+    }
+    .wm-range-row { display: flex; gap: 8px; }
+    .wm-hidden { display: none; }
+    .wm-status { font-size: 13.5px; color: var(--primary); margin-top: 12px; min-height: 20px; }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/pdf-watermark.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/pdf-watermark.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/pdf-watermark.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/pdf-watermark.html">中文</a><span class="lang-cur">English</span></span>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"></path></svg>
+          <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5a8.5 8.5 0 1 0 10.8 10.8z"></path></svg>
+        </button>
+
+
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>PDF Watermark</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🏷️</div>
+        <h1>PDF Watermark</h1>
+      </div>
+      <p class="tool-desc">Online PDF watermark tool supporting text and image watermarks. Set font size, color, opacity, rotation angle, tiling density and page range. Uses pdf-lib to generate a new watermarked PDF locally; the original is unchanged and not uploaded.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="wm-drop" id="wmDrop">
+        <div class="big">Drag PDF files here, or click to select</div>
+        <div style="font-size:13px;margin-top:4px;">Single PDF file, max 50MB</div>
+      </div>
+      <input type="file" id="wmInput" accept=".pdf,application/pdf" hidden>
+
+      <div class="wm-fileinfo" id="wmFileInfo" hidden>
+        <span>File name: <b id="wmName"></b></span>
+        <span>Pages: <b id="wmPages">0</b></span>
+        <button class="btn" id="wmResetBtn" type="button">Choose Again</button>
+      </div>
+
+      <div id="wmConfig" hidden>
+        <div class="wm-section">
+          <h3>Watermark type</h3>
+          <div class="radio-row wm-type-row" id="wmType" role="radiogroup" aria-label="Watermark type">
+            <label class="checked"><input type="radio" name="wmType" value="text" checked>Text</label>
+            <label><input type="radio" name="wmType" value="image">Image</label>
+          </div>
+        </div>
+
+        <div class="wm-section" id="wmTextGroup">
+          <h3>Text watermark</h3>
+          <div class="wm-grid">
+            <div class="form-item">
+              <label for="wmText">Watermark text</label>
+              <input type="text" id="wmText" class="form-input" value="Confidential" placeholder="E.g.: Confidential / Preview only">
+            </div>
+            <div class="form-item">
+              <label for="wmFontSize">Font size (pt)</label>
+              <input type="number" id="wmFontSize" class="form-input" value="48" min="6" max="300" step="1">
+            </div>
+            <div class="form-item">
+              <label for="wmColor">Color</label>
+              <input type="color" id="wmColor" class="form-input" value="#999999" style="height:38px;padding:4px;">
+            </div>
+            <div class="form-item">
+              <label for="wmOpacity">Opacity (<span id="wmOpacityVal">0.30</span>）</label>
+              <input type="range" id="wmOpacity" class="form-input" min="0.05" max="1" step="0.05" value="0.3">
+            </div>
+            <div class="form-item">
+              <label for="wmAngle">Rotation angle (°)</label>
+              <input type="number" id="wmAngle" class="form-input" value="-30" min="-180" max="180" step="1">
+            </div>
+            <div class="form-item">
+              <label>Tiling density</label>
+              <div class="radio-row" id="wmDensity" role="radiogroup" aria-label="Tiling density">
+                <label><input type="radio" name="wmDensity" value="center">Center</label>
+                <label class="checked"><input type="radio" name="wmDensity" value="tile" checked>Tile</label>
+              </div>
+            </div>
+            <div class="form-item">
+              <div class="checkbox-row" style="height:38px;">
+                <label style="border:none;background:none;padding:0;color:var(--text);"><input type="checkbox" id="wmBold"> Bold</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="wm-section wm-hidden" id="wmImgGroup">
+          <h3>Image watermark</h3>
+          <div class="form-item">
+            <label>Upload watermark image (PNG / JPG)</label>
+            <div class="wm-img-pick">
+              <input type="file" id="wmImgInput" accept="image/png,image/jpeg" hidden>
+              <button class="btn" id="wmImgBtn" type="button">Select image</button>
+              <img id="wmImgThumb" class="wm-img-thumb" alt="Watermark image preview">
+              <span id="wmImgName" style="font-size:13px;color:var(--muted);"></span>
+            </div>
+          </div>
+          <div class="wm-grid" style="margin-top:12px;">
+            <div class="form-item">
+              <label for="wmImgOpacity">Opacity (<span id="wmImgOpacityVal">0.50</span>）</label>
+              <input type="range" id="wmImgOpacity" class="form-input" min="0.05" max="1" step="0.05" value="0.5">
+            </div>
+            <div class="form-item">
+              <label for="wmImgAngle">Rotation angle (°)</label>
+              <input type="number" id="wmImgAngle" class="form-input" value="0" min="-180" max="180" step="1">
+            </div>
+            <div class="form-item">
+              <label for="wmImgScale">Scale (<span id="wmImgScaleVal">0.30</span>）</label>
+              <input type="range" id="wmImgScale" class="form-input" min="0.05" max="1" step="0.05" value="0.3">
+            </div>
+          </div>
+        </div>
+
+        <div class="wm-section">
+          <h3>Page range</h3>
+          <div class="radio-row" id="wmRange" role="radiogroup" aria-label="Page range">
+            <label class="checked"><input type="radio" name="wmRange" value="all" checked>All</label>
+            <label><input type="radio" name="wmRange" value="odd">Odd pages</label>
+            <label><input type="radio" name="wmRange" value="even">Even pages</label>
+            <label><input type="radio" name="wmRange" value="custom">Custom</label>
+          </div>
+          <div class="form-item" id="wmCustomWrap" hidden style="margin-top:12px;max-width:360px;">
+            <label for="wmCustom">Custom range (e.g. 1-3,5, starting from 1)</label>
+            <input type="text" id="wmCustom" class="form-input" placeholder="E.g.: 1-3,5,8-10">
+          </div>
+        </div>
+
+        <div class="op-row" style="margin-top:18px;">
+          <button class="btn btn-primary" id="wmApplyBtn" type="button">Apply watermark and download</button>
+        </div>
+
+        <div class="wm-status" id="wmStatus"></div>
+      </div>
+
+      <div class="warn-note" id="wmError" hidden></div>
+
+      <p class="wc-note">Note: <b>Everything runs locally in your browser; files are not uploaded.</b>The watermark is drawn as a layer over the page; the original PDF content stays unchanged. The output filename appends "-watermark" to the original name. Encrypted (password-protected) or corrupted PDFs cannot be processed.</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>Will adding a watermark damage the original PDF?</h3>
+        <p>No. The tool reads the original PDF and generates a brand-new watermarked file; the original content stays unchanged. The downloaded file is saved as "original-watermark.pdf" for easy distinction.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Can an encrypted PDF be watermarked?</h3>
+        <p>No. An encrypted PDF with an open password or permission restrictions cannot be parsed; the tool shows "Encrypted PDF not supported". Remove the password protection first, then use this tool to add a watermark.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Can the added watermark be removed?</h3>
+        <p>The watermark is drawn onto the page as a layer, which can be modified or removed with professional PDF editing tools. For stronger copyright protection, combine it with methods such as digital signatures.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/vendor/pdf-lib.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/pdf-watermark.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

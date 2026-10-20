@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nine-grid Crop - Online Image Nine-grid / Grid Slice Export Tool | Online Tools</title>
+  <meta name="description" content="Free online nine-grid slicing tool that splits a single image into 2x2, 3x3, 4x4 or custom grids, with center-square crop or equal slicing by original ratio. Preview each tile and download individually or all at once. All processing runs locally in your browser.">
+  <meta name="keywords" content="Nine-Grid Image Slicer, online tools, free tools, web tools, browser tools">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/nine-grid.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Nine-grid Crop - Online Image Nine-grid / Grid Slice Export Tool">
+  <meta property="og:description" content="An online slicing tool supporting 2x2/3x3/4x4 and custom grids, with center-square crop or equal slicing by original ratio.">
+  <meta property="og:url" content="https://example.com/en/tools/nine-grid.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9F%A3%EF%B8%8F%3C/text%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem("ot-theme");if(t==="dark"){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();</script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Nine-Grid Image Slicer",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "An online image slicing tool supporting 2x2/3x3/4x4 and custom grids, with center-square crop or equal slicing by original ratio, downloading tile by tile.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["2x2/3x3/4x4 grid", "Custom rows and columns", "Center square crop and divide", "Equal divide by original ratio", "Per-tile preview and download", "Local Processing"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is nine-grid cropping used for?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Slice one image into nine tiles (3x3) and post them in order to social platforms so they reassemble into the full picture in the grid, a very common trick. This tool also breaks long images or posters into multiple grid assets."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between \"center square crop\" and \"equal slicing by original ratio\"?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "\"Center square crop\" first trims the longer side of the source, takes the largest centered square, then divides it evenly, ideal for non-square sources. \"Equal slicing by original ratio\" does not crop; it slices directly by the source's width and height ratio, keeping the full picture but tiles may not be square."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why download tile by tile instead of a ZIP?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "To keep everything running entirely in the browser with no extra libraries or external requests, this tool triggers downloads one by one. Your browser may ask whether to allow multiple downloads; just choose allow. File names increment like original-1, original-2."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .ng-grid {
+      display: grid;
+      gap: 6px;
+      margin-top: 14px;
+    }
+    .ng-cell {
+      position: relative;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--card);
+      cursor: pointer;
+      line-height: 0;
+    }
+    .ng-cell canvas { width: 100%; height: auto; display: block; }
+    .ng-cell .ng-idx {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      background: rgba(17, 24, 39, 0.7);
+      color: #fff;
+      font-size: 12px;
+      line-height: 1;
+      padding: 3px 6px;
+      border-radius: 6px;
+    }
+    .ng-cell:hover { outline: 2px solid var(--primary); outline-offset: -1px; }
+    .ng-info { font-size: 14px; color: var(--text); margin-top: 12px; }
+    .ng-info b { color: var(--primary); }
+    .slider-item { display: flex; flex-direction: column; gap: 6px; }
+    .slider-item .val { font-size: 13px; color: var(--primary); font-weight: 600; }
+    .ng-tip { font-size: 13px; color: var(--muted); margin-top: 10px; line-height: 1.7; }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/nine-grid.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/nine-grid.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/nine-grid.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/nine-grid.html">中文</a><span class="lang-cur">English</span></span>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"></path></svg>
+          <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5a8.5 8.5 0 1 0 10.8 10.8z"></path></svg>
+        </button>
+
+        
+
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>Nine-Grid Image Slicer</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🔲</div>
+        <h1>Nine-Grid Image Slicer</h1>
+      </div>
+      <p class="tool-desc">An online nine-grid slicing tool that splits a single image into 2x2, 3x3, 4x4 or custom grids, with center-square crop or equal slicing by original ratio. Preview each tile and download individually or all at once. All processing runs locally in your browser.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="drop-zone" id="ngDrop">
+        Click to choose an image, or drag it here (single image)
+      </div>
+      <input type="file" id="ngInput" accept="image/*" hidden>
+
+      <div id="ngControls" hidden>
+        <div class="form-grid">
+          <div class="form-item">
+            <label>Grid</label>
+            <div class="radio-row" id="ngGrid" role="radiogroup" aria-label="Grid">
+              <label><input type="radio" name="nggrid" value="2">2×2</label>
+              <label class="checked"><input type="radio" name="nggrid" value="3" checked>3×3</label>
+              <label><input type="radio" name="nggrid" value="4">4×4</label>
+              <label><input type="radio" name="nggrid" value="custom">Custom</label>
+            </div>
+          </div>
+          <div class="form-item" id="ngColsWrap" hidden>
+            <label for="ngCols">Columns (1-10)</label>
+            <input type="number" id="ngCols" class="form-input" value="3" min="1" max="10" step="1">
+          </div>
+          <div class="form-item" id="ngRowsWrap" hidden>
+            <label for="ngRows">Rows (1-10)</label>
+            <input type="number" id="ngRows" class="form-input" value="3" min="1" max="10" step="1">
+          </div>
+          <div class="form-item">
+            <label>Slice mode</label>
+            <div class="radio-row" id="ngMode" role="radiogroup" aria-label="Slice mode">
+              <label class="checked"><input type="radio" name="ngmode" value="square" checked>Center square crop</label>
+              <label><input type="radio" name="ngmode" value="ratio">By original ratio</label>
+            </div>
+          </div>
+          <div class="form-item">
+            <label>Output Format</label>
+            <div class="radio-row" id="ngFmt" role="radiogroup" aria-label="Output Format">
+              <label class="checked"><input type="radio" name="ngfmt" value="image/png" checked>PNG</label>
+              <label><input type="radio" name="ngfmt" value="image/jpeg">JPEG</label>
+            </div>
+          </div>
+          <div class="form-item" id="ngQualityWrap" style="display:none;">
+            <label for="ngQuality">Quality: <span class="val" id="ngQualityVal">0.92</span></label>
+            <input type="range" id="ngQuality" min="0.1" max="1" step="0.02" value="0.92">
+          </div>
+        </div>
+
+        <div class="ng-grid" id="ngGridPreview"></div>
+        <div class="ng-info" id="ngInfo">Tile size: - · Total tiles: -</div>
+
+        <div class="op-row" style="margin-top:14px;">
+          <button class="btn btn-primary" id="ngDownloadAll" type="button">Download all</button>
+        </div>
+        <p class="ng-tip">Click any tile to download it individually. Clicking "Download all" downloads them in order, and your browser may ask whether to allow multiple downloads. Please choose allow.</p>
+      </div>
+
+      <div class="warn-note" id="ngError" hidden></div>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>What is nine-grid cropping used for?</h3>
+        <p>Slice one image into nine tiles (3x3) and post them in order to social platforms so they reassemble into the full picture in the grid, a very common trick. This tool also breaks long images or posters into multiple grid assets.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is the difference between "center square crop" and "equal slicing by original ratio"?</h3>
+        <p>"Center square crop" first trims the longer side of the source, takes the largest centered square, then divides it evenly, ideal for non-square sources. "Equal slicing by original ratio" does not crop; it slices directly by the source's width and height ratio, keeping the full picture but tiles may not be square.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Why download tile by tile instead of a ZIP?</h3>
+        <p>To keep everything running entirely in the browser with no extra libraries or external requests, this tool triggers downloads one by one. Your browser may ask whether to allow multiple downloads; just choose allow. File names increment like original-1, original-2.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/nine-grid.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

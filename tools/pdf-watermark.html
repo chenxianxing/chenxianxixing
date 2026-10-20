@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDF 加水印 - 文字与图片水印工具 | 在线工具大全</title>
+  <meta name="description" content="免费在线 PDF 加水印工具，支持文字与图片水印，可设置字号、颜色、透明度、旋转角度、平铺密度与页码范围，使用 pdf-lib 在浏览器本地生成带水印的 PDF，原文件不变、不上传。">
+  <meta name="keywords" content="PDF加水印,PDF水印,PDF文字水印,PDF图片水印,在线PDF加水印,pdf-lib水印">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://example.com/tools/pdf-watermark.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="PDF 加水印 - 文字与图片水印工具">
+  <meta property="og:description" content="支持文字与图片水印，可设置字号、颜色、透明度、旋转角度、平铺密度与页码范围，本地生成带水印的 PDF。">
+  <meta property="og:url" content="https://example.com/tools/pdf-watermark.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%B7%EF%B8%8F%3C/text%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem("ot-theme");if(t==="dark"){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();</script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "PDF 加水印",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "免费在线 PDF 加水印工具，支持文字与图片水印，可设置字号、颜色、透明度、旋转角度、平铺密度与页码范围，本地生成带水印的 PDF。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["文字水印", "图片水印", "字号 / 颜色 / 透明度", "旋转角度", "居中 / 平铺", "页码范围筛选", "本地生成不上传"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "加水印会破坏原来的 PDF 吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "不会。工具会读取原 PDF 并生成一份全新的带水印文件，原文件内容保持不变。下载的文件名以“原文件名-watermark.pdf”形式保存，便于区分。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "加密的 PDF 能加水印吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "不支持。带有打开密码或权限限制的加密 PDF 无法被解析，工具会提示“加密 PDF 不支持”。请先解除密码保护，再使用本工具添加水印。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "添加的水印能被去掉吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "水印是以图层形式绘制到页面上的，使用专业的 PDF 编辑工具可以对其进行修改或移除。若需要更强的版权保护，建议结合数字签名等手段。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .wm-drop {
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 22px 18px;
+      text-align: center;
+      color: var(--muted);
+      background: var(--card);
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .wm-drop:hover, .wm-drop.dragover {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+    .wm-drop .big { font-size: 15px; font-weight: 600; }
+    .wm-fileinfo {
+      display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center;
+      margin-top: 12px; font-size: 14px; color: var(--text);
+    }
+    .wm-fileinfo b { color: var(--primary); }
+    .wm-section { margin-top: 18px; }
+    .wm-section > h3 { font-size: 15px; color: var(--text); margin-bottom: 10px; }
+    .wm-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px;
+    }
+    .wm-grid .form-item { margin: 0; }
+    .wm-type-row { display: flex; gap: 10px; margin-bottom: 12px; }
+    .wm-img-pick { display: flex; align-items: center; gap: 10px; margin-top: 4px; }
+    .wm-img-thumb {
+      width: 60px; height: 60px; border-radius: 8px; object-fit: contain;
+      border: 1px solid var(--border); background: var(--card); display: none;
+    }
+    .wm-range-row { display: flex; gap: 8px; }
+    .wm-hidden { display: none; }
+    .wm-status { font-size: 13.5px; color: var(--primary); margin-top: 12px; min-height: 20px; }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/pdf-watermark.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/pdf-watermark.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/pdf-watermark.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="../en/tools/pdf-watermark.html">English</a></span>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"></path></svg>
+          <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5a8.5 8.5 0 1 0 10.8 10.8z"></path></svg>
+        </button>
+
+
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>PDF 加水印</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🏷️</div>
+        <h1>PDF 加水印</h1>
+      </div>
+      <p class="tool-desc">在线 PDF 加水印工具，支持文字水印与图片水印，可设置字号、颜色、透明度、旋转角度、平铺密度与页码范围，使用 pdf-lib 在浏览器本地生成带水印的新 PDF，原文件不变、不上传。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="wm-drop" id="wmDrop">
+        <div class="big">拖拽 PDF 文件到此处，或点击选择</div>
+        <div style="font-size:13px;margin-top:4px;">单个 PDF 文件，最大 50MB</div>
+      </div>
+      <input type="file" id="wmInput" accept=".pdf,application/pdf" hidden>
+
+      <div class="wm-fileinfo" id="wmFileInfo" hidden>
+        <span>文件名：<b id="wmName"></b></span>
+        <span>页数：<b id="wmPages">0</b></span>
+        <button class="btn" id="wmResetBtn" type="button">重新选择</button>
+      </div>
+
+      <div id="wmConfig" hidden>
+        <div class="wm-section">
+          <h3>水印类型</h3>
+          <div class="radio-row wm-type-row" id="wmType" role="radiogroup" aria-label="水印类型">
+            <label class="checked"><input type="radio" name="wmType" value="text" checked>文字</label>
+            <label><input type="radio" name="wmType" value="image">图片</label>
+          </div>
+        </div>
+
+        <div class="wm-section" id="wmTextGroup">
+          <h3>文字水印</h3>
+          <div class="wm-grid">
+            <div class="form-item">
+              <label for="wmText">水印内容</label>
+              <input type="text" id="wmText" class="form-input" value="机密" placeholder="如：机密 / 仅供预览">
+            </div>
+            <div class="form-item">
+              <label for="wmFontSize">字号（pt）</label>
+              <input type="number" id="wmFontSize" class="form-input" value="48" min="6" max="300" step="1">
+            </div>
+            <div class="form-item">
+              <label for="wmColor">颜色</label>
+              <input type="color" id="wmColor" class="form-input" value="#999999" style="height:38px;padding:4px;">
+            </div>
+            <div class="form-item">
+              <label for="wmOpacity">透明度（<span id="wmOpacityVal">0.30</span>）</label>
+              <input type="range" id="wmOpacity" class="form-input" min="0.05" max="1" step="0.05" value="0.3">
+            </div>
+            <div class="form-item">
+              <label for="wmAngle">旋转角度（°）</label>
+              <input type="number" id="wmAngle" class="form-input" value="-30" min="-180" max="180" step="1">
+            </div>
+            <div class="form-item">
+              <label>平铺密度</label>
+              <div class="radio-row" id="wmDensity" role="radiogroup" aria-label="平铺密度">
+                <label><input type="radio" name="wmDensity" value="center">居中</label>
+                <label class="checked"><input type="radio" name="wmDensity" value="tile" checked>平铺</label>
+              </div>
+            </div>
+            <div class="form-item">
+              <div class="checkbox-row" style="height:38px;">
+                <label style="border:none;background:none;padding:0;color:var(--text);"><input type="checkbox" id="wmBold"> 粗体</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="wm-section wm-hidden" id="wmImgGroup">
+          <h3>图片水印</h3>
+          <div class="form-item">
+            <label>上传水印图片（PNG / JPG）</label>
+            <div class="wm-img-pick">
+              <input type="file" id="wmImgInput" accept="image/png,image/jpeg" hidden>
+              <button class="btn" id="wmImgBtn" type="button">选择图片</button>
+              <img id="wmImgThumb" class="wm-img-thumb" alt="水印图片预览">
+              <span id="wmImgName" style="font-size:13px;color:var(--muted);"></span>
+            </div>
+          </div>
+          <div class="wm-grid" style="margin-top:12px;">
+            <div class="form-item">
+              <label for="wmImgOpacity">透明度（<span id="wmImgOpacityVal">0.50</span>）</label>
+              <input type="range" id="wmImgOpacity" class="form-input" min="0.05" max="1" step="0.05" value="0.5">
+            </div>
+            <div class="form-item">
+              <label for="wmImgAngle">旋转角度（°）</label>
+              <input type="number" id="wmImgAngle" class="form-input" value="0" min="-180" max="180" step="1">
+            </div>
+            <div class="form-item">
+              <label for="wmImgScale">缩放比例（<span id="wmImgScaleVal">0.30</span>）</label>
+              <input type="range" id="wmImgScale" class="form-input" min="0.05" max="1" step="0.05" value="0.3">
+            </div>
+          </div>
+        </div>
+
+        <div class="wm-section">
+          <h3>页码范围</h3>
+          <div class="radio-row" id="wmRange" role="radiogroup" aria-label="页码范围">
+            <label class="checked"><input type="radio" name="wmRange" value="all" checked>全部</label>
+            <label><input type="radio" name="wmRange" value="odd">奇数页</label>
+            <label><input type="radio" name="wmRange" value="even">偶数页</label>
+            <label><input type="radio" name="wmRange" value="custom">自定义</label>
+          </div>
+          <div class="form-item" id="wmCustomWrap" hidden style="margin-top:12px;max-width:360px;">
+            <label for="wmCustom">自定义范围（如 1-3,5，从 1 开始）</label>
+            <input type="text" id="wmCustom" class="form-input" placeholder="例如：1-3,5,8-10">
+          </div>
+        </div>
+
+        <div class="op-row" style="margin-top:18px;">
+          <button class="btn btn-primary" id="wmApplyBtn" type="button">应用水印并下载</button>
+        </div>
+
+        <div class="wm-status" id="wmStatus"></div>
+      </div>
+
+      <div class="warn-note" id="wmError" hidden></div>
+
+      <p class="wc-note">说明：<b>全部在浏览器本地完成，文件不上传。</b>水印以图层形式绘制到页面，原 PDF 内容保持不变，输出文件名在原名后追加 “-watermark”。加密（有打开密码）或损坏的 PDF 无法处理。</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>加水印会破坏原来的 PDF 吗？</h3>
+        <p>不会。工具会读取原 PDF 并生成一份全新的带水印文件，原文件内容保持不变。下载的文件名以“原文件名-watermark.pdf”形式保存，便于区分。</p>
+      </div>
+      <div class="faq-item">
+        <h3>加密的 PDF 能加水印吗？</h3>
+        <p>不支持。带有打开密码或权限限制的加密 PDF 无法被解析，工具会提示“加密 PDF 不支持”。请先解除密码保护，再使用本工具添加水印。</p>
+      </div>
+      <div class="faq-item">
+        <h3>添加的水印能被去掉吗？</h3>
+        <p>水印是以图层形式绘制到页面上的，使用专业的 PDF 编辑工具可以对其进行修改或移除。若需要更强的版权保护，建议结合数字签名等手段。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/vendor/pdf-lib.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/pdf-watermark.js"></script>
+</body>
+</html>

@@ -54,10 +54,36 @@ def _esc_unescaped(q, v):
     return ''.join(out)
 
 
+_VALID_ESC = re.compile(r'\\(?:[nrtbfv0\'"\\/]|u[0-9a-fA-F]{4}|x[0-9a-fA-F]{2})')
+
+
+def _fix_backslash(v):
+    """把“不构成合法转义”的孤立反斜杠转义掉，避免写进 JS 字面量后语法错误
+    （例如译文里的 \\uXXXX、\\xXX 原样写回会变成非法 Unicode 转义）"""
+    out = []
+    i = 0
+    n = len(v)
+    while i < n:
+        c = v[i]
+        if c == '\\':
+            m = _VALID_ESC.match(v, i)
+            if m:
+                out.append(m.group(0))
+                i = m.end()
+                continue
+            out.append('\\\\')
+            i += 1
+            continue
+        out.append(c)
+        i += 1
+    return ''.join(out)
+
+
 def wrap_literal(q, v):
     """把译文安全写回 JS 字面量。保留值中已有的 \\n 等转义序列形态；
     仅处理原始控制字符与定界符冲突。"""
     v = v.replace('\r', '\\r').replace('\n', '\\n').replace('\t', '\\t')
+    v = _fix_backslash(v)
     if q == "'":
         if "'" not in v:
             return "'%s'" % v

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nginx Config Generator - Generate Nginx Server Config Online | Online Tools</title>
+  <meta name="description" content="Free online Nginx config generator. Generate server config for static sites, SPAs and reverse proxies via a form, with HTTPS, gzip, caching, WebSocket, security headers and www redirect, and one-click copy and download.">
+  <meta name="keywords" content="nginx https, online tools, free tools, web tools, browser tools">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/nginx-config.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Nginx Config Generator - Generate Nginx Server Config Online">
+  <meta property="og:description" content="Generate Nginx config for static sites, SPAs and reverse proxies via a form, with HTTPS, gzip, caching, WebSocket and security headers, ready to copy and download in one click.">
+  <meta property="og:url" content="https://example.com/en/tools/nginx-config.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%A7%3C/text%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem("ot-theme");if(t==="dark"){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();</script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Nginx Config Generator",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online Nginx config generator that produces server config for static sites, SPAs and reverse proxies via a form.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Static site / SPA / reverse proxy config", "HTTPS with HTTP/2/HSTS", "gzip and static caching", "WebSocket Support", "Security Headers", "www Redirect", "One-click copy and download"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Where should the generated config be placed?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "On Debian/Ubuntu it usually goes to /etc/nginx/sites-available/ and is symlinked into /etc/nginx/sites-enabled/, or written directly as a .conf under /etc/nginx/conf.d/. After changes, validate with nginx -t, then gracefully reload with nginx -s reload."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between a SPA (single-page app) and a static site?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A static site uses try_files $uri $uri/ =404; and returns 404 when a file is not found; a SPA uses try_files $uri $uri/ /index.html; to fall back all unknown paths to the entry index.html, handled by the front-end router, ideal for React, Vue and similar frameworks."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does a reverse proxy pass through real client info?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The generator writes proxy_set_header Host, X-Real-IP, X-Forwarded-For and X-Forwarded-Proto so the backend can get the real client IP and protocol. With WebSocket enabled it also adds the Upgrade and Connection headers."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .ngx-form .form-item { min-width: 200px; }
+    .ngx-sec-title { font-size: 14px; font-weight: 600; color: var(--text); margin: 18px 0 10px; }
+    .ngx-hidden { display: none; }
+    .ngx-tips { margin-top: 16px; }
+    .ngx-tips ul { margin: 8px 0 0; padding-left: 20px; color: var(--muted); font-size: 13.5px; line-height: 1.9; }
+    .ngx-tips code { background: var(--primary-light); color: var(--primary); padding: 1px 6px; border-radius: 5px; font-size: 12.5px; }
+    .code-box#ngxOutput { min-height: 340px; }
+  </style>
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/nginx-config.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/nginx-config.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/nginx-config.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/nginx-config.html">中文</a><span class="lang-cur">English</span></span>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"></path></svg>
+          <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5a8.5 8.5 0 1 0 10.8 10.8z"></path></svg>
+        </button>
+
+
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>Nginx Config Generator</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🔧</div>
+        <h1>Nginx Config Generator</h1>
+      </div>
+      <p class="tool-desc">Generate Nginx server config for static sites, SPAs or reverse proxies via a form, with HTTPS, gzip, static asset caching, WebSocket, security headers and www redirect, with live preview and one-click copy and download.</p>
+    </section>
+
+    <section class="tool-panel ngx-form">
+
+      <div class="form-grid">
+        <div class="form-item">
+          <label for="ngxServerName">server_name (separate multiple with spaces)</label>
+          <input type="text" id="ngxServerName" class="form-input" value="example.com www.example.com">
+        </div>
+        <div class="form-item">
+          <label for="ngxPort">Listen Port</label>
+          <input type="number" id="ngxPort" class="form-input" value="80" min="1" max="65535">
+        </div>
+        <div class="form-item">
+          <label>Site Type</label>
+          <div class="radio-row" id="ngxTypeRow" role="radiogroup" aria-label="Site Type">
+            <label class="checked"><input type="radio" name="ngxType" value="static" checked>Static Site</label>
+            <label><input type="radio" name="ngxType" value="spa">SPA</label>
+            <label><input type="radio" name="ngxType" value="proxy">Reverse Proxy</label>
+          </div>
+        </div>
+        <div class="form-item" id="ngxRootWrap">
+          <label for="ngxRoot">root Directory</label>
+          <input type="text" id="ngxRoot" class="form-input" value="/var/www/html">
+        </div>
+        <div class="form-item ngx-hidden" id="ngxUpstreamWrap">
+          <label for="ngxUpstream">upstream Address</label>
+          <input type="text" id="ngxUpstream" class="form-input" value="127.0.0.1:8080">
+        </div>
+        <div class="form-item">
+          <label for="ngxCmbs">client_max_body_size</label>
+          <input type="text" id="ngxCmbs" class="form-input" value="10m">
+        </div>
+        <div class="form-item">
+          <label>www Redirect</label>
+          <div class="radio-row" id="ngxWwwRow" role="radiogroup" aria-label="www Redirect">
+            <label class="checked"><input type="radio" name="ngxWww" value="none" checked>No Redirect</label>
+            <label><input type="radio" name="ngxWww" value="add">Add www</label>
+            <label><input type="radio" name="ngxWww" value="remove">Remove www</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="ngx-sec-title">Advanced Options</div>
+      <div class="checkbox-row">
+        <label><input type="checkbox" id="ngxHttps"> Enable HTTPS</label>
+        <label><input type="checkbox" id="ngxGzip" checked> Enable gzip</label>
+        <label><input type="checkbox" id="ngxCache" checked> Static Asset Caching</label>
+        <label><input type="checkbox" id="ngxWs"> WebSocket Support</label>
+        <label><input type="checkbox" id="ngxSec" checked> Security Headers</label>
+      </div>
+
+      <div class="ngx-hidden" id="ngxHttpsWrap" style="margin-top:14px;">
+        <div class="form-grid">
+          <div class="form-item">
+            <label for="ngxCert">Certificate crt Path</label>
+            <input type="text" id="ngxCert" class="form-input" value="/etc/nginx/ssl/example.com.crt">
+          </div>
+          <div class="form-item">
+            <label for="ngxKey">Certificate key Path</label>
+            <input type="text" id="ngxKey" class="form-input" value="/etc/nginx/ssl/example.com.key">
+          </div>
+          <div class="form-item">
+            <label>HTTP/2</label>
+            <div class="radio-row" id="ngxHttp2Row" role="radiogroup" aria-label="HTTP/2">
+              <label class="checked"><input type="radio" name="ngxHttp2" value="on" checked>On</label>
+              <label><input type="radio" name="ngxHttp2" value="off">Off</label>
+            </div>
+          </div>
+          <div class="form-item">
+            <label>HSTS</label>
+            <div class="radio-row" id="ngxHstsRow" role="radiogroup" aria-label="HSTS">
+              <label class="checked"><input type="radio" name="ngxHsts" value="on" checked>On</label>
+              <label><input type="radio" name="ngxHsts" value="off">Off</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="op-row" style="margin-top:16px;">
+        <button class="btn btn-primary" id="ngxBtnSample" type="button">Load Sample</button>
+        <button class="btn" id="ngxBtnCopy" type="button">Copy</button>
+        <button class="btn" id="ngxBtnDownload" type="button">Download .conf</button>
+      </div>
+
+      <pre class="code-box" id="ngxOutput" aria-readonly="true"></pre>
+
+      <div class="ngx-tips">
+        <strong>Usage Tips</strong>
+        <ul>
+          <li>Validate config syntax: <code>sudo nginx -t</code></li>
+          <li>Graceful reload: <code>sudo nginx -s reload</code></li>
+          <li>Enable site (Debian-based): <code>ln -s /etc/nginx/sites-available/xxx /etc/nginx/sites-enabled/</code></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>Where should the generated config be placed?</h3>
+        <p>On Debian/Ubuntu it usually goes to /etc/nginx/sites-available/ and is symlinked into /etc/nginx/sites-enabled/, or written directly as a .conf under /etc/nginx/conf.d/. After changes, validate with nginx -t, then gracefully reload with nginx -s reload.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is the difference between a SPA (single-page app) and a static site?</h3>
+        <p>A static site uses try_files $uri $uri/ =404; and returns 404 when a file is not found; a SPA uses try_files $uri $uri/ /index.html; to fall back all unknown paths to the entry index.html, handled by the front-end router, ideal for React, Vue and similar frameworks.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How does a reverse proxy pass through real client info?</h3>
+        <p>The generator writes proxy_set_header Host, X-Real-IP, X-Forwarded-For and X-Forwarded-Proto so the backend can get the real client IP and protocol. With WebSocket enabled it also adds the Upgrade and Connection headers.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/nginx-config.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

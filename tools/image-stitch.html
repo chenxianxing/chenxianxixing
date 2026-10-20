@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>长图拼接 - 在线多图纵向/横向拼接合并工具 | 在线工具大全</title>
+  <meta name="description" content="免费在线的长图拼接工具，支持多张图片纵向或横向拼接合并，可统一尺寸、设置间距、外边距、背景色与对齐方式，导出 PNG 或 JPEG，所有处理均在浏览器本地完成。">
+  <meta name="keywords" content="长图拼接,图片拼接,多图合并,纵向拼接,横向拼接,拼图,长图制作">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/image-stitch.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="长图拼接 - 在线多图纵向/横向拼接合并工具">
+  <meta property="og:description" content="支持多图批量上传、统一尺寸与背景色的在线长图拼接工具，导出 PNG/JPEG。">
+  <meta property="og:url" content="https://example.com/tools/image-stitch.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%A9%3C/text%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem("ot-theme");if(t==="dark"){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();</script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "长图拼接",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线多图拼接工具，支持纵向与横向拼接、统一尺寸、间距边距背景色与对齐设置，导出 PNG/JPEG。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["多图批量上传与拖拽", "纵向/横向长图拼接", "统一尺寸按目标或取最大边", "间距/边距/背景色/对齐设置", "PNG/JPEG 导出", "本地处理"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "长图拼接适合什么场景？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "常用于把聊天记录、教程截图、商品详情或系列照片按顺序排列成一张长图，方便保存分享，也适合把多张竖屏截图合并成上下贯通的长图。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "“取最大边”是什么意思？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "纵向拼接时，所有图片会缩放到宽度一致的“最大边”后再拼接，避免出现宽窄不一的错位；横向拼接则按高度对齐到最大高度，保证接缝整齐。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "拼接后的图片会不会模糊？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "拼接只是把原图按像素排列，不会降低清晰度；但横向/纵向统一尺寸时若把小图放大到目标尺寸，可能会因为源分辨率不足而显得不够清晰，建议优先使用“取最大边”。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .st-list { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+    .st-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 10px;
+    }
+    .st-item img { width: 56px; height: 56px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border); flex-shrink: 0; background: var(--primary-light); }
+    .st-item .st-meta { flex: 1; min-width: 0; }
+    .st-item .st-name { font-size: 14px; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .st-item .st-dim { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .st-item .st-actions { display: flex; gap: 6px; flex-shrink: 0; }
+    .st-item .st-btn {
+      width: 30px; height: 30px; border: 1px solid var(--border); background: var(--card);
+      border-radius: 8px; cursor: pointer; color: var(--muted); font-size: 15px; line-height: 1;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .st-item .st-btn:hover { color: var(--primary); border-color: var(--primary); }
+    .st-item .st-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .st-preview-wrap { margin-top: 16px; overflow-x: auto; }
+    .st-preview {
+      display: block; margin: 0 auto;
+      border: 1px solid var(--border); border-radius: 8px;
+      background-image:
+        linear-gradient(45deg, rgba(120,120,120,0.14) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(120,120,120,0.14) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, rgba(120,120,120,0.14) 75%),
+        linear-gradient(-45deg, transparent 75%, rgba(120,120,120,0.14) 75%);
+      background-size: 16px 16px;
+      background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+    }
+    .st-size { font-size: 14px; color: var(--text); margin-top: 12px; }
+    .st-size b { color: var(--primary); }
+    .slider-item { display: flex; flex-direction: column; gap: 6px; }
+    .slider-item .val { font-size: 13px; color: var(--primary); font-weight: 600; }
+    .color-row { display: flex; align-items: center; gap: 8px; }
+    .color-row input[type="color"] { width: 40px; height: 34px; padding: 2px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); cursor: pointer; }
+    .empty-tip { text-align: center; color: var(--muted); font-size: 14px; padding: 20px 0; }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/image-stitch.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/image-stitch.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/image-stitch.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="../en/tools/image-stitch.html">English</a></span>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"></path></svg>
+          <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5a8.5 8.5 0 1 0 10.8 10.8z"></path></svg>
+        </button>
+
+        
+
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>长图拼接</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🧩</div>
+        <h1>长图拼接</h1>
+      </div>
+      <p class="tool-desc">在线多图拼接工具，支持纵向或横向拼接合并，可统一尺寸、设置间距、外边距、背景色与对齐方式，导出 PNG 或 JPEG，所有处理均在浏览器本地完成。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="drop-zone" id="stDrop">
+        点击选择多张图片，或将多张图片拖拽到此处（可一次选择多张）
+      </div>
+      <input type="file" id="stInput" accept="image/*" multiple hidden>
+
+      <div class="warn-note" id="stError" hidden></div>
+
+      <div id="stListBox" hidden>
+        <div class="st-list" id="stList"></div>
+
+        <div class="form-grid" style="margin-top:16px;">
+          <div class="form-item">
+            <label>拼接方向</label>
+            <div class="radio-row" id="stDir" role="radiogroup" aria-label="拼接方向">
+              <label class="checked"><input type="radio" name="stdir" value="v" checked>纵向</label>
+              <label><input type="radio" name="stdir" value="h">横向</label>
+            </div>
+          </div>
+          <div class="form-item">
+            <label>统一尺寸</label>
+            <div class="radio-row" id="stSizeMode" role="radiogroup" aria-label="统一尺寸">
+              <label class="checked"><input type="radio" name="stsize" value="target" checked>目标值</label>
+              <label><input type="radio" name="stsize" value="max">取最大边</label>
+            </div>
+          </div>
+          <div class="form-item" id="stTargetWrap">
+            <label for="stTarget" id="stTargetLabel">目标宽度（px）</label>
+            <input type="number" id="stTarget" class="form-input" value="1080" min="1" step="10">
+          </div>
+          <div class="form-item">
+            <label for="stGap">间距 gap（px，0-40）</label>
+            <input type="number" id="stGap" class="form-input" value="0" min="0" max="40" step="1">
+          </div>
+          <div class="form-item">
+            <label for="stPad">外边距 padding（px，0-40）</label>
+            <input type="number" id="stPad" class="form-input" value="0" min="0" max="40" step="1">
+          </div>
+          <div class="form-item">
+            <label for="stBg">背景色</label>
+            <div class="color-row">
+              <input type="color" id="stBg" value="#ffffff">
+              <span style="font-size:13px;color:var(--muted);" id="stBgVal">#ffffff</span>
+            </div>
+          </div>
+          <div class="form-item">
+            <label>对齐</label>
+            <div class="radio-row" id="stAlign" role="radiogroup" aria-label="对齐">
+              <label class="checked"><input type="radio" name="stalign" value="start" checked>起始</label>
+              <label><input type="radio" name="stalign" value="center">居中</label>
+              <label><input type="radio" name="stalign" value="end">末尾</label>
+            </div>
+          </div>
+          <div class="form-item">
+            <label>输出格式</label>
+            <div class="radio-row" id="stFmt" role="radiogroup" aria-label="输出格式">
+              <label class="checked"><input type="radio" name="stfmt" value="image/png" checked>PNG</label>
+              <label><input type="radio" name="stfmt" value="image/jpeg">JPEG</label>
+            </div>
+          </div>
+          <div class="form-item" id="stQualityWrap" style="display:none;">
+            <label for="stQuality">质量：<span class="val" id="stQualityVal">0.92</span></label>
+            <input type="range" id="stQuality" min="0.1" max="1" step="0.02" value="0.92">
+          </div>
+        </div>
+
+        <div class="st-preview-wrap">
+          <canvas id="stPreview" class="st-preview"></canvas>
+        </div>
+        <div class="st-size" id="stSize">最终尺寸：-</div>
+
+        <div class="op-row" style="margin-top:14px;">
+          <button class="btn btn-primary" id="stDownload" type="button" disabled>下载长图</button>
+          <button class="btn" id="stClear" type="button">清空列表</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>长图拼接适合什么场景？</h3>
+        <p>常用于把聊天记录、教程截图、商品详情或系列照片按顺序排列成一张长图，方便保存分享，也适合把多张竖屏截图合并成上下贯通的长图。</p>
+      </div>
+      <div class="faq-item">
+        <h3>“取最大边”是什么意思？</h3>
+        <p>纵向拼接时，所有图片会缩放到宽度一致的“最大边”后再拼接，避免出现宽窄不一的错位；横向拼接则按高度对齐到最大高度，保证接缝整齐。</p>
+      </div>
+      <div class="faq-item">
+        <h3>拼接后的图片会不会模糊？</h3>
+        <p>拼接只是把原图按像素排列，不会降低清晰度；但横向/纵向统一尺寸时若把小图放大到目标尺寸，可能会因为源分辨率不足而显得不够清晰，建议优先使用“取最大边”。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/image-stitch.js"></script>
+</body>
+</html>

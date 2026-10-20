@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>在线工具大全 - 免费在线工具 | 开发、文本、转换、安全、设计、计算工具集</title>
-  <meta name="description" content="在线工具大全收录 53 款免费在线工具，涵盖开发者工具、文本处理、格式转换、加密安全、设计、数据计算等，打开浏览器即可使用，无需安装注册，数据本地处理更安全。">
+  <meta name="description" content="在线工具大全收录 69 款免费在线工具，涵盖开发者工具、文本处理、格式转换、加密安全、设计、数据计算等，打开浏览器即可使用，无需安装注册，数据本地处理更安全。">
   <meta name="keywords" content="在线工具,在线工具大全,免费工具,开发者工具,文本工具,转换工具,加密工具,设计工具,计算器,JSON格式化,正则测试,字数统计,房贷计算器,二维码,PDF合并">
   <meta name="author" content="在线工具大全">
   <meta name="robots" content="index, follow">
@@ -12,21 +12,27 @@
   <link rel="canonical" href="https://example.com/index.html">
   <meta property="og:type" content="website">
   <meta property="og:title" content="在线工具大全 - 免费在线工具">
-  <meta property="og:description" content="收录 53 款免费在线工具，涵盖开发者工具、文本处理、格式转换、加密安全、设计、数据计算等，打开即用，无需安装。">
+  <meta property="og:description" content="收录 69 款免费在线工具，涵盖开发者工具、文本处理、格式转换、加密安全、设计、数据计算等，打开即用，无需安装。">
   <meta property="og:url" content="https://example.com/index.html">
   <meta property="og:site_name" content="在线工具大全">
   <meta property="og:locale" content="zh_CN">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%B0%3C/text%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem("ot-theme");if(t==="dark"){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();</script>
   <link rel="stylesheet" href="assets/css/style.css">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "在线工具大全",
-    "description": "收录 53 款免费在线工具，涵盖开发者工具、文本处理、格式转换、加密安全、设计、数据计算等，打开即用，无需安装。",
+    "description": "收录 69 款免费在线工具，涵盖开发者工具、文本处理、格式转换、加密安全、设计、数据计算等，打开即用，无需安装。",
     "url": "https://example.com/"
   }
   </script>
+
+
+
+
+
 
 
 
@@ -49,6 +55,11 @@
         <a href="index.html" class="active">首页</a>
         <a href="#tools">全部工具</a>
         <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="en/index.html">English</a></span>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"></path></svg>
+          <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5a8.5 8.5 0 1 0 10.8 10.8z"></path></svg>
+        </button>
+
       </nav>
     </div>
   </header>
@@ -58,7 +69,7 @@
     <section class="hero">
       <span class="hero-badge">🧰 全部工具免费使用 · 无需注册 · 数据本地处理</span>
       <h1>简洁好用的在线工具箱</h1>
-      <p>收录开发者、文本、转换、加密、设计、数据、生活等 53 款高频刚需小工具，打开网页就能用，所有计算均在浏览器本地完成。</p>
+      <p>收录开发者、文本、转换、加密、设计、数据、生活等 69 款高频刚需小工具，打开网页就能用，所有计算均在浏览器本地完成。</p>
       <div class="search-box">
         <span class="icon">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
@@ -84,7 +95,7 @@
     <section class="tools-section container" id="tools">
       <div class="section-head">
         <h2>全部工具</h2>
-        <span class="count" id="toolCount">共 53 款工具</span>
+        <span class="count" id="toolCount">共 69 款工具</span>
       </div>
 
       <!-- ============ 开发者工具 ============ -->
@@ -92,9 +103,39 @@
         <div class="cat-head">
           <h2>🛠 开发者工具</h2>
           <span class="cat-desc">程序员常用的开发调试工具</span>
-          <span class="cat-count">8 款</span>
+          <span class="cat-count">13 款</span>
         </div>
         <div class="tools-grid">
+          <a class="tool-card" href="tools/json-to-types.html" data-name="JSON转类型" data-desc="JSON 自动生成 TypeScript/Go/Python/Rust 类型定义" data-tags="json,typescript,类型定义,代码生成,go,python,rust,json schema">
+            <div class="tool-icon">🧾</div>
+            <h3>JSON转类型<span class="new-flag">NEW</span></h3>
+            <p>把 JSON 一键转成 TypeScript、Go、Python、Rust 类型定义或 JSON Schema，自动遍历数组元素合并推断联合类型。</p>
+            <div class="tool-tags"><span>JSON</span><span>类型生成</span></div>
+          </a>
+          <a class="tool-card" href="tools/nginx-config.html" data-name="Nginx配置生成" data-desc="按需生成 Nginx server 配置，含 HTTPS、gzip、反代、缓存" data-tags="nginx,配置生成,反向代理,https,gzip,websocket">
+            <div class="tool-icon">🌐</div>
+            <h3>Nginx配置生成<span class="new-flag">NEW</span></h3>
+            <p>勾选静态站、SPA 或反向代理，生成含 HTTPS、gzip、静态缓存、安全响应头的完整 server 配置，直接复制使用。</p>
+            <div class="tool-tags"><span>Nginx</span><span>运维</span></div>
+          </a>
+          <a class="tool-card" href="tools/gitignore-generator.html" data-name=".gitignore生成" data-desc="勾选技术栈一键生成 .gitignore 忽略规则" data-tags="gitignore,git,忽略规则,node,python,java">
+            <div class="tool-icon">🚫</div>
+            <h3>.gitignore生成<span class="new-flag">NEW</span></h3>
+            <p>按语言、编辑器、操作系统勾选模板，自动合并去重生成 .gitignore，支持复制与下载。</p>
+            <div class="tool-tags"><span>Git</span><span>工程化</span></div>
+          </a>
+          <a class="tool-card" href="tools/unicode-convert.html" data-name="Unicode转换" data-desc="文本与 \uXXXX、码点、HTML 实体、UTF-8 Hex 互转" data-tags="unicode,转义,码点,utf-8,编码转换,乱码">
+            <div class="tool-icon">🔡</div>
+            <h3>Unicode转换<span class="new-flag">NEW</span></h3>
+            <p>文本与 \uXXXX 转义、U+ 码点、HTML 数字实体、UTF-8 Hex 多形式互转，并列出每个字符的码点明细。</p>
+            <div class="tool-tags"><span>Unicode</span><span>编码</span></div>
+          </a>
+          <a class="tool-card" href="tools/svg-compress.html" data-name="SVG压缩" data-desc="删除冗余信息压缩 SVG 代码，显示压缩率" data-tags="svg,压缩,优化,minify,图标">
+            <div class="tool-icon">✂️</div>
+            <h3>SVG压缩<span class="new-flag">NEW</span></h3>
+            <p>清理注释、metadata、编辑器属性与多余空白，可控制数值精度，实时显示压缩前后体积与节省比例。</p>
+            <div class="tool-tags"><span>SVG</span><span>压缩</span></div>
+          </a>
           <a class="tool-card" href="tools/json-format.html" data-name="JSON格式化" data-desc="在线格式化压缩校验JSON，支持树形视图" data-tags="json,格式化,json格式化,json校验,压缩">
             <div class="tool-icon">📋</div>
             <h3>JSON格式化</h3>
@@ -151,9 +192,15 @@
         <div class="cat-head">
           <h2>📝 文本工具</h2>
           <span class="cat-desc">写作、排版与文本处理</span>
-          <span class="cat-count">7 款</span>
+          <span class="cat-count">8 款</span>
         </div>
         <div class="tools-grid">
+          <a class="tool-card" href="tools/text-lines.html" data-name="文本行处理" data-desc="行去重、排序、加前后缀、正则查找替换" data-tags="文本,行去重,排序,查找替换,行处理,批量">
+            <div class="tool-icon">📑</div>
+            <h3>文本行处理<span class="new-flag">NEW</span></h3>
+            <p>按行去重、去空行、排序、加前后缀、加行号，支持正则查找替换，适合清洗名单、日志与批量文本。</p>
+            <div class="tool-tags"><span>文本</span><span>批量处理</span></div>
+          </a>
           <a class="tool-card" href="tools/word-count.html" data-name="在线统计字数" data-desc="实时统计中文字数英文单词数字符行数字数段落数" data-tags="字数统计,字符统计,word count,阅读时长,文本统计">
             <div class="tool-icon">📝</div>
             <h3>在线统计字数</h3>
@@ -204,9 +251,15 @@
         <div class="cat-head">
           <h2>🔄 转换工具</h2>
           <span class="cat-desc">时间、单位、进制与格式转换</span>
-          <span class="cat-count">6 款</span>
+          <span class="cat-count">7 款</span>
         </div>
         <div class="tools-grid">
+          <a class="tool-card" href="tools/html-entity.html" data-name="HTML实体编解码" data-desc="命名实体与数字实体互转，含常用实体速查" data-tags="html实体,转义,entity,实体编码,特殊字符">
+            <div class="tool-icon">🔣</div>
+            <h3>HTML实体编解码<span class="new-flag">NEW</span></h3>
+            <p>HTML 命名实体与十进制/十六进制数字实体互转，可只转义必要字符或全部非 ASCII，附常用实体速查表。</p>
+            <div class="tool-tags"><span>HTML</span><span>实体</span></div>
+          </a>
           <a class="tool-card" href="tools/timestamp-convert.html" data-name="时间戳转换" data-desc="Unix时间戳与日期时间互转，实时时钟" data-tags="时间戳,unix时间戳,时间戳转换,日期转换">
             <div class="tool-icon">⏰</div>
             <h3>时间戳转换</h3>
@@ -251,9 +304,21 @@
         <div class="cat-head">
           <h2>🔐 安全工具</h2>
           <span class="cat-desc">密码、加密与签名验证</span>
-          <span class="cat-count">5 款</span>
+          <span class="cat-count">7 款</span>
         </div>
         <div class="tools-grid">
+          <a class="tool-card" href="tools/aes-crypto.html" data-name="AES加解密" data-desc="口令式 AES-GCM/CBC 文本加密，本地完成" data-tags="aes,加密,解密,对称加密,gcm,cbc">
+            <div class="tool-icon">🔒</div>
+            <h3>AES加解密<span class="new-flag">NEW</span></h3>
+            <p>口令式 AES 文本加解密，支持 GCM/CBC、128/256 位与 PBKDF2 派生，输出自带参数的密文串，本地不上传。</p>
+            <div class="tool-tags"><span>AES</span><span>加密</span></div>
+          </a>
+          <a class="tool-card" href="tools/rsa-crypto.html" data-name="RSA加解密" data-desc="生成 RSA 密钥对，公钥加密私钥解密" data-tags="rsa,非对称加密,密钥对,pem,oaep">
+            <div class="tool-icon">🗝️</div>
+            <h3>RSA加解密<span class="new-flag">NEW</span></h3>
+            <p>生成 2048/3072/4096 位 RSA 密钥对并导出 PEM，用公钥加密、私钥解密，适合加密短文本或密钥交换。</p>
+            <div class="tool-tags"><span>RSA</span><span>非对称</span></div>
+          </a>
           <a class="tool-card" href="tools/password-generator.html" data-name="密码生成器" data-desc="安全随机密码批量生成，字符集自定义" data-tags="密码生成,随机密码,密码,安全密码">
             <div class="tool-icon">🔐</div>
             <h3>密码生成器</h3>
@@ -292,9 +357,33 @@
         <div class="cat-head">
           <h2>🎨 设计工具</h2>
           <span class="cat-desc">前端设计与图片处理</span>
-          <span class="cat-count">8 款</span>
+          <span class="cat-count">12 款</span>
         </div>
         <div class="tools-grid">
+          <a class="tool-card" href="tools/image-crop.html" data-name="图片裁剪" data-desc="拖拽裁剪框，锁定比例，支持旋转翻转" data-tags="图片裁剪,裁剪,crop,旋转,翻转,比例">
+            <div class="tool-icon">🖼️</div>
+            <h3>图片裁剪<span class="new-flag">NEW</span></h3>
+            <p>上传图片后拖动裁剪框、锁定常用比例、旋转翻转，导出 PNG/JPEG/WebP，全程本地处理。</p>
+            <div class="tool-tags"><span>图片</span><span>裁剪</span></div>
+          </a>
+          <a class="tool-card" href="tools/image-stitch.html" data-name="长图拼接" data-desc="多张图片纵向或横向拼成一张长图" data-tags="长图拼接,图片拼接,合并图片,长图">
+            <div class="tool-icon">🧵</div>
+            <h3>长图拼接<span class="new-flag">NEW</span></h3>
+            <p>多张图片纵向或横向拼接，可统一宽度、设置间距与背景色，导出高清长图。</p>
+            <div class="tool-tags"><span>图片</span><span>拼接</span></div>
+          </a>
+          <a class="tool-card" href="tools/nine-grid.html" data-name="九宫格切图" data-desc="一张图切成九宫格或多宫格，按序下载" data-tags="九宫格,切图,图片分割,朋友圈,grid">
+            <div class="tool-icon">🔲</div>
+            <h3>九宫格切图<span class="new-flag">NEW</span></h3>
+            <p>把一张图按 3×3、2×2、4×4 或自定义网格切分，支持居中裁正方形，按序号逐张下载。</p>
+            <div class="tool-tags"><span>图片</span><span>切图</span></div>
+          </a>
+          <a class="tool-card" href="tools/image-color-picker.html" data-name="图片取色器" data-desc="放大镜取色，输出 HEX/RGB/HSL，提取主色调" data-tags="取色器,图片取色,颜色,主色调,hex,rgb">
+            <div class="tool-icon">🎯</div>
+            <h3>图片取色器<span class="new-flag">NEW</span></h3>
+            <p>在图片上放大镜精准取色，输出 HEX/RGB/HSL，记录历史色卡并可一键提取整图主色调。</p>
+            <div class="tool-tags"><span>取色</span><span>配色</span></div>
+          </a>
           <a class="tool-card" href="tools/qrcode-generator.html" data-name="二维码生成器" data-desc="自定义颜色尺寸容错级的二维码生成与PNG下载" data-tags="二维码,qr code,二维码生成,二维码下载">
             <div class="tool-icon">📱</div>
             <h3>二维码生成器</h3>
@@ -479,9 +568,21 @@
         <div class="cat-head">
           <h2>📄 PDF文档</h2>
           <span class="cat-desc">PDF 文件本地处理</span>
-          <span class="cat-count">1 款</span>
+          <span class="cat-count">3 款</span>
         </div>
         <div class="tools-grid">
+          <a class="tool-card" href="tools/image-to-pdf.html" data-name="图片转PDF" data-desc="多张图片合成 PDF，可设纸张与每页张数" data-tags="图片转pdf,jpg转pdf,图片合成pdf,pdf">
+            <div class="tool-icon">📚</div>
+            <h3>图片转PDF<span class="new-flag">NEW</span></h3>
+            <p>把多张图片按顺序合成 PDF，可选 A4/Letter、横竖方向、页边距与每页 1/2/4 张，自定义质量。</p>
+            <div class="tool-tags"><span>PDF</span><span>图片</span></div>
+          </a>
+          <a class="tool-card" href="tools/pdf-watermark.html" data-name="PDF加水印" data-desc="给 PDF 添加文字或图片水印，支持平铺" data-tags="pdf水印,加水印,pdf,水印,批量">
+            <div class="tool-icon">💧</div>
+            <h3>PDF加水印<span class="new-flag">NEW</span></h3>
+            <p>为 PDF 添加文字或图片水印，可调字号、颜色、透明度、角度与平铺方式，支持指定页码范围。</p>
+            <div class="tool-tags"><span>PDF</span><span>水印</span></div>
+          </a>
           <a class="tool-card" href="tools/pdf-merge-split.html" data-name="PDF合并与拆分" data-desc="多PDF按序合并与按页拆分旋转" data-tags="pdf合并,pdf拆分,pdf处理,pdf旋转">
             <div class="tool-icon">📄</div>
             <h3>PDF合并与拆分</h3>
@@ -496,9 +597,15 @@
         <div class="cat-head">
           <h2>🎲 生活娱乐</h2>
           <span class="cat-desc">日历、测试与趣味工具</span>
-          <span class="cat-count">4 款</span>
+          <span class="cat-count">5 款</span>
         </div>
         <div class="tools-grid">
+          <a class="tool-card" href="tools/pomodoro.html" data-name="番茄钟" data-desc="番茄工作法计时器，自动切换专注与休息" data-tags="番茄钟,倒计时,专注,计时器,pomodoro">
+            <div class="tool-icon">🍅</div>
+            <h3>番茄钟<span class="new-flag">NEW</span></h3>
+            <p>自定义专注与休息时长，进度圆环直观显示，阶段自动切换并响铃提醒，统计今日完成的番茄数。</p>
+            <div class="tool-tags"><span>效率</span><span>计时</span></div>
+          </a>
           <a class="tool-card" href="tools/calendar.html" data-name="日历" data-desc="月历查看节假日标识与倒计时" data-tags="日历,月历,节假日,放假安排,倒计时">
             <div class="tool-icon">📅</div>
             <h3>日历</h3>

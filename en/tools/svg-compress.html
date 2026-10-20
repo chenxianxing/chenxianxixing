@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SVG Compressor - Online SVG Code Compression, Optimization and Formatting Tool | Online Tools</title>
+  <meta name="description" content="Free online SVG compressor that removes comments, the XML declaration, DOCTYPE, metadata and editor attributes, strips empty g elements, merges whitespace, rounds coordinate values to a given precision, and shows byte counts and savings before and after compression. Copy, download and formatted preview are supported. Everything runs locally.">
+  <meta name="keywords" content="SVG Compressor, online tools, free tools, web tools, browser tools">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/svg-compress.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="SVG Compressor - Online SVG Code Compression, Optimization and Formatting Tool">
+  <meta property="og:description" content="Remove comments, declarations, metadata and editor attributes, strip empty g elements, merge whitespace, round coordinate values to a given precision. Shows byte counts and savings, with copy, download and formatting.">
+  <meta property="og:url" content="https://example.com/en/tools/svg-compress.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9A%96%EF%B8%8F%3C/text%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem("ot-theme");if(t==="dark"){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();</script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "SVG Compressor",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online SVG compressor that removes comments, declarations and editor redundancy, rounds coordinate values to a given precision, and shows byte counts and savings before and after compression.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Remove comments and declarations", "Remove editor attributes", "Strip empty g tags", "Merge whitespace", "Coordinate precision control", "Byte count comparison", "Formatted preview", "Copy and download"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Will SVG compression break the graphic?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "This tool only removes comments, declarations, metadata and editor-specific attributes such as Inkscape / Sodipodi, and rounds coordinate values. It does not change path command letters (M, C, L, etc.) or the graphic structure, so rendering is usually unaffected. We recommend previewing after compression, and you can adjust precision to balance size and accuracy."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How should I choose the precision?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Precision means the number of digits after the decimal point. For small graphics such as icons, 1-2 digits is usually enough and yields a smaller file; for detailed illustrations, 2-3 digits is preferable. A precision of 0 rounds coordinates to integers and may visibly change shapes, so use it with caution."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Will the compressed file be uploaded?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. All parsing, compression and downloading happen locally in your browser. Your text and files are never sent to any server, so you can safely process sensitive assets."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .svgc-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 8px 18px;
+      margin-bottom: 14px;
+    }
+    .svgc-options .svgc-opt {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--text);
+      cursor: pointer;
+    }
+    .svgc-options .svgc-opt input { width: 16px; height: 16px; accent-color: var(--primary); }
+    .svgc-precision {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--text);
+    }
+    .svgc-precision select {
+      height: 34px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0 10px;
+      font-size: 14px;
+      font-family: var(--font);
+      color: var(--text);
+      background: var(--card);
+      outline: none;
+    }
+    .svgc-precision select:focus { border-color: var(--primary); }
+
+    .svgc-drop {
+      position: relative;
+    }
+    .he-io-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+    .svgc-input {
+      width: 100%;
+      min-height: 280px;
+      resize: vertical;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 14px 16px;
+      font-size: 13.5px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, "Courier New", monospace;
+      line-height: 1.7;
+      color: var(--text);
+      background: var(--card);
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .svgc-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.10);
+      background: var(--card);
+    }
+    .svgc-input.dragover {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.14);
+      background: var(--primary-light);
+    }
+    .svgc-drop-hint {
+      position: absolute;
+      inset: 0;
+      border-radius: 11px;
+      border: 2px dashed var(--primary);
+      background: rgba(37, 99, 235, 0.06);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      color: var(--primary);
+      font-weight: 600;
+      pointer-events: none;
+    }
+    .svgc-drop.dragover .svgc-drop-hint { display: flex; }
+
+    .svgc-output {
+      width: 100%;
+      min-height: 280px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: var(--card);
+      padding: 14px 16px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, "Courier New", monospace;
+      font-size: 13.5px;
+      line-height: 1.7;
+      color: var(--text);
+      white-space: pre-wrap;
+      word-break: break-all;
+      overflow: auto;
+      max-height: 520px;
+    }
+    .svgc-result {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .svgc-result .result-card .num.saved { color: #10b981; }
+    .svgc-hint {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 12px;
+      line-height: 1.7;
+    }
+    @media (max-width: 640px) {
+      .svgc-input, .svgc-output { min-height: 220px; }
+    }
+  </style>
+
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/svg-compress.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/svg-compress.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/svg-compress.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/svg-compress.html">中文</a><span class="lang-cur">English</span></span>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"></path></svg>
+          <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5a8.5 8.5 0 1 0 10.8 10.8z"></path></svg>
+        </button>
+
+
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>SVG Compressor</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🌀</div>
+        <h1>SVG Compressor</h1>
+      </div>
+      <p class="tool-desc">Online SVG compressor that removes comments, the XML declaration and DOCTYPE, metadata/title/desc, and editor attributes such as Inkscape/Sodipodi, strips empty g tags, merges whitespace, and rounds coordinate values to a given precision. Shows byte counts and savings before and after compression, with copy, download and formatted preview. Everything runs locally in your browser.</p>
+    </section>
+
+    <section class="tool-panel">
+
+      <div class="svgc-options">
+        <label class="svgc-opt"><input type="checkbox" id="svgcComments" checked>Remove comments</label>
+        <label class="svgc-opt"><input type="checkbox" id="svgcDecl" checked>Remove XML declaration and DOCTYPE</label>
+        <label class="svgc-opt"><input type="checkbox" id="svgcMeta" checked>Remove metadata/title/desc</label>
+        <label class="svgc-opt"><input type="checkbox" id="svgcEditor" checked>Remove editor attributes</label>
+        <label class="svgc-opt"><input type="checkbox" id="svgcEmpty" checked>Remove empty <g></label>
+        <label class="svgc-opt"><input type="checkbox" id="svgcWhitespace" checked>Merge whitespace</label>
+        <label class="svgc-opt"><input type="checkbox" id="svgcDefault">Strip default attributes</label>
+        <span class="svgc-precision">
+          Precision
+          <select id="svgcPrecision">
+            <option value="0">0 digits</option>
+            <option value="1">1 digit</option>
+            <option value="2" selected>2 digits</option>
+            <option value="3">3 digits</option>
+          </select>
+        </span>
+      </div>
+
+      <div class="op-row">
+        <button class="btn btn-primary" id="svgcCompress" type="button">Compress</button>
+        <button class="btn" id="svgcFormat" type="button">Formatted preview</button>
+        <button class="btn" id="svgcCopy" type="button">Copy result</button>
+        <button class="btn" id="svgcDownload" type="button">Download .svg</button>
+        <button class="btn" id="svgcClear" type="button">Clear</button>
+        <button class="btn" id="svgcSample" type="button">Load Sample</button>
+      </div>
+
+      <div class="split-2">
+        <div class="svgc-drop" id="svgcDrop">
+          <div class="he-io-label"><span>Input (drag a .svg file here)</span></div>
+          <textarea class="svgc-input" id="svgcInput" placeholder="Paste SVG code here, or drag a .svg file into this area..." spellcheck="false"></textarea>
+          <div class="svgc-drop-hint">Release to load the SVG file</div>
+        </div>
+        <div>
+          <div class="he-io-label"><span>Output</span></div>
+          <div class="svgc-output" id="svgcOutput" tabindex="0" aria-live="polite"></div>
+        </div>
+      </div>
+
+      <div class="svgc-result">
+        <div class="result-card"><div class="num" id="svgcBefore">0</div><div class="label">Before compression (bytes)</div></div>
+        <div class="result-card"><div class="num" id="svgcAfter">0</div><div class="label">After compression (bytes)</div></div>
+        <div class="result-card primary"><div class="num saved" id="svgcSaved">0%</div><div class="label">Savings</div></div>
+      </div>
+
+      <p class="svgc-hint">Note: compression only removes redundant information and rounds values to the set precision. It does not change path command letters or the graphic structure. Set precision to 3 digits to keep maximum accuracy.</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>Will SVG compression break the graphic?</h3>
+        <p>This tool only removes comments, declarations, metadata and editor-specific attributes such as Inkscape / Sodipodi, and rounds coordinate values. It does not change path command letters (M, C, L, etc.) or the graphic structure, so rendering is usually unaffected. We recommend previewing after compression, and you can adjust precision to balance size and accuracy.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How should I choose the precision?</h3>
+        <p>Precision means the number of digits after the decimal point. For small graphics such as icons, 1-2 digits is usually enough and yields a smaller file; for detailed illustrations, 2-3 digits is preferable. A precision of 0 rounds coordinates to integers and may visibly change shapes, so use it with caution.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Will the compressed file be uploaded?</h3>
+        <p>No. All parsing, compression and downloading happen locally in your browser. Your text and files are never sent to any server, so you can safely process sensitive assets.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/svg-compress.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

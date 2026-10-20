@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Online Tools - Free Online Tools | Developer, Text, Converter, Security, Design and Calculator Suite</title>
-  <meta name="description" content="Online Tools brings together 53 free online tools covering developer tools, text processing, format conversion, encryption and security, design and data calculation. Just open your browser to get started - no installation or registration required, and all data is processed locally for better security.">
+  <meta name="description" content="Online Tools offers 69 free online tools covering developer utilities, text processing, format conversion, encryption and security, design and data calculation. Just open your browser to use them, with no install or sign-up, and your data is processed locally for better safety.">
   <meta name="keywords" content="Online Tools, JSON Formatter, Word Count, Mortgage Calculator, QR Code">
   <meta name="author" content="Online Tools">
   <meta name="robots" content="index, follow">
@@ -12,21 +12,27 @@
   <link rel="canonical" href="https://example.com/en/index.html">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Online Tools - Free Online Tools">
-  <meta property="og:description" content="A collection of 53 free online tools covering developer tools, text processing, format conversion, encryption, design and data calculation. Open and use instantly, no installation needed.">
+  <meta property="og:description" content="A collection of 69 free online tools covering developer utilities, text processing, format conversion, encryption and security, design and data calculation. Ready to use instantly, no installation required.">
   <meta property="og:url" content="https://example.com/en/index.html">
   <meta property="og:site_name" content="Online Tools">
   <meta property="og:locale" content="en_US">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%B0%3C/text%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem("ot-theme");if(t==="dark"){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();</script>
   <link rel="stylesheet" href="assets/css/style.css">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "Online Tools",
-    "description": "A collection of 53 free online tools covering developer tools, text processing, format conversion, encryption, design and data calculation. Open and use instantly, no installation needed.",
+    "description": "A collection of 69 free online tools covering developer utilities, text processing, format conversion, encryption and security, design and data calculation. Ready to use instantly, no installation required.",
     "url": "https://example.com/en/"
   }
   </script>
+
+
+
+
+
 
 
 
@@ -49,6 +55,11 @@
         <a href="index.html" class="active">Home</a>
         <a href="#tools">All Tools</a>
         <span class="lang-switch"><a class="lang-link" href="../index.html">中文</a><span class="lang-cur">English</span></span>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"></path></svg>
+          <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5a8.5 8.5 0 1 0 10.8 10.8z"></path></svg>
+        </button>
+
       </nav>
     </div>
   </header>
@@ -58,7 +69,7 @@
     <section class="hero">
       <span class="hero-badge">🧰 All tools are free to use · No registration required · Data processed locally</span>
       <h1>A clean and handy online toolbox</h1>
-      <p>A curated collection of 53 high-frequency must-have tools for developers, text, conversion, encryption, design, data and daily life. Just open the page to use them, and every calculation runs locally in your browser.</p>
+      <p>69 essential everyday tools across developer, text, conversion, encryption, design, data and life categories. Open a web page and start using them; all calculations run locally in your browser.</p>
       <div class="search-box">
         <span class="icon">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
@@ -84,7 +95,7 @@
     <section class="tools-section container" id="tools">
       <div class="section-head">
         <h2>All Tools</h2>
-        <span class="count" id="toolCount">53 tools in total</span>
+        <span class="count" id="toolCount">69 tools total</span>
       </div>
 
       <!-- ============ 开发者工具 ============ -->
@@ -92,9 +103,39 @@
         <div class="cat-head">
           <h2>🛠 Developer Tools</h2>
           <span class="cat-desc">Everyday development and debugging tools for programmers</span>
-          <span class="cat-count">8 tools</span>
+          <span class="cat-count">13 tools</span>
         </div>
         <div class="tools-grid">
+          <a class="tool-card" href="tools/json-to-types.html" data-name="JSON to Types" data-desc="Generate TypeScript/Go/Python/Rust type definitions from JSON automatically" data-tags="json,typescript,type definition,code generation,go,python,rust,json schema">
+            <div class="tool-icon">🧾</div>
+            <h3>JSON to Types<span class="new-flag">NEW</span></h3>
+            <p>Convert JSON to TypeScript, Go, Python, Rust type definitions or JSON Schema in one click. It traverses array elements and merges them to infer union types automatically.</p>
+            <div class="tool-tags"><span>JSON</span><span>Type Generation</span></div>
+          </a>
+          <a class="tool-card" href="tools/nginx-config.html" data-name="Nginx Config Generator" data-desc="Generate Nginx server config on demand, with HTTPS, gzip, reverse proxy and caching" data-tags="nginx,config generator,reverse proxy,https,gzip,websocket">
+            <div class="tool-icon">🌐</div>
+            <h3>Nginx Config Generator<span class="new-flag">NEW</span></h3>
+            <p>Check static site, SPA or reverse proxy to generate a complete server config with HTTPS, gzip, static caching and security headers, ready to copy and use.</p>
+            <div class="tool-tags"><span>Nginx</span><span>DevOps</span></div>
+          </a>
+          <a class="tool-card" href="tools/gitignore-generator.html" data-name=".gitignore Generator" data-desc="Check your stack to generate .gitignore ignore rules in one click" data-tags="gitignore,git,ignore rules,node,python,java">
+            <div class="tool-icon">🚫</div>
+            <h3>.gitignore Generator<span class="new-flag">NEW</span></h3>
+            <p>Select templates by language, editor and OS to automatically merge and deduplicate into a .gitignore, with copy and download support.</p>
+            <div class="tool-tags"><span>Git</span><span>Engineering</span></div>
+          </a>
+          <a class="tool-card" href="tools/unicode-convert.html" data-name="Unicode Converter" data-desc="Convert text with \uXXXX, code points, HTML entities and UTF-8 Hex" data-tags="unicode,escape,code point,utf-8,encoding conversion,mojibake">
+            <div class="tool-icon">🔡</div>
+            <h3>Unicode Converter<span class="new-flag">NEW</span></h3>
+            <p>Convert between text and \uXXXX escapes, U+ code points, HTML numeric entities and UTF-8 Hex in multiple forms, and list the code point details of each character.</p>
+            <div class="tool-tags"><span>Unicode</span><span>Encode</span></div>
+          </a>
+          <a class="tool-card" href="tools/svg-compress.html" data-name="SVG Compressor" data-desc="Remove redundant info to compress SVG code and show the compression ratio" data-tags="svg,compress,optimize,minify,icon">
+            <div class="tool-icon">✂️</div>
+            <h3>SVG Compressor<span class="new-flag">NEW</span></h3>
+            <p>Strip comments, metadata, editor attributes and extra whitespace, control numeric precision, and show the size and savings before and after compression in real time.</p>
+            <div class="tool-tags"><span>SVG</span><span>Compress</span></div>
+          </a>
           <a class="tool-card" href="tools/json-format.html" data-name="JSON Formatter" data-desc="Format, minify and validate JSON online, with tree view support" data-tags="json,format,json formatter,json validate,minify">
             <div class="tool-icon">📋</div>
             <h3>JSON Formatter</h3>
@@ -151,9 +192,15 @@
         <div class="cat-head">
           <h2>📝 Text Tools</h2>
           <span class="cat-desc">Writing, typesetting and text processing</span>
-          <span class="cat-count">7 tools</span>
+          <span class="cat-count">8 tools</span>
         </div>
         <div class="tools-grid">
+          <a class="tool-card" href="tools/text-lines.html" data-name="Text Line Processor" data-desc="Line deduplication, sorting, add prefix/suffix, regex find & replace" data-tags="text,line deduplication,sorting,find replace,line processing,batch">
+            <div class="tool-icon">📑</div>
+            <h3>Text Line Processor<span class="new-flag">NEW</span></h3>
+            <p>Deduplicate lines, remove empty lines, sort, add prefix/suffix, add line numbers, and support regex find & replace, ideal for cleaning lists, logs and bulk text.</p>
+            <div class="tool-tags"><span>Text</span><span>Batch Processing</span></div>
+          </a>
           <a class="tool-card" href="tools/word-count.html" data-name="Online Word Counter" data-desc="Real-time counts of Chinese characters, English words, characters, lines and paragraphs" data-tags="word count,character count,reading time,text statistics">
             <div class="tool-icon">📝</div>
             <h3>Online Word Counter</h3>
@@ -204,9 +251,15 @@
         <div class="cat-head">
           <h2>🔄 Converter Tools</h2>
           <span class="cat-desc">Time, unit, base and format conversion</span>
-          <span class="cat-count">6 tools</span>
+          <span class="cat-count">7 tools</span>
         </div>
         <div class="tools-grid">
+          <a class="tool-card" href="tools/html-entity.html" data-name="HTML Entity Encode/Decode" data-desc="Convert between named and numeric entities, with a quick reference of common entities" data-tags="html entity,escape,entity,entity encoding,special characters">
+            <div class="tool-icon">🔣</div>
+            <h3>HTML Entity Encode/Decode<span class="new-flag">NEW</span></h3>
+            <p>Convert between HTML named entities and decimal/hexadecimal numeric entities. Escape only necessary characters or all non-ASCII, with a quick reference table of common entities.</p>
+            <div class="tool-tags"><span>HTML</span><span>Entity</span></div>
+          </a>
           <a class="tool-card" href="tools/timestamp-convert.html" data-name="Timestamp Converter" data-desc="Convert between Unix timestamps and dates, with a live clock" data-tags="timestamp,unix timestamp,timestamp converter,date convert">
             <div class="tool-icon">⏰</div>
             <h3>Timestamp Converter</h3>
@@ -251,9 +304,21 @@
         <div class="cat-head">
           <h2>🔐 Security Tools</h2>
           <span class="cat-desc">Passwords, encryption and signature verification</span>
-          <span class="cat-count">5 tools</span>
+          <span class="cat-count">7 tools</span>
         </div>
         <div class="tools-grid">
+          <a class="tool-card" href="tools/aes-crypto.html" data-name="AES Encrypt/Decrypt" data-desc="Passphrase-based AES-GCM/CBC text encryption, done locally" data-tags="aes,encryption,decryption,symmetric encryption,gcm,cbc">
+            <div class="tool-icon">🔒</div>
+            <h3>AES Encrypt/Decrypt<span class="new-flag">NEW</span></h3>
+            <p>Passphrase-based AES text encryption and decryption, supporting GCM/CBC, 128/256-bit and PBKDF2 derivation. The output is a self-describing ciphertext string with parameters, processed locally with no upload.</p>
+            <div class="tool-tags"><span>AES</span><span>Encrypt</span></div>
+          </a>
+          <a class="tool-card" href="tools/rsa-crypto.html" data-name="RSA Encrypt/Decrypt" data-desc="Generate an RSA key pair, encrypt with public key and decrypt with private key" data-tags="rsa,asymmetric encryption,key pair,pem,oaep">
+            <div class="tool-icon">🗝️</div>
+            <h3>RSA Encrypt/Decrypt<span class="new-flag">NEW</span></h3>
+            <p>Generate 2048/3072/4096-bit RSA key pairs and export PEM, encrypt with the public key and decrypt with the private key, ideal for encrypting short text or key exchange.</p>
+            <div class="tool-tags"><span>RSA</span><span>Asymmetric</span></div>
+          </a>
           <a class="tool-card" href="tools/password-generator.html" data-name="Password Generator" data-desc="Generate secure random passwords in bulk with a custom character set" data-tags="password generator,random password,password,secure password">
             <div class="tool-icon">🔐</div>
             <h3>Password Generator</h3>
@@ -292,9 +357,33 @@
         <div class="cat-head">
           <h2>🎨 Design Tools</h2>
           <span class="cat-desc">Frontend design and image processing</span>
-          <span class="cat-count">8 tools</span>
+          <span class="cat-count">12 tools</span>
         </div>
         <div class="tools-grid">
+          <a class="tool-card" href="tools/image-crop.html" data-name="Image Crop" data-desc="Drag the crop box, lock the ratio, support rotation and flip" data-tags="image crop,crop,cropping,rotate,flip,ratio">
+            <div class="tool-icon">🖼️</div>
+            <h3>Image Crop<span class="new-flag">NEW</span></h3>
+            <p>After uploading an image, drag the crop box, lock common ratios, rotate and flip, and export PNG/JPEG/WebP, all processed locally.</p>
+            <div class="tool-tags"><span>Image</span><span>Crop</span></div>
+          </a>
+          <a class="tool-card" href="tools/image-stitch.html" data-name="Image Stitch" data-desc="Join multiple images vertically or horizontally into one long image" data-tags="long image joiner,image join,merge images,long image">
+            <div class="tool-icon">🧵</div>
+            <h3>Image Stitch<span class="new-flag">NEW</span></h3>
+            <p>Join multiple images vertically or horizontally, unify width, set spacing and background color, and export a high-resolution long image.</p>
+            <div class="tool-tags"><span>Image</span><span>Join</span></div>
+          </a>
+          <a class="tool-card" href="tools/nine-grid.html" data-name="Nine-Grid Image Slicer" data-desc="Slice one image into a nine-grid or multi-grid, download in order" data-tags="nine grid,image slice,image split,moments,grid">
+            <div class="tool-icon">🔲</div>
+            <h3>Nine-Grid Image Slicer<span class="new-flag">NEW</span></h3>
+            <p>Slice one image into a 3x3, 2x2, 4x4 or custom grid, with center-cropped square support and sequential download by index.</p>
+            <div class="tool-tags"><span>Image</span><span>Slice</span></div>
+          </a>
+          <a class="tool-card" href="tools/image-color-picker.html" data-name="Image Color Picker" data-desc="Magnifier color picking, output HEX/RGB/HSL, extract dominant color" data-tags="color picker,image color,color,dominant color,hex,rgb">
+            <div class="tool-icon">🎯</div>
+            <h3>Image Color Picker<span class="new-flag">NEW</span></h3>
+            <p>Use a magnifier on the image for precise color picking, output HEX/RGB/HSL, record a history palette and extract the whole image's dominant color in one click.</p>
+            <div class="tool-tags"><span>Color Pick</span><span>Color Scheme</span></div>
+          </a>
           <a class="tool-card" href="tools/qrcode-generator.html" data-name="QR Code Generator" data-desc="Generate QR codes with custom colors, sizes and error correction, and download as PNG" data-tags="qr code,qr code generator,qr code download">
             <div class="tool-icon">📱</div>
             <h3>QR Code Generator</h3>
@@ -479,9 +568,21 @@
         <div class="cat-head">
           <h2>📄 PDF Tools</h2>
           <span class="cat-desc">Local PDF file processing</span>
-          <span class="cat-count">1 tool</span>
+          <span class="cat-count">3 tools</span>
         </div>
         <div class="tools-grid">
+          <a class="tool-card" href="tools/image-to-pdf.html" data-name="Image to PDF" data-desc="Combine multiple images into a PDF, with paper size and images per page options" data-tags="image to pdf,jpg to pdf,merge images to pdf,pdf">
+            <div class="tool-icon">📚</div>
+            <h3>Image to PDF<span class="new-flag">NEW</span></h3>
+            <p>Combine multiple images into a PDF in order, with A4/Letter, portrait/landscape, margins and 1/2/4 images per page, and custom quality.</p>
+            <div class="tool-tags"><span>PDF</span><span>Image</span></div>
+          </a>
+          <a class="tool-card" href="tools/pdf-watermark.html" data-name="PDF Watermark" data-desc="Add text or image watermark to PDF, with tiling support" data-tags="pdf watermark,add watermark,pdf,watermark,batch">
+            <div class="tool-icon">💧</div>
+            <h3>PDF Watermark<span class="new-flag">NEW</span></h3>
+            <p>Add text or image watermark to PDF, with adjustable font size, color, opacity, angle and tiling, and support for a specified page range.</p>
+            <div class="tool-tags"><span>PDF</span><span>Watermark</span></div>
+          </a>
           <a class="tool-card" href="tools/pdf-merge-split.html" data-name="PDF Merge & Split" data-desc="Merge multiple PDFs in order, and split or rotate pages" data-tags="pdf merge,pdf split,pdf tools,pdf rotate">
             <div class="tool-icon">📄</div>
             <h3>PDF Merge & Split</h3>
@@ -496,9 +597,15 @@
         <div class="cat-head">
           <h2>🎲 Life & Fun</h2>
           <span class="cat-desc">Calendar, quizzes and fun tools</span>
-          <span class="cat-count">4 tools</span>
+          <span class="cat-count">5 tools</span>
         </div>
         <div class="tools-grid">
+          <a class="tool-card" href="tools/pomodoro.html" data-name="Pomodoro Timer" data-desc="Pomodoro technique timer that auto-switches between focus and break" data-tags="pomodoro,countdown,focus,timer,pomodoro">
+            <div class="tool-icon">🍅</div>
+            <h3>Pomodoro Timer<span class="new-flag">NEW</span></h3>
+            <p>Customize focus and break durations, view progress on a ring, auto-switch phases with a bell reminder, and count today's completed pomodoros.</p>
+            <div class="tool-tags"><span>Productivity</span><span>Timer</span></div>
+          </a>
           <a class="tool-card" href="tools/calendar.html" data-name="Calendar" data-desc="Monthly calendar view with holiday markers and countdowns" data-tags="calendar,monthly calendar,holidays,holiday schedule,countdown">
             <div class="tool-icon">📅</div>
             <h3>Calendar</h3>

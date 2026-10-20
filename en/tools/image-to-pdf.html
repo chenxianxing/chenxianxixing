@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image to PDF - Merge Multiple Images into a PDF | Online Tools</title>
+  <meta name="description" content="Free online image to PDF tool. Supports multiple image uploads, drag-and-drop sorting and thumbnail preview. Set page size, orientation, margin, images per page and image quality. Uses canvas and pdf-lib to generate the PDF locally in your browser; files are not uploaded.">
+  <meta name="keywords" content="Image to PDF, online tools, free tools, web tools, browser tools">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://example.com/en/tools/image-to-pdf.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Image to PDF - Merge Multiple Images into a PDF">
+  <meta property="og:description" content="Supports multiple image uploads, sorting and preview. Set page size, orientation, margin, images per page and quality; generate the PDF locally.">
+  <meta property="og:url" content="https://example.com/en/tools/image-to-pdf.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem("ot-theme");if(t==="dark"){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();</script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Image to PDF",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Free online image to PDF tool supporting multi-image upload, sorting and preview. Set page size, orientation, margin, images per page and quality; generate the PDF locally.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Multi-image upload and drag sorting", "Thumbnail preview", "A4 / Letter / Fit to page", "Portrait / Landscape", "Margin 0/10/20mm", "1/2/4 per page", "Adjustable image quality", "Generated locally, not uploaded"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Which image formats are supported?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Supports common formats your browser can decode, including JPG / JPEG / PNG / WebP / GIF and more. Images are read and drawn locally regardless of source format, and finally embedded into the PDF as JPEG."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is there a size limit on the generated PDF?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "There is no hard limit, but the PDF size depends on the number of images, resolution and quality settings. More images and higher quality mean a larger file. If the file is too large, lower the \"Image quality\" parameter."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are images compressed during conversion?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. All images are re-encoded as JPEG when composited onto the page. The \"Image quality\" slider balances sharpness and file size between 0.6 and 1.0. The originals are never uploaded or modified."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .i2p-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+      margin: 14px 0;
+    }
+    .i2p-options .form-item { margin: 0; }
+    .i2p-list { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; }
+    .i2p-row {
+      display: grid;
+      grid-template-columns: 28px 56px 1fr auto auto auto;
+      align-items: center;
+      gap: 12px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 8px 14px;
+    }
+    .i2p-row .idx { font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums; text-align: center; }
+    .i2p-row .thumb {
+      width: 56px; height: 56px; border-radius: 8px; object-fit: cover;
+      border: 1px solid var(--border); background: var(--card);
+    }
+    .i2p-row .meta { min-width: 0; }
+    .i2p-row .fname {
+      font-size: 14px; font-weight: 600; color: var(--text);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .i2p-row .fsub { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+    .i2p-row .mini {
+      height: 30px; padding: 0 9px; font-size: 13px; border: 1px solid var(--border);
+      border-radius: 8px; background: var(--card); color: var(--text); cursor: pointer;
+    }
+    .i2p-row .mini:hover { border-color: var(--primary); color: var(--primary); }
+    .i2p-row .mini.danger:hover { border-color: #dc2626; color: #dc2626; }
+    .i2p-row .ctrl-col { display: flex; gap: 6px; }
+    @media (max-width: 640px) {
+      .i2p-row { grid-template-columns: 22px 44px 1fr; }
+      .i2p-row .ctrl-col { grid-column: 1 / -1; justify-content: flex-end; }
+      .i2p-row .thumb { width: 44px; height: 44px; }
+    }
+    .i2p-progress { font-size: 13.5px; color: var(--primary); margin-top: 12px; min-height: 20px; }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/image-to-pdf.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/image-to-pdf.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/image-to-pdf.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/image-to-pdf.html">中文</a><span class="lang-cur">English</span></span>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"></path></svg>
+          <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5a8.5 8.5 0 1 0 10.8 10.8z"></path></svg>
+        </button>
+
+
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>Image to PDF</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🖼️</div>
+        <h1>Image to PDF</h1>
+      </div>
+      <p class="tool-desc">Online image to PDF tool supporting multiple image uploads, drag-and-drop sorting and thumbnail preview. Set page size, orientation, margin, images per page and image quality. Uses canvas and pdf-lib to generate the PDF locally in your browser; files are never uploaded.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="drop-zone" id="i2pDrop">
+        <div class="big">Drag images here, or click to select</div>
+        <div style="font-size:13px;margin-top:4px;">Supports multiple JPG / PNG images</div>
+      </div>
+      <input type="file" id="i2pInput" accept="image/*" multiple hidden>
+
+      <div class="i2p-options">
+        <div class="form-item">
+          <label for="i2pSize">Page size</label>
+          <select id="i2pSize" class="form-select">
+            <option value="a4" selected>A4</option>
+            <option value="letter">Letter</option>
+            <option value="auto">Fit to image</option>
+          </select>
+        </div>
+        <div class="form-item">
+          <label>Orientation</label>
+          <div class="radio-row" id="i2pOrient" role="radiogroup" aria-label="Orientation">
+            <label class="checked"><input type="radio" name="i2pOrient" value="portrait" checked>Vertical</label>
+            <label><input type="radio" name="i2pOrient" value="landscape">Horizontal</label>
+          </div>
+        </div>
+        <div class="form-item">
+          <label for="i2pMargin">Margin</label>
+          <select id="i2pMargin" class="form-select">
+            <option value="0">0 mm</option>
+            <option value="10" selected>10 mm</option>
+            <option value="20">20 mm</option>
+          </select>
+        </div>
+        <div class="form-item">
+          <label for="i2pPerPage">Images per page</label>
+          <select id="i2pPerPage" class="form-select">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="4">4</option>
+          </select>
+        </div>
+        <div class="form-item">
+          <label for="i2pQuality">Image quality (<span id="i2pQualityVal">0.85</span>）</label>
+          <input type="range" id="i2pQuality" class="form-input" min="0.6" max="1" step="0.05" value="0.85">
+        </div>
+      </div>
+
+      <div class="i2p-list" id="i2pList"></div>
+
+      <div class="op-row" style="margin-top:16px;">
+        <button class="btn btn-primary" id="i2pGenBtn" type="button" disabled>Generate PDF</button>
+        <button class="btn" id="i2pClearBtn" type="button" disabled>Clear List</button>
+      </div>
+
+      <div class="i2p-progress" id="i2pProgress"></div>
+      <div class="warn-note" id="i2pError" hidden></div>
+
+      <p class="wc-note">Note: <b>Everything runs locally in your browser; images are not uploaded.</b>When "Fit to image" is selected, each page is generated at the image's original ratio and "Images per page" is automatically set to 1. The generated file is named "ImageCollection.pdf".</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>Which image formats are supported?</h3>
+        <p>Supports common formats your browser can decode, including JPG / JPEG / PNG / WebP / GIF and more. Images are read and drawn locally regardless of source format, and finally embedded into the PDF as JPEG.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Is there a size limit on the generated PDF?</h3>
+        <p>There is no hard limit, but the PDF size depends on the number of images, resolution and quality settings. More images and higher quality mean a larger file. If the file is too large, lower the "Image quality" parameter.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Are images compressed during conversion?</h3>
+        <p>Yes. All images are re-encoded as JPEG when composited onto the page. The "Image quality" slider balances sharpness and file size between 0.6 and 1.0. The originals are never uploaded or modified.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/vendor/pdf-lib.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/image-to-pdf.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

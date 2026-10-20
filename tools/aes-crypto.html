@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AES 文本加解密 - 浏览器本地 AES-GCM/CBC 加密工具 | 在线工具大全</title>
+  <meta name="description" content="免费在线 AES 文本加解密工具，基于 WebCrypto 的 AES-GCM / AES-CBC 算法，口令经 PBKDF2-SHA256 派生密钥，支持 128/256 位与 Base64 / Hex 输出，全部在浏览器本地完成，文件与口令不上传。">
+  <meta name="keywords" content="AES加密,AES解密,AES-GCM,AES-CBC,文本加密,口令加密,PBKDF2,WebCrypto,本地加密">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://example.com/tools/aes-crypto.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="AES 文本加解密 - 浏览器本地 AES 加密工具">
+  <meta property="og:description" content="基于 WebCrypto 的 AES-GCM / AES-CBC 文本加解密，口令经 PBKDF2-SHA256 派生，支持 128/256 位与 Base64 / Hex 输出，全部本地完成。">
+  <meta property="og:url" content="https://example.com/tools/aes-crypto.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%90%3C/text%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem("ot-theme");if(t==="dark"){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();</script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "AES 文本加解密",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "免费在线 AES 文本加解密工具，基于 WebCrypto 的 AES-GCM / AES-CBC 算法，口令经 PBKDF2-SHA256 派生密钥，支持 128/256 位与 Base64 / Hex 输出，全部在浏览器本地完成。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["AES-GCM 与 AES-CBC 两种模式", "128 位与 256 位密钥长度", "PBKDF2-SHA256 口令派生（10 万次迭代）", "Base64 与 Hex 输出", "自描述密文格式", "随机口令生成", "本地处理不上传"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "这里的 AES 加密口令安全吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "口令会通过 PBKDF2-SHA256 算法进行 10 万次迭代派生出加密密钥，并配合每次随机生成的 salt 与 IV，可有效抵御暴力破解。所有运算都在你的浏览器本地完成，口令不会以任何形式上传到服务器。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "AES-GCM 和 AES-CBC 有什么区别？应该选哪个？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "AES-GCM 是带身份验证的加密模式，除保密外还能检测数据是否被篡改，推荐优先使用；AES-CBC 是传统的分组加密模式，安全性依赖正确的填充与随机 IV。本工具密文采用自描述格式，解密时无需再选择模式。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "忘记口令还能恢复明文吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "不能。密钥由口令通过单向派生算法生成，没有任何后门或服务器存储。请在加密后妥善保存口令，忘记口令将无法还原明文，这也是本地加密的安全特性。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .aes-controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .aes-field { display: flex; flex-direction: column; gap: 6px; }
+    .aes-field > label { font-size: 13px; color: var(--muted); font-weight: 500; }
+    .aes-pass-wrap { display: flex; gap: 8px; align-items: center; }
+    .aes-pass-wrap .form-input { flex: 1; }
+    .aes-btn-mini {
+      height: 38px; padding: 0 14px; border: 1px solid var(--border);
+      border-radius: 9px; background: var(--card); color: var(--text);
+      font-size: 13.5px; cursor: pointer; white-space: nowrap; transition: border-color 0.15s, color 0.15s;
+    }
+    .aes-btn-mini:hover { border-color: var(--primary); color: var(--primary); }
+    .aes-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 6px;
+    }
+    @media (max-width: 760px) { .aes-split { grid-template-columns: 1fr; } }
+    .aes-block { display: flex; flex-direction: column; gap: 8px; }
+    .aes-block h3 { font-size: 15px; color: var(--text); margin-bottom: 2px; }
+    .aes-block .code-box { min-height: 150px; }
+    .aes-block .op-row { margin-bottom: 0; }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/aes-crypto.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/aes-crypto.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/aes-crypto.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="../en/tools/aes-crypto.html">English</a></span>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"></path></svg>
+          <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5a8.5 8.5 0 1 0 10.8 10.8z"></path></svg>
+        </button>
+
+
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>AES 文本加解密</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🔐</div>
+        <h1>AES 文本加解密</h1>
+      </div>
+      <p class="tool-desc">基于浏览器 WebCrypto 的 AES 文本加解密工具，支持 AES-GCM / AES-CBC 与 128 / 256 位密钥，口令经 PBKDF2-SHA256 派生。生成的密文为自描述格式，解密时无需再选择参数，全部在本地完成，口令与内容不上传。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="aes-controls">
+        <div class="aes-field">
+          <label>加密模式</label>
+          <div class="radio-row" id="aesMode" role="radiogroup" aria-label="加密模式">
+            <label class="checked"><input type="radio" name="aesMode" value="AES-GCM" checked>GCM</label>
+            <label><input type="radio" name="aesMode" value="AES-CBC">CBC</label>
+          </div>
+        </div>
+        <div class="aes-field">
+          <label>密钥长度</label>
+          <div class="radio-row" id="aesKeyLen" role="radiogroup" aria-label="密钥长度">
+            <label class="checked"><input type="radio" name="aesKeyLen" value="128" checked>128 位</label>
+            <label><input type="radio" name="aesKeyLen" value="256">256 位</label>
+          </div>
+        </div>
+        <div class="aes-field">
+          <label>输出格式</label>
+          <div class="radio-row" id="aesFmt" role="radiogroup" aria-label="输出格式">
+            <label class="checked"><input type="radio" name="aesFmt" value="base64" checked>Base64</label>
+            <label><input type="radio" name="aesFmt" value="hex">Hex</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="aes-field" style="margin-bottom:14px;">
+        <label for="aesPass">加密口令</label>
+        <div class="aes-pass-wrap">
+          <input type="text" id="aesPass" class="form-input" placeholder="请输入用于加密的口令" autocomplete="off">
+          <button class="aes-btn-mini" id="aesRandBtn" type="button">随机生成口令</button>
+        </div>
+      </div>
+
+      <div class="aes-split">
+        <div class="aes-block">
+          <h3>加密</h3>
+          <label for="aesPlain" style="font-size:13px;color:var(--muted);">明文</label>
+          <textarea id="aesPlain" class="form-input" style="min-height:150px;" placeholder="在此输入要加密的文本"></textarea>
+          <div class="op-row">
+            <button class="btn btn-primary" id="aesEncBtn" type="button">加密</button>
+            <button class="btn" id="aesClearInBtn" type="button">清空明文</button>
+          </div>
+          <label for="aesOut" style="font-size:13px;color:var(--muted);">密文（自描述格式，可整段复制）</label>
+          <textarea id="aesOut" class="code-box" readonly placeholder="加密后生成的密文将显示在此"></textarea>
+          <div class="op-row">
+            <button class="btn" id="aesCopyBtn" type="button">复制密文</button>
+          </div>
+        </div>
+
+        <div class="aes-block">
+          <h3>解密</h3>
+          <label for="aesCipher" style="font-size:13px;color:var(--muted);">密文</label>
+          <textarea id="aesCipher" class="code-box" style="min-height:150px;" placeholder="在此粘贴自描述格式的密文"></textarea>
+          <label for="aesDecPass" style="font-size:13px;color:var(--muted);">解密口令</label>
+          <input type="text" id="aesDecPass" class="form-input" placeholder="请输入加密时使用的口令" autocomplete="off">
+          <div class="op-row">
+            <button class="btn btn-primary" id="aesDecBtn" type="button">解密</button>
+          </div>
+          <label for="aesDecOut" style="font-size:13px;color:var(--muted);">还原明文</label>
+          <textarea id="aesDecOut" class="code-box" readonly placeholder="解密后的明文将显示在此"></textarea>
+          <div class="op-row">
+            <button class="btn" id="aesDecCopyBtn" type="button">复制明文</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="op-row" style="margin-top:14px;">
+        <button class="btn" id="aesClearBtn" type="button">全部清空</button>
+      </div>
+
+      <div class="warn-note" id="aesError" hidden></div>
+
+      <p class="wc-note">说明：<b>全部计算在浏览器本地完成，口令与文本均不上传。</b>AES-GCM 提供完整性校验，推荐优先使用；GCM 模式自动附加 12 字节 IV，CBC 模式使用 16 字节 IV。密文格式为 <code>AES-模式-位数.salt.iv.密文</code>，可整段保存与粘贴。</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>AES 加密的口令安全吗？</h3>
+        <p>口令会通过 PBKDF2-SHA256 算法进行 10 万次迭代派生出加密密钥，并配合每次随机生成的 salt 与 IV，可有效抵御暴力破解。所有运算都在你的浏览器本地完成，口令不会以任何形式上传到服务器。</p>
+      </div>
+      <div class="faq-item">
+        <h3>AES-GCM 和 AES-CBC 有什么区别？应该选哪个？</h3>
+        <p>AES-GCM 是带身份验证的加密模式，除保密外还能检测数据是否被篡改，推荐优先使用；AES-CBC 是传统的分组加密模式，安全性依赖正确的填充与随机 IV。本工具密文采用自描述格式，解密时无需再选择模式。</p>
+      </div>
+      <div class="faq-item">
+        <h3>忘记口令还能恢复明文吗？</h3>
+        <p>不能。密钥由口令通过单向派生算法生成，没有任何后门或服务器存储。请在加密后妥善保存口令，忘记口令将无法还原明文，这也是本地加密的安全特性。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/aes-crypto.js"></script>
+</body>
+</html>

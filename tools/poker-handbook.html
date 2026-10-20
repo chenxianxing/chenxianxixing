@@ -17,6 +17,7 @@
   <meta property="og:site_name" content="在线工具大全">
   <meta property="og:locale" content="zh_CN">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%83%8F%3C/text%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem("ot-theme");if(t==="dark"){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();</script>
   <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="stylesheet" href="../assets/css/tool.css">
   <script type="application/ld+json">
@@ -68,7 +69,7 @@
     .ph-tabs { display: flex; flex-wrap: wrap; gap: 8px; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 18px; }
     .ph-tab {
       height: 34px; padding: 0 16px; border: 1px solid var(--border); border-radius: 9px;
-      background: #fbfcfe; color: var(--muted); font-size: 14px; font-family: var(--font);
+      background: var(--card); color: var(--muted); font-size: 14px; font-family: var(--font);
       cursor: pointer; transition: border-color 0.15s, color 0.15s;
     }
     .ph-tab:hover { border-color: var(--primary); color: var(--primary); }
@@ -135,13 +136,18 @@
     .ph-variant-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 6px; }
     @media (max-width: 720px) { .ph-variant-grid { grid-template-columns: 1fr; } }
     .ph-variant-card {
-      border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; background: #fbfcfe;
+      border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; background: var(--card);
     }
     .ph-variant-card h3 { font-size: 15.5px; margin-bottom: 8px; }
     .ph-variant-card ul { margin: 0; padding-left: 20px; }
     .ph-variant-card li { font-size: 13.5px; line-height: 1.9; color: var(--text); }
     .ph-sec-title { font-size: 14px; font-weight: 600; margin: 18px 0 4px; color: var(--text); }
   </style>
+
+
+
+
+
 
 
 
@@ -164,6 +170,11 @@
         <a href="../index.html">首页</a>
         <a href="../index.html#tools">全部工具</a>
               <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="../en/tools/poker-handbook.html">English</a></span>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"></path></svg>
+          <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5a8.5 8.5 0 1 0 10.8 10.8z"></path></svg>
+        </button>
+
       </nav>
     </div>
   </header>

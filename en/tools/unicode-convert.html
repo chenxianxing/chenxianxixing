@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unicode Converter - Online Unicode Escape/Decode and Character Details | Online Tools</title>
+  <meta name="description" content="Free online Unicode converter supporting encoding and decoding of JS escapes \uXXXX, UTF-8 bytes \xXX, code points U+XXXX, HTML numeric entities, UTF-8 Hex and percent encoding, with a per-character detail table. All processing is done locally.">
+  <meta name="keywords" content="online tools, free tools, web tools, browser tools">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/unicode-convert.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Unicode Converter - Online Unicode Escape/Decode and Character Details">
+  <meta property="og:description" content="Encode and decode \uXXXX, \xXX, U+XXXX, HTML entities, UTF-8 Hex and percent encoding, with a per-character detail table.">
+  <meta property="og:url" content="https://example.com/en/tools/unicode-convert.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%A4%3C/text%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem("ot-theme");if(t==="dark"){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();</script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Unicode Converter",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online Unicode converter supporting multiple encoding formats and per-character details.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["JS escape \\uXXXX", "UTF-8 bytes \\xXX", "Code point U+XXXX", "HTML numeric entity", "UTF-8 Hex", "Percent encoding", "Auto-detect on decode", "Per-character detail table"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is a surrogate pair?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Characters at U+10000 and above (such as most emoji) cannot be represented by a single UTF-16 unit and require a pair of 16-bit surrogates (high surrogate + low surrogate). JavaScript strings use UTF-16 internally, so \"😀\" appears as two UTF-8 units; this tool lists them separately in the detail table."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between UTF-8 bytes and UTF-16 units?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "UTF-8 encodes a code point with 1 to 4 variable-length bytes, ideal for storage and transfer. UTF-16 uses 16-bit (2-byte) units: BMP characters take one unit, while supplementary-plane characters take two units (a surrogate pair). This tool shows both to help diagnose encoding issues."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How is the input format determined when decoding?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Decode时工具会按特征Auto Detect：含 &# 视为 HTML entity，含 \\u 视为 JS escape，含 \\x 视为 UTF-8 byte escape，含 U+ 视为Code point，含 % 视为Percent encoding，空格分隔的Hexadecimal字节则视为 UTF-8 Hex，Recognize后Unescape为原始 characters串。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .uni-controls .form-item { min-width: 200px; }
+    .uni-fmt-wrap { margin-top: 14px; }
+    .uni-fmt-title { font-size: 13px; color: var(--muted); font-weight: 500; margin-bottom: 8px; }
+    .uni-note { font-size: 13px; color: var(--muted); margin-top: 8px; }
+    .uni-hidden { display: none; }
+    .jts-col-label { display: block; margin-bottom: 6px; font-size: 13px; color: var(--muted); font-weight: 500; }
+    .gi-out-title { font-size: 15px; margin: 18px 0 10px; color: var(--text); }
+    .code-box#uniOutput { min-height: 180px; }
+    .char-cell { font-size: 18px; text-align: center; }
+    .mono-cell { font-family: "SFMono-Regular", Consolas, Menlo, monospace; font-size: 12.5px; }
+    .uni-trunc { color: var(--muted); font-size: 13px; margin-top: 10px; }
+  </style>
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/unicode-convert.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/unicode-convert.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/unicode-convert.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/unicode-convert.html">中文</a><span class="lang-cur">English</span></span>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"></path></svg>
+          <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5a8.5 8.5 0 1 0 10.8 10.8z"></path></svg>
+        </button>
+
+
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>Unicode Converter</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🔤</div>
+        <h1>Unicode Converter</h1>
+      </div>
+      <p class="tool-desc">Convert text between JS escapes \uXXXX, UTF-8 bytes \xXX, code points U+XXXX, HTML numeric entities, UTF-8 Hex and percent encoding, and view per-character code points and byte details. Everything runs locally in your browser.</p>
+    </section>
+
+    <section class="tool-panel uni-controls">
+
+      <div class="form-grid">
+        <div class="form-item">
+          <label>Mode</label>
+          <div class="radio-row" id="uniModeRow" role="radiogroup" aria-label="Mode">
+            <label class="checked"><input type="radio" name="uniMode" value="encode" checked>Encode</label>
+            <label><input type="radio" name="uniMode" value="decode">Decode</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="uni-fmt-wrap" id="uniFmtWrap">
+        <div class="uni-fmt-title">Output formats (multiple allowed)</div>
+        <div class="checkbox-row">
+          <label><input type="checkbox" class="uni-fmt" value="js" checked> JS escape \uXXXX</label>
+          <label><input type="checkbox" class="uni-fmt" value="hexbytes"> \xXX (UTF-8 bytes)</label>
+          <label><input type="checkbox" class="uni-fmt" value="codepoint" checked> Code point U+XXXX</label>
+          <label><input type="checkbox" class="uni-fmt" value="htmldec"> HTML decimal entity</label>
+          <label><input type="checkbox" class="uni-fmt" value="htmlhex"> HTML hexadecimal entity</label>
+          <label><input type="checkbox" class="uni-fmt" value="utf8hex" checked> UTF-8 Hex</label>
+          <label><input type="checkbox" class="uni-fmt" value="percent"> Percent encoding</label>
+        </div>
+        <p class="uni-note">Decode mode ignores the options above and auto-detects the input format.</p>
+      </div>
+
+      <div class="op-row" style="margin-top:14px;">
+        <button class="btn btn-primary" id="uniBtnSample" type="button">Load Sample</button>
+        <button class="btn" id="uniBtnCopy" type="button">Copy result</button>
+        <button class="btn" id="uniBtnDownload" type="button">Download</button>
+        <button class="btn" id="uniBtnClear" type="button">Clear</button>
+      </div>
+
+      <div class="split-2">
+        <div>
+          <span class="jts-col-label">Input</span>
+          <textarea id="uniInput" class="form-input" spellcheck="false" placeholder="Enter text or any encoded format here..." style="min-height:200px;"></textarea>
+        </div>
+        <div>
+          <span class="jts-col-label">Output</span>
+          <pre class="code-box" id="uniOutput" aria-readonly="true"></pre>
+        </div>
+      </div>
+
+      <h3 class="gi-out-title">Per-character details</h3>
+      <div class="table-wrap">
+        <table class="data-table" id="uniTable">
+          <thead>
+            <tr>
+              <th> characters</th>
+              <th>Code point</th>
+              <th>UTF-8 bytes</th>
+              <th>UTF-16 units</th>
+            </tr>
+          </thead>
+          <tbody id="uniTbody"></tbody>
+        </table>
+      </div>
+      <p class="uni-trunc" id="uniTrunc" hidden></p>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>What is a surrogate pair?</h3>
+        <p>Characters at U+10000 and above (such as most emoji) cannot be represented by a single UTF-16 unit and require a pair of 16-bit surrogates (high surrogate + low surrogate). JavaScript strings use UTF-16 internally, so "😀" appears as two UTF-8 units; this tool lists them separately in the detail table.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is the difference between UTF-8 bytes and UTF-16 units?</h3>
+        <p>UTF-8 encodes a code point with 1 to 4 variable-length bytes, ideal for storage and transfer. UTF-16 uses 16-bit (2-byte) units: BMP characters take one unit, while supplementary-plane characters take two units (a surrogate pair). This tool shows both to help diagnose encoding issues.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How is the input format determined when decoding?</h3>
+        <p>During decoding, the tool auto-detects by characteristics: contains &# → HTML entity, \u → JS escape, \x → UTF-8 byte escape, U+ → code point, % → percent encoding, and space-separated hex bytes → UTF-8 Hex. It then restores the original string.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/unicode-convert.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

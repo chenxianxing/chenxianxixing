@@ -1,0 +1,11 @@
+{
+ "全部标签均已正确闭合": "All tags are properly closed",
+ "共 {n} 处问题，点击可定位到对应行": "Found {n} issues. Click to locate the corresponding line",
+ "第 {n} 行：<{tag}> 没有闭合": "Line {n}: <{tag}> is not closed",
+ "第 {n} 行：</{tag}> 是多余的，前面没有对应的开始标签": "Line {n}: </{tag}> is extra; there is no matching opening tag before it",
+ "在第 {n} 行的结束标签之前没有闭合": "Not closed before the closing tag on line {n}",
+ "<title>示例页面</title>": "<title>Example Page</title>",
+ "<h1>标题</h1>": "<h1>Title</h1>",
+ "<p>这是一段<b>加粗</b>文字。</p>": "<p>This is a paragraph of <b>bold</b> text.</p>",
+ "<ul><li>项目一</li><li>项目二</li></ul>": "<ul><li>Item One</li><li>Item Two</li></ul>"
+}

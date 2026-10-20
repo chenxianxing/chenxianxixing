@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RSA Key Pair & Encrypt/Decrypt - Locally Generate RSA Keys and Encrypt/Decrypt | Online Tools</title>
+  <meta name="description" content="Free online RSA tool that generates local RSA-OAEP key pairs via WebCrypto (2048/3072/4096-bit, SHA-256), exports public and private keys in PEM format, and supports public-key encryption and private-key decryption. Everything runs locally in your browser, and keys are never uploaded.">
+  <meta name="keywords" content="PEM, RSA-OAEP, online tools, free tools, web tools, browser tools">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://example.com/en/tools/rsa-crypto.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="RSA Key Pair & Encrypt/Decrypt - Generate and Encrypt/Decrypt Locally">
+  <meta property="og:description" content="WebCrypto-based local RSA-OAEP key pair generation with PEM public and private key export, supporting public-key encryption and private-key decryption. Everything runs locally in your browser.">
+  <meta property="og:url" content="https://example.com/en/tools/rsa-crypto.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%91%3C/text%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem("ot-theme");if(t==="dark"){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();</script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "RSA Key Pair & Encrypt/Decrypt",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Free online RSA tool that generates local RSA-OAEP key pairs via WebCrypto, exports PEM public and private keys, and supports public-key encryption and private-key decryption. Everything runs locally in your browser.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Generate RSA-OAEP key pair", "2048 / 3072 / 4096-bit modulus", "SHA-256 hashing", "Export PEM public and private keys", "Public-key encryption / private-key decryption", "PEM copy and download", "Processed Locally, Nothing Uploaded"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How long a text can RSA encrypt?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "RSA-OAEP can only encrypt short data in a single operation. With a 2048-bit key, the maximum plaintext is about 190 bytes (roughly 190 English characters or about 60 Chinese characters). For long text, switch to AES symmetric encryption and use RSA to encrypt the AES key."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are the public and private keys used for?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The public key is used to encrypt or verify signatures and can be published openly. The private key decrypts or generates signatures and must be kept secure. Encryption uses the recipient's public key, and only the holder of the matching private key can decrypt and recover the content."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are the generated keys uploaded to a server?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. The key pair is generated locally in your browser via WebCrypto, with no network requests made during the process. The private key never leaves your device. Please keep the downloaded PEM files safe on your machine."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .rsa-gen-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 14px; }
+    .rsa-status { font-size: 13.5px; color: var(--muted); }
+    .rsa-status.active { color: var(--primary); }
+    .rsa-key-block { margin-top: 12px; }
+    .rsa-key-block h3 { font-size: 14px; color: var(--text); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+    .rsa-key-block .code-box { min-height: 120px; }
+    .rsa-key-ops { display: flex; gap: 8px; margin-top: 8px; }
+    .rsa-split {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 6px;
+    }
+    @media (max-width: 760px) { .rsa-split { grid-template-columns: 1fr; } }
+    .rsa-block { display: flex; flex-direction: column; gap: 8px; }
+    .rsa-block h3 { font-size: 15px; color: var(--text); margin-bottom: 2px; }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/rsa-crypto.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/rsa-crypto.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/rsa-crypto.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/rsa-crypto.html">中文</a><span class="lang-cur">English</span></span>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"></path></svg>
+          <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5a8.5 8.5 0 1 0 10.8 10.8z"></path></svg>
+        </button>
+
+
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>RSA Key Pair & Encrypt/Decrypt</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🔑</div>
+        <h1>RSA Key Pair & Encrypt/Decrypt</h1>
+      </div>
+      <p class="tool-desc">An online RSA tool that generates local RSA-OAEP key pairs in your browser via WebCrypto, exports standard PEM public and private keys, and supports encrypting with the public key and decrypting with the private key. All operations run locally, and the private key is never uploaded. Ideal for learning, API integration testing, and protecting short text.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="rsa-gen-row">
+        <div class="radio-row" id="rsaBits" role="radiogroup" aria-label="Key length">
+          <label class="checked"><input type="radio" name="rsaBits" value="2048" checked>2048-bit</label>
+          <label><input type="radio" name="rsaBits" value="3072">3072-bit</label>
+          <label><input type="radio" name="rsaBits" value="4096">4096-bit</label>
+        </div>
+        <button class="btn btn-primary" id="rsaGenBtn" type="button">Generate key pair</button>
+        <span class="rsa-status" id="rsaStatus" hidden>Generating...</span>
+      </div>
+
+      <div class="rsa-key-block">
+        <h3>Public key (SPKI / PEM)</h3>
+        <textarea id="rsaPub" class="code-box" readonly placeholder="The public key appears here after you click "Generate key pair""></textarea>
+        <div class="rsa-key-ops">
+          <button class="btn" id="rsaCopyPub" type="button">Copy public key</button>
+          <button class="btn" id="rsaDownPub" type="button">Download public key .pem</button>
+        </div>
+      </div>
+
+      <div class="rsa-key-block">
+        <h3>Private key (PKCS#8 / PEM)</h3>
+        <textarea id="rsaPriv" class="code-box" readonly placeholder="The private key appears here after you click "Generate key pair""></textarea>
+        <div class="rsa-key-ops">
+          <button class="btn" id="rsaCopyPriv" type="button">Copy private key</button>
+          <button class="btn" id="rsaDownPriv" type="button">Download private key .pem</button>
+        </div>
+      </div>
+
+      <div class="rsa-split">
+        <div class="rsa-block">
+          <h3>Encrypt (using public key)</h3>
+          <label for="rsaEncPub" style="font-size:13px;color:var(--muted);">Public key PEM</label>
+          <textarea id="rsaEncPub" class="code-box" style="min-height:96px;" placeholder="Paste public key PEM"></textarea>
+          <label for="rsaEncPlain" style="font-size:13px;color:var(--muted);">Plaintext</label>
+          <textarea id="rsaEncPlain" class="form-input" style="min-height:90px;" placeholder="Enter the text to encrypt (short text)"></textarea>
+          <div class="op-row">
+            <button class="btn btn-primary" id="rsaEncBtn" type="button">Encrypt</button>
+          </div>
+          <label for="rsaEncOut" style="font-size:13px;color:var(--muted);">Ciphertext (Base64)</label>
+          <textarea id="rsaEncOut" class="code-box" readonly placeholder="The encryption result appears here"></textarea>
+          <div class="op-row">
+            <button class="btn" id="rsaCopyEnc" type="button">Copy ciphertext</button>
+          </div>
+        </div>
+
+        <div class="rsa-block">
+          <h3>Decrypt (using private key)</h3>
+          <label for="rsaDecPriv" style="font-size:13px;color:var(--muted);">Private key PEM</label>
+          <textarea id="rsaDecPriv" class="code-box" style="min-height:96px;" placeholder="Paste private key PEM"></textarea>
+          <label for="rsaDecIn" style="font-size:13px;color:var(--muted);">Ciphertext (Base64)</label>
+          <textarea id="rsaDecIn" class="code-box" style="min-height:90px;" placeholder="Paste the Base64 ciphertext to decrypt"></textarea>
+          <div class="op-row">
+            <button class="btn btn-primary" id="rsaDecBtn" type="button">Decrypt</button>
+          </div>
+          <label for="rsaDecOut" style="font-size:13px;color:var(--muted);">Recover plaintext</label>
+          <textarea id="rsaDecOut" class="code-box" readonly placeholder="The decrypted plaintext appears here"></textarea>
+          <div class="op-row">
+            <button class="btn" id="rsaCopyDec" type="button">Copy plaintext</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="warn-note" id="rsaError" hidden></div>
+
+      <p class="wc-note">Note: <b>All computations run locally in your browser. Keys are never uploaded.</b>RSA-OAEP can only encrypt short text (about 190 bytes at 2048-bit). For longer content, use AES symmetric encryption instead. The exported private key is in PKCS#8 format; keep it safe and do not disclose it.</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>How long a text can RSA encrypt?</h3>
+        <p>RSA-OAEP can only encrypt short data in a single operation. With a 2048-bit key, the maximum plaintext is about 190 bytes (roughly 190 English characters or about 60 Chinese characters). For long text, switch to AES symmetric encryption and use RSA to encrypt the AES key.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What are the public and private keys used for?</h3>
+        <p>The public key is used to encrypt or verify signatures and can be published openly. The private key decrypts or generates signatures and must be kept secure. Encryption uses the recipient's public key, and only the holder of the matching private key can decrypt and recover the content.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Are the generated keys uploaded to a server?</h3>
+        <p>No. The key pair is generated locally in your browser via WebCrypto, with no network requests made during the process. The private key never leaves your device. Please keep the downloaded PEM files safe on your machine.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/rsa-crypto.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

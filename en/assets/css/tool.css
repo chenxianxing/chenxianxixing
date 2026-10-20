@@ -619,3 +619,160 @@ mark.match {
 .tok-str { color: #059669; }
 .tok-num { color: #d97706; }
 .tok-com { color: #9ca3af; }
+
+/* ---------- 夜间模式适配 ---------- */
+html[data-theme="dark"] .form-item input[type="text"],
+html[data-theme="dark"] .form-item input[type="number"],
+html[data-theme="dark"] .form-item select,
+html[data-theme="dark"] .form-item textarea,
+html[data-theme="dark"] .form-input,
+html[data-theme="dark"] .form-select {
+  background: #0f1621;
+  color: var(--text);
+}
+
+html[data-theme="dark"] .form-item input:focus,
+html[data-theme="dark"] .form-item select:focus,
+html[data-theme="dark"] .form-item textarea:focus,
+html[data-theme="dark"] .form-input:focus,
+html[data-theme="dark"] .form-select:focus {
+  background: #121b28;
+  box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.16);
+}
+
+html[data-theme="dark"] .radio-row label {
+  background: #0f1621;
+}
+
+html[data-theme="dark"] .radio-row label.checked,
+html[data-theme="dark"] .radio-row label:has(input:checked) {
+  background: var(--primary);
+  color: #0d1117;
+  -webkit-text-fill-color: #0d1117;
+}
+
+html[data-theme="dark"] .code-box {
+  background: #0f1621;
+  color: var(--text);
+}
+
+html[data-theme="dark"] .code-box.editable {
+  background: #0f1621;
+}
+
+html[data-theme="dark"] .wc-editor textarea {
+  background: #0f1621;
+  color: var(--text);
+}
+
+html[data-theme="dark"] .result-card {
+  background: #121a26;
+}
+
+html[data-theme="dark"] .result-card.primary {
+  background: var(--primary-light);
+  border-color: #2b3d59;
+}
+
+html[data-theme="dark"] table.data-table th {
+  background: #1b2431;
+}
+
+html[data-theme="dark"] .table-wrap,
+html[data-theme="dark"] table.data-table th,
+html[data-theme="dark"] table.data-table td {
+  border-color: var(--border);
+}
+
+html[data-theme="dark"] .info-note {
+  background: #152238;
+  border-color: #24344f;
+  color: #bfdbfe;
+}
+
+html[data-theme="dark"] .warn-note {
+  background: #2a2113;
+  border-color: #4a3a13;
+  color: #fcd34d;
+}
+
+html[data-theme="dark"] .badge {
+  background: #1f2734;
+}
+
+html[data-theme="dark"] .badge.blue {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+html[data-theme="dark"] .badge.green {
+  background: #10281f;
+  color: #34d399;
+}
+
+html[data-theme="dark"] .badge.red {
+  background: #2c1113;
+  color: #f87171;
+}
+
+html[data-theme="dark"] .hl,
+html[data-theme="dark"] mark.match {
+  background: #7c5a13;
+  color: #fde68a;
+}
+
+html[data-theme="dark"] .hl.alt {
+  background: #14532d;
+  color: #bbf7d0;
+}
+
+html[data-theme="dark"] .tool-panel {
+  background: var(--card);
+}
+
+html[data-theme="dark"] .toast {
+  background: #0b1220;
+  color: #e6e9ef;
+  border: 1px solid var(--border);
+}
+
+html[data-theme="dark"] .tok-key { color: #c4b5fd; }
+html[data-theme="dark"] .tok-str { color: #34d399; }
+html[data-theme="dark"] .tok-num { color: #fbbf24; }
+html[data-theme="dark"] .tok-com { color: #64748b; }
+
+html[data-theme="dark"] .btn {
+  background: #1b2431;
+  color: var(--text);
+}
+
+html[data-theme="dark"] .btn-primary {
+  background: var(--primary);
+  color: #0d1117;
+  -webkit-text-fill-color: #0d1117;
+}
+
+/* ---------- 拖拽上传区（多个工具共用） ---------- */
+.drop-zone {
+  border: 2px dashed var(--border);
+  border-radius: 12px;
+  padding: 26px;
+  text-align: center;
+  color: var(--muted);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  font-size: 14px;
+}
+
+.drop-zone:hover,
+.drop-zone.dragover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+
+.drop-zone .big {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 6px;
+}

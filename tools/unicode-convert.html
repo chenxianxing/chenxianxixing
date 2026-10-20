@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unicode 编码转换 - 在线 Unicode 转义/解码与字符明细 | 在线工具大全</title>
+  <meta name="description" content="免费在线 Unicode 编码转换工具，支持 JS 转义 \\uXXXX、UTF-8 字节 \\xXX、码点 U+XXXX、HTML 数字实体、UTF-8 Hex 与百分号编码的编码与解码，并提供逐字符明细表，全部本地处理。">
+  <meta name="keywords" content="unicode转换,unicode编码,unicode解码,utf-8编码,js转义,html实体,码点查询,字符编码">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/unicode-convert.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Unicode 编码转换 - 在线 Unicode 转义/解码与字符明细">
+  <meta property="og:description" content="支持 \\uXXXX、\\xXX、U+XXXX、HTML 实体、UTF-8 Hex 与百分号编码的编码解码，并提供逐字符明细表。">
+  <meta property="og:url" content="https://example.com/tools/unicode-convert.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%A4%3C/text%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem("ot-theme");if(t==="dark"){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();</script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Unicode 编码转换",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线 Unicode 编码转换工具，支持多种编码格式互转并查看逐字符明细。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["JS 转义 \\uXXXX", "UTF-8 字节 \\xXX", "码点 U+XXXX", "HTML 数字实体", "UTF-8 Hex", "百分号编码", "自动解码识别", "逐字符明细表"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "什么是代理对（surrogate pair）？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Unicode 中 U+10000 及以上的字符（如大部分 emoji）无法用单个 UTF-16 单元表示，需要用一对 16 位代理（高位代理 + 低位代理）来表示。JS 字符串内部即采用 UTF-16，因此“😀”会表现为两个 UTF-16 单元，本工具会在明细表中分别列出。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "UTF-8 字节和 UTF-16 单元有什么区别？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "UTF-8 以 1~4 个字节变长编码一个码点，适合存储与传输；UTF-16 以 16 位（2 字节）为单元，BMP 内字符占 1 个单元、辅助平面字符占 2 个单元（代理对）。本工具同时给出两者，便于排查编码相关问题。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "解码时如何判断输入是哪种格式？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "解码时工具会按特征自动识别：含 &# 视为 HTML 实体，含 \\u 视为 JS 转义，含 \\x 视为 UTF-8 字节转义，含 U+ 视为码点，含 % 视为百分号编码，空格分隔的十六进制字节则视为 UTF-8 Hex，识别后还原为原始字符串。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .uni-controls .form-item { min-width: 200px; }
+    .uni-fmt-wrap { margin-top: 14px; }
+    .uni-fmt-title { font-size: 13px; color: var(--muted); font-weight: 500; margin-bottom: 8px; }
+    .uni-note { font-size: 13px; color: var(--muted); margin-top: 8px; }
+    .uni-hidden { display: none; }
+    .jts-col-label { display: block; margin-bottom: 6px; font-size: 13px; color: var(--muted); font-weight: 500; }
+    .gi-out-title { font-size: 15px; margin: 18px 0 10px; color: var(--text); }
+    .code-box#uniOutput { min-height: 180px; }
+    .char-cell { font-size: 18px; text-align: center; }
+    .mono-cell { font-family: "SFMono-Regular", Consolas, Menlo, monospace; font-size: 12.5px; }
+    .uni-trunc { color: var(--muted); font-size: 13px; margin-top: 10px; }
+  </style>
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/unicode-convert.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/unicode-convert.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/unicode-convert.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="../en/tools/unicode-convert.html">English</a></span>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"></path></svg>
+          <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5a8.5 8.5 0 1 0 10.8 10.8z"></path></svg>
+        </button>
+
+
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>Unicode 编码转换</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🔤</div>
+        <h1>Unicode 编码转换</h1>
+      </div>
+      <p class="tool-desc">将文本在 JS 转义 \uXXXX、UTF-8 字节 \xXX、码点 U+XXXX、HTML 数字实体、UTF-8 Hex 与百分号编码之间编码或解码，并查看逐字符码点与字节明细，全部在浏览器本地完成。</p>
+    </section>
+
+    <section class="tool-panel uni-controls">
+
+      <div class="form-grid">
+        <div class="form-item">
+          <label>模式</label>
+          <div class="radio-row" id="uniModeRow" role="radiogroup" aria-label="模式">
+            <label class="checked"><input type="radio" name="uniMode" value="encode" checked>编码</label>
+            <label><input type="radio" name="uniMode" value="decode">解码</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="uni-fmt-wrap" id="uniFmtWrap">
+        <div class="uni-fmt-title">输出格式（可多选）</div>
+        <div class="checkbox-row">
+          <label><input type="checkbox" class="uni-fmt" value="js" checked> JS 转义 \uXXXX</label>
+          <label><input type="checkbox" class="uni-fmt" value="hexbytes"> \xXX（UTF-8 字节）</label>
+          <label><input type="checkbox" class="uni-fmt" value="codepoint" checked> 码点 U+XXXX</label>
+          <label><input type="checkbox" class="uni-fmt" value="htmldec"> HTML 十进制实体</label>
+          <label><input type="checkbox" class="uni-fmt" value="htmlhex"> HTML 十六进制实体</label>
+          <label><input type="checkbox" class="uni-fmt" value="utf8hex" checked> UTF-8 Hex</label>
+          <label><input type="checkbox" class="uni-fmt" value="percent"> Percent 编码</label>
+        </div>
+        <p class="uni-note">解码模式会忽略上述选项并自动识别输入格式。</p>
+      </div>
+
+      <div class="op-row" style="margin-top:14px;">
+        <button class="btn btn-primary" id="uniBtnSample" type="button">载入示例</button>
+        <button class="btn" id="uniBtnCopy" type="button">复制结果</button>
+        <button class="btn" id="uniBtnDownload" type="button">下载</button>
+        <button class="btn" id="uniBtnClear" type="button">清空</button>
+      </div>
+
+      <div class="split-2">
+        <div>
+          <span class="jts-col-label">输入</span>
+          <textarea id="uniInput" class="form-input" spellcheck="false" placeholder="在此输入文本或任意编码格式..." style="min-height:200px;"></textarea>
+        </div>
+        <div>
+          <span class="jts-col-label">输出</span>
+          <pre class="code-box" id="uniOutput" aria-readonly="true"></pre>
+        </div>
+      </div>
+
+      <h3 class="gi-out-title">逐字符明细</h3>
+      <div class="table-wrap">
+        <table class="data-table" id="uniTable">
+          <thead>
+            <tr>
+              <th>字符</th>
+              <th>码点</th>
+              <th>UTF-8 字节</th>
+              <th>UTF-16 单元</th>
+            </tr>
+          </thead>
+          <tbody id="uniTbody"></tbody>
+        </table>
+      </div>
+      <p class="uni-trunc" id="uniTrunc" hidden></p>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>什么是代理对（surrogate pair）？</h3>
+        <p>Unicode 中 U+10000 及以上的字符（如大部分 emoji）无法用单个 UTF-16 单元表示，需要用一对 16 位代理（高位代理 + 低位代理）来表示。JS 字符串内部即采用 UTF-16，因此“😀”会表现为两个 UTF-16 单元，本工具会在明细表中分别列出。</p>
+      </div>
+      <div class="faq-item">
+        <h3>UTF-8 字节和 UTF-16 单元有什么区别？</h3>
+        <p>UTF-8 以 1~4 个字节变长编码一个码点，适合存储与传输；UTF-16 以 16 位（2 字节）为单元，BMP 内字符占 1 个单元、辅助平面字符占 2 个单元（代理对）。本工具同时给出两者，便于排查编码相关问题。</p>
+      </div>
+      <div class="faq-item">
+        <h3>解码时如何判断输入是哪种格式？</h3>
+        <p>解码时工具会按特征自动识别：含 &amp;# 视为 HTML 实体，含 \u 视为 JS 转义，含 \x 视为 UTF-8 字节转义，含 U+ 视为码点，含 % 视为百分号编码，空格分隔的十六进制字节则视为 UTF-8 Hex，识别后还原为原始字符串。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/unicode-convert.js"></script>
+</body>
+</html>

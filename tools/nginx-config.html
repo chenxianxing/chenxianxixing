@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nginx 配置生成器 - 在线生成 Nginx 服务器配置 | 在线工具大全</title>
+  <meta name="description" content="免费在线 Nginx 配置生成器，通过表单生成静态站、SPA、反向代理的 server 配置，支持 HTTPS、gzip、缓存、WebSocket、安全响应头与 www 跳转，可一键复制与下载。">
+  <meta name="keywords" content="nginx配置生成器,nginx配置,反向代理配置,nginx https,gzip配置,server块生成,nginx模板">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/nginx-config.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Nginx 配置生成器 - 在线生成 Nginx 服务器配置">
+  <meta property="og:description" content="通过表单生成静态站、SPA、反向代理的 Nginx 配置，支持 HTTPS、gzip、缓存、WebSocket 与安全头，一键复制下载。">
+  <meta property="og:url" content="https://example.com/tools/nginx-config.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%A7%3C/text%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem("ot-theme");if(t==="dark"){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();</script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Nginx 配置生成器",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线 Nginx 配置生成器，通过表单生成静态站、SPA、反向代理的 server 配置。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["静态站/SPA/反代配置", "HTTPS 与 HTTP/2/HSTS", "gzip 与静态缓存", "WebSocket 支持", "安全响应头", "www 跳转", "一键复制下载"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "生成的配置应该放在哪里？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "在 Debian/Ubuntu 上通常放到 /etc/nginx/sites-available/ 并通过软链接到 /etc/nginx/sites-enabled/；或直接写入 /etc/nginx/conf.d/ 下的 .conf 文件。修改后用 nginx -t 校验，再用 nginx -s reload 平滑重载。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "SPA（单页应用）和静态站有什么区别？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "静态站使用 try_files $uri $uri/ =404;，找不到文件即返回 404；SPA 使用 try_files $uri $uri/ /index.html;，将所有未知路径回退到入口 index.html 由前端路由处理，适合 React、Vue 等前端框架。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "反向代理如何透传真实客户端信息？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "生成器会写入 proxy_set_header Host、X-Real-IP、X-Forwarded-For 与 X-Forwarded-Proto，使后端能拿到真实客户端 IP 与协议。启用 WebSocket 后还会补充 Upgrade 与 Connection 头。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .ngx-form .form-item { min-width: 200px; }
+    .ngx-sec-title { font-size: 14px; font-weight: 600; color: var(--text); margin: 18px 0 10px; }
+    .ngx-hidden { display: none; }
+    .ngx-tips { margin-top: 16px; }
+    .ngx-tips ul { margin: 8px 0 0; padding-left: 20px; color: var(--muted); font-size: 13.5px; line-height: 1.9; }
+    .ngx-tips code { background: var(--primary-light); color: var(--primary); padding: 1px 6px; border-radius: 5px; font-size: 12.5px; }
+    .code-box#ngxOutput { min-height: 340px; }
+  </style>
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/nginx-config.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/nginx-config.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/nginx-config.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="../en/tools/nginx-config.html">English</a></span>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"></path></svg>
+          <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5a8.5 8.5 0 1 0 10.8 10.8z"></path></svg>
+        </button>
+
+
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>Nginx 配置生成器</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🔧</div>
+        <h1>Nginx 配置生成器</h1>
+      </div>
+      <p class="tool-desc">通过表单生成静态站、SPA 或反向代理的 Nginx server 配置，支持 HTTPS、gzip、静态资源缓存、WebSocket、安全响应头与 www 跳转，实时预览并支持一键复制与下载。</p>
+    </section>
+
+    <section class="tool-panel ngx-form">
+
+      <div class="form-grid">
+        <div class="form-item">
+          <label for="ngxServerName">server_name（空格分隔多个）</label>
+          <input type="text" id="ngxServerName" class="form-input" value="example.com www.example.com">
+        </div>
+        <div class="form-item">
+          <label for="ngxPort">监听端口</label>
+          <input type="number" id="ngxPort" class="form-input" value="80" min="1" max="65535">
+        </div>
+        <div class="form-item">
+          <label>站点类型</label>
+          <div class="radio-row" id="ngxTypeRow" role="radiogroup" aria-label="站点类型">
+            <label class="checked"><input type="radio" name="ngxType" value="static" checked>静态站</label>
+            <label><input type="radio" name="ngxType" value="spa">SPA</label>
+            <label><input type="radio" name="ngxType" value="proxy">反向代理</label>
+          </div>
+        </div>
+        <div class="form-item" id="ngxRootWrap">
+          <label for="ngxRoot">root 目录</label>
+          <input type="text" id="ngxRoot" class="form-input" value="/var/www/html">
+        </div>
+        <div class="form-item ngx-hidden" id="ngxUpstreamWrap">
+          <label for="ngxUpstream">upstream 地址</label>
+          <input type="text" id="ngxUpstream" class="form-input" value="127.0.0.1:8080">
+        </div>
+        <div class="form-item">
+          <label for="ngxCmbs">client_max_body_size</label>
+          <input type="text" id="ngxCmbs" class="form-input" value="10m">
+        </div>
+        <div class="form-item">
+          <label>www 跳转</label>
+          <div class="radio-row" id="ngxWwwRow" role="radiogroup" aria-label="www 跳转">
+            <label class="checked"><input type="radio" name="ngxWww" value="none" checked>不跳</label>
+            <label><input type="radio" name="ngxWww" value="add">加 www</label>
+            <label><input type="radio" name="ngxWww" value="remove">去 www</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="ngx-sec-title">高级选项</div>
+      <div class="checkbox-row">
+        <label><input type="checkbox" id="ngxHttps"> 启用 HTTPS</label>
+        <label><input type="checkbox" id="ngxGzip" checked> 启用 gzip</label>
+        <label><input type="checkbox" id="ngxCache" checked> 静态资源缓存</label>
+        <label><input type="checkbox" id="ngxWs"> WebSocket 支持</label>
+        <label><input type="checkbox" id="ngxSec" checked> 安全响应头</label>
+      </div>
+
+      <div class="ngx-hidden" id="ngxHttpsWrap" style="margin-top:14px;">
+        <div class="form-grid">
+          <div class="form-item">
+            <label for="ngxCert">证书 crt 路径</label>
+            <input type="text" id="ngxCert" class="form-input" value="/etc/nginx/ssl/example.com.crt">
+          </div>
+          <div class="form-item">
+            <label for="ngxKey">证书 key 路径</label>
+            <input type="text" id="ngxKey" class="form-input" value="/etc/nginx/ssl/example.com.key">
+          </div>
+          <div class="form-item">
+            <label>HTTP/2</label>
+            <div class="radio-row" id="ngxHttp2Row" role="radiogroup" aria-label="HTTP/2">
+              <label class="checked"><input type="radio" name="ngxHttp2" value="on" checked>开启</label>
+              <label><input type="radio" name="ngxHttp2" value="off">关闭</label>
+            </div>
+          </div>
+          <div class="form-item">
+            <label>HSTS</label>
+            <div class="radio-row" id="ngxHstsRow" role="radiogroup" aria-label="HSTS">
+              <label class="checked"><input type="radio" name="ngxHsts" value="on" checked>开启</label>
+              <label><input type="radio" name="ngxHsts" value="off">关闭</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="op-row" style="margin-top:16px;">
+        <button class="btn btn-primary" id="ngxBtnSample" type="button">载入示例</button>
+        <button class="btn" id="ngxBtnCopy" type="button">复制</button>
+        <button class="btn" id="ngxBtnDownload" type="button">下载 .conf</button>
+      </div>
+
+      <pre class="code-box" id="ngxOutput" aria-readonly="true"></pre>
+
+      <div class="ngx-tips">
+        <strong>使用提示</strong>
+        <ul>
+          <li>校验配置语法：<code>sudo nginx -t</code></li>
+          <li>平滑重载：<code>sudo nginx -s reload</code></li>
+          <li>启用站点（Debian 系）：<code>ln -s /etc/nginx/sites-available/xxx /etc/nginx/sites-enabled/</code></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>生成的配置应该放在哪里？</h3>
+        <p>在 Debian/Ubuntu 上通常放到 /etc/nginx/sites-available/ 并通过软链接到 /etc/nginx/sites-enabled/；或直接写入 /etc/nginx/conf.d/ 下的 .conf 文件。修改后用 nginx -t 校验，再用 nginx -s reload 平滑重载。</p>
+      </div>
+      <div class="faq-item">
+        <h3>SPA（单页应用）和静态站有什么区别？</h3>
+        <p>静态站使用 try_files $uri $uri/ =404;，找不到文件即返回 404；SPA 使用 try_files $uri $uri/ /index.html;，将所有未知路径回退到入口 index.html 由前端路由处理，适合 React、Vue 等前端框架。</p>
+      </div>
+      <div class="faq-item">
+        <h3>反向代理如何透传真实客户端信息？</h3>
+        <p>生成器会写入 proxy_set_header Host、X-Real-IP、X-Forwarded-For 与 X-Forwarded-Proto，使后端能拿到真实客户端 IP 与协议。启用 WebSocket 后还会补充 Upgrade 与 Connection 头。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/nginx-config.js"></script>
+</body>
+</html>

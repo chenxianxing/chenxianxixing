@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text Line Processor - Online Text Deduplication, Sorting, Find/Replace and Line Editing | Online Tools</title>
+  <meta name="description" content="Free online text line tool supporting deduplication, sorting, removal of blank lines and leading/trailing spaces, case conversion, add prefix/suffix, line numbers, split/merge by delimiter, and find/replace (regex). Undo, copy and download as txt are supported. Everything runs locally.">
+  <meta name="keywords" content="Text Line Processor, Text deduplication, online tools, free tools, web tools, browser tools">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/text-lines.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Text Line Processor - Online Text Deduplication, Sorting, Find/Replace and Line Editing">
+  <meta property="og:description" content="Supports deduplication, sorting, removal of blank lines and leading/trailing spaces, case conversion, add prefix/suffix, line numbers, split/merge, and find/replace (regex). Undo, copy and download as txt.">
+  <meta property="og:url" content="https://example.com/en/tools/text-lines.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9A%96%EF%B8%8F%3C/text%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem("ot-theme");if(t==="dark"){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();</script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Text Line Processor",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online text line tool supporting deduplication, sorting, removal of blank lines and leading/trailing spaces, case conversion, add prefix/suffix, line numbers, split/merge by delimiter, and find/replace (regex).",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Text deduplication", "Line sorting", "Remove blank lines", "Trim spaces", "Case Converter", "Add prefix/suffix", "Line number prefix", "Split/merge by delimiter", "Regex find/replace", "Undo and download txt"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Does the order of lines change after deduplication?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Deduplication uses a \"keep first occurrence\" strategy: it scans top to bottom, keeps the first appearance of each line, and removes later duplicates. So lines keep their original order and are not re-sorted."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does find/replace support regular expressions?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. After enabling \"Regular expression\", the find box is treated as a JavaScript regex, and the replace box can use capture-group references like $1, $2. Enabling \"Ignore case\" matches case-insensitively. Each replacement shows the replacement count."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can operations be undone, and where can results be saved?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "All line operations are pushed onto a history stack. Click \"Undo last step\" to step back, or \"Reset\" to clear the input and the entire history. The finished result can be copied to the clipboard with one click, or downloaded as a .txt file."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .tl-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .tl-stat {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 12px 16px;
+      transition: border-color 0.15s;
+    }
+    .tl-stat:hover { border-color: var(--primary); }
+    .tl-stat .num {
+      font-size: 24px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      color: var(--primary);
+      line-height: 1.2;
+    }
+    .tl-stat .label { font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+    .tl-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .tl-actions .group-label {
+      display: inline-flex;
+      align-items: center;
+      font-size: 12.5px;
+      color: var(--muted);
+      padding: 0 4px;
+      width: 100%;
+      border-top: 1px dashed var(--border);
+      padding-top: 12px;
+      margin-top: 2px;
+    }
+    .tl-actions .group-label:first-child { border-top: none; padding-top: 0; margin-top: 0; }
+
+    .tl-input, .tl-output {
+      width: 100%;
+      min-height: 300px;
+      resize: vertical;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 14px 16px;
+      font-size: 14px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, "Courier New", monospace;
+      line-height: 1.7;
+      color: var(--text);
+      background: var(--card);
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .tl-input:focus, .tl-output:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.10);
+      background: var(--card);
+    }
+    .tl-output { background: var(--card); }
+
+    .he-io-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+
+    .tl-fr {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 14px 16px;
+      margin: 14px 0;
+    }
+    .tl-fr-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+    .tl-fr-row .form-input { width: auto; min-width: 160px; flex: 1; }
+    .tl-fr-row .tl-fr-sep { color: var(--muted); font-size: 13px; }
+    .tl-fr-count { font-size: 13px; color: var(--muted); margin-top: 8px; }
+    .tl-fr-count b { color: var(--primary); }
+
+    @media (max-width: 640px) {
+      .tl-input, .tl-output { min-height: 220px; }
+    }
+  </style>
+
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/text-lines.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/text-lines.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/text-lines.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/text-lines.html">中文</a><span class="lang-cur">English</span></span>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"></path></svg>
+          <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5a8.5 8.5 0 1 0 10.8 10.8z"></path></svg>
+        </button>
+
+
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>Text Line Processor</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">📝</div>
+        <h1>Text Line Processor</h1>
+      </div>
+      <p class="tool-desc">Online text line tool supporting deduplication, sorting, removal of blank lines and leading/trailing spaces, case conversion, add prefix/suffix, line numbers, split/merge by delimiter, and find/replace (regex). Step-by-step undo, copy and download as txt, all running locally in your browser.</p>
+    </section>
+
+    <section class="tool-panel">
+
+      <div class="tl-stats">
+        <div class="tl-stat"><div class="num" id="tlLines">0</div><div class="label">Lines</div></div>
+        <div class="tl-stat"><div class="num" id="tlChars">0</div><div class="label">Characters</div></div>
+        <div class="tl-stat"><div class="num" id="tlUnique">0</div><div class="label">Lines after deduplication</div></div>
+      </div>
+
+      <div class="tl-actions">
+        <span class="group-label">Line operations (stackable)</span>
+        <button class="btn" data-op="dedup" type="button">Unique</button>
+        <button class="btn" data-op="blank" type="button">Remove blank lines</button>
+        <button class="btn" data-op="trim" type="button">Trim spaces</button>
+        <button class="btn" data-op="lower" type="button">To lowercase</button>
+        <button class="btn" data-op="upper" type="button">To uppercase</button>
+        <button class="btn" data-op="sort-asc" type="button">Sort ascending</button>
+        <button class="btn" data-op="sort-desc" type="button">Sort descending</button>
+        <button class="btn" data-op="len-asc" type="button">Sort by length ascending</button>
+        <button class="btn" data-op="len-desc" type="button">Sort by length descending</button>
+        <button class="btn" data-op="reverse" type="button">Reverse lines</button>
+        <button class="btn" data-op="prefix" type="button">Add prefix</button>
+        <button class="btn" data-op="suffix" type="button">Add suffix</button>
+        <button class="btn" data-op="lineno" type="button">Line number prefix</button>
+        <button class="btn" data-op="split" type="button">Split by delimiter</button>
+        <button class="btn" data-op="join" type="button">Merge into one line</button>
+        <span class="group-label">Actions</span>
+        <button class="btn" id="tlUndo" type="button">Undo last step</button>
+        <button class="btn" id="tlReset" type="button">Reset</button>
+        <button class="btn" id="tlCopy" type="button">Copy result</button>
+        <button class="btn" id="tlDownload" type="button">Download .txt</button>
+        <button class="btn" id="tlSample" type="button">Load Sample</button>
+      </div>
+
+      <div class="tl-fr">
+        <div class="tl-fr-row">
+          <input class="form-input" id="tlAffix" type="text" placeholder="Prefix / suffix / delimiter">
+          <input class="form-input" id="tlFind" type="text" placeholder="Find term">
+          <input class="form-input" id="tlReplace" type="text" placeholder="Replace with (regex supports $1 $2)">
+          <label class="checkbox-row"><input type="checkbox" id="tlRegex">Regular Expression</label>
+          <label class="checkbox-row"><input type="checkbox" id="tlIgnoreCase">Ignore Case</label>
+          <button class="btn btn-primary" id="tlReplaceBtn" type="button">Replace all</button>
+        </div>
+        <div class="tl-fr-count" id="tlReplaceCount">Replacements:<b>0</b></div>
+      </div>
+
+      <div class="split-2">
+        <div>
+          <div class="he-io-label"><span>Input</span></div>
+          <textarea class="tl-input" id="tlInput" placeholder="Paste multi-line text here..." spellcheck="false"></textarea>
+        </div>
+        <div>
+          <div class="he-io-label"><span>Output</span></div>
+          <textarea class="tl-output" id="tlOutput" readonly placeholder="Results will appear here..." spellcheck="false"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>Does the order of lines change after deduplication?</h3>
+        <p>Deduplication uses a "keep first occurrence" strategy: it scans top to bottom, keeps the first appearance of each line, and removes later duplicates. So lines keep their original order and are not re-sorted.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Does find/replace support regular expressions?</h3>
+        <p>Yes. After enabling "Regular expression", the find box is treated as a JavaScript regex, and the replace box can use capture-group references like $1, $2. Enabling "Ignore case" matches case-insensitively. Each replacement shows the replacement count.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Can operations be undone, and where can results be saved?</h3>
+        <p>All line operations are pushed onto a history stack. Click "Undo last step" to step back, or "Reset" to clear the input and the entire history. The finished result can be copied to the clipboard with one click, or downloaded as a .txt file.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/text-lines.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

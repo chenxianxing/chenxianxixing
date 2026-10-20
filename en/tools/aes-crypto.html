@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AES Text Encrypt & Decrypt - Browser-local AES-GCM/CBC Encryption Tool | Online Tools</title>
+  <meta name="description" content="Free online AES text encryption and decryption tool based on WebCrypto's AES-GCM / AES-CBC algorithms. Passphrases are derived into keys via PBKDF2-SHA256, with 128/256-bit support and Base64 / Hex output. Everything runs locally in your browser; files and passphrases are never uploaded.">
+  <meta name="keywords" content="AES-GCM, AES-CBC, PBKDF2, WebCrypto">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://example.com/en/tools/aes-crypto.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="AES Text Encrypt & Decrypt - Browser-local AES Encryption Tool">
+  <meta property="og:description" content="WebCrypto-based AES-GCM / AES-CBC text encryption and decryption. Passphrases are derived via PBKDF2-SHA256, supporting 128/256-bit keys and Base64 / Hex output. Everything runs locally.">
+  <meta property="og:url" content="https://example.com/en/tools/aes-crypto.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%90%3C/text%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem("ot-theme");if(t==="dark"){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();</script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "AES Text Encrypt & Decrypt",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Free online AES text encryption and decryption tool based on WebCrypto's AES-GCM / AES-CBC algorithms. Passphrases are derived into keys via PBKDF2-SHA256, with 128/256-bit support and Base64 / Hex output. Everything runs locally in your browser.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["AES-GCM and AES-CBC modes", "128-bit and 256-bit key lengths", "PBKDF2-SHA256 passphrase derivation (100,000 iterations)", "Base64 and Hex output", "Self-describing ciphertext format", "Random passphrase generation", "Processed Locally, Nothing Uploaded"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Is this AES encryption passphrase secure?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The passphrase is derived into an encryption key through 100,000 PBKDF2-SHA256 iterations, combined with a randomly generated salt and IV each time, which effectively resists brute-force attacks. All operations run locally in your browser, and the passphrase is never uploaded to the server in any form."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between AES-GCM and AES-CBC? Which should I choose?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "AES-GCM is an authenticated encryption mode that not only keeps data confidential but also detects tampering, so it is recommended. AES-CBC is a traditional block cipher mode whose security relies on correct padding and a random IV. This tool uses a self-describing ciphertext format, so you do not need to choose a mode when decrypting."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I recover the plaintext if I forget the passphrase?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. The key is generated from the passphrase through a one-way derivation algorithm, with no backdoor or server storage. Please keep your passphrase safe after encryption. Forgetting it means the plaintext cannot be recovered, which is also a security feature of local encryption."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .aes-controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .aes-field { display: flex; flex-direction: column; gap: 6px; }
+    .aes-field > label { font-size: 13px; color: var(--muted); font-weight: 500; }
+    .aes-pass-wrap { display: flex; gap: 8px; align-items: center; }
+    .aes-pass-wrap .form-input { flex: 1; }
+    .aes-btn-mini {
+      height: 38px; padding: 0 14px; border: 1px solid var(--border);
+      border-radius: 9px; background: var(--card); color: var(--text);
+      font-size: 13.5px; cursor: pointer; white-space: nowrap; transition: border-color 0.15s, color 0.15s;
+    }
+    .aes-btn-mini:hover { border-color: var(--primary); color: var(--primary); }
+    .aes-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 6px;
+    }
+    @media (max-width: 760px) { .aes-split { grid-template-columns: 1fr; } }
+    .aes-block { display: flex; flex-direction: column; gap: 8px; }
+    .aes-block h3 { font-size: 15px; color: var(--text); margin-bottom: 2px; }
+    .aes-block .code-box { min-height: 150px; }
+    .aes-block .op-row { margin-bottom: 0; }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/aes-crypto.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/aes-crypto.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/aes-crypto.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/aes-crypto.html">中文</a><span class="lang-cur">English</span></span>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"></path></svg>
+          <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5a8.5 8.5 0 1 0 10.8 10.8z"></path></svg>
+        </button>
+
+
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>AES Text Encrypt & Decrypt</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🔐</div>
+        <h1>AES Text Encrypt & Decrypt</h1>
+      </div>
+      <p class="tool-desc">A browser WebCrypto-based AES text tool supporting AES-GCM / AES-CBC with 128 / 256-bit keys, where passphrases are derived via PBKDF2-SHA256. The resulting ciphertext uses a self-describing format, so no parameters are needed for decryption. Everything stays local, and your passphrase and content are never uploaded.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="aes-controls">
+        <div class="aes-field">
+          <label>Encryption mode</label>
+          <div class="radio-row" id="aesMode" role="radiogroup" aria-label="Encryption mode">
+            <label class="checked"><input type="radio" name="aesMode" value="AES-GCM" checked>GCM</label>
+            <label><input type="radio" name="aesMode" value="AES-CBC">CBC</label>
+          </div>
+        </div>
+        <div class="aes-field">
+          <label>Key length</label>
+          <div class="radio-row" id="aesKeyLen" role="radiogroup" aria-label="Key length">
+            <label class="checked"><input type="radio" name="aesKeyLen" value="128" checked>128-bit</label>
+            <label><input type="radio" name="aesKeyLen" value="256">256-bit</label>
+          </div>
+        </div>
+        <div class="aes-field">
+          <label>Output Format</label>
+          <div class="radio-row" id="aesFmt" role="radiogroup" aria-label="Output Format">
+            <label class="checked"><input type="radio" name="aesFmt" value="base64" checked>Base64</label>
+            <label><input type="radio" name="aesFmt" value="hex">Hex</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="aes-field" style="margin-bottom:14px;">
+        <label for="aesPass">Encryption passphrase</label>
+        <div class="aes-pass-wrap">
+          <input type="text" id="aesPass" class="form-input" placeholder="Enter a passphrase for encryption" autocomplete="off">
+          <button class="aes-btn-mini" id="aesRandBtn" type="button">Generate random passphrase</button>
+        </div>
+      </div>
+
+      <div class="aes-split">
+        <div class="aes-block">
+          <h3>Encrypt</h3>
+          <label for="aesPlain" style="font-size:13px;color:var(--muted);">Plaintext</label>
+          <textarea id="aesPlain" class="form-input" style="min-height:150px;" placeholder="Enter the text to encrypt here"></textarea>
+          <div class="op-row">
+            <button class="btn btn-primary" id="aesEncBtn" type="button">Encrypt</button>
+            <button class="btn" id="aesClearInBtn" type="button">Clear plaintext</button>
+          </div>
+          <label for="aesOut" style="font-size:13px;color:var(--muted);">Ciphertext (self-describing format, copy as a block)</label>
+          <textarea id="aesOut" class="code-box" readonly placeholder="The generated ciphertext will appear here"></textarea>
+          <div class="op-row">
+            <button class="btn" id="aesCopyBtn" type="button">Copy ciphertext</button>
+          </div>
+        </div>
+
+        <div class="aes-block">
+          <h3>Decrypt</h3>
+          <label for="aesCipher" style="font-size:13px;color:var(--muted);">Ciphertext</label>
+          <textarea id="aesCipher" class="code-box" style="min-height:150px;" placeholder="Paste the self-describing ciphertext here"></textarea>
+          <label for="aesDecPass" style="font-size:13px;color:var(--muted);">Decryption passphrase</label>
+          <input type="text" id="aesDecPass" class="form-input" placeholder="Enter the passphrase used for encryption" autocomplete="off">
+          <div class="op-row">
+            <button class="btn btn-primary" id="aesDecBtn" type="button">Decrypt</button>
+          </div>
+          <label for="aesDecOut" style="font-size:13px;color:var(--muted);">Recover plaintext</label>
+          <textarea id="aesDecOut" class="code-box" readonly placeholder="The decrypted plaintext appears here"></textarea>
+          <div class="op-row">
+            <button class="btn" id="aesDecCopyBtn" type="button">Copy plaintext</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="op-row" style="margin-top:14px;">
+        <button class="btn" id="aesClearBtn" type="button">Clear all</button>
+      </div>
+
+      <div class="warn-note" id="aesError" hidden></div>
+
+      <p class="wc-note">Note: <b>All computations run locally in your browser. Neither your passphrase nor text is uploaded.</b>AES-GCM provides integrity verification and is recommended. GCM mode automatically appends a 12-byte IV, while CBC uses a 16-byte IV. The ciphertext format is <code>AES-模式-位数.salt.iv.密文</code>, which can be saved and pasted as a whole.</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>Is the AES encryption passphrase secure?</h3>
+        <p>The passphrase is derived into an encryption key through 100,000 PBKDF2-SHA256 iterations, combined with a randomly generated salt and IV each time, which effectively resists brute-force attacks. All operations run locally in your browser, and the passphrase is never uploaded to the server in any form.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is the difference between AES-GCM and AES-CBC? Which should I choose?</h3>
+        <p>AES-GCM is an authenticated encryption mode that not only keeps data confidential but also detects tampering, so it is recommended. AES-CBC is a traditional block cipher mode whose security relies on correct padding and a random IV. This tool uses a self-describing ciphertext format, so you do not need to choose a mode when decrypting.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Can I recover the plaintext if I forget the passphrase?</h3>
+        <p>No. The key is generated from the passphrase through a one-way derivation algorithm, with no backdoor or server storage. Please keep your passphrase safe after encryption. Forgetting it means the plaintext cannot be recovered, which is also a security feature of local encryption.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/aes-crypto.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

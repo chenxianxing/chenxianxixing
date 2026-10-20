@@ -12,6 +12,8 @@
   --text: #1f2937;
   --muted: #6b7280;
   --border: #e5e7eb;
+  --surface-2: #f8fafc;
+  --surface-3: #f1f5f9;
   --radius: 14px;
   --shadow: 0 1px 3px rgba(16, 24, 40, 0.06), 0 1px 2px rgba(16, 24, 40, 0.04);
   --shadow-hover: 0 10px 24px rgba(16, 24, 40, 0.10);
@@ -401,7 +403,7 @@ a:hover {
   flex-wrap: wrap;
   justify-content: center;
   gap: 8px;
-  margin: 0 auto 8px;
+  margin: 26px auto 8px;
   max-width: 760px;
 }
 
@@ -470,4 +472,136 @@ a:hover {
     justify-content: center;
     text-align: center;
   }
+}
+
+/* ---------- 日间 / 夜间 切换按钮 ---------- */
+.theme-toggle {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin-left: 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+
+.theme-toggle:hover {
+  color: var(--primary);
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.theme-toggle svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.theme-toggle .ic-moon {
+  display: none;
+}
+
+html[data-theme="dark"] .theme-toggle .ic-moon {
+  display: block;
+}
+
+html[data-theme="dark"] .theme-toggle .ic-sun {
+  display: none;
+}
+
+/* ---------- 夜间模式配色 ---------- */
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --primary: #60a5fa;
+  --primary-hover: #93c5fd;
+  --primary-light: #1b2a42;
+  --bg: #0d1117;
+  --card: #151b26;
+  --text: #e6e9ef;
+  --muted: #98a2b3;
+  --border: #262f3d;
+  --surface-2: #0f1621;
+  --surface-3: #1b2431;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.5), 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-hover: 0 10px 26px rgba(0, 0, 0, 0.55);
+}
+
+html[data-theme="dark"] .site-header {
+  background: rgba(13, 17, 23, 0.86);
+}
+
+html[data-theme="dark"] .brand-logo {
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+}
+
+html[data-theme="dark"] .hero-badge {
+  border-color: #2b3d59;
+  color: var(--primary);
+}
+
+html[data-theme="dark"] .hero h1 {
+  background: linear-gradient(120deg, #bfdbfe 10%, #60a5fa 55%, #c4b5fd 92%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+html[data-theme="dark"] .search-box input {
+  background: var(--card);
+  box-shadow: var(--shadow);
+}
+
+html[data-theme="dark"] .search-box input::placeholder {
+  color: #64748b;
+}
+
+html[data-theme="dark"] .search-box input:focus {
+  box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.18);
+}
+
+html[data-theme="dark"] .cat-nav a {
+  background: var(--card);
+}
+
+html[data-theme="dark"] .cat-nav a:hover {
+  background: var(--primary-light);
+}
+
+html[data-theme="dark"] .tool-card:hover {
+  border-color: #3b4a63;
+}
+
+html[data-theme="dark"] .tool-tags span {
+  background: #1f2734;
+  color: var(--muted);
+}
+
+html[data-theme="dark"] .tool-card h3 .new-flag {
+  color: #fff;
+  -webkit-text-fill-color: #fff;
+}
+
+html[data-theme="dark"] .site-footer {
+  background: var(--card);
+}
+
+html[data-theme="dark"] .lang-switch {
+  background: var(--card);
+}
+
+html[data-theme="dark"] .lang-switch .lang-cur {
+  background: var(--primary);
+  color: #fff;
 }

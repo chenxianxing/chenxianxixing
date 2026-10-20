@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>九宫格切图 - 在线图片九宫格/网格切分导出工具 | 在线工具大全</title>
+  <meta name="description" content="免费在线九宫格切图工具，可将单张图片按 2×2、3×3、4×4 或自定义网格切分，支持居中裁正方形或按原图比例等分，逐片预览并可单独或全部下载，所有处理均在浏览器本地完成。">
+  <meta name="keywords" content="九宫格切图,图片切分,网格切图,图片九宫格,朋友圈九宫格,图片分割">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/nine-grid.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="九宫格切图 - 在线图片九宫格/网格切分导出工具">
+  <meta property="og:description" content="支持 2×2/3×3/4×4 与自定义网格切分，居中裁正方形或按原图比例等分的在线切图工具。">
+  <meta property="og:url" content="https://example.com/tools/nine-grid.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9F%A3%EF%B8%8F%3C/text%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem("ot-theme");if(t==="dark"){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();</script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "九宫格切图",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线图片切分工具，支持 2×2/3×3/4×4 与自定义网格，居中裁正方形或按原图比例等分，逐片下载。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["2×2/3×3/4×4 网格", "自定义行列数", "居中裁正方形等分", "按原图比例等分", "逐片预览与下载", "本地处理"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "九宫格切图有什么用？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "把一张图切成 3×3 共九张小图，按顺序发到朋友圈等社交平台就会在九宫格中拼成完整大图，是非常常见的玩法；本工具也可用于把长图、海报按网格拆解成多张素材。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "“居中裁正方形”和“按原图比例等分”有什么区别？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "“居中裁正方形”会先裁掉原图较长边的多余部分，取正中间最大正方形再均分，适合非正方形原图； “按原图比例等分”不裁剪，直接按原图宽高比例切成网格，保留完整画面但各片不一定为正方形。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "为什么是逐个下载而不是打包成 ZIP？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "为保证完全在浏览器本地运行、不引入额外库与外部请求，本工具采用依次触发下载的方式；浏览器可能会询问是否允许下载多个文件，请选择允许即可，文件名按 原名-1、原名-2 递增。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .ng-grid {
+      display: grid;
+      gap: 6px;
+      margin-top: 14px;
+    }
+    .ng-cell {
+      position: relative;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--card);
+      cursor: pointer;
+      line-height: 0;
+    }
+    .ng-cell canvas { width: 100%; height: auto; display: block; }
+    .ng-cell .ng-idx {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      background: rgba(17, 24, 39, 0.7);
+      color: #fff;
+      font-size: 12px;
+      line-height: 1;
+      padding: 3px 6px;
+      border-radius: 6px;
+    }
+    .ng-cell:hover { outline: 2px solid var(--primary); outline-offset: -1px; }
+    .ng-info { font-size: 14px; color: var(--text); margin-top: 12px; }
+    .ng-info b { color: var(--primary); }
+    .slider-item { display: flex; flex-direction: column; gap: 6px; }
+    .slider-item .val { font-size: 13px; color: var(--primary); font-weight: 600; }
+    .ng-tip { font-size: 13px; color: var(--muted); margin-top: 10px; line-height: 1.7; }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/nine-grid.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/nine-grid.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/nine-grid.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="../en/tools/nine-grid.html">English</a></span>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"></path></svg>
+          <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5a8.5 8.5 0 1 0 10.8 10.8z"></path></svg>
+        </button>
+
+        
+
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>九宫格切图</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🔲</div>
+        <h1>九宫格切图</h1>
+      </div>
+      <p class="tool-desc">在线九宫格切图工具，可将单张图片按 2×2、3×3、4×4 或自定义网格切分，支持居中裁正方形或按原图比例等分，逐片预览并单独或全部下载，所有处理均在浏览器本地完成。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="drop-zone" id="ngDrop">
+        点击选择图片，或将图片拖拽到此处（单张图片）
+      </div>
+      <input type="file" id="ngInput" accept="image/*" hidden>
+
+      <div id="ngControls" hidden>
+        <div class="form-grid">
+          <div class="form-item">
+            <label>网格</label>
+            <div class="radio-row" id="ngGrid" role="radiogroup" aria-label="网格">
+              <label><input type="radio" name="nggrid" value="2">2×2</label>
+              <label class="checked"><input type="radio" name="nggrid" value="3" checked>3×3</label>
+              <label><input type="radio" name="nggrid" value="4">4×4</label>
+              <label><input type="radio" name="nggrid" value="custom">自定义</label>
+            </div>
+          </div>
+          <div class="form-item" id="ngColsWrap" hidden>
+            <label for="ngCols">列数（1-10）</label>
+            <input type="number" id="ngCols" class="form-input" value="3" min="1" max="10" step="1">
+          </div>
+          <div class="form-item" id="ngRowsWrap" hidden>
+            <label for="ngRows">行数（1-10）</label>
+            <input type="number" id="ngRows" class="form-input" value="3" min="1" max="10" step="1">
+          </div>
+          <div class="form-item">
+            <label>切图模式</label>
+            <div class="radio-row" id="ngMode" role="radiogroup" aria-label="切图模式">
+              <label class="checked"><input type="radio" name="ngmode" value="square" checked>居中裁正方形</label>
+              <label><input type="radio" name="ngmode" value="ratio">按原图比例</label>
+            </div>
+          </div>
+          <div class="form-item">
+            <label>输出格式</label>
+            <div class="radio-row" id="ngFmt" role="radiogroup" aria-label="输出格式">
+              <label class="checked"><input type="radio" name="ngfmt" value="image/png" checked>PNG</label>
+              <label><input type="radio" name="ngfmt" value="image/jpeg">JPEG</label>
+            </div>
+          </div>
+          <div class="form-item" id="ngQualityWrap" style="display:none;">
+            <label for="ngQuality">质量：<span class="val" id="ngQualityVal">0.92</span></label>
+            <input type="range" id="ngQuality" min="0.1" max="1" step="0.02" value="0.92">
+          </div>
+        </div>
+
+        <div class="ng-grid" id="ngGridPreview"></div>
+        <div class="ng-info" id="ngInfo">每片尺寸：- · 切片总数：-</div>
+
+        <div class="op-row" style="margin-top:14px;">
+          <button class="btn btn-primary" id="ngDownloadAll" type="button">全部下载</button>
+        </div>
+        <p class="ng-tip">点击任意切片可单独下载该张；点击“全部下载”会按顺序依次下载，浏览器可能询问是否允许下载多个文件，请选择允许。</p>
+      </div>
+
+      <div class="warn-note" id="ngError" hidden></div>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>九宫格切图有什么用？</h3>
+        <p>把一张图切成 3×3 共九张小图，按顺序发到朋友圈等社交平台就会在九宫格中拼成完整大图，是非常常见的玩法；本工具也可用于把长图、海报按网格拆解成多张素材。</p>
+      </div>
+      <div class="faq-item">
+        <h3>“居中裁正方形”和“按原图比例等分”有什么区别？</h3>
+        <p>“居中裁正方形”会先裁掉原图较长边的多余部分，取正中间最大正方形再均分，适合非正方形原图；“按原图比例等分”不裁剪，直接按原图宽高比例切成网格，保留完整画面但各片不一定为正方形。</p>
+      </div>
+      <div class="faq-item">
+        <h3>为什么是逐个下载而不是打包成 ZIP？</h3>
+        <p>为保证完全在浏览器本地运行、不引入额外库与外部请求，本工具采用依次触发下载的方式；浏览器可能会询问是否允许下载多个文件，请选择允许即可，文件名按 原名-1、原名-2 递增。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/nine-grid.js"></script>
+</body>
+</html>

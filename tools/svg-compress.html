@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SVG压缩 - 在线SVG代码压缩优化与格式化工具 | 在线工具大全</title>
+  <meta name="description" content="免费在线SVG压缩工具，删除注释、XML声明、DOCTYPE、metadata与编辑器属性，去除空g、合并空白、按精度四舍五入坐标数值，显示压缩前后字节数与节省比例，支持复制、下载与格式化预览，全部本地完成。">
+  <meta name="keywords" content="SVG压缩,SVG优化,SVG压缩工具,SVG格式化,SVG瘦身,SVG最小化,在线SVG处理">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/svg-compress.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="SVG压缩 - 在线SVG代码压缩优化与格式化工具">
+  <meta property="og:description" content="删除注释、声明、metadata与编辑器属性，去除空g、合并空白、按精度处理坐标数值，显示字节数与节省比例，支持复制、下载与格式化。">
+  <meta property="og:url" content="https://example.com/tools/svg-compress.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9A%96%EF%B8%8F%3C/text%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem("ot-theme");if(t==="dark"){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();</script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "SVG压缩",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线SVG压缩工具，删除注释、声明与编辑器冗余属性，按精度四舍五入坐标数值，显示压缩前后字节数与节省比例。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["删除注释与声明", "删除编辑器属性", "去除空g标签", "合并空白", "坐标数值精度控制", "字节数对比", "格式化预览", "复制与下载"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "SVG压缩会破坏图形吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "本工具只移除注释、声明、metadata以及 Inkscape / Sodipodi 等编辑器专有属性，并对坐标数值做四舍五入，不会改动 path 的命令字母（M、C、L 等）与图形结构，因此通常不影响渲染效果。建议你压缩后预览确认，也可调整数值精度以平衡体积与精度。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "数值精度选多少合适？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "精度表示小数点后的位数。图标等小尺寸图形选 1~2 位通常足够且体积更小；需要保留细节的插画可选 2~3 位。精度为 0 会取整坐标，可能明显改变形状，请谨慎使用。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "压缩后的文件会上传吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "不会。所有解析、压缩与下载都在你的浏览器本地完成，文本与文件不会发送到任何服务器，可放心处理敏感素材。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .svgc-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 8px 18px;
+      margin-bottom: 14px;
+    }
+    .svgc-options .svgc-opt {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--text);
+      cursor: pointer;
+    }
+    .svgc-options .svgc-opt input { width: 16px; height: 16px; accent-color: var(--primary); }
+    .svgc-precision {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--text);
+    }
+    .svgc-precision select {
+      height: 34px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0 10px;
+      font-size: 14px;
+      font-family: var(--font);
+      color: var(--text);
+      background: var(--card);
+      outline: none;
+    }
+    .svgc-precision select:focus { border-color: var(--primary); }
+
+    .svgc-drop {
+      position: relative;
+    }
+    .he-io-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+    .svgc-input {
+      width: 100%;
+      min-height: 280px;
+      resize: vertical;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 14px 16px;
+      font-size: 13.5px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, "Courier New", monospace;
+      line-height: 1.7;
+      color: var(--text);
+      background: var(--card);
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .svgc-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.10);
+      background: var(--card);
+    }
+    .svgc-input.dragover {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.14);
+      background: var(--primary-light);
+    }
+    .svgc-drop-hint {
+      position: absolute;
+      inset: 0;
+      border-radius: 11px;
+      border: 2px dashed var(--primary);
+      background: rgba(37, 99, 235, 0.06);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      color: var(--primary);
+      font-weight: 600;
+      pointer-events: none;
+    }
+    .svgc-drop.dragover .svgc-drop-hint { display: flex; }
+
+    .svgc-output {
+      width: 100%;
+      min-height: 280px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: var(--card);
+      padding: 14px 16px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, "Courier New", monospace;
+      font-size: 13.5px;
+      line-height: 1.7;
+      color: var(--text);
+      white-space: pre-wrap;
+      word-break: break-all;
+      overflow: auto;
+      max-height: 520px;
+    }
+    .svgc-result {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .svgc-result .result-card .num.saved { color: #10b981; }
+    .svgc-hint {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 12px;
+      line-height: 1.7;
+    }
+    @media (max-width: 640px) {
+      .svgc-input, .svgc-output { min-height: 220px; }
+    }
+  </style>
+
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/svg-compress.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/svg-compress.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/svg-compress.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="../en/tools/svg-compress.html">English</a></span>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"></path></svg>
+          <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5a8.5 8.5 0 1 0 10.8 10.8z"></path></svg>
+        </button>
+
+
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>SVG压缩</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🌀</div>
+        <h1>SVG压缩</h1>
+      </div>
+      <p class="tool-desc">在线SVG压缩工具，删除注释、XML声明与DOCTYPE、metadata/title/desc、Inkscape/Sodipodi等编辑器属性，去除空 g 标签、合并空白、按精度四舍五入坐标数值，显示压缩前后字节数与节省比例，支持复制、下载与格式化预览，全部在浏览器本地完成。</p>
+    </section>
+
+    <section class="tool-panel">
+
+      <div class="svgc-options">
+        <label class="svgc-opt"><input type="checkbox" id="svgcComments" checked>删除注释</label>
+        <label class="svgc-opt"><input type="checkbox" id="svgcDecl" checked>删除 XML 声明与 DOCTYPE</label>
+        <label class="svgc-opt"><input type="checkbox" id="svgcMeta" checked>删除 metadata/title/desc</label>
+        <label class="svgc-opt"><input type="checkbox" id="svgcEditor" checked>删除编辑器属性</label>
+        <label class="svgc-opt"><input type="checkbox" id="svgcEmpty" checked>删除空 &lt;g&gt;</label>
+        <label class="svgc-opt"><input type="checkbox" id="svgcWhitespace" checked>合并空白</label>
+        <label class="svgc-opt"><input type="checkbox" id="svgcDefault">去掉默认属性</label>
+        <span class="svgc-precision">
+          数值精度
+          <select id="svgcPrecision">
+            <option value="0">0 位</option>
+            <option value="1">1 位</option>
+            <option value="2" selected>2 位</option>
+            <option value="3">3 位</option>
+          </select>
+        </span>
+      </div>
+
+      <div class="op-row">
+        <button class="btn btn-primary" id="svgcCompress" type="button">压缩</button>
+        <button class="btn" id="svgcFormat" type="button">格式化预览</button>
+        <button class="btn" id="svgcCopy" type="button">复制结果</button>
+        <button class="btn" id="svgcDownload" type="button">下载 .svg</button>
+        <button class="btn" id="svgcClear" type="button">清空</button>
+        <button class="btn" id="svgcSample" type="button">载入示例</button>
+      </div>
+
+      <div class="split-2">
+        <div class="svgc-drop" id="svgcDrop">
+          <div class="he-io-label"><span>输入（可拖入 .svg 文件）</span></div>
+          <textarea class="svgc-input" id="svgcInput" placeholder="在此粘贴 SVG 代码，或将 .svg 文件拖入此处..." spellcheck="false"></textarea>
+          <div class="svgc-drop-hint">松开以载入 SVG 文件</div>
+        </div>
+        <div>
+          <div class="he-io-label"><span>输出</span></div>
+          <div class="svgc-output" id="svgcOutput" tabindex="0" aria-live="polite"></div>
+        </div>
+      </div>
+
+      <div class="svgc-result">
+        <div class="result-card"><div class="num" id="svgcBefore">0</div><div class="label">压缩前（字节）</div></div>
+        <div class="result-card"><div class="num" id="svgcAfter">0</div><div class="label">压缩后（字节）</div></div>
+        <div class="result-card primary"><div class="num saved" id="svgcSaved">0%</div><div class="label">节省比例</div></div>
+      </div>
+
+      <p class="svgc-hint">提示：压缩仅移除冗余信息与按精度取整，不会改动 path 命令字母与图形结构。如需保留最大精度，可将数值精度设为 3 位。</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>SVG压缩会破坏图形吗？</h3>
+        <p>本工具只移除注释、声明、metadata以及 Inkscape / Sodipodi 等编辑器专有属性，并对坐标数值做四舍五入，不会改动 path 的命令字母（M、C、L 等）与图形结构，因此通常不影响渲染效果。建议你压缩后预览确认，也可调整数值精度以平衡体积与精度。</p>
+      </div>
+      <div class="faq-item">
+        <h3>数值精度选多少合适？</h3>
+        <p>精度表示小数点后的位数。图标等小尺寸图形选 1~2 位通常足够且体积更小；需要保留细节的插画可选 2~3 位。精度为 0 会取整坐标，可能明显改变形状，请谨慎使用。</p>
+      </div>
+      <div class="faq-item">
+        <h3>压缩后的文件会上传吗？</h3>
+        <p>不会。所有解析、压缩与下载都在你的浏览器本地完成，文本与文件不会发送到任何服务器，可放心处理敏感素材。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/svg-compress.js"></script>
+</body>
+</html>

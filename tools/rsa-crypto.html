@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RSA 密钥对与加解密 - 本地生成 RSA 密钥并加密解密 | 在线工具大全</title>
+  <meta name="description" content="免费在线 RSA 工具，基于 WebCrypto 生成本地 RSA-OAEP 密钥对（2048/3072/4096 位，SHA-256），导出 PEM 格式公钥与私钥，并支持公钥加密、私钥解密，全部在浏览器本地完成，密钥不上传。">
+  <meta name="keywords" content="RSA生成,RSA加密,RSA解密,RSA密钥对,RSA公钥,RSA私钥,PEM,RSA-OAEP,在线RSA">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://example.com/tools/rsa-crypto.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="RSA 密钥对与加解密 - 本地生成并加解密">
+  <meta property="og:description" content="基于 WebCrypto 生成本地 RSA-OAEP 密钥对，导出 PEM 公钥与私钥，支持公钥加密、私钥解密，全部在浏览器本地完成。">
+  <meta property="og:url" content="https://example.com/tools/rsa-crypto.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%91%3C/text%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem("ot-theme");if(t==="dark"){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();</script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "RSA 密钥对与加解密",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "免费在线 RSA 工具，基于 WebCrypto 生成本地 RSA-OAEP 密钥对，导出 PEM 公钥与私钥，支持公钥加密、私钥解密，全部在浏览器本地完成。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["生成 RSA-OAEP 密钥对", "2048 / 3072 / 4096 位模长", "SHA-256 哈希", "导出 PEM 公钥与私钥", "公钥加密 / 私钥解密", "PEM 复制与下载", "本地处理不上传"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "RSA 能加密多长的文本？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "RSA-OAEP 单次只能加密较短的数据。以 2048 位密钥为例，最大明文约为 190 字节（约 190 个英文字符或 60 个左右汉字）。若需要加密长文本，请改用 AES 对称加密，并用 RSA 加密 AES 密钥。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "公钥和私钥分别有什么用？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "公钥用于加密或验证签名，可以公开发布；私钥用于解密或生成签名，必须妥善保管。加密时使用对方的公钥，只有持有对应私钥的一方才能解密还原内容。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "生成的密钥会上传到服务器吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "不会。密钥对由你的浏览器在本地通过 WebCrypto 生成，整个过程不发起任何网络请求，私钥不会离开你的设备。请在本地妥善保存下载的 PEM 文件。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .rsa-gen-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 14px; }
+    .rsa-status { font-size: 13.5px; color: var(--muted); }
+    .rsa-status.active { color: var(--primary); }
+    .rsa-key-block { margin-top: 12px; }
+    .rsa-key-block h3 { font-size: 14px; color: var(--text); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+    .rsa-key-block .code-box { min-height: 120px; }
+    .rsa-key-ops { display: flex; gap: 8px; margin-top: 8px; }
+    .rsa-split {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 6px;
+    }
+    @media (max-width: 760px) { .rsa-split { grid-template-columns: 1fr; } }
+    .rsa-block { display: flex; flex-direction: column; gap: 8px; }
+    .rsa-block h3 { font-size: 15px; color: var(--text); margin-bottom: 2px; }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/rsa-crypto.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/rsa-crypto.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/rsa-crypto.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="../en/tools/rsa-crypto.html">English</a></span>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"></path></svg>
+          <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5a8.5 8.5 0 1 0 10.8 10.8z"></path></svg>
+        </button>
+
+
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>RSA 密钥对与加解密</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🔑</div>
+        <h1>RSA 密钥对与加解密</h1>
+      </div>
+      <p class="tool-desc">在线 RSA 工具，基于浏览器 WebCrypto 生成本地 RSA-OAEP 密钥对，导出标准 PEM 格式的公钥与私钥，并支持用公钥加密、私钥解密。所有运算都在本地完成，私钥不上传，适合学习、接口联调与短文本保护。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="rsa-gen-row">
+        <div class="radio-row" id="rsaBits" role="radiogroup" aria-label="密钥长度">
+          <label class="checked"><input type="radio" name="rsaBits" value="2048" checked>2048 位</label>
+          <label><input type="radio" name="rsaBits" value="3072">3072 位</label>
+          <label><input type="radio" name="rsaBits" value="4096">4096 位</label>
+        </div>
+        <button class="btn btn-primary" id="rsaGenBtn" type="button">生成密钥对</button>
+        <span class="rsa-status" id="rsaStatus" hidden>生成中…</span>
+      </div>
+
+      <div class="rsa-key-block">
+        <h3>公钥（SPKI / PEM）</h3>
+        <textarea id="rsaPub" class="code-box" readonly placeholder="点击“生成密钥对”后显示公钥"></textarea>
+        <div class="rsa-key-ops">
+          <button class="btn" id="rsaCopyPub" type="button">复制公钥</button>
+          <button class="btn" id="rsaDownPub" type="button">下载公钥 .pem</button>
+        </div>
+      </div>
+
+      <div class="rsa-key-block">
+        <h3>私钥（PKCS#8 / PEM）</h3>
+        <textarea id="rsaPriv" class="code-box" readonly placeholder="点击“生成密钥对”后显示私钥"></textarea>
+        <div class="rsa-key-ops">
+          <button class="btn" id="rsaCopyPriv" type="button">复制私钥</button>
+          <button class="btn" id="rsaDownPriv" type="button">下载私钥 .pem</button>
+        </div>
+      </div>
+
+      <div class="rsa-split">
+        <div class="rsa-block">
+          <h3>加密（使用公钥）</h3>
+          <label for="rsaEncPub" style="font-size:13px;color:var(--muted);">公钥 PEM</label>
+          <textarea id="rsaEncPub" class="code-box" style="min-height:96px;" placeholder="粘贴公钥 PEM"></textarea>
+          <label for="rsaEncPlain" style="font-size:13px;color:var(--muted);">明文</label>
+          <textarea id="rsaEncPlain" class="form-input" style="min-height:90px;" placeholder="输入要加密的文本（短文本）"></textarea>
+          <div class="op-row">
+            <button class="btn btn-primary" id="rsaEncBtn" type="button">加密</button>
+          </div>
+          <label for="rsaEncOut" style="font-size:13px;color:var(--muted);">密文（Base64）</label>
+          <textarea id="rsaEncOut" class="code-box" readonly placeholder="加密结果将显示在此"></textarea>
+          <div class="op-row">
+            <button class="btn" id="rsaCopyEnc" type="button">复制密文</button>
+          </div>
+        </div>
+
+        <div class="rsa-block">
+          <h3>解密（使用私钥）</h3>
+          <label for="rsaDecPriv" style="font-size:13px;color:var(--muted);">私钥 PEM</label>
+          <textarea id="rsaDecPriv" class="code-box" style="min-height:96px;" placeholder="粘贴私钥 PEM"></textarea>
+          <label for="rsaDecIn" style="font-size:13px;color:var(--muted);">密文（Base64）</label>
+          <textarea id="rsaDecIn" class="code-box" style="min-height:90px;" placeholder="粘贴要解密的 Base64 密文"></textarea>
+          <div class="op-row">
+            <button class="btn btn-primary" id="rsaDecBtn" type="button">解密</button>
+          </div>
+          <label for="rsaDecOut" style="font-size:13px;color:var(--muted);">还原明文</label>
+          <textarea id="rsaDecOut" class="code-box" readonly placeholder="解密后的明文将显示在此"></textarea>
+          <div class="op-row">
+            <button class="btn" id="rsaCopyDec" type="button">复制明文</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="warn-note" id="rsaError" hidden></div>
+
+      <p class="wc-note">说明：<b>全部计算在浏览器本地完成，密钥不上传。</b>RSA-OAEP 只能加密短文本（约 190 字节 / 2048 位），超过上限请改用 AES 对称加密。导出的私钥为 PKCS#8 格式，请妥善保管，不要泄露。</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>RSA 能加密多长的文本？</h3>
+        <p>RSA-OAEP 单次只能加密较短的数据。以 2048 位密钥为例，最大明文约为 190 字节（约 190 个英文字符或 60 个左右汉字）。若需要加密长文本，请改用 AES 对称加密，并用 RSA 加密 AES 密钥。</p>
+      </div>
+      <div class="faq-item">
+        <h3>公钥和私钥分别有什么用？</h3>
+        <p>公钥用于加密或验证签名，可以公开发布；私钥用于解密或生成签名，必须妥善保管。加密时使用对方的公钥，只有持有对应私钥的一方才能解密还原内容。</p>
+      </div>
+      <div class="faq-item">
+        <h3>生成的密钥会上传到服务器吗？</h3>
+        <p>不会。密钥对由你的浏览器在本地通过 WebCrypto 生成，整个过程不发起任何网络请求，私钥不会离开你的设备。请在本地妥善保存下载的 PEM 文件。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/rsa-crypto.js"></script>
+</body>
+</html>

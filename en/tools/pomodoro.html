@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pomodoro Timer - Online Focus Timer and Countdown Reminder | Online Tools</title>
+  <meta name="description" content="Free online Pomodoro timer with customizable focus, short break and long break durations and the long-break interval, a circular progress ring, automatic phase switching, Web Audio synthesized alert sounds, and today's completed-tomato count. Everything runs locally.">
+  <meta name="keywords" content="Pomodoro Timer, online tools, free tools, web tools, browser tools">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/pomodoro.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Pomodoro Timer - Online Focus Timer and Countdown Reminder">
+  <meta property="og:description" content="Customizable focus, short break and long break durations and long-break interval, a circular progress ring, automatic phase switching, Web Audio alert sounds, and today's completed-tomato count.">
+  <meta property="og:url" content="https://example.com/en/tools/pomodoro.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9A%96%EF%B8%8F%3C/text%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem("ot-theme");if(t==="dark"){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();</script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Pomodoro Timer",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online Pomodoro timer with customizable focus, short break and long break durations and long-break interval, a circular progress ring, automatic phase switching, Web Audio alert sounds, and today's completed-tomato count.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Circular progress", "Auto-switch focus/short/long break", "Custom duration", "Web Audio alert", "Today's tomato stats", "Page title countdown"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the Pomodoro work rhythm?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "By default, after 25 minutes of focus you take a 5-minute short break, and after every 4 focus cycles you take a 15-minute long break, then it restarts. You can adjust the focus, short-break and long-break durations, as well as the number of focus sessions that trigger a long break."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does the alert sound require permissions or external files?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. The alert uses the browser's built-in Web Audio API to synthesize a short \"ding\" in real time. It loads no external audio files and requests no notifications or microphone permissions. The AudioContext is created after your first click on \"Start\", complying with the browser's autoplay policy."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is the timing accurate? Does it drift in a background tab?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Timing is based on the real time difference from Date.now(), not on accumulated timers, so the countdown stays accurate and never accumulates drift even if the tab is throttled or sent to the background."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .pomo-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+    .pomo-ring-box {
+      position: relative;
+      width: 260px;
+      height: 260px;
+    }
+    .pomo-ring {
+      width: 260px;
+      height: 260px;
+      transform: rotate(-90deg);
+    }
+    .pomo-ring .pomo-track {
+      fill: none;
+      stroke: var(--border);
+      stroke-width: 14;
+    }
+    .pomo-ring .pomo-prog {
+      fill: none;
+      stroke: var(--pomo-color, var(--primary));
+      stroke-width: 14;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 0.25s linear, stroke 0.25s;
+    }
+    .pomo-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+    .pomo-time {
+      font-size: 52px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      color: var(--text);
+      line-height: 1.1;
+    }
+    .pomo-phase {
+      font-size: 15px;
+      color: var(--pomo-color, var(--primary));
+      font-weight: 600;
+      margin-top: 4px;
+    }
+    .pomo-count {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+    .pomo-settings {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 14px;
+      width: 100%;
+      max-width: 640px;
+    }
+    .pomo-set {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .pomo-set label {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .pomo-set .form-input {
+      width: 100%;
+    }
+    .pomo-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+    .pomo-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--text);
+      cursor: pointer;
+    }
+    .pomo-toggle input { width: 16px; height: 16px; accent-color: var(--primary); }
+    .pomo-hint {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 6px;
+      line-height: 1.7;
+      text-align: center;
+    }
+    @media (max-width: 640px) {
+      .pomo-ring-box, .pomo-ring { width: 220px; height: 220px; }
+      .pomo-time { font-size: 44px; }
+    }
+  </style>
+
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/pomodoro.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/pomodoro.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/pomodoro.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/pomodoro.html">中文</a><span class="lang-cur">English</span></span>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"></path></svg>
+          <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5a8.5 8.5 0 1 0 10.8 10.8z"></path></svg>
+        </button>
+
+
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>Pomodoro Timer</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🍅</div>
+        <h1>Pomodoro Timer</h1>
+      </div>
+      <p class="tool-desc">Online Pomodoro timer with customizable focus, short break and long break durations and long-break interval, a circular progress ring, automatic phase switching, a Web Audio "ding" alert, and today's completed-tomato count. Everything runs locally in your browser.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="pomo-wrap">
+        <div class="pomo-ring-box">
+          <svg class="pomo-ring" viewBox="0 0 260 260" aria-hidden="true">
+            <circle class="pomo-track" cx="130" cy="130" r="116"></circle>
+            <circle class="pomo-prog" id="pomoProg" cx="130" cy="130" r="116"></circle>
+          </svg>
+          <div class="pomo-center">
+            <div class="pomo-time" id="pomoTime">25:00</div>
+            <div class="pomo-phase" id="pomoPhase">Focus</div>
+            <div class="pomo-count" id="pomoCount">Today: 0 tomatoes completed</div>
+          </div>
+        </div>
+
+        <div class="pomo-settings">
+          <div class="pomo-set">
+            <label for="pomoFocus">Focus duration (minutes)</label>
+            <input class="form-input" id="pomoFocus" type="number" value="25" min="1" max="180" step="1">
+          </div>
+          <div class="pomo-set">
+            <label for="pomoShort">Short break (minutes)</label>
+            <input class="form-input" id="pomoShort" type="number" value="5" min="1" max="60" step="1">
+          </div>
+          <div class="pomo-set">
+            <label for="pomoLong">Long break (minutes)</label>
+            <input class="form-input" id="pomoLong" type="number" value="15" min="1" max="60" step="1">
+          </div>
+          <div class="pomo-set">
+            <label for="pomoCycle">Long-break interval (focus sessions)</label>
+            <input class="form-input" id="pomoCycle" type="number" value="4" min="2" max="12" step="1">
+          </div>
+        </div>
+
+        <div class="pomo-controls">
+          <button class="btn btn-primary" id="pomoStart" type="button">Start</button>
+          <button class="btn" id="pomoReset" type="button">Reset</button>
+          <button class="btn" id="pomoSkip" type="button">Skip current phase</button>
+          <label class="pomo-toggle"><input type="checkbox" id="pomoSound" checked>End alert sound</label>
+        </div>
+
+        <p class="pomo-hint">Tip: timing is based on the real time difference, so it never drifts even in the background. When a phase switches, the "ding" alert plays if enabled. The daily tomato count resets to zero after the page is closed.</p>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>What is the Pomodoro work rhythm?</h3>
+        <p>By default, after 25 minutes of focus you take a 5-minute short break, and after every 4 focus cycles you take a 15-minute long break, then it restarts. You can adjust the focus, short-break and long-break durations, as well as the number of focus sessions that trigger a long break.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Does the alert sound require permissions or external files?</h3>
+        <p>No. The alert uses the browser's built-in Web Audio API to synthesize a short "ding" in real time. It loads no external audio files and requests no notifications or microphone permissions. The AudioContext is created after your first click on "Start", complying with the browser's autoplay policy.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Is the timing accurate? Does it drift in a background tab?</h3>
+        <p>Timing is based on the real time difference from Date.now(), not on accumulated timers, so the countdown stays accurate and never accumulates drift even if the tab is throttled or sent to the background.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/pomodoro.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

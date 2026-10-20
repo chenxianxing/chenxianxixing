@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gitignore Generator - Generate .gitignore Ignore Rules for Languages and Frameworks Online | Online Tools</title>
+  <meta name="description" content="Free online Gitignore generator. Check common ignore rules by language, framework, editor, OS and other scenarios, automatically merge and deduplicate into a standard .gitignore, with one-click copy and download, all done locally.">
+  <meta name="keywords" content="gitignore, Node gitignore, Python gitignore, Go gitignore">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/gitignore-generator.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Gitignore Generator - Generate .gitignore Ignore Rules for Languages and Frameworks Online">
+  <meta property="og:description" content="Check common ignore rules by language, framework, editor and system, automatically merge and deduplicate into a standard .gitignore, with one-click copy and download.">
+  <meta property="og:url" content="https://example.com/en/tools/gitignore-generator.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%97%82%82%3C/text%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem("ot-theme");if(t==="dark"){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();</script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Gitignore Generator",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online Gitignore generator. Check common ignore rules by language, framework, editor, OS and other scenarios to automatically merge and deduplicate into a standard .gitignore.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Multi-language and multi-framework rules", "Editor and OS rules", "Docker/Terraform/Secrets rules", "Automatic merge and deduplication", "Section comment headers by group", "One-click copy and download", "Line count and size stats"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Where should .gitignore be placed in the repository?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": ".gitignore is usually placed at the root of the Git repository, with the filename .gitignore. It applies to the entire repo; you can also place a .gitignore in subdirectories to affect only that directory and its children. A root-level .gitignore is the most common approach."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can files that are already committed still be ignored?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. .gitignore only affects files that are not yet tracked (untracked). If a file is already committed, you must first run git rm --cached <file> to remove it from the index (keeping the local file), after which it will be ignored."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How should secrets and sensitive config be handled?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Use the \"Env/Secrets\" group to ignore sensitive files like .env, *.pem and *.key, and commit a .env.example template without real secrets. Never commit private keys or production config to the repository."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .gi-groups {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .gi-group {
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 14px 16px;
+      background: var(--card);
+    }
+    .gi-group-title {
+      font-size: 15px;
+      margin: 0 0 10px;
+      color: var(--text);
+    }
+    .gi-group .checkbox-row { gap: 10px 16px; }
+    .gi-out-title { font-size: 15px; margin: 6px 0 10px; color: var(--text); }
+    .code-box#giOutput { min-height: 320px; }
+  </style>
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/gitignore-generator.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/gitignore-generator.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/gitignore-generator.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/gitignore-generator.html">中文</a><span class="lang-cur">English</span></span>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"></path></svg>
+          <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5a8.5 8.5 0 1 0 10.8 10.8z"></path></svg>
+        </button>
+
+
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>Gitignore Generator</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🗂️</div>
+        <h1>Gitignore Generator</h1>
+      </div>
+      <p class="tool-desc">Check ignore rules by language, framework, editor, OS and common scenarios, automatically merge and deduplicate into a standard .gitignore. One-click copy and download are supported, with all processing done locally in your browser.</p>
+    </section>
+
+    <section class="tool-panel">
+
+      <div class="op-row">
+        <button class="btn btn-primary" id="giBtnAll" type="button">Select All</button>
+        <button class="btn" id="giBtnClear" type="button">Clear</button>
+        <button class="btn" id="giBtnCopy" type="button">Copy</button>
+        <button class="btn" id="giBtnDownload" type="button">Download .gitignore</button>
+        <span class="spacer"></span>
+        <span class="badge blue" id="giStats">0 lines · 0 B</span>
+      </div>
+
+      <div class="gi-groups">
+        <div class="gi-group">
+          <h3 class="gi-group-title">Language / Framework</h3>
+          <div class="checkbox-row">
+            <label><input type="checkbox" data-group="lang" value="node"> Node</label>
+            <label><input type="checkbox" data-group="lang" value="python"> Python</label>
+            <label><input type="checkbox" data-group="lang" value="java"> Java/Maven</label>
+            <label><input type="checkbox" data-group="lang" value="go"> Go</label>
+            <label><input type="checkbox" data-group="lang" value="rust"> Rust</label>
+            <label><input type="checkbox" data-group="lang" value="php"> PHP</label>
+            <label><input type="checkbox" data-group="lang" value="ruby"> Ruby</label>
+            <label><input type="checkbox" data-group="lang" value="dotnet"> .NET</label>
+          </div>
+        </div>
+        <div class="gi-group">
+          <h3 class="gi-group-title">Editor</h3>
+          <div class="checkbox-row">
+            <label><input type="checkbox" data-group="editor" value="vscode"> VS Code</label>
+            <label><input type="checkbox" data-group="editor" value="jetbrains"> JetBrains</label>
+            <label><input type="checkbox" data-group="editor" value="vim"> Vim</label>
+            <label><input type="checkbox" data-group="editor" value="sublime"> Sublime</label>
+          </div>
+        </div>
+        <div class="gi-group">
+          <h3 class="gi-group-title">Operating System</h3>
+          <div class="checkbox-row">
+            <label><input type="checkbox" data-group="os" value="windows"> Windows</label>
+            <label><input type="checkbox" data-group="os" value="macos"> macOS</label>
+            <label><input type="checkbox" data-group="os" value="linux"> Linux</label>
+          </div>
+        </div>
+        <div class="gi-group">
+          <h3 class="gi-group-title">Others</h3>
+          <div class="checkbox-row">
+            <label><input type="checkbox" data-group="other" value="docker"> Docker</label>
+            <label><input type="checkbox" data-group="other" value="terraform"> Terraform</label>
+            <label><input type="checkbox" data-group="other" value="env"> Env/Secrets</label>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="gi-out-title">.gitignore Preview</h3>
+      <pre class="code-box" id="giOutput" aria-readonly="true"></pre>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>Where should .gitignore be placed in the repository?</h3>
+        <p>.gitignore is usually placed at the root of the Git repository, with the filename .gitignore. It applies to the entire repo; you can also place a .gitignore in subdirectories to affect only that directory and its children. A root-level .gitignore is the most common approach.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Can files that are already committed still be ignored?</h3>
+        <p>No. .gitignore only affects files that are not yet tracked (untracked). If a file is already committed, you must first run git rm --cached <file> to remove it from the index (keeping the local file), after which it will be ignored.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How should secrets and sensitive config be handled?</h3>
+        <p>Use the "Env/Secrets" group to ignore sensitive files like .env, *.pem and *.key, and commit a .env.example template without real secrets. Never commit private keys or production config to the repository.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/gitignore-generator.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>
