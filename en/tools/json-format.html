@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON Formatter - Online JSON Beautifier / Minifier / Validator | Online Tools</title>
+  <meta name="description" content="Free online JSON formatter with JSON beautification (2-space / 4-space / Tab indentation), minification to a single line, escaping and unescaping, and syntax validation with precise error line and column location. It also provides a collapsible tree view. All processing is done locally and nothing is uploaded, making it ideal for API debugging and data inspection.">
+  <meta name="keywords" content="JSON Formatter, online tools, free tools, web tools, browser tools">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/json-format.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="JSON Formatter - Online JSON Beautifier / Minifier / Validator">
+  <meta property="og:description" content="Online tool for JSON beautification, minification, escaping, unescaping and syntax validation, with a collapsible tree view. All processing is done locally and nothing is uploaded.">
+  <meta property="og:url" content="https://example.com/en/tools/json-format.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%B9%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "JSON Formatter",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online JSON formatter supporting beautification, minification, escaping, unescaping and syntax validation, plus a collapsible tree view.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["JSON beautification (indentation optional)", "JSON minified to a single line", "JSON escaping / unescaping", "Syntax validation with error line and column location", "Collapsible tree view", "Copy and download .json"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I locate the problem when JSON validation reports an error?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "When parsing fails, this tool shows the error reason along with the line and column numbers of the error position, and marks the character offset. Common causes include extra commas, missing quotes, keys not wrapped in double quotes, and extra brackets at the end. Go back to the original text and fix it based on the line and column numbers."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does JSON formatting change the data content?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Beautifying, minifying, escaping and unescaping only change how the text is presented (indentation, whitespace, quote escaping); they do not change the structure or values of the data. It is safe to format after validation passes."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Will pasting a large JSON document cause lag?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "When the content exceeds 1MB, the tool warns about the performance risk. It is recommended to turn off real-time formatting, validate the structure first, or split the content before processing. All parsing is done locally in the browser and is never uploaded to a server."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .jf-input-row { margin-bottom: 0; }
+    .jf-toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 6px 0 14px; }
+    .jf-toolbar .spacer { flex: 1; }
+    .tree { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, "Courier New", monospace; font-size: 13.5px; line-height: 1.7; }
+    .tree details { padding-left: 16px; }
+    .tree > details { padding-left: 0; }
+    .tree summary { cursor: pointer; list-style: none; outline: none; user-select: none; }
+    .tree summary::-webkit-details-marker { display: none; }
+    .tree summary::before { content: "▸"; display: inline-block; width: 14px; color: var(--muted); transition: transform .12s; }
+    .tree details[open] > summary::before { content: "▾"; }
+    .tree .t-key { color: #7c3aed; font-weight: 600; }
+    .tree .t-str { color: #059669; }
+    .tree .t-num { color: #d97706; }
+    .tree .t-bool { color: #2563eb; }
+    .tree .t-null { color: #dc2626; }
+    .tree .t-type { color: #9ca3af; font-size: 11px; margin-left: 6px; font-style: italic; }
+    .tree .t-count { color: var(--muted); font-size: 11px; }
+    .tree .t-children { border-left: 1px dashed var(--border); margin: 2px 0 2px 6px; padding-left: 8px; }
+    .tree .t-leaf { padding: 1px 0; }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/json-format.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/json-format.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/json-format.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/json-format.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>JSON Formatter</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🧩</div>
+        <h1>JSON Formatter</h1>
+      </div>
+      <p class="tool-desc">Online JSON beautifier, minifier, escaper and syntax validator supporting 2-space / 4-space / Tab indentation, with a collapsible tree view and precise error line and column location. All parsing is done locally in the browser and nothing is uploaded to a server.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="op-row">
+        <div class="radio-row" id="indentRow" role="radiogroup" aria-label="Indentation">
+          <label class="checked"><input type="radio" name="indent" value="2" checked>2 Spaces</label>
+          <label><input type="radio" name="indent" value="4">4 Spaces</label>
+          <label><input type="radio" name="indent" value="tab">Tab</label>
+        </div>
+        <span class="spacer"></span>
+        <label class="checkbox-row" style="font-size:13px;"><input type="checkbox" id="autoFmt"> Real-time formatting</label>
+      </div>
+
+      <div class="form-item">
+        <label for="jfInput">JSON Input</label>
+        <textarea id="jfInput" class="form-input code-box editable" rows="12" spellcheck="false" placeholder='在此粘贴或输入 JSON，例如：{"name":"张三","age":18}'></textarea>
+      </div>
+
+      <div class="jf-toolbar">
+        <button class="btn btn-primary" id="btnFormat" type="button">Format</button>
+        <button class="btn" id="btnMinify" type="button">Compress</button>
+        <button class="btn" id="btnEscape" type="button">Escape</button>
+        <button class="btn" id="btnUnescape" type="button">Unescape</button>
+        <button class="btn" id="btnValidate" type="button">Validate</button>
+        <span class="spacer"></span>
+        <button class="btn" id="btnSample" type="button">Sample</button>
+        <button class="btn" id="btnClear" type="button">Clear</button>
+      </div>
+
+      <div class="warn-note" id="jfError" hidden></div>
+      <div class="info-note" id="jfPerf" hidden>The content is large (over 1MB), so formatting and the tree view may be slow. It is recommended to validate the structure first or split the content.</div>
+
+      <div class="form-item" style="margin-top:14px;">
+        <label for="jfOutput">Result</label>
+        <textarea id="jfOutput" class="form-input code-box" rows="12" readonly spellcheck="false" placeholder="The formatted JSON will appear here"></textarea>
+      </div>
+
+      <div class="op-row" style="margin-top:8px; margin-bottom:0;">
+        <button class="btn" id="btnCopy" type="button">Copy result</button>
+        <button class="btn" id="btnDownload" type="button">Download .json</button>
+      </div>
+
+      <div class="split-2" style="margin-top:20px;">
+        <div class="form-item">
+          <label>Tree View (click to collapse or expand)</label>
+          <div class="code-box" id="jfTree" style="min-height:220px;"><div class="empty-tip">The structure tree will be shown here after formatting or validating</div></div>
+        </div>
+        <div class="form-item">
+          <label>Validation Info</label>
+          <div class="code-box" id="jfInfo" style="min-height:220px;"><div class="empty-tip">Click Validate to view the structure and status</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>How do I locate the problem when JSON validation reports an error?</h3>
+        <p>When parsing fails, this tool shows the error reason along with the line and column numbers of the error position, and marks the character offset. Common causes include extra commas, missing quotes, keys not wrapped in double quotes, and extra brackets at the end. Go back to the original text and fix it based on the line and column numbers.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Does JSON formatting change the data content?</h3>
+        <p>No. Beautifying, minifying, escaping and unescaping only change how the text is presented (indentation, whitespace, quote escaping); they do not change the structure or values of the data. It is safe to format after validation passes.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Will pasting a large JSON document cause lag?</h3>
+        <p>When the content exceeds 1MB, the tool warns about the performance risk. It is recommended to turn off real-time formatting, validate the structure first, or split the content before processing. All parsing is done locally in the browser and is never uploaded to a server.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/json-format.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Compression - Online JPEG/WebP/PNG Image Size Compressor | Online Tools</title>
+  <meta name="description" content="Free online image compression tool supporting JPEG, WebP and PNG. Compress lossily or losslessly via the quality and max width settings, compare the original and compressed results in real time with the compression ratio shown. All processing is done locally in your browser.">
+  <meta name="keywords" content="Image Compressor, online tools, free tools, web tools, browser tools">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/image-compress.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Image Compression - Online JPEG/WebP/PNG Image Size Compressor">
+  <meta property="og:description" content="Online image compression tool with quality and max width controls, real-time comparison and download of the compressed result.">
+  <meta property="og:url" content="https://example.com/en/tools/image-compress.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%97%9C%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Image Compressor",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online image compression tool supporting JPEG, WebP and PNG, with quality and max width controls and result comparison.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["JPEG/WebP/PNG Compression", "Quality Control", "Max Width Limit", "Before/After Comparison", "Compression Ratio Stats", "Local Processing"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Why is WebP usually smaller than JPEG?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "WebP uses a more modern encoding algorithm and is often smaller than JPEG at similar visual quality, making it ideal for web image optimization. However, some older browsers have limited WebP support, so confirm compatibility with your target environment before publishing."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What does the max width limit do?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Limiting the max width scales the image down proportionally, which is one of the most effective ways to reduce file size. For example, scaling a 4000px-wide original down to 1600px drastically cuts the pixel count and noticeably shrinks the file."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does compression cost image sharpness?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "JPEG and WebP are lossy: the lower the quality and the smaller the size, the more noticeable the loss. PNG is lossless and mainly shrinks the file by reducing dimensions, introducing no quality loss, but it offers relatively limited compression room."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .drop-zone {
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 26px;
+      text-align: center;
+      color: var(--muted);
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      font-size: 14px;
+    }
+    .drop-zone:hover { border-color: var(--primary); background: var(--primary-light); }
+    .drop-zone.dragover { border-color: var(--primary); background: var(--primary-light); }
+    .slider-item { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+    .slider-item .val { font-size: 13px; color: var(--primary); font-weight: 600; }
+    .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 14px; }
+    @media (max-width: 720px) { .compare { grid-template-columns: 1fr; } }
+    .compare-card { background:#fbfcfe; border:1px solid var(--border); border-radius:12px; padding:14px; text-align:center; }
+    .compare-card img { max-width:100%; max-height:280px; border-radius:8px; }
+    .compare-card .cap { font-size:13px; color:var(--muted); margin-bottom:8px; }
+    .compare-card .sz { font-size:15px; font-weight:700; color:var(--primary); margin-top:8px; }
+    .ratio-badge { display:inline-block; font-size:14px; padding:4px 12px; border-radius:999px; background:var(--primary-light); color:var(--primary); font-weight:600; margin-top:12px; }
+    .ratio-badge.warn { background:#fffbeb; color:#92400e; }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/image-compress.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/image-compress.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/image-compress.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/image-compress.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>Image Compressor</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🗜️</div>
+        <h1>Image Compressor</h1>
+      </div>
+      <p class="tool-desc">Online image compression tool supporting JPEG, WebP and PNG. Compress images via the quality and max width limits, compare the original and compressed results in real time with the compression ratio shown. All processing is done locally in your browser.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="drop-zone" id="dropZone">
+        Click to choose an image, or drag and drop one here (images only, up to 20MB each)
+      </div>
+      <input type="file" id="cmpInput" accept="image/*" hidden>
+
+      <div id="paramsBox" hidden style="margin-top:16px;">
+        <div class="form-grid">
+          <div class="slider-item">
+            <label for="cmpQuality">Quality: <span class="val" id="cmpQualityVal">0.80</span></label>
+            <input type="range" id="cmpQuality" min="0.1" max="1" step="0.05" value="0.8">
+          </div>
+          <div class="form-item">
+            <label for="cmpMaxWidth">Max Width (px, 0 means no limit)</label>
+            <input type="number" id="cmpMaxWidth" class="form-input" value="1600" min="0" step="50">
+          </div>
+        </div>
+
+        <div class="op-row">
+          <div class="radio-row" id="cmpFmtRow" role="radiogroup" aria-label="Output Format">
+            <label class="checked"><input type="radio" name="cmpfmt" value="image/jpeg" checked>JPEG</label>
+            <label><input type="radio" name="cmpfmt" value="image/webp">WebP</label>
+            <label><input type="radio" name="cmpfmt" value="image/png">PNG</label>
+          </div>
+          <span class="spacer"></span>
+          <button class="btn btn-primary" id="btnCompress" type="button">Compress Image</button>
+          <button class="btn" id="btnDownloadCmp" type="button" disabled>Download Result</button>
+        </div>
+      </div>
+
+      <div class="warn-note" id="cmpError" hidden></div>
+
+      <div id="compareBox" hidden>
+        <div class="compare">
+          <div class="compare-card">
+            <div class="cap">Original</div>
+            <img id="origImg" alt="Original">
+            <div class="sz" id="cmpOrigSize">-</div>
+          </div>
+          <div class="compare-card">
+            <div class="cap">Compressed</div>
+            <img id="resImg" alt="Compressed">
+            <div class="sz" id="cmpResSize">-</div>
+          </div>
+        </div>
+        <div style="text-align:center;">
+          <span class="ratio-badge" id="cmpRatio">-</span>
+        </div>
+      </div>
+
+      <p class="wc-note">Note: PNG is lossless, so the quality slider has no effect on it and the size is reduced mainly by lowering Max Width; JPEG/WebP are lossy, where lower quality means smaller files but more quality loss. Compression runs locally in your browser via Canvas and images are never uploaded.</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>Why is WebP usually smaller than JPEG?</h3>
+        <p>WebP uses a more modern encoding algorithm and is often smaller than JPEG at similar visual quality, making it ideal for web image optimization. However, some older browsers have limited WebP support, so confirm compatibility with your target environment before publishing.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What does the max width limit do?</h3>
+        <p>Limiting the max width scales the image down proportionally, which is one of the most effective ways to reduce file size. For example, scaling a 4000px-wide original down to 1600px drastically cuts the pixel count and noticeably shrinks the file.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Does compression cost image sharpness?</h3>
+        <p>JPEG and WebP are lossy: the lower the quality and the smaller the size, the more noticeable the loss. PNG is lossless and mainly shrinks the file by reducing dimensions, introducing no quality loss, but it offers relatively limited compression room.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/image-compress.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

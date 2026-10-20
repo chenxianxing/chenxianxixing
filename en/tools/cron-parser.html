@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cron Expression Parser - Online Cron Parser & Next Run Time Predictor | Online Tools</title>
+  <meta name="description" content="Free online Cron expression parser supporting 5-field standard and 6-field with-seconds expressions, special macros like @yearly, and L/W/# advanced syntax. It generates human-readable descriptions, field breakdowns and the next 10 run times, all computed locally with no sign-up.">
+  <meta name="keywords" content="crontab, online tools, free tools, web tools, browser tools">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/cron-parser.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Cron Expression Parser - Online Cron Parser & Next Run Time Predictor">
+  <meta property="og:description" content="Online parser for 5-field and 6-field Cron expressions, special macros and advanced syntax, with human-readable descriptions, field breakdowns and next run times, computed locally.">
+  <meta property="og:url" content="https://example.com/en/tools/cron-parser.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%8F%B0%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Cron Expression Parser",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online Cron expression parser supporting 5-field standard and 6-field with-seconds expressions, special macros and L/W/# advanced syntax, with descriptions, field breakdowns and next run times.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["5-field / 6-field Cron parsing", "Special macros (@yearly/@daily, etc.)", "L/W/# advanced syntax support", "Human-readable description generation", "Field breakdown table", "Next 10 run times prediction", "One-click common presets", "Pure local computation, no upload"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What do the five fields of a Cron expression mean?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A standard Cron expression has 5 fields: minute (0-59), hour (0-23), day of month (1-31), month (1-12) and day of week (0-7, where both 0 and 7 mean Sunday), separated by spaces. This tool also supports a 6-field form that adds a seconds field (0-59) at the front."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What special syntax is supported?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Supported: *, numbers, a-b ranges, */n and a-b/n steps, a,b,c lists, month names JAN-DEC and weekday names SUN-SAT; the day field supports ?, L (last day of month) and W (nearest weekday), and the weekday field supports 5#2 (the second Friday of the month); the special macros @yearly, @monthly, @weekly, @daily, @hourly and @reboot are also supported, where @reboot is informational only and is not parsed precisely."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How are the next run times calculated?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Starting from the current time, the tool advances day by day and matches the month, day and weekday conditions, then combines hours, minutes (and seconds) into candidate times, searching up to 4 years ahead to list the next 10 runs. All computation is done locally in your browser and the expression is never uploaded."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .cron-mono { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, "Courier New", monospace; letter-spacing: .5px; }
+    .block-title { font-size: 15px; font-weight: 600; margin: 20px 0 10px; }
+    .preset-label { font-size: 13px; color: var(--muted); }
+    .preset-btn { height: 30px; padding: 0 12px; font-size: 13px; }
+    .desc-line { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    #cronDescText { font-size: 15px; font-weight: 600; color: #1e40af; }
+    td.mono { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, "Courier New", monospace; font-size: 13px; }
+    .vals-scroll { max-height: 96px; overflow: auto; }
+    .val-badge {
+      display: inline-block; font-size: 12px; background: #fff;
+      border: 1px solid var(--border); border-radius: 6px;
+      padding: 1px 7px; margin: 2px 4px 2px 0; font-variant-numeric: tabular-nums;
+    }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/cron-parser.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/cron-parser.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/cron-parser.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+        <span class="lang-switch"><a class="lang-link" href="../../tools/cron-parser.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>Cron Expression Parser</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">⏰</div>
+        <h1>Cron Expression Parser</h1>
+      </div>
+      <p class="tool-desc">Online Cron expression parser supporting 5-field standard and 6-field with-seconds expressions, special macros such as @yearly, and L/W/# advanced syntax. It generates human-readable descriptions, a field breakdown table and the next 10 run times in real time, all computed locally in your browser.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="form-item">
+        <label for="cronInput">Cron expression</label>
+        <input type="text" id="cronInput" class="form-input cron-mono" placeholder="e.g. */15 * * * * or 0 8 * * 1-5" spellcheck="false" autocomplete="off">
+      </div>
+
+      <div class="op-row">
+        <span class="preset-label">Presets: </span>
+        <button class="btn preset-btn" type="button" data-expr="* * * * *">Every minute</button>
+        <button class="btn preset-btn" type="button" data-expr="*/5 * * * *">Every 5 minutes</button>
+        <button class="btn preset-btn" type="button" data-expr="0 * * * *">Every hour</button>
+        <button class="btn preset-btn" type="button" data-expr="0 0 * * *">Daily at 00:00</button>
+        <button class="btn preset-btn" type="button" data-expr="30 8 * * *">Daily at 08:30</button>
+        <button class="btn preset-btn" type="button" data-expr="0 9 * * 1">Mondays at 09:00</button>
+        <button class="btn preset-btn" type="button" data-expr="0 0 1 * *">1st of the month</button>
+        <button class="btn preset-btn" type="button" data-expr="0 0 1 1 *">January 1 every year</button>
+      </div>
+
+      <div class="op-row">
+        <button class="btn btn-primary" id="btnParse" type="button">Parser</button>
+        <button class="btn" id="btnCopyDesc" type="button">Copy description</button>
+        <button class="btn" id="btnCopyExpr" type="button">Copy standard expression</button>
+        <span class="spacer"></span>
+        <label class="checkbox-row" style="font-size:13px;"><input type="checkbox" id="autoParse" checked> Live parsing</label>
+      </div>
+
+      <div class="info-note" id="cronDesc" hidden>
+        <div class="desc-line">
+          <span class="badge blue" id="cronDescBadge"></span>
+          <span id="cronDescText"></span>
+        </div>
+      </div>
+
+      <div class="warn-note" id="cronError" hidden></div>
+
+      <h2 class="block-title">Field breakdown</h2>
+      <div class="empty-tip" id="cronFieldsEmpty">Enter a Cron expression to see the parsed result of each field here</div>
+      <div class="table-wrap" id="cronFieldsWrap" hidden>
+        <table class="data-table">
+          <thead>
+            <tr><th>Field</th><th>Raw value</th><th>Parsed values</th></tr>
+          </thead>
+          <tbody id="cronFieldsBody"></tbody>
+        </table>
+      </div>
+
+      <h2 class="block-title">Next 10 run times</h2>
+      <div class="empty-tip" id="cronNextEmpty">No run time prediction yet</div>
+      <div class="table-wrap" id="cronNextWrap" hidden>
+        <table class="data-table">
+          <thead>
+            <tr><th>No.</th><th>Run time</th><th>From now</th></tr>
+          </thead>
+          <tbody id="cronNextBody"></tbody>
+        </table>
+      </div>
+
+      <p class="wc-note">Note: <b>All parsing is done locally in your browser.</b>Supports 5-field standard expressions (minute hour day month weekday) and 6-field with-seconds expressions; ? is equivalent to * in the day and weekday fields; the day field supports L (last day of month) and W (nearest weekday), and the weekday field supports 5#2 (the second Friday of the month); @reboot is informational only and is not parsed precisely.</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>What do the five fields of a Cron expression mean?</h3>
+        <p>A standard Cron expression has 5 fields: minute (0-59), hour (0-23), day of month (1-31), month (1-12) and day of week (0-7, where both 0 and 7 mean Sunday), separated by spaces. This tool also supports a 6-field form that adds a seconds field (0-59) at the front.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What special syntax is supported?</h3>
+        <p>Supported: *, numbers, a-b ranges, */n and a-b/n steps, a,b,c lists, month names JAN-DEC and weekday names SUN-SAT; the day field supports ?, L (last day of month) and W (nearest weekday), and the weekday field supports 5#2 (the second Friday of the month); the special macros @yearly, @monthly, @weekly, @daily, @hourly and @reboot are also supported, where @reboot is informational only and is not parsed precisely.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How are the next run times calculated?</h3>
+        <p>Starting from the current time, the tool advances day by day and matches the month, day and weekday conditions, then combines hours, minutes (and seconds) into candidate times, searching up to 4 years ahead to list the next 10 runs. All computation is done locally in your browser and the expression is never uploaded.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/cron-parser.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

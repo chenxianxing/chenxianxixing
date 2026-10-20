@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SQL Formatter - Online SQL Beautifier and Minifier | Online Tools</title>
+  <meta name="description" content="Free online SQL formatter supporting keyword uppercasing, main clause line breaks, AND/OR indentation, comma line breaks, 2/4 space indentation and single-line minification, while preserving strings and comments. Everything is processed locally in your browser.">
+  <meta name="keywords" content="SQL Formatter, online tools, free tools, web tools, browser tools">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/sql-format.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="SQL Formatter - Online SQL Beautifier and Minifier">
+  <meta property="og:description" content="Online SQL formatter with keyword uppercasing, clause line breaks, AND/OR indentation and single-line minification, preserving strings and comments.">
+  <meta property="og:url" content="https://example.com/en/tools/sql-format.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%9D%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "SQL Formatter",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online SQL beautifier and minifier with keyword uppercasing, clause line breaks, AND/OR indentation, comma line breaks and single-line minification.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Uniform keyword uppercasing", "Main clause line breaks", "AND/OR line break indentation", "Optional line break after comma", "2/4 space indentation", "Single-line minify mode"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Are SQL keywords uppercased automatically?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. The tool recognizes common SQL keywords (such as SELECT, FROM, WHERE and JOIN) and uppercases them uniformly, while identifiers such as table and column names keep their original casing."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are strings and comments modified?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Single-quoted strings, double-quoted identifiers and -- and /* */ comments are all preserved unchanged; they are neither reformatted nor broken."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the minify mode for?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Minify mode collapses SQL into a single line and removes extra whitespace. It is commonly used for logs, configuration or transmission, making copying and comparison easier, and keywords are uppercased as well."
+        }
+      }
+    ]
+  }
+  </script>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/sql-format.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/sql-format.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/sql-format.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/sql-format.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>SQL Formatter</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">📝</div>
+        <h1>SQL Formatter</h1>
+      </div>
+      <p class="tool-desc">Online SQL beautifier and minifier supporting keyword uppercasing, main clause line breaks, AND/OR indentation, comma line breaks and custom indentation, with strings and comments preserved unchanged. Everything is processed locally in your browser.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="op-row">
+        <div class="radio-row" id="modeRow" role="radiogroup" aria-label="Mode">
+          <label class="checked"><input type="radio" name="mode" value="pretty" checked>Pretty</label>
+          <label><input type="radio" name="mode" value="compact">Compress</label>
+        </div>
+        <span class="spacer"></span>
+        <label class="checkbox-row" style="font-size:13px;"><input type="checkbox" id="breakComma" checked> Line break after comma</label>
+        <label class="checkbox-row" style="font-size:13px;"><input type="checkbox" id="upperKw" checked> Uppercase keywords</label>
+      </div>
+
+      <div class="form-grid" style="margin-bottom:14px;">
+        <div class="form-item">
+          <label for="indentSize">Indent spaces</label>
+          <select id="indentSize" class="form-select" style="max-width:200px;">
+            <option value="2">2 spaces</option>
+            <option value="4">4 spaces</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="split-2">
+        <div class="form-item">
+          <label for="sqlInput">Original SQL</label>
+          <textarea id="sqlInput" class="form-input" rows="16" placeholder="select id,name from user where age>18 and status=1 order by id desc" spellcheck="false"></textarea>
+        </div>
+        <div class="form-item">
+          <label for="sqlOutput">Formatted Result</label>
+          <textarea id="sqlOutput" class="form-input" rows="16" readonly placeholder="The formatted result will appear here" spellcheck="false"></textarea>
+        </div>
+      </div>
+
+      <div class="op-row" style="margin-top:14px; margin-bottom:0;">
+        <button class="btn btn-primary" id="btnFormat" type="button">Format</button>
+        <button class="btn" id="btnCopy" type="button">Copy result</button>
+        <button class="btn" id="btnDownload" type="button">Download .sql</button>
+        <button class="btn" id="btnExample" type="button">Sample</button>
+        <span class="spacer"></span>
+        <button class="btn" id="btnClear" type="button">Clear</button>
+      </div>
+
+      <p class="wc-note">Note: the tool recognizes common SQL keywords and uppercases them uniformly, breaks main clauses (SELECT/FROM/WHERE/JOIN, etc.) onto new lines and indents AND/OR; single-quoted strings, double-quoted identifiers and comments are preserved unchanged.</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>Are SQL keywords uppercased automatically?</h3>
+        <p>Yes. The tool recognizes common SQL keywords (such as SELECT, FROM, WHERE and JOIN) and uppercases them uniformly, while identifiers such as table and column names keep their original casing.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Are strings and comments modified?</h3>
+        <p>No. Single-quoted strings, double-quoted identifiers and -- and /* */ comments are all preserved unchanged; they are neither reformatted nor broken.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is the minify mode for?</h3>
+        <p>Minify mode collapses SQL into a single line and removes extra whitespace. It is commonly used for logs, configuration or transmission, making copying and comparison easier, and keywords are uppercased as well.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/sql-format.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

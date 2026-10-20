@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MBTI Personality Test - Online MBTI Career Personality Assessment | Online Tools</title>
+  <meta name="description" content="Free online MBTI personality test: 48 questions covering the E/I, S/N, T/F and J/P dimensions, a quick 5-point scale, and instant 16-type results with dimension percentages, strengths and weaknesses, and career direction references. Runs entirely in your browser.">
+  <meta name="keywords" content="MBTI, online tools, free tools, web tools, browser tools">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/mbti.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="MBTI Personality Test - Online MBTI Career Personality Assessment">
+  <meta property="og:description" content="An online MBTI personality test with 48 questions scored across four dimensions, generating instant 16-type results with dimension percentages, strengths and weaknesses, and career direction references.">
+  <meta property="og:url" content="https://example.com/en/tools/mbti.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%A0%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "MBTI Personality Test",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线MBTI Personality Test工具，48道题目覆盖E/I、S/N、T/F、J/PThu totalDimensions，即时Generate16型人格Result、Dimensions倾向百分比与职业Orientation参考。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["48道Test题目", "5级量表作答", "ThuDimensions倾向百分比", "16型人格Result", "StrengthsWeaknesses分析", "职业Orientation参考", "Local calculation, no upload"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How accurate are MBTI test results?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "MBTI tests use self-report scales to measure tendencies across four dimensions. The results are for entertainment and self-exploration and can help you see yourself from a new angle, but they are not a basis for professional psychological assessment or hiring."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is my test data uploaded to a server?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. All answers and scoring are computed locally in your browser, nothing is uploaded to any server, the data disappears when you close the page, and no sign-up is required."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What do the four letters mean?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "E/I stands for energy (Extraversion/Introversion), S/N for information (Sensing/Intuition), T/F for decision-making (Thinking/Feeling), and J/P for lifestyle (Judging/Perceiving). The four letters combine into 16 personality types, such as INTJ Architect."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    /* ---------- MBTI 专属 ---------- */
+    .mbti-progress { height: 8px; background: #eef2f7; border-radius: 999px; overflow: hidden; margin-bottom: 10px; }
+    .mbti-progress-bar { height: 100%; width: 0%; background: var(--primary); border-radius: 999px; transition: width 0.25s; }
+    .mbti-qmeta { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+    .mbti-qtext { font-size: 18px; font-weight: 600; line-height: 1.6; margin: 4px 0 6px; }
+    .mbti-options { display: flex; flex-direction: column; gap: 10px; margin: 16px 0 4px; }
+    .mbti-option { display: flex; align-items: center; gap: 10px; border: 1px solid var(--border); border-radius: 10px; padding: 11px 14px; font-size: 14.5px; cursor: pointer; background: #fbfcfe; color: var(--text); transition: border-color 0.15s, background 0.15s; }
+    .mbti-option:hover { border-color: var(--primary); background: var(--primary-light); }
+    .mbti-option.selected { border-color: var(--primary); background: var(--primary-light); color: var(--primary); font-weight: 600; }
+    .mbti-option input { accent-color: var(--primary); margin: 0; }
+    .mbti-qhint { font-size: 13px; color: var(--muted); }
+
+    .mbti-type-head { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    .mbti-type-code { font-size: 34px; font-weight: 800; color: var(--primary); letter-spacing: 3px; font-variant-numeric: tabular-nums; }
+    .mbti-type-name { font-size: 18px; font-weight: 700; }
+    .mbti-type-desc { font-size: 14px; color: var(--muted); line-height: 1.9; margin-top: 10px; }
+    .mbti-sec-title { font-size: 14px; font-weight: 600; margin: 20px 0 6px; color: var(--text); }
+    .mbti-list { margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.9; color: var(--text); }
+
+    .mbti-dim { margin-top: 14px; }
+    .mbti-dim-head { display: flex; justify-content: space-between; font-size: 13.5px; margin-bottom: 6px; }
+    .mbti-dim-head .dim-name { color: var(--muted); }
+    .mbti-dim-head b { color: var(--primary); font-variant-numeric: tabular-nums; }
+    .mbti-dim-track { height: 10px; background: #eef2f7; border-radius: 999px; overflow: hidden; }
+    .mbti-dim-fill { height: 100%; background: var(--primary); border-radius: 999px; transition: width 0.3s; }
+    .mbti-dim-side { font-size: 12.5px; color: var(--muted); margin-top: 4px; }
+
+    .mbti-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+    .mbti-tags .badge { font-size: 13px; padding: 4px 12px; }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/mbti.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/mbti.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/mbti.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/mbti.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>MBTI Personality Test</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🧠</div>
+        <h1>MBTI Personality Test</h1>
+      </div>
+      <p class="tool-desc">Online MBTI career personality test with 48 questions covering the E/I, S/N, T/F and J/P dimensions. Answer quickly on a 5-point scale and get instant 16-type results with dimension percentages, strengths and weaknesses, and career direction references. All calculations run locally in your browser.</p>
+    </section>
+
+    <section class="tool-panel">
+
+      <!-- 开始页 -->
+      <div id="mbtiStart">
+        <div class="result-grid">
+          <div class="result-card primary"><div class="num">48</div><div class="label">Questions</div></div>
+          <div class="result-card"><div class="num">8~12</div><div class="label">Estimated Time (minutes)</div></div>
+          <div class="result-card"><div class="num">16</div><div class="label">Possible Results (personality types)</div></div>
+        </div>
+        <p class="wc-note">Instructions: 48 questions in total, 12 per dimension. Choose the option that fits you best based on your first reaction; there is no need to overthink, and no answer is right or wrong within a dimension. You can go back to the previous question at any time. The result shows your four-letter type, the tendency percentage of each dimension, strengths and weaknesses, suitable career directions, and compatible types.</p>
+        <div class="warn-note">Results are for entertainment and self-exploration only. This is not a professional psychological assessment and should not be used for hiring, selection, or clinical diagnosis.</div>
+        <div class="op-row" style="margin-top:16px; margin-bottom:0;">
+          <button class="btn btn-primary" id="btnStart" type="button">Start Test</button>
+        </div>
+      </div>
+
+      <!-- 答题页 -->
+      <div id="mbtiQuiz" hidden>
+        <div class="mbti-progress"><div class="mbti-progress-bar" id="mbtiBar"></div></div>
+        <div class="mbti-qmeta"><span id="mbtiQMeta">Question 1 / 48</span><span class="spacer" style="flex:1;"></span><span id="mbtiQGroup" class="badge blue"></span></div>
+        <h2 class="mbti-qtext" id="mbtiQText"></h2>
+        <div class="mbti-options" id="mbtiOptions" role="radiogroup" aria-label="Options"></div>
+        <div class="op-row" style="margin-top:14px; margin-bottom:0;">
+          <button class="btn" id="btnPrev" type="button">Previous</button>
+          <span class="spacer"></span>
+          <span class="mbti-qhint" id="mbtiQHint">Select an option to move to the next question</span>
+        </div>
+      </div>
+
+      <!-- 结果页 -->
+      <div id="mbtiResult" hidden>
+        <div class="mbti-type-head">
+          <div class="mbti-type-code" id="resCode">INTJ</div>
+          <div class="mbti-type-name" id="resName">Architect</div>
+        </div>
+        <p class="mbti-type-desc" id="resDesc"></p>
+
+        <div class="mbti-sec-title" id="resDimTitle">Dimension Tendency Analysis</div>
+        <div id="resDims"></div>
+
+        <div class="split-2" style="margin-top:16px;">
+          <div>
+            <div class="mbti-sec-title">Strengths</div>
+            <ul class="mbti-list" id="resStrengths"></ul>
+          </div>
+          <div>
+            <div class="mbti-sec-title">Weaknesses</div>
+            <ul class="mbti-list" id="resWeaknesses"></ul>
+          </div>
+        </div>
+
+        <div class="mbti-sec-title">Career Directions</div>
+        <div class="mbti-tags" id="resCareers"></div>
+
+        <div class="mbti-sec-title">Compatible Types</div>
+        <div class="mbti-tags" id="resMatch"></div>
+
+        <div class="op-row" style="margin-top:20px; margin-bottom:0;">
+          <button class="btn btn-primary" id="btnRestart" type="button">Retake Test</button>
+          <button class="btn" id="btnCopyResult" type="button">Copy Result</button>
+        </div>
+
+        <div class="info-note">Test results are for entertainment and self-exploration only, not a professional psychological assessment. Personality traits can change with experience, so please interpret them rationally.</div>
+      </div>
+
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>How accurate are MBTI test results?</h3>
+        <p>MBTI tests use self-report scales to measure tendencies across four dimensions. The results are for entertainment and self-exploration and can help you see yourself from a new angle, but they are not a basis for professional psychological assessment or hiring.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Is my test data uploaded to a server?</h3>
+        <p>No. All answers and scoring are computed locally in your browser, nothing is uploaded to any server, the data disappears when you close the page, and no sign-up is required.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What do the four letters mean?</h3>
+        <p>E/I stands for energy (Extraversion/Introversion), S/N for information (Sensing/Intuition), T/F for decision-making (Thinking/Feeling), and J/P for lifestyle (Judging/Perceiving). The four letters combine into 16 personality types, such as INTJ Architect.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/mbti.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

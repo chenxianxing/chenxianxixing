@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML Formatter - Online HTML Beautify, Minify & Tag Checker | Online Tools</title>
+  <meta name="description" content="Free online HTML formatter that supports indented beautification by level (2 spaces / 4 spaces / Tab, with optional attribute line breaks and alignment), minification with comment and extra whitespace removal, HTML entity escape and unescape, and unclosed tag detection. All processing is done locally.">
+  <meta name="keywords" content="HTML Formatter, online tools, free tools, web tools, browser tools">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/html-format.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="HTML Formatter - Online HTML Beautify, Minify & Tag Checker">
+  <meta property="og:description" content="Online HTML formatter with beautify, minify, escape / unescape and unclosed tag detection. Processed locally, nothing uploaded.">
+  <meta property="og:url" content="https://example.com/en/tools/html-format.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%A9%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "HTML Formatter",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online HTML formatter with beautify, minify, escape / unescape and unclosed tag detection.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Indented Beautify", "Attribute Line-break Alignment", "Minify (remove comments & whitespace)", "HTML Entity Escape / Unescape", "Unclosed Tag Detection", "Processed Locally, Nothing Uploaded"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Will minification break the content inside <pre>, <textarea> and <script>?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Minification fully preserves the original content inside <pre>, <textarea> and <script> tags (including their spaces and line breaks), removing only the extra whitespace and comments between tags, so code blocks and scripts are never altered."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does unclosed tag detection work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The detection uses simple stack matching: opening tags are pushed onto the stack and matching closing tags pop them off. If tags remain on the stack or a closing tag cannot be matched, the specific unpaired tag name is reported. Self-closing tags (such as <img> and <br>) and void elements do not participate in matching."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is HTML entity escaping used for?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "在网页Medium展示 HTML 源码时，需将 <、>、&、\"、' 转为对应实体，No则会被Browser当作TagParser。Escape用于“ShowCode”，TailsEscape则用于把实体Unescape为原始 characters。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .hf-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: flex-end;
+    }
+    .hf-options .form-item { min-width: auto; }
+    .hf-indent-wrap, .hf-wrapattr-wrap { display: none; }
+    .hf-indent-wrap.show, .hf-wrapattr-wrap.show { display: block; }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/html-format.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/html-format.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/html-format.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/html-format.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>HTML格式化</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🧩</div>
+        <h1>HTML格式化</h1>
+      </div>
+      <p class="tool-desc">在线HTML处理工具，支持按层级缩进美化（2空格/4空格/Tab，属性可换行对齐）、压缩去注释与多余空白、HTML实体转义与反转义，并可检测未闭合标签。所有处理均在浏览器本地完成。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="op-row">
+        <div class="radio-row" id="hfOp" role="radiogroup" aria-label="Operation Mode">
+          <label class="checked"><input type="radio" name="hfOp" value="beautify" checked> 美化</label>
+          <label><input type="radio" name="hfOp" value="compress"> 压缩</label>
+          <label><input type="radio" name="hfOp" value="escape"> 转义</label>
+          <label><input type="radio" name="hfOp" value="unescape"> 反转义</label>
+        </div>
+      </div>
+
+      <div class="hf-options" style="margin-bottom:14px;">
+        <div class="form-item hf-indent-wrap show">
+          <label for="hfIndent">缩进方式</label>
+          <select id="hfIndent" class="form-select">
+            <option value="2">2 空格</option>
+            <option value="4">4 空格</option>
+            <option value="tab">Tab</option>
+          </select>
+        </div>
+        <div class="form-item hf-wrapattr-wrap show">
+          <label class="checkbox-row" style="font-size:13px;height:38px;display:flex;align-items:center;">
+            <input type="checkbox" id="hfWrapAttr"> 属性换行对齐
+          </label>
+        </div>
+      </div>
+
+      <div class="form-item" style="margin-bottom:14px;">
+        <label for="hfInput">原始 HTML</label>
+        <textarea id="hfInput" class="form-input" rows="11" placeholder="Paste HTML code to format, minify or escape" spellcheck="false"></textarea>
+      </div>
+
+      <div class="warn-note" id="hfError" hidden></div>
+
+      <div class="form-item" style="margin-bottom:0;">
+        <label for="hfOutput">处理结果</label>
+        <textarea id="hfOutput" class="form-input" rows="11" readonly placeholder="The result will appear here" spellcheck="false"></textarea>
+      </div>
+
+      <div class="op-row" style="margin-top:14px; margin-bottom:0;">
+        <button class="btn btn-primary" id="btnProcess" type="button">立即处理</button>
+        <button class="btn" id="btnSample" type="button">载入示例</button>
+        <button class="btn" id="btnCopy" type="button">复制结果</button>
+        <span class="spacer"></span>
+        <button class="btn" id="btnClear" type="button">清空</button>
+      </div>
+
+      <p class="wc-note">说明：美化按标签层级缩进；压缩保留 <code>&lt;pre&gt;</code>、<code>&lt;textarea&gt;</code>、<code>&lt;script&gt;</code> 内容原样；转义将 &lt; &gt; &amp; 等转为 HTML 实体。每次处理都会检测标签闭合情况。</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>压缩会破坏 &lt;pre&gt;、&lt;textarea&gt;、&lt;script&gt; 里的内容吗？</h3>
+        <p>不会。压缩功能会完整保留 &lt;pre&gt;、&lt;textarea&gt;、&lt;script&gt; 标签内的原始内容（包括其中的空格与换行），只去除标签之间的多余空白与注释，因此代码块与脚本不会被误改。</p>
+      </div>
+      <div class="faq-item">
+        <h3>标签未闭合检测是怎么工作的？</h3>
+        <p>检测采用简单的栈匹配：遇到开始标签入栈，遇到对应结束标签出栈。若栈中残留标签或遇到无法匹配的结束标签，会提示具体的未配对标签名。自闭合标签（如 &lt;img&gt;、&lt;br&gt;）与 void 元素不参与匹配。</p>
+      </div>
+      <div class="faq-item">
+        <h3>HTML 实体转义有什么用？</h3>
+        <p>在网页中展示 HTML 源码时，需将 &lt;、&gt;、&amp;、&quot;、&#39; 转为对应实体，否则会被浏览器当作标签解析。转义用于“显示代码”，反转义则用于把实体还原为原始字符。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/html-format.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

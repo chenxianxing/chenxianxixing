@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Token Generator - Online Random Secret/API Key/Token Generator | Online Tools</title>
+  <meta name="description" content="Free online token generator that uses browser crypto secure random numbers to generate random tokens, secrets and API keys, with Hex, Base64 and Base64URL formats and batch generation. All computation is done locally and nothing is uploaded.">
+  <meta name="keywords" content="base64, base64url, hex">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/token-generator.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Token Generator - Online Random Secret/API Key/Token Generator">
+  <meta property="og:description" content="Generate random tokens, secrets and API keys with browser crypto secure random numbers, in Hex, Base64 and Base64URL formats.">
+  <meta property="og:url" content="https://example.com/en/tools/token-generator.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%97%9D%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Token Generator",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online token generator using crypto secure random numbers to generate random tokens, secrets and API keys, with multiple formats and batch generation.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Hex Format", "Base64 Format", "Base64URL Format", "Length 16-128 bytes", "Batch generation 1-100", "One-click copy and download"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I choose between Hex, Base64 and Base64URL?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Hex (hexadecimal) has good compatibility and can be used directly in databases or logs, but is twice the size of the raw bytes; Base64 is smaller and commonly used for configuration or transmission; Base64URL replaces + and / with - and _ and drops the = padding, making it suitable for URLs, JWTs or file names without escaping."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are the generated tokens secure?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "This tool uses the browser built-in cryptographically secure random number generator crypto.getRandomValues, so the output cannot be predicted. Everything is generated locally and never uploaded. Please keep the results safe and rotate keys immediately if they are leaked."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How long does a token need to be to be secure?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "For session tokens or API keys, at least 32 bytes (256 bits) of random entropy is recommended; 16 bytes is acceptable for short-term or low-sensitivity scenarios. Longer output means a harder brute-force attack. Please avoid reusing the same token for different purposes."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .tk-controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 4px;
+    }
+    .tk-radio .radio-row label { padding: 7px 16px; }
+    .tk-format .radio-row label { padding: 7px 14px; }
+    .tk-results {
+      margin-top: 14px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: #f8fafc;
+      max-height: 420px;
+      overflow: auto;
+    }
+    .tk-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .tk-item:last-child { border-bottom: none; }
+    .tk-item .tk-text {
+      flex: 1;
+      font-family: "SFMono-Regular", Consolas, Menlo, "Courier New", monospace;
+      font-size: 14px;
+      word-break: break-all;
+      color: var(--text);
+      user-select: all;
+    }
+    .tk-item .btn {
+      height: 30px;
+      padding: 0 11px;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+    .tk-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .tk-fmtnote {
+      margin-top: 16px;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+    .tk-fmtnote code {
+      background: #f3f4f6;
+      padding: 1px 6px;
+      border-radius: 5px;
+      font-size: 12px;
+    }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/token-generator.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/token-generator.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/token-generator.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/token-generator.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>Token Generator</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🗝️</div>
+        <h1>Token Generator</h1>
+      </div>
+      <p class="tool-desc">Online random token/secret/API key generator using browser crypto secure random numbers, supporting Hex, Base64 and Base64URL formats and batch generation. All computation is done locally and nothing is uploaded.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="tk-controls">
+        <div class="form-item">
+          <label for="tkLength">Length (bytes, 16-128)</label>
+          <input type="number" id="tkLength" class="form-input" min="16" max="128" value="32">
+        </div>
+        <div class="form-item tk-format">
+          <label>Output Format</label>
+          <div class="radio-row" id="tkFormat" role="radiogroup" aria-label="Output Format">
+            <label class="checked"><input type="radio" name="tkfmt" value="hex" checked>Hex</label>
+            <label><input type="radio" name="tkfmt" value="b64">Base64</label>
+            <label><input type="radio" name="tkfmt" value="b64url">Base64URL</label>
+          </div>
+        </div>
+        <div class="form-item">
+          <label for="tkCount">Quantity (1-100)</label>
+          <input type="number" id="tkCount" class="form-input" min="1" max="100" value="5">
+        </div>
+      </div>
+
+      <div class="op-row" style="margin-top:14px;">
+        <button class="btn btn-primary" id="btnGen" type="button">Generate Token</button>
+      </div>
+
+      <div class="info-note">
+        🔒 <b>Security note: </b>All tokens are generated locally in your browser and never travel over the network or get stored on a server. Please keep generated secrets safe and rotate them immediately if leaked. Never store them in plaintext in public code repositories or logs.
+      </div>
+
+      <div class="tk-results" id="tkResults" hidden></div>
+
+      <div class="tk-actions" id="tkActions" hidden>
+        <button class="btn" id="btnCopyAll" type="button">Copy All</button>
+        <button class="btn" id="btnDownload" type="button">Download .txt</button>
+      </div>
+
+      <div class="tk-fmtnote">
+        <b>When to use each format:</b><br>
+        • <code>Hex</code> (hexadecimal): best compatibility, can be stored directly in a database or printed in logs, but twice the length of the raw bytes; suitable as a random salt or device fingerprint.<br>
+        • <code>Base64</code>: about 1/3 smaller than Hex, commonly used in config files or network transmission, but not suitable for direct use in URLs.<br>
+        • <code>Base64URL</code>: replaces  <code>+</code>  and  <code>/</code> Replace with <code>-</code>  and  <code>_</code>, and removes the trailing padding  <code>=</code>, made for URLs, JWT payloads or file names, and will not be escaped.
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>How do I choose between Hex, Base64 and Base64URL?</h3>
+        <p>Hex (hexadecimal) has good compatibility and can be used directly in databases or logs, but is twice the size of the raw bytes; Base64 is smaller and commonly used for configuration or transmission; Base64URL replaces + and / with - and _ and drops the = padding, making it suitable for URLs, JWTs or file names without escaping.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Are the generated tokens secure?</h3>
+        <p>This tool uses the browser built-in cryptographically secure random number generator crypto.getRandomValues, so the output cannot be predicted. Everything is generated locally and never uploaded. Please keep the results safe and rotate keys immediately if they are leaked.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How long does a token need to be to be secure?</h3>
+        <p>For session tokens or API keys, at least 32 bytes (256 bits) of random entropy is recommended; 16 bytes is acceptable for short-term or low-sensitivity scenarios. Longer output means a harder brute-force attack. Please avoid reusing the same token for different purposes.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/token-generator.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

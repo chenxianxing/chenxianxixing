@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mortgage Calculator - Commercial/Provident Fund Loan Monthly Payment (Equal Installment / Equal Principal) | Online Tools</title>
+  <meta name="description" content="Free online mortgage calculator supporting commercial loans and combined commercial/provident fund loans, with equal installment or equal principal repayment. Calculate the monthly payment, total interest and total repayment in one click, and generate a full repayment schedule. All calculations run locally and no data is uploaded.">
+  <meta name="keywords" content="Mortgage Calculator, Equal Installment (Principal and Interest), Equal Principal, Repayment Schedule">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/mortgage-calculator.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Mortgage Calculator - Monthly Payment, Interest and Schedule in One Click">
+  <meta property="og:description" content="Supports commercial loans, combined provident fund loans, and both equal installment and equal principal methods, calculating the monthly payment, total interest and full repayment schedule in one click.">
+  <meta property="og:url" content="https://example.com/en/tools/mortgage-calculator.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%B0%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Mortgage Calculator",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "description": "Online mortgage calculator supporting commercial loans and combined provident fund loans, with equal installment and equal principal repayment, calculating the monthly payment and total interest and generating a repayment schedule.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Equal installment monthly payment calculation", "Equal principal monthly payment calculation", "Commercial/provident fund combined loan", "Total interest and total repayment calculation", "Full repayment schedule", "Local calculation, no upload"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the difference between equal installment and equal principal?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "With equal installment, the monthly repayment is fixed and interest makes up a larger share early on while principal is smaller; with equal principal, a fixed amount of principal is repaid each month, the monthly payment decreases month by month, and total interest is lower, but early repayment pressure is greater. For example, for a 1 million loan over 30 years at 3.1% annual interest, total interest is about 537,000 with equal installment versus about 466,000 with equal principal."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How is a combined loan calculated?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A combined loan consists of a commercial loan and a provident fund loan. Each part is calculated with its own principal, rate and the same term, and the monthly payments are then added together. This tool lets you set the amount and rate for each part independently."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are the calculation results accurate?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The calculations use standard financial formulas and run locally in your browser, matching the bank algorithms for equal installment/equal principal. Actual repayment follows the bank contract (rates, repayment dates and grace periods may differ slightly), so results are for budgeting reference only."
+        }
+      }
+    ]
+  }
+  </script>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/mortgage-calculator.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/mortgage-calculator.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/mortgage-calculator.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/mortgage-calculator.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>Mortgage Calculator</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🏠</div>
+        <h1>Mortgage Calculator</h1>
+      </div>
+      <p class="tool-desc">Supports commercial loans and combined commercial/provident fund loans, with equal installment or equal principal repayment. Instantly calculate the monthly payment, total interest and total repayment, and generate a full repayment schedule. All data is computed locally and never uploaded to a server.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="form-row">
+        <div class="form-item">
+          <label>Loan Type</label>
+          <div class="radio-row" id="mcLoanType">
+            <label class="checked"><input type="radio" name="loanType" value="commercial" checked> Commercial Loan</label>
+            <label><input type="radio" name="loanType" value="combo"> Combined Loan</label>
+          </div>
+        </div>
+        <div class="form-item">
+          <label>Repayment Method</label>
+          <div class="radio-row" id="mcRepayType">
+            <label class="checked"><input type="radio" name="repayType" value="equalInstallment" checked> Equal Installment (Principal and Interest)</label>
+            <label><input type="radio" name="repayType" value="equalPrincipal"> Equal Principal</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-item">
+          <label for="mcCommercialAmount">Commercial Loan Amount (10k CNY)</label>
+          <input type="number" id="mcCommercialAmount" class="form-input" value="100" min="0" step="1">
+        </div>
+        <div class="form-item">
+          <label for="mcCommercialRate">Commercial Loan Annual Interest Rate (%)</label>
+          <input type="number" id="mcCommercialRate" class="form-input" value="3.1" min="0" max="20" step="0.01">
+        </div>
+        <div class="form-item" id="mcGjjAmountItem" hidden>
+          <label for="mcGjjAmount">Provident Fund Loan Amount (10k CNY)</label>
+          <input type="number" id="mcGjjAmount" class="form-input" value="60" min="0" step="1">
+        </div>
+        <div class="form-item" id="mcGjjRateItem" hidden>
+          <label for="mcGjjRate">Provident Fund Annual Interest Rate (%)</label>
+          <input type="number" id="mcGjjRate" class="form-input" value="2.6" min="0" max="20" step="0.01">
+        </div>
+        <div class="form-item">
+          <label for="mcYears">Loan Term (Years)</label>
+          <input type="number" id="mcYears" class="form-input" value="30" min="1" max="30" step="1">
+        </div>
+      </div>
+
+      <div class="result-grid">
+        <div class="result-card primary">
+          <div class="num" id="mcMonthly">—</div>
+          <div class="label" id="mcMonthlyLabel">Monthly Payment</div>
+        </div>
+        <div class="result-card">
+          <div class="num" id="mcTotalInterest">—</div>
+          <div class="label">Total Interest Paid</div>
+        </div>
+        <div class="result-card">
+          <div class="num" id="mcTotalPayment">—</div>
+          <div class="label">Total Repayment</div>
+        </div>
+        <div class="result-card">
+          <div class="num" id="mcInterestRatio">—</div>
+          <div class="label">Interest as a Share of Total Repayment</div>
+        </div>
+      </div>
+
+      <div class="op-row" style="margin-top:16px; margin-bottom:0;">
+        <span class="badge blue" id="mcLoanSummary">—</span>
+        <span class="spacer"></span>
+        <button class="btn" id="btnCopyPlan" type="button">Copy Repayment Schedule</button>
+      </div>
+
+      <h3 style="font-size:15px; margin:18px 0 8px;">Repayment Schedule</h3>
+      <div class="table-wrap" id="mcTableWrap" hidden>
+        <table class="data-table">
+          <thead>
+            <tr><th>Period</th><th>Monthly Payment</th><th>Principal</th><th>Interest</th><th>Remaining Principal</th></tr>
+          </thead>
+          <tbody id="mcTableBody"></tbody>
+        </table>
+      </div>
+      <div class="empty-tip" id="mcEmpty">Please enter valid loan information</div>
+
+      <p class="wc-note">Note: For equal installment, the monthly payment = principal x monthly rate x (1+monthly rate)^periods / [(1+monthly rate)^periods - 1]; for equal principal, a fixed amount of principal is repaid each month and the monthly payment = principal/periods + remaining principal x monthly rate. For a combined loan, the commercial and provident fund portions are calculated separately and then added together. If rates change, the latest figures published by the bank prevail; results from this tool are for budgeting reference only.</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>What is the difference between equal installment and equal principal?</h3>
+        <p>With equal installment, the monthly repayment is fixed and interest makes up a larger share early on while principal is smaller; with equal principal, a fixed amount of principal is repaid each month, the monthly payment decreases month by month, and total interest is lower, but early repayment pressure is greater. For example, for a 1 million loan over 30 years at 3.1% annual interest, total interest is about 537,000 with equal installment versus about 466,000 with equal principal.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How is a combined loan calculated?</h3>
+        <p>A combined loan consists of a commercial loan and a provident fund loan. Each part is calculated with its own principal, rate and the same term, and the monthly payments are then added together. This tool lets you set the amount and rate for each part independently.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Are the calculation results accurate?</h3>
+        <p>The calculations use standard financial formulas and run locally in your browser, matching the bank algorithms for equal installment/equal principal. Actual repayment follows the bank contract (rates, repayment dates and grace periods may differ slightly), so results are for budgeting reference only.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/mortgage-calculator.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

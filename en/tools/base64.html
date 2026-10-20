@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Base64 Encoder/Decoder - Online Text/Image Base64 Converter | Online Tools</title>
+  <meta name="description" content="Free online Base64 encoder/decoder with UTF-8 safe text encoding and decoding, URL-safe mode (+/ and -_ swapped), and image to Base64 DataURL conversion (with drag and drop, optional MIME prefix, and CSS and HTML img output). All processing is done locally and nothing is uploaded.">
+  <meta name="keywords" content="DataURL, CSS background base64, online tools, free tools, web tools, browser tools">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/base64.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Base64 Encoder/Decoder - Online Text/Image Base64 Converter">
+  <meta property="og:description" content="UTF-8 safe Base64 encoding and decoding for text (including URL-safe mode) and image to Base64 DataURL conversion. All processing is done locally and nothing is uploaded.">
+  <meta property="og:url" content="https://example.com/en/tools/base64.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%A1%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Base64 Encode & Decode",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online Base64 encoder/decoder with UTF-8 safe text encoding and decoding and image to Base64 DataURL conversion.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["UTF-8 safe text encoding", "UTF-8 safe text decoding", "URL-safe mode (+/ and -_)", "Image to Base64 DataURL", "Convert to CSS background or HTML img", "Restore Base64 to an image"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Is Base64 a form of encryption?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Base64 is only an encoding scheme that represents binary or text data as printable characters. It can be easily restored by anyone or any program and provides no confidentiality. It is commonly used to transmit binary data in text-only contexts such as email or DataURLs."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why do Chinese or Emoji characters get garbled when encoding or decoding?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The native btoa function only supports Latin1 characters. This tool first uses TextEncoder to encode text into UTF-8 bytes before converting to Base64, so Chinese, Emoji and other characters are handled correctly without garbled output."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is URL-safe mode used for?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Standard Base64 contains + and /, which get escaped in URLs and file names. URL-safe mode replaces + with - and / with _ and drops the padding equals signs, making it suitable for putting encoded results directly into links or parameters."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .tabs { display: flex; gap: 8px; border-bottom: 1px solid var(--border); margin-bottom: 18px; flex-wrap: wrap; }
+    .tabs .tab { padding: 10px 16px; cursor: pointer; font-size: 14px; color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -1px; }
+    .tabs .tab.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .b64-drop { border: 2px dashed var(--border); border-radius: 11px; padding: 22px; text-align: center; color: var(--muted); cursor: pointer; transition: border-color .15s, background .15s; }
+    .b64-drop:hover, .b64-drop.dragover { border-color: var(--primary); background: var(--primary-light); color: var(--primary); }
+    .b64-drop .big { font-size: 28px; display: block; margin-bottom: 6px; }
+    .b64-size { font-size: 12px; color: var(--muted); margin-top: 6px; }
+    .b64-prev { margin-top: 12px; }
+    .b64-prev img { max-width: 100%; border-radius: 10px; border: 1px solid var(--border); background: #fff; }
+    .b64-prev .img-actions { margin-top: 8px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    #b64ImgInput { display: none; }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/base64.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/base64.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/base64.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/base64.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>Base64 Encode & Decode</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🔡</div>
+        <h1>Base64 Encode & Decode</h1>
+      </div>
+      <p class="tool-desc">Online Base64 encoder/decoder with UTF-8 safe text encoding and decoding (including URL-safe mode), one-click image to Base64 DataURL conversion, and reverse restoration to image preview and download, all processed locally in the browser.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="tabs" id="b64Tabs">
+        <div class="tab active" data-tab="encode">Text Encode</div>
+        <div class="tab" data-tab="decode">Text Decode</div>
+        <div class="tab" data-tab="image">Image to Base64</div>
+      </div>
+
+      <!-- 编码 -->
+      <div class="tab-panel active" data-panel="encode">
+        <div class="form-item">
+          <label for="b64TextIn">Plain text (Chinese / Emoji supported)</label>
+          <textarea id="b64TextIn" class="form-input code-box editable" rows="8" spellcheck="false" placeholder="Enter the text to encode, e.g. Hello World 🌏"></textarea>
+        </div>
+        <div class="op-row" style="margin-top:12px;">
+          <label class="checkbox-row"><input type="checkbox" id="b64UrlSafe"> URL-safe mode (+/ to -_)</label>
+          <span class="spacer"></span>
+          <button class="btn btn-primary" id="btnEncode" type="button">Encode</button>
+          <button class="btn" id="btnEncodeClear" type="button">Clear</button>
+        </div>
+        <div class="form-item" style="margin-top:12px;">
+          <label for="b64TextOut">Base64 Result</label>
+          <textarea id="b64TextOut" class="form-input code-box" rows="8" readonly spellcheck="false" placeholder="The encoded result will appear here"></textarea>
+        </div>
+        <div class="op-row" style="margin-top:8px; margin-bottom:0;">
+          <button class="btn" id="btnEncodeCopy" type="button">Copy result</button>
+        </div>
+      </div>
+
+      <!-- 解码 -->
+      <div class="tab-panel" data-panel="decode">
+        <div class="form-item">
+          <label for="b64DecIn">Base64 Text</label>
+          <textarea id="b64DecIn" class="form-input code-box editable" rows="8" spellcheck="false" placeholder="Paste the Base64 to decode, e.g. SGVsbG8gV29ybGQ="></textarea>
+        </div>
+        <div class="op-row" style="margin-top:12px;">
+          <label class="checkbox-row"><input type="checkbox" id="b64DecUrlSafe"> URL-safe mode (-_ to +/)</label>
+          <span class="spacer"></span>
+          <button class="btn btn-primary" id="btnDecode" type="button">Decode</button>
+          <button class="btn" id="btnDecodeClear" type="button">Clear</button>
+        </div>
+        <div class="warn-note" id="b64DecErr" hidden></div>
+        <div class="form-item" style="margin-top:12px;">
+          <label for="b64DecOut">Decoded Result</label>
+          <textarea id="b64DecOut" class="form-input code-box" rows="8" readonly spellcheck="false" placeholder="The decoded result will appear here"></textarea>
+        </div>
+        <div class="op-row" style="margin-top:8px; margin-bottom:0;">
+          <button class="btn" id="btnDecodeCopy" type="button">Copy result</button>
+        </div>
+      </div>
+
+      <!-- 图片 -->
+      <div class="tab-panel" data-panel="image">
+        <div class="b64-drop" id="b64Drop">
+          <span class="big">🖼️</span>
+          Click to choose an image, or drag and drop an image here
+          <div class="b64-size">Supports common formats such as PNG, JPG, GIF, WebP and SVG</div>
+        </div>
+        <input type="file" id="b64ImgInput" accept="image/*">
+
+        <div class="op-row" style="margin-top:14px;">
+          <label class="checkbox-row"><input type="checkbox" id="b64Mime" checked> Include MIME prefix (data:image/...;base64,)</label>
+        </div>
+
+        <div class="form-item" style="margin-top:12px;">
+          <label for="b64ImgOut">Base64 Result</label>
+          <textarea id="b64ImgOut" class="form-input code-box" rows="6" readonly spellcheck="false" placeholder="The image Base64 will appear here"></textarea>
+        </div>
+        <div class="op-row" style="margin-top:8px;">
+          <button class="btn" id="btnImgCopy" type="button">Copy DataURL</button>
+          <button class="btn" id="btnImgCss" type="button">Convert to CSS</button>
+          <button class="btn" id="btnImgHtml" type="button">Convert to HTML</button>
+          <button class="btn" id="btnImgDownload" type="button">Download .txt</button>
+          <span class="spacer"></span>
+          <button class="btn" id="btnImgClear" type="button">Clear</button>
+        </div>
+
+        <div class="b64-prev" id="b64Prev" hidden>
+          <label style="font-size:13px;color:var(--muted);font-weight:500;">Reverse restore preview (pasting Base64 above also works)</label>
+          <div style="margin-top:8px;"><img id="b64PrevImg" alt="Preview"></div>
+          <div class="img-actions">
+            <span class="b64-size" id="b64PrevSize"></span>
+            <span class="spacer"></span>
+            <button class="btn" id="btnPrevDownload" type="button">Download Image</button>
+          </div>
+          <div class="form-item" style="margin-top:10px;">
+            <label for="b64Paste">Paste Base64 to restore the image</label>
+            <textarea id="b64Paste" class="form-input code-box editable" rows="3" spellcheck="false" placeholder="Paste Base64 here (with or without the data: prefix)"></textarea>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>Is Base64 a form of encryption?</h3>
+        <p>No. Base64 is only an encoding scheme that represents binary or text data as printable characters. It can be easily restored by anyone or any program and provides no confidentiality. It is commonly used to transmit binary data in text-only contexts such as email or DataURLs.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Why do Chinese or Emoji characters get garbled when encoding or decoding?</h3>
+        <p>The native btoa function only supports Latin1 characters. This tool first uses TextEncoder to encode text into UTF-8 bytes before converting to Base64, so Chinese, Emoji and other characters are handled correctly without garbled output.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is URL-safe mode used for?</h3>
+        <p>Standard Base64 contains + and /, which get escaped in URLs and file names. URL-safe mode replaces + with - and / with _ and drops the padding equals signs, making it suitable for putting encoded results directly into links or parameters.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/base64.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

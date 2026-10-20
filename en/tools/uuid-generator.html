@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UUID Generator - Online UUID v4/v7 Bulk Generator | Online Tools</title>
+  <meta name="description" content="Free online UUID generator supporting UUID v4 (random, RFC 4122) and UUID v7 (based on millisecond timestamps and time-ordered, RFC 9562). Generate 1 to 100 at a time with customizable case, hyphens and braces, and copy or download with one click.">
+  <meta name="keywords" content="UUID Generator, UUID v4, UUID v7, RFC9562">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/uuid-generator.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="UUID Generator - Online UUID v4/v7 Bulk Generator">
+  <meta property="og:description" content="Bulk generation of UUID v4 (random) and UUID v7 (time-ordered), with customizable case and format. Everything is generated locally and nothing is uploaded.">
+  <meta property="og:url" content="https://example.com/en/tools/uuid-generator.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%86%94%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "UUID Generator",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online UUID generator supporting bulk generation of UUID v4 and v7.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Random UUID v4 generation", "Time-ordered UUID v7 generation", "Batch generation of 1-100", "Customizable case, hyphens and braces", "Copy all or a single one", "Download .txt"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the difference between UUID v4 and v7?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "UUID v4 is made up entirely of random bits, so collisions are extremely unlikely but the values are unordered. As defined in RFC 9562, UUID v7 places a 48-bit millisecond timestamp at the front followed by random bits, so the generated IDs increase monotonically with time and are naturally ordered, making them better suited as database primary keys or for scenarios that need time ordering."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Will generated UUIDs repeat?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "v4 uses cryptographically secure random numbers with a space of about 2^122, so the actual collision probability is negligible. v7 still contains random bits within a millisecond, so in theory there is a tiny chance of duplicates when generating a large number at the same instant, but it is more than enough for everyday use. This tool generates everything locally in the browser and does not depend on the network."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why are UUIDs suitable as database primary keys?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "UUIDs are globally unique and can be generated independently on multiple machines and services without conflicts, which is convenient for distributed systems and data merging. Among them, v7 has an ordered time prefix, which reduces database index fragmentation and improves write performance, making it a better primary key choice than v4."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .uuid-result-wrap { position: relative; margin-top: 14px; }
+    #uuidResult { width: 100%; min-height: 220px; border: 1px solid var(--border); border-radius: 11px; background: #fbfcfe; padding: 12px 14px; font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, "Courier New", monospace; font-size: 13.5px; line-height: 1.9; color: var(--text); white-space: pre; overflow: auto; max-height: 420px; outline: none; resize: vertical; }
+    #uuidResult:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.10); }
+    .uuid-line { display: flex; align-items: center; gap: 8px; padding: 0 4px; border-radius: 6px; }
+    .uuid-line:hover { background: var(--primary-light); }
+    .uuid-line .uid { flex: 1; word-break: break-all; }
+    .uuid-line .copy-one { font-size: 12px; padding: 2px 8px; height: auto; opacity: 0; }
+    .uuid-line:hover .copy-one { opacity: 1; }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/uuid-generator.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/uuid-generator.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/uuid-generator.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/uuid-generator.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>UUID Generator</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🆔</div>
+        <h1>UUID Generator</h1>
+      </div>
+      <p class="tool-desc">Online bulk UUID generator supporting UUID v4 (random) and UUID v7 (based on millisecond timestamps and time-ordered), with a customizable count, case, hyphens and braces. Copy one or download them all; everything is generated locally in the browser.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="form-grid">
+        <div class="form-item">
+          <label>Version</label>
+          <div class="radio-row" id="uuidVersion" role="radiogroup" aria-label="UUID Version">
+            <label class="checked"><input type="radio" name="ver" value="4" checked>v4 Random</label>
+            <label><input type="radio" name="ver" value="7">v7 Time-ordered</label>
+          </div>
+        </div>
+        <div class="form-item">
+          <label for="uuidCount">Count (1-100)</label>
+          <input type="number" id="uuidCount" class="form-input" min="1" max="100" value="5">
+        </div>
+      </div>
+
+      <div class="checkbox-row" style="margin-bottom:14px;">
+        <label><input type="checkbox" id="optUpper"> Uppercase letters</label>
+        <label><input type="checkbox" id="optNoDash" checked> Remove hyphens</label>
+        <label><input type="checkbox" id="optBrace"> Wrap in braces { }</label>
+      </div>
+
+      <div class="op-row" style="margin-bottom:0;">
+        <button class="btn btn-primary" id="btnGen" type="button">Generate</button>
+        <button class="btn" id="btnCopyAll" type="button">Copy All</button>
+        <button class="btn" id="btnDownload" type="button">Download .txt</button>
+        <span class="spacer"></span>
+        <button class="btn" id="btnClear" type="button">Clear</button>
+      </div>
+
+      <div class="uuid-result-wrap">
+        <div id="uuidResult" class="code-box" tabindex="0"><div class="empty-tip">Click Generate to get UUIDs; hover over a row to copy that one</div></div>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>What is the difference between UUID v4 and v7?</h3>
+        <p>UUID v4 is made up entirely of random bits, so collisions are extremely unlikely but the values are unordered. As defined in RFC 9562, UUID v7 places a 48-bit millisecond timestamp at the front followed by random bits, so the generated IDs increase monotonically with time and are naturally ordered, making them better suited as database primary keys or for scenarios that need time ordering.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Will generated UUIDs repeat?</h3>
+        <p>v4 uses cryptographically secure random numbers with a space of about 2^122, so the actual collision probability is negligible. v7 still contains random bits within a millisecond, so in theory there is a tiny chance of duplicates when generating a large number at the same instant, but it is more than enough for everyday use. This tool generates everything locally in the browser and does not depend on the network.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Why are UUIDs suitable as database primary keys?</h3>
+        <p>UUIDs are globally unique and can be generated independently on multiple machines and services without conflicts, which is convenient for distributed systems and data merging. Among them, v7 has an ordered time prefix, which reduces database index fragmentation and improves write performance, making it a better primary key choice than v4.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/uuid-generator.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

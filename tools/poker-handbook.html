@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>扑克牌手册 - 在线扑克牌型大小/德州扑克规则/术语词典 | 在线工具大全</title>
+  <meta name="description" content="免费在线扑克牌手册：完整牌型大小排行与精确概率（C(52,5)=2598960 组合计算）、德州扑克牌桌流程与位置图解、60+术语中英对照词典、奥马哈与短牌规则差异速查，浏览器本地查阅。">
+  <meta name="keywords" content="扑克牌手册,扑克牌型大小,德州扑克规则,扑克术语,扑克概率,奥马哈,短牌,德州扑克入门,扑克词典,牌型排行">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/poker-handbook.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="扑克牌手册 - 在线扑克牌型大小/德州扑克规则/术语词典">
+  <meta property="og:description" content="扑克牌型大小排行与精确概率、德州扑克规则流程与位置说明、60+术语中英对照词典、奥马哈与短牌差异速查。">
+  <meta property="og:url" content="https://example.com/tools/poker-handbook.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%83%8F%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "扑克牌手册",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线扑克牌手册：牌型大小排行与精确概率、德州扑克规则流程与位置说明、60+术语中英对照词典、奥马哈与短牌规则差异速查。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["牌型大小排行", "精确概率计算", "德州扑克规则流程", "位置与下注轮次", "60+术语中英词典", "奥马哈与短牌差异"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "扑克牌型大小顺序是怎样的？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "从大到小依次为：同花顺（皇家同花顺最大）、四条、葫芦、同花、顺子、三条、两对、一对、高牌。同花顺总组合仅40种，出现概率约0.0015%；高牌最常见，约占50%。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "德州扑克和奥马哈有什么区别？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "德州扑克每人2张底牌，可从底牌与5张公共牌中任选5张组成最佳牌型；奥马哈每人4张底牌，且必须恰好使用其中2张加3张公共牌来组成牌型，因此牌力结构与打法差异很大。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "顺子和同花谁更大？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "标准扑克规则中同花大于顺子；但在短牌（Short Deck，去掉2-5）中规则改为顺子大于同花，同时A可以当5组成A-5顺子，三同张（Set）也强于顺子。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    /* ---------- Tab 切换 ---------- */
+    .ph-tabs { display: flex; flex-wrap: wrap; gap: 8px; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 18px; }
+    .ph-tab {
+      height: 34px; padding: 0 16px; border: 1px solid var(--border); border-radius: 9px;
+      background: #fbfcfe; color: var(--muted); font-size: 14px; font-family: var(--font);
+      cursor: pointer; transition: border-color 0.15s, color 0.15s;
+    }
+    .ph-tab:hover { border-color: var(--primary); color: var(--primary); }
+    .ph-tab.active { background: var(--primary); border-color: var(--primary); color: #fff; -webkit-text-fill-color: #fff; }
+    .ph-panel { display: none; }
+    .ph-panel.active { display: block; }
+
+    /* ---------- 牌型表格 ---------- */
+    .ph-rank-table td { white-space: nowrap; }
+    .ph-rank-table td:nth-child(7) { white-space: normal; min-width: 180px; }
+    .ph-rank-table td.rank { font-weight: 700; color: var(--primary); font-variant-numeric: tabular-nums; }
+    .ph-rank-table .cards { font-size: 15px; letter-spacing: 1.5px; }
+    .ph-red { color: #dc2626; }
+    .ph-rank-table tbody tr:first-child { background: var(--primary-light); }
+
+    /* ---------- 规则步骤 ---------- */
+    .ph-flow { display: flex; flex-direction: column; gap: 0; margin-top: 6px; }
+    .ph-step {
+      display: flex; gap: 14px; padding: 13px 4px;
+      border-bottom: 1px dashed var(--border);
+    }
+    .ph-step:last-child { border-bottom: none; }
+    .ph-step .no {
+      flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%;
+      background: var(--primary); color: #fff; font-size: 13px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ph-step .st-title { font-size: 14.5px; font-weight: 600; }
+    .ph-step .st-desc { font-size: 13.5px; color: var(--muted); line-height: 1.7; margin-top: 3px; }
+
+    /* ---------- 座位简图 ---------- */
+    .ph-table-wrap { margin: 18px 0 6px; }
+    .ph-table {
+      position: relative; width: 320px; height: 190px; margin: 0 auto;
+      background: var(--primary-light); border: 2px solid #bfdbfe; border-radius: 110px;
+    }
+    .ph-table .felt-label {
+      position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+      font-size: 12.5px; color: var(--primary); text-align: center; width: 60%; line-height: 1.6;
+    }
+    .ph-seat {
+      position: absolute; transform: translate(-50%, -50%);
+      font-size: 12.5px; background: var(--card); border: 1px solid var(--border);
+      border-radius: 999px; padding: 4px 11px; white-space: nowrap; box-shadow: var(--shadow);
+      font-weight: 600; color: var(--text);
+    }
+    .ph-seat small { font-weight: 400; color: var(--muted); margin-left: 4px; }
+    @media (max-width: 480px) {
+      .ph-table { width: 280px; height: 170px; }
+      .ph-seat { font-size: 11.5px; padding: 3px 8px; }
+    }
+    .ph-pos-list { margin-top: 14px; }
+    .ph-pos-list li { font-size: 13.5px; line-height: 1.8; color: var(--text); }
+    .ph-pos-list b { color: var(--primary); }
+
+    /* ---------- 术语词典 ---------- */
+    .ph-search-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .ph-search-row .form-input { max-width: 320px; }
+    .ph-glossary-table td { white-space: normal; }
+    .ph-glossary-table td.en { font-weight: 600; white-space: nowrap; color: var(--text); }
+    .ph-glossary-table td.zh { white-space: nowrap; color: var(--primary); }
+
+    /* ---------- 变体规则卡片 ---------- */
+    .ph-variant-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 6px; }
+    @media (max-width: 720px) { .ph-variant-grid { grid-template-columns: 1fr; } }
+    .ph-variant-card {
+      border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; background: #fbfcfe;
+    }
+    .ph-variant-card h3 { font-size: 15.5px; margin-bottom: 8px; }
+    .ph-variant-card ul { margin: 0; padding-left: 20px; }
+    .ph-variant-card li { font-size: 13.5px; line-height: 1.9; color: var(--text); }
+    .ph-sec-title { font-size: 14px; font-weight: 600; margin: 18px 0 4px; color: var(--text); }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/poker-handbook.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/poker-handbook.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/poker-handbook.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="../en/tools/poker-handbook.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>扑克牌手册</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🃏</div>
+        <h1>扑克牌手册</h1>
+      </div>
+      <p class="tool-desc">在线扑克速查手册：牌型大小排行与精确概率、德州扑克牌桌流程与位置说明、60+术语中英对照词典、奥马哈与短牌规则差异。内容全部本地加载，随时离线查阅。</p>
+    </section>
+
+    <section class="tool-panel">
+
+      <div class="ph-tabs" role="tablist" aria-label="手册栏目">
+        <button class="ph-tab active" type="button" data-tab="hands" role="tab">牌型大小</button>
+        <button class="ph-tab" type="button" data-tab="texas" role="tab">德州扑克规则</button>
+        <button class="ph-tab" type="button" data-tab="glossary" role="tab">术语词典</button>
+        <button class="ph-tab" type="button" data-tab="variants" role="tab">奥马哈与短牌</button>
+      </div>
+
+      <!-- Tab 1: 牌型大小 -->
+      <div class="ph-panel active" id="panel-hands">
+        <p class="wc-note" style="margin-top:0;">按从大到小排列，概率基于 52 张牌取 5 张的总组合数 C(52,5)=2,598,960 计算。皇家同花顺是同花 A K Q J 10，为同花顺中最大的特殊形态。</p>
+        <div class="table-wrap">
+          <table class="data-table ph-rank-table" id="handTable">
+            <thead>
+              <tr>
+                <th>排名</th><th>牌型</th><th>示例牌面</th><th>组合数</th><th>出现概率</th><th>约相当于</th><th>说明</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="info-note">小技巧：比较牌力时，先看牌型类别；类别相同再依次比较关键牌的点数，点数仍相同则比踢脚（Kicker）。A 在顺子中既可当最大牌（10-J-Q-K-A），也可当最小牌（A-2-3-4-5）。</div>
+      </div>
+
+      <!-- Tab 2: 德州扑克规则 -->
+      <div class="ph-panel" id="panel-texas">
+        <div class="ph-sec-title" style="margin-top:0;">牌桌流程</div>
+        <div class="ph-flow">
+          <div class="ph-step">
+            <div class="no">1</div>
+            <div>
+              <div class="st-title">盲注（Blinds）</div>
+              <div class="st-desc">每局开始前，小盲位（SB）与大盲位（BB）按约定额度强制下注，形成初始底池。盲注通常每 15~30 分钟上调一级。</div>
+            </div>
+          </div>
+          <div class="ph-step">
+            <div class="no">2</div>
+            <div>
+              <div class="st-title">翻牌前（Pre-flop）</div>
+              <div class="st-desc">每人发 2 张底牌，从大盲位左侧（UTG）开始依次行动，可选择弃牌、跟注或加注，直到无人再加注。</div>
+            </div>
+          </div>
+          <div class="ph-step">
+            <div class="no">3</div>
+            <div>
+              <div class="st-title">翻牌（Flop）</div>
+              <div class="st-desc">发出 3 张公共牌，随后进行一轮下注；此后每条街（Flop/Turn/River）都由按钮位（BTN）左侧的 SB 首先行动。</div>
+            </div>
+          </div>
+          <div class="ph-step">
+            <div class="no">4</div>
+            <div>
+              <div class="st-title">转牌（Turn）</div>
+              <div class="st-desc">发出第 4 张公共牌，牌面结构基本成型，再进行一轮下注，底池通常在这一街明显变大。</div>
+            </div>
+          </div>
+          <div class="ph-step">
+            <div class="no">5</div>
+            <div>
+              <div class="st-title">河牌（River）</div>
+              <div class="st-desc">发出最后 1 张公共牌（共 5 张），进行最后一轮下注。此后再无新牌，价值下注与诈唬的最终博弈在这里展开。</div>
+            </div>
+          </div>
+          <div class="ph-step">
+            <div class="no">6</div>
+            <div>
+              <div class="st-title">摊牌（Showdown）</div>
+              <div class="st-desc">若下注轮结束后仍有 2 名以上玩家未弃牌，则亮牌比较：每人用 2 张底牌与 5 张公共牌自由组合出最大的 5 张牌，牌型最大者赢下底池。</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ph-sec-title">位置（Position）简图</div>
+        <div class="ph-table-wrap">
+          <div class="ph-table">
+            <div class="felt-label">德州扑克座位示意（6-max）<br>行动方向为顺时针</div>
+            <span class="ph-seat" style="left:16%; top:26%;">UTG<small>枪口</small></span>
+            <span class="ph-seat" style="left:40%; top:10%;">HJ<small>劫持</small></span>
+            <span class="ph-seat" style="left:64%; top:10%;">CO<small>关煞</small></span>
+            <span class="ph-seat" style="left:88%; top:48%;">BTN<small>按钮</small></span>
+            <span class="ph-seat" style="left:74%; top:88%;">SB<small>小盲</small></span>
+            <span class="ph-seat" style="left:30%; top:88%;">BB<small>大盲</small></span>
+          </div>
+        </div>
+        <ul class="ph-pos-list">
+          <li><b>UTG（Under the Gun，枪口位）</b>：翻牌前第一个行动，位置最差，需要非常强的牌才值得入局。</li>
+          <li><b>HJ（Hijack，劫持位）</b>：中前场位置，介于 UTG 与 CO 之间，可适度放宽开牌范围。</li>
+          <li><b>CO（Cutoff，关煞位）</b>：按钮位左侧的强位置，是偷盲的热门位置。</li>
+          <li><b>BTN（Button，按钮位）</b>：翻牌后最后行动，信息最全面，是全桌最有利可图的位置。</li>
+          <li><b>SB（Small Blind，小盲位）</b>：翻牌前倒数第二个行动，翻牌后第一个行动，全程位置最差。</li>
+          <li><b>BB（Big Blind，大盲位）</b>：已下注最大盲注，翻牌前最后行动，有权在无人加注时直接看翻牌。</li>
+        </ul>
+
+        <div class="ph-sec-title">下注轮次（Betting Rounds）</div>
+        <ul class="ph-pos-list">
+          <li>每局限注或无限注：限注（Limit）每街下注额度固定；无限注（No-Limit）每局可将全部筹码一次性押上（All-in）。</li>
+          <li>每街行动轮转一圈，直到所有未弃牌玩家的下注额相等，该街结束。</li>
+          <li>若某玩家 All-in，仍会分出主池，其余玩家继续对超出部分形成边池（Side Pot）。</li>
+        </ul>
+
+        <div class="ph-sec-title">最小加注规则</div>
+        <div class="info-note">一次加注的最小增量不得小于此前一注或一加注的额度。例如盲注为 10/20，首个加注至少到 40；若有人加注到 100，后续最小加注的增量为 80（即至少到 180）。若玩家 All-in 的额度小于最小加注增量，则不重新打开加注窗口，其他人只能跟注或弃牌。</div>
+
+        <div class="ph-sec-title">边池（Side Pot）概念</div>
+        <div class="info-note">当一名玩家全下（All-in）而对手筹码更多时，全下者只能赢下与其筹码等额的主池（Main Pot）；多出的部分由其余玩家形成边池。多人全下时可产生多个边池，结算时按牌型大小逐池分配。</div>
+      </div>
+
+      <!-- Tab 3: 术语词典 -->
+      <div class="ph-panel" id="panel-glossary">
+        <div class="ph-search-row">
+          <div class="form-item" style="flex:1; max-width:360px;">
+            <label for="glossarySearch">搜索术语</label>
+            <input type="text" id="glossarySearch" class="form-input" placeholder="输入英文或中文关键词，如 All-in、诈唬" spellcheck="false">
+          </div>
+          <span class="ph-count badge blue" id="glossaryCount" style="margin-top:18px;"></span>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table ph-glossary-table" id="glossaryTable">
+            <thead>
+              <tr><th>术语</th><th>中文译名</th><th>解释</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="empty-tip" id="glossaryEmpty" hidden>没有匹配的术语，换个关键词试试</div>
+      </div>
+
+      <!-- Tab 4: 奥马哈与短牌 -->
+      <div class="ph-panel" id="panel-variants">
+        <div class="ph-variant-grid">
+          <div class="ph-variant-card">
+            <h3>奥马哈（Omaha）</h3>
+            <ul>
+              <li>每人发 4 张底牌，公共牌同样为 5 张。</li>
+              <li>组牌规则：必须恰好使用 2 张底牌 + 3 张公共牌，不多不少。</li>
+              <li>例如手牌为 A♠ A♥ K♦ Q♣，公共牌出现 A♦ 时不算三条，因为只用 1 张底牌不合法。</li>
+              <li>由于限制底牌使用数量，牌力通常比德州更集中，同花与顺子更容易出现且更大。</li>
+              <li>常见变体：Pot-Limit Omaha（PLO，底池限注）与 Omaha Hi-Lo（高低池分奖）。</li>
+            </ul>
+          </div>
+          <div class="ph-variant-card">
+            <h3>短牌（Short Deck / 6+）</h3>
+            <ul>
+              <li>去掉 2、3、4、5，一副牌只剩 36 张，牌型分布明显改变。</li>
+              <li>A 可以当 5：最小顺子为 A-6-7-8-9（A 计为 5），同时 10-J-Q-K-A 仍是最大顺子。</li>
+              <li>顺子比同花大，这是与标准规则最大的差异。</li>
+              <li>三同张（Set）强于顺子，葫芦相对更常见。</li>
+              <li>高牌、一对的出现率下降，整体胜负更依赖大牌与听牌。</li>
+            </ul>
+          </div>
+        </div>
+        <div class="info-note">两种变体的基础流程（盲注、四轮下注、摊牌比较）与德州扑克一致，主要差异在底牌数量、组牌规则与牌型大小排序。</div>
+        <div class="warn-note">本手册内容仅供学习参考，请遵守当地法律法规，理性娱乐，远离赌博。</div>
+      </div>
+
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>扑克牌型大小顺序是怎样的？</h3>
+        <p>从大到小依次为：同花顺（皇家同花顺最大）、四条、葫芦、同花、顺子、三条、两对、一对、高牌。同花顺总组合仅40种，出现概率约0.0015%；高牌最常见，约占50%。</p>
+      </div>
+      <div class="faq-item">
+        <h3>德州扑克和奥马哈有什么区别？</h3>
+        <p>德州扑克每人2张底牌，可从底牌与5张公共牌中任选5张组成最佳牌型；奥马哈每人4张底牌，且必须恰好使用其中2张加3张公共牌来组成牌型，因此牌力结构与打法差异很大。</p>
+      </div>
+      <div class="faq-item">
+        <h3>顺子和同花谁更大？</h3>
+        <p>标准扑克规则中同花大于顺子；但在短牌（Short Deck，去掉2-5）中规则改为顺子大于同花，同时A可以当5组成最小顺子，三同张（Set）也强于顺子。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/poker-handbook.js"></script>
+</body>
+</html>

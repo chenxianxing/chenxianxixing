@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text Compare - Online Text Difference Tool | Online Tools</title>
+  <meta name="description" content="Free online text comparison tool that compares two texts line by line using the LCS algorithm. Deleted lines are highlighted in red, added lines in green, with line numbers shown. Supports ignoring whitespace and ignoring case, counts added, deleted and unchanged lines, and lets you copy a difference report.">
+  <meta name="keywords" content="Text Compare, online tools, free tools, web tools, browser tools">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/text-diff.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Text Compare - Online Text Difference Tool">
+  <meta property="og:description" content="Online text comparison tool: line-by-line difference highlighting in red and green, line numbers, options to ignore whitespace and case, and a copyable difference report.">
+  <meta property="og:url" content="https://example.com/en/tools/text-diff.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%8D%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Text Compare",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online text comparison tool: line-by-line differences via the LCS algorithm, red and green highlighting with line numbers.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Line-by-line Difference Comparison", "Deleted Lines in Red / Added Lines in Green", "Line Numbers", "Ignore Whitespace & Case", "Added / Deleted / Unchanged Line Counts", "Copy Difference Report"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What algorithm does the text comparison use?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It uses the LCS (longest common subsequence) dynamic programming algorithm for line-by-line comparison, finding the minimum edit path between the two texts and presenting differences in three states: deleted, added and unchanged. Calculation runs in real time when there are fewer than 2000 lines."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What do Ignore whitespace differences and Ignore case do?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "With Ignore whitespace differences enabled, lines with identical content but different numbers of spaces, tabs or line breaks are treated as the same. With Ignore case enabled, lines that differ only in letter case are also treated as the same, letting you focus on real content changes."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I export or copy the difference result?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Clicking Copy difference report copies a plain-text report with + and - markers and statistics to the clipboard, ready to paste into chats, documents or commit records."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .diff-result {
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      overflow: auto;
+      max-height: 520px;
+      background: #fff;
+      font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .diff-row {
+      display: flex;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .diff-row .ln {
+      width: 48px;
+      flex-shrink: 0;
+      text-align: right;
+      padding: 2px 8px;
+      color: var(--muted);
+      user-select: none;
+      border-right: 1px solid #f1f5f9;
+    }
+    .diff-row .ln2 {
+      width: 48px;
+      flex-shrink: 0;
+      text-align: right;
+      padding: 2px 8px;
+      color: var(--muted);
+      user-select: none;
+      border-right: 1px solid #f1f5f9;
+      background: #fafafa;
+    }
+    .diff-row .txt {
+      padding: 2px 12px;
+      white-space: pre-wrap;
+      word-break: break-all;
+      flex: 1;
+    }
+    .diff-row.del { background: #fef2f2; }
+    .diff-row.del .txt { color: #b91c1c; }
+    .diff-row.add { background: #ecfdf5; }
+    .diff-row.add .txt { color: #047857; }
+    .diff-stats {
+      display: flex;
+      gap: 14px;
+      margin-top: 12px;
+      font-size: 13px;
+    }
+    .diff-stats .s-add { color: #059669; font-weight: 600; }
+    .diff-stats .s-del { color: #dc2626; font-weight: 600; }
+    .diff-stats .s-same { color: var(--muted); font-weight: 600; }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/text-diff.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/text-diff.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/text-diff.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/text-diff.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>Text Compare</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🔍</div>
+        <h1>Text Compare</h1>
+      </div>
+      <p class="tool-desc">Online text difference tool that compares two texts line by line using the LCS algorithm. Deleted lines are highlighted in red, added lines in green, with line numbers shown. Supports ignoring whitespace and ignoring case, counts added, deleted and unchanged lines, and lets you copy a difference report.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="op-row">
+        <label class="checkbox-row" style="font-size:13px;"><input type="checkbox" id="tdIgnoreWs"> Ignore Whitespace Differences</label>
+        <label class="checkbox-row" style="font-size:13px;"><input type="checkbox" id="tdIgnoreCase"> Ignore Case</label>
+        <span class="spacer"></span>
+        <span class="badge" id="tdBigHint" hidden>Many lines: calculation may be slow</span>
+      </div>
+
+      <div class="split-2">
+        <div class="form-item">
+          <label for="tdLeft">Original Text (old)</label>
+          <textarea id="tdLeft" class="form-input" rows="10" placeholder="Paste the original text here" spellcheck="false"></textarea>
+        </div>
+        <div class="form-item">
+          <label for="tdRight">Modified Text (new)</label>
+          <textarea id="tdRight" class="form-input" rows="10" placeholder="Paste the modified text here" spellcheck="false"></textarea>
+        </div>
+      </div>
+
+      <div class="op-row" style="margin-top:14px; margin-bottom:0;">
+        <button class="btn btn-primary" id="btnCompare" type="button">Compare</button>
+        <button class="btn" id="btnSwap" type="button">Swap Left & Right</button>
+        <button class="btn" id="btnCopyReport" type="button">Copy Difference Report</button>
+        <span class="spacer"></span>
+        <button class="btn" id="btnClear" type="button">Clear</button>
+      </div>
+
+      <div class="diff-stats" id="tdStats" hidden>
+        <span class="s-add" id="tdAdd">0 lines added</span>
+        <span class="s-del" id="tdDel">0 lines deleted</span>
+        <span class="s-same" id="tdSame">0 lines unchanged</span>
+      </div>
+
+      <h3 style="font-size:15px; margin:16px 0 8px;">Comparison Result</h3>
+      <div class="diff-result" id="tdResult"><span class="empty-tip" style="padding:28px 0;">Enter two texts and click Compare; the differences will appear here</span></div>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>What algorithm does the text comparison use?</h3>
+        <p>It uses the LCS (longest common subsequence) dynamic programming algorithm for line-by-line comparison, finding the minimum edit path between the two texts and presenting differences in three states: deleted, added and unchanged. Calculation runs in real time when there are fewer than 2000 lines.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What do Ignore whitespace differences and Ignore case do?</h3>
+        <p>With Ignore whitespace differences enabled, lines with identical content but different numbers of spaces, tabs or line breaks are treated as the same. With Ignore case enabled, lines that differ only in letter case are also treated as the same, letting you focus on real content changes.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Can I export or copy the difference result?</h3>
+        <p>Yes. Clicking Copy difference report copies a plain-text report with + and - markers and statistics to the clipboard, ready to paste into chats, documents or commit records.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/text-diff.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

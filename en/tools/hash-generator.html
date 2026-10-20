@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hash Generator - Online MD5/SHA1/SHA256/SHA512 Hash Calculator | Online Tools</title>
+  <meta name="description" content="Free online hash generator supporting MD5, SHA1, SHA256, SHA384 and SHA512 hashing of text and files, plus HMAC signing. Everything is computed locally with no network access, with uppercase/lowercase switching and one-click copy; all data stays in your browser.">
+  <meta name="keywords" content="MD5, SHA1, SHA256, SHA512, SHA384, HMAC">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/hash-generator.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Hash Generator - Online MD5/SHA1/SHA256/SHA512 Hash Calculator">
+  <meta property="og:description" content="Online hash calculator supporting MD5, SHA1, SHA256, SHA384, SHA512 and HMAC, computed locally with no network access.">
+  <meta property="og:url" content="https://example.com/en/tools/hash-generator.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%8F%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Hash Generator",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online hash calculator supporting MD5, SHA1, SHA256, SHA384, SHA512 and HMAC, computed locally with no network access.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["MD5 Hashing", "SHA1 Hashing", "SHA256/SHA384/SHA512 Hashing", "File Hashing (up to 200MB)", "HMAC Signing", "Case Switching and Copying"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Why does the SHA family fail when the file is opened directly (file://)?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The SHA family uses the browser Web Crypto API (crypto.subtle), which is only available in secure contexts (https or http://localhost). If you open the file directly by double-clicking it (the address bar shows file://), the browser disables crypto.subtle. The solution is to access it through a local server, for example run python -m http.server inside the directory and then open http://localhost."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is MD5 safe? What can it still be used for?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "MD5 has proven collision vulnerabilities and must not be used for security signatures or password storage, but it is still suitable for ordinary file integrity checks (such as comparing downloaded files) or non-security digests. The MD5 in this tool is a pure JavaScript implementation that requires no external libraries."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between HMAC and a regular hash?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "HMAC (hash-based message authentication code) introduces a key into the hash computation, so only parties holding the same key can verify data integrity, which prevents tampering. A regular hash has no key and anyone can recompute it. HMAC is commonly used for API signing and request verification."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .hg-mode .radio-row label { padding: 7px 18px; }
+    .hg-hmac-box,
+    .hg-file-box {
+      margin-top: 14px;
+    }
+    .hg-hmac-box[hidden],
+    .hg-file-box[hidden] { display: none; }
+    .hg-result-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 18px 0 8px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .hg-result-label .spacer { flex: 1; }
+    .hg-codelabel {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .hg-fileinfo {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+    .hg-fileinfo b { color: var(--text); }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/hash-generator.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/hash-generator.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/hash-generator.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/hash-generator.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>Hash Generator</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🔏</div>
+        <h1>Hash Generator</h1>
+      </div>
+      <p class="tool-desc">Online hash calculator supporting MD5, SHA1, SHA256, SHA384, SHA512 and HMAC signing. All computation is done locally in your browser and no data is ever uploaded.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="op-row">
+        <div class="form-item" style="min-width:200px;">
+          <label for="hgAlgo">Hash Algorithm</label>
+          <select id="hgAlgo" class="form-select">
+            <option value="MD5">MD5（128 bit）</option>
+            <option value="SHA1">SHA-1（160 bit）</option>
+            <option value="SHA256" selected>SHA-256（256 bit）</option>
+            <option value="SHA384">SHA-384（384 bit）</option>
+            <option value="SHA512">SHA-512（512 bit）</option>
+          </select>
+        </div>
+        <div class="form-item" style="min-width:260px;">
+          <label>Mode</label>
+          <div class="radio-row hg-mode" id="hgMode" role="radiogroup" aria-label="Mode">
+            <label class="checked"><input type="radio" name="hgmode" value="text" checked>Text</label>
+            <label><input type="radio" name="hgmode" value="file">File</label>
+            <label><input type="radio" name="hgmode" value="hmac">HMAC</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 文本模式 -->
+      <div class="form-item" id="hgTextBox">
+        <label for="hgText">Text to hash (UTF-8 encoded)</label>
+        <textarea id="hgText" class="form-input" rows="8" placeholder="Type or paste the text to hash, e.g. Hello, World!" spellcheck="false"></textarea>
+      </div>
+
+      <!-- 文件模式 -->
+      <div class="hg-file-box form-item" id="hgFileBox" hidden>
+        <label for="hgFile">Choose File (up to 200MB)</label>
+        <input type="file" id="hgFile" class="form-input" style="padding:8px 12px; height:auto;">
+        <div class="hg-fileinfo" id="hgFileInfo">No file selected.</div>
+      </div>
+
+      <!-- HMAC 模式 -->
+      <div class="hg-hmac-box form-item" id="hgHmacBox" hidden>
+        <label for="hgKey">HMAC Key</label>
+        <input type="text" id="hgKey" class="form-input" placeholder="Enter the HMAC key (encoded as UTF-8)" spellcheck="false">
+        <div class="hg-fileinfo">HMAC requires both an algorithm and a key; the key is encoded to bytes as UTF-8.</div>
+      </div>
+
+      <div class="op-row" style="margin-top:14px;">
+        <button class="btn btn-primary" id="btnHash" type="button">Calculate Now</button>
+        <span class="spacer"></span>
+        <label class="checkbox-row" style="font-size:13px;"><input type="checkbox" id="hgUpper"> Uppercase</label>
+      </div>
+
+      <div class="warn-note" id="hgSecureNote" hidden>
+        ⚠️ This page is in a non-secure context (file:// etc.), so the browser has disabled the Web Crypto API, <b>the SHA family and HMAC are unavailable</b>. MD5 is implemented in pure local JavaScript and is unaffected. Please access it via a local server over  <b>http://localhost</b>  or https to enable all features.
+      </div>
+
+      <div class="hg-result-label" id="hgResultLabel">
+        <span>Result</span>
+        <span class="spacer"></span>
+        <button class="btn" id="btnCopyHash" type="button">Copy result</button>
+      </div>
+      <div class="code-box" id="hgResult" aria-live="polite">Enter content above and click Calculate Now.</div>
+
+      <div class="info-note">
+        🔒 <b>Privacy notice:</b> Whether text or files, all hashing is performed locally in your browser and files are never uploaded to any server. Large files are only read into memory for the computation and disappear once you close the page.
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>Why does the SHA family fail when the file is opened directly (file://)?</h3>
+        <p>The SHA family uses the browser Web Crypto API (crypto.subtle), which is only available in secure contexts (https or http://localhost). If you open the file directly by double-clicking it (the address bar shows file://), the browser disables crypto.subtle. The solution is to access it through a local server, for example run python -m http.server inside the directory and then open http://localhost.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Is MD5 safe? What can it still be used for?</h3>
+        <p>MD5 has proven collision vulnerabilities and must not be used for security signatures or password storage, but it is still suitable for ordinary file integrity checks (such as comparing downloaded files) or non-security digests. The MD5 in this tool is a pure JavaScript implementation that requires no external libraries.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is the difference between HMAC and a regular hash?</h3>
+        <p>HMAC (hash-based message authentication code) introduces a key into the hash computation, so only parties holding the same key can verify data integrity, which prevents tampering. A regular hash has no key and anyone can recompute it. HMAC is commonly used for API signing and request verification.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/hash-generator.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

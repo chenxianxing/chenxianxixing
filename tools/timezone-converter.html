@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>世界时钟与时区转换器 - 在线时区转换/世界时间对照工具 | 在线工具大全</title>
+  <meta name="description" content="免费在线世界时钟与时区转换器，内置北京、东京、伦敦、纽约等常用城市时钟，支持任意时区增减排序、时间转换、一天内时间滑块、UTC-12至UTC+14时区速查与跨时区共同工作时段计算，基于IANA时区数据库本地运行，无需联网。">
+  <meta name="keywords" content="世界时钟,时区转换器,时区换算,世界时间,UTC偏移,夏令时,时间转换,跨国会议时间,时区查询,世界时间对照">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/timezone-converter.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="世界时钟与时区转换器 - 在线时区转换/世界时间对照工具">
+  <meta property="og:description" content="内置常用城市世界时钟与时区转换，支持UTC-12至UTC+14速查表、一天内时间滑块与共同工作时段计算，基于IANA时区数据库本地运行。">
+  <meta property="og:url" content="https://example.com/tools/timezone-converter.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%90%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "世界时钟与时区转换器",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线世界时钟与时区转换工具，内置常用城市时钟，支持时区增减排序、时间转换、时间滑块、UTC-12至UTC+14时区速查与共同工作时段计算。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["多城市世界时钟每秒刷新", "时区增删与排序", "源时区到多目标时区时间转换", "一天内1440分钟时间滑块", "UTC-12至UTC+14时区速查表", "跨时区共同工作时段计算", "复制城市当前时间", "纯本地计算无网络请求"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "世界时钟支持哪些时区？数据来自哪里？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "内置约50个常用城市与完整的IANA时区下拉列表，覆盖UTC-12到UTC+14。所有时间基于浏览器内置的Intl.DateTimeFormat与IANA时区数据库本地计算，不请求任何外部接口，时钟每秒刷新，也可拖动时间滑块查看一天内任意时刻。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "时间转换器如何把源时区的时间换算到目标时区？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "先将源时区的墙上时间结合该时区当时的UTC偏移还原为准确的UTC时刻，再按目标时区的偏移格式化输出。换算过程自动处理夏令时，例如夏令时期间纽约与北京的时差会从13小时变为12小时，无需手动调整。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "工具如何判断一个时区是否实行夏令时？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "通过对比该时区在当年1月与7月的UTC偏移：若两个月份偏移不同，说明该时区实行夏令时，时钟卡片会显示「夏令时」徽标；当当前偏移等于夏季偏移时，表示正处于夏令时期间。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .sub-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin: 26px 0 12px;
+      padding-top: 20px;
+      border-top: 1px dashed var(--border);
+    }
+    .tool-panel > .sub-title:first-child {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: none;
+    }
+    .panel-tip {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 12px;
+      line-height: 1.7;
+    }
+    .live-tip {
+      font-size: 12.5px;
+      color: var(--muted);
+    }
+    .clock-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 12px;
+    }
+    .clock-card {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px 14px;
+      background: #fbfcfe;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 12px 14px;
+    }
+    .clock-info { flex: 1; min-width: 132px; }
+    .clock-city { font-size: 14px; font-weight: 600; }
+    .clock-time {
+      font-size: 26px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      color: var(--primary);
+      line-height: 1.25;
+    }
+    .clock-date { font-size: 12.5px; color: var(--muted); }
+    .clock-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      align-items: flex-start;
+    }
+    .clock-ops { display: flex; gap: 6px; }
+    .mini {
+      height: 30px;
+      padding: 0 9px;
+      font-size: 13px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--text);
+      cursor: pointer;
+      font-family: var(--font);
+    }
+    .mini:hover { border-color: var(--primary); color: var(--primary); }
+    .mini.danger:hover { border-color: #dc2626; color: #dc2626; }
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+    .slider-row label { font-size: 13px; color: var(--muted); }
+    .time-slider { flex: 1; min-width: 200px; accent-color: var(--primary); }
+    .slider-val {
+      font-variant-numeric: tabular-nums;
+      font-weight: 600;
+      font-size: 14px;
+      min-width: 52px;
+    }
+    .conv-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 10px;
+    }
+    .conv-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #fbfcfe;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+    .conv-tz { font-size: 13px; font-weight: 600; }
+    .conv-time {
+      font-size: 13px;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+      flex: 1;
+    }
+    .conv-row .mini { height: 28px; padding: 0 8px; }
+    @media (max-width: 640px) {
+      .clock-time { font-size: 22px; }
+    }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/timezone-converter.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/timezone-converter.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/timezone-converter.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="../en/tools/timezone-converter.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>世界时钟与时区转换器</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🌐</div>
+        <h1>世界时钟与时区转换器</h1>
+      </div>
+      <p class="tool-desc">在线世界时钟与时区转换工具，内置北京、东京、伦敦、纽约等常用城市时钟，支持任意时区增减与排序、时间转换、一天内时间滑块、UTC-12 至 UTC+14 时区速查及跨时区共同工作时段计算，全部基于浏览器本地时区数据完成。</p>
+    </section>
+
+    <section class="tool-panel">
+
+      <h3 class="sub-title">世界时钟</h3>
+      <p class="panel-tip">默认展示常用城市时钟，每秒自动刷新；可从下拉列表添加更多时区，拖动时间滑块可查看一天内任意时刻的各时区时间。</p>
+
+      <div class="op-row">
+        <select id="wcCity" class="form-select" style="max-width:190px;" aria-label="常用城市"></select>
+        <select id="wcTz" class="form-select" style="max-width:230px;" aria-label="IANA 时区"></select>
+        <button class="btn btn-primary" id="btnAddClock" type="button">添加时钟</button>
+        <span class="spacer"></span>
+        <span class="live-tip" id="liveTip"></span>
+      </div>
+
+      <div class="clock-list" id="clockList"></div>
+
+      <div class="slider-row">
+        <label for="timeSlider">时间滑块</label>
+        <input type="range" id="timeSlider" class="time-slider" min="0" max="1439" value="0" aria-label="时间滑块">
+        <span class="slider-val" id="sliderVal">00:00</span>
+        <button class="btn" id="btnLive" type="button" hidden>回到实时</button>
+      </div>
+
+      <h3 class="sub-title">时间转换器</h3>
+      <div class="form-grid">
+        <div class="form-item">
+          <label for="srcTz">源时区</label>
+          <select id="srcTz" class="form-select"></select>
+        </div>
+        <div class="form-item">
+          <label for="srcTime">源时间</label>
+          <input type="datetime-local" id="srcTime" class="form-input">
+        </div>
+      </div>
+      <div class="conv-list" id="convList"></div>
+      <div class="op-row">
+        <select id="convTz" class="form-select" style="max-width:230px;" aria-label="目标时区"></select>
+        <button class="btn" id="btnAddTarget" type="button">添加目标时区</button>
+      </div>
+
+      <h3 class="sub-title">常用时区速查</h3>
+      <div class="table-wrap">
+        <table class="data-table" id="tzTable">
+          <thead>
+            <tr><th>时区</th><th>代表城市</th><th>当前时间</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <h3 class="sub-title">共同工作时段</h3>
+      <div class="form-grid">
+        <div class="form-item">
+          <label for="wfzA">时区 A</label>
+          <select id="wfzA" class="form-select"></select>
+        </div>
+        <div class="form-item">
+          <label for="wfzB">时区 B</label>
+          <select id="wfzB" class="form-select"></select>
+        </div>
+        <div class="form-item">
+          <label for="wfStartA">A 工作开始</label>
+          <input type="number" id="wfStartA" class="form-input" min="0" max="24" step="1" value="9">
+        </div>
+        <div class="form-item">
+          <label for="wfEndA">A 工作结束</label>
+          <input type="number" id="wfEndA" class="form-input" min="0" max="24" step="1" value="18">
+        </div>
+        <div class="form-item">
+          <label for="wfStartB">B 工作开始</label>
+          <input type="number" id="wfStartB" class="form-input" min="0" max="24" step="1" value="9">
+        </div>
+        <div class="form-item">
+          <label for="wfEndB">B 工作结束</label>
+          <input type="number" id="wfEndB" class="form-input" min="0" max="24" step="1" value="18">
+        </div>
+      </div>
+      <div class="op-row">
+        <button class="btn btn-primary" id="btnOverlap" type="button">计算重叠时段</button>
+      </div>
+      <div class="info-note" id="overlapResult" hidden></div>
+
+      <p class="wc-note">说明：所有时间均基于浏览器内置的 Intl.DateTimeFormat 与 IANA 时区数据库计算，夏令时自动处理，无任何网络请求。时间滑块基于本机当天日期推算各时区时刻；共同工作时段按两个时区各自的工作时间在 24 小时圆环上求交集，可自动处理跨天情况。</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>世界时钟支持哪些时区？数据来自哪里？</h3>
+        <p>内置约50个常用城市与完整的IANA时区下拉列表，覆盖UTC-12到UTC+14。所有时间基于浏览器内置的Intl.DateTimeFormat与IANA时区数据库本地计算，不请求任何外部接口，时钟每秒刷新，也可拖动时间滑块查看一天内任意时刻。</p>
+      </div>
+      <div class="faq-item">
+        <h3>时间转换器如何把源时区的时间换算到目标时区？</h3>
+        <p>先将源时区的墙上时间结合该时区当时的UTC偏移还原为准确的UTC时刻，再按目标时区的偏移格式化输出。换算过程自动处理夏令时，例如夏令时期间纽约与北京的时差会从13小时变为12小时，无需手动调整。</p>
+      </div>
+      <div class="faq-item">
+        <h3>工具如何判断一个时区是否实行夏令时？</h3>
+        <p>通过对比该时区在当年1月与7月的UTC偏移：若两个月份偏移不同，说明该时区实行夏令时，时钟卡片会显示「夏令时」徽标；当当前偏移等于夏季偏移时，表示正处于夏令时期间。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/timezone-converter.js"></script>
+</body>
+</html>

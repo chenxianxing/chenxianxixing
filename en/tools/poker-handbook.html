@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Poker Handbook - Online Poker Hand Rankings, Texas Holdem Rules and Glossary | Online Tools</title>
+  <meta name="description" content="Free online poker handbook: full hand rankings with exact probabilities (computed from C(52,5)=2,598,960), the Texas Holdem table flow with a positions diagram, a 60+ term bilingual glossary, and quick references for Omaha and Short Deck rules. All read locally in your browser.">
+  <meta name="keywords" content="Poker Handbook, Texas Holdem Rules, online tools, free tools, web tools, browser tools">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/poker-handbook.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Poker Handbook - Online Poker Hand Rankings, Texas Holdem Rules and Glossary">
+  <meta property="og:description" content="Poker hand rankings with exact probabilities, the Texas Holdem rules flow and position guide, a 60+ term bilingual glossary, and quick references for Omaha and Short Deck differences.">
+  <meta property="og:url" content="https://example.com/en/tools/poker-handbook.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%83%8F%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Poker Handbook",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线Poker Handbook：Hand Rankings排 rows与精确概率、Texas Holdem Rules流程与PositionNotes、60+TermMedium英对照词典、Omaha and Short DeckRules差异速查。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Hand Rankings排 rows", "精确概率计算", "Texas Holdem Rules流程", "Position与Bet轮次", "60+TermMedium英词典", "Omaha and Short Deck差异"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the order of poker hand rankings?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "From strongest to weakest: straight flush (royal flush is the largest), four of a kind, full house, flush, straight, three of a kind, two pair, one pair, and high card. Straight flushes total only 40 combinations, about 0.0015%, while high card is the most common at roughly 50%."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between Texas Holdem and Omaha?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "In Texas Holdem each player has 2 hole cards and may freely use any 5 of the hole and community cards to make the best hand. In Omaha each player has 4 hole cards and must use exactly 2 of them plus 3 community cards, so the structure of hand strength and strategy differ greatly."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which is bigger, a straight or a flush?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "标准PokerRulesMediumFlush大于Straight；但在短牌（Short Deck，去掉2-5）MediumRules改为Straight大于Flush，同时A可以当5组成A-5Straight，Wed同张（Set）也Strong于Straight。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    /* ---------- Tab 切换 ---------- */
+    .ph-tabs { display: flex; flex-wrap: wrap; gap: 8px; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 18px; }
+    .ph-tab {
+      height: 34px; padding: 0 16px; border: 1px solid var(--border); border-radius: 9px;
+      background: #fbfcfe; color: var(--muted); font-size: 14px; font-family: var(--font);
+      cursor: pointer; transition: border-color 0.15s, color 0.15s;
+    }
+    .ph-tab:hover { border-color: var(--primary); color: var(--primary); }
+    .ph-tab.active { background: var(--primary); border-color: var(--primary); color: #fff; -webkit-text-fill-color: #fff; }
+    .ph-panel { display: none; }
+    .ph-panel.active { display: block; }
+
+    /* ---------- 牌型表格 ---------- */
+    .ph-rank-table td { white-space: nowrap; }
+    .ph-rank-table td:nth-child(7) { white-space: normal; min-width: 180px; }
+    .ph-rank-table td.rank { font-weight: 700; color: var(--primary); font-variant-numeric: tabular-nums; }
+    .ph-rank-table .cards { font-size: 15px; letter-spacing: 1.5px; }
+    .ph-red { color: #dc2626; }
+    .ph-rank-table tbody tr:first-child { background: var(--primary-light); }
+
+    /* ---------- 规则步骤 ---------- */
+    .ph-flow { display: flex; flex-direction: column; gap: 0; margin-top: 6px; }
+    .ph-step {
+      display: flex; gap: 14px; padding: 13px 4px;
+      border-bottom: 1px dashed var(--border);
+    }
+    .ph-step:last-child { border-bottom: none; }
+    .ph-step .no {
+      flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%;
+      background: var(--primary); color: #fff; font-size: 13px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ph-step .st-title { font-size: 14.5px; font-weight: 600; }
+    .ph-step .st-desc { font-size: 13.5px; color: var(--muted); line-height: 1.7; margin-top: 3px; }
+
+    /* ---------- 座位简图 ---------- */
+    .ph-table-wrap { margin: 18px 0 6px; }
+    .ph-table {
+      position: relative; width: 320px; height: 190px; margin: 0 auto;
+      background: var(--primary-light); border: 2px solid #bfdbfe; border-radius: 110px;
+    }
+    .ph-table .felt-label {
+      position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+      font-size: 12.5px; color: var(--primary); text-align: center; width: 60%; line-height: 1.6;
+    }
+    .ph-seat {
+      position: absolute; transform: translate(-50%, -50%);
+      font-size: 12.5px; background: var(--card); border: 1px solid var(--border);
+      border-radius: 999px; padding: 4px 11px; white-space: nowrap; box-shadow: var(--shadow);
+      font-weight: 600; color: var(--text);
+    }
+    .ph-seat small { font-weight: 400; color: var(--muted); margin-left: 4px; }
+    @media (max-width: 480px) {
+      .ph-table { width: 280px; height: 170px; }
+      .ph-seat { font-size: 11.5px; padding: 3px 8px; }
+    }
+    .ph-pos-list { margin-top: 14px; }
+    .ph-pos-list li { font-size: 13.5px; line-height: 1.8; color: var(--text); }
+    .ph-pos-list b { color: var(--primary); }
+
+    /* ---------- 术语词典 ---------- */
+    .ph-search-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .ph-search-row .form-input { max-width: 320px; }
+    .ph-glossary-table td { white-space: normal; }
+    .ph-glossary-table td.en { font-weight: 600; white-space: nowrap; color: var(--text); }
+    .ph-glossary-table td.zh { white-space: nowrap; color: var(--primary); }
+
+    /* ---------- 变体规则卡片 ---------- */
+    .ph-variant-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 6px; }
+    @media (max-width: 720px) { .ph-variant-grid { grid-template-columns: 1fr; } }
+    .ph-variant-card {
+      border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; background: #fbfcfe;
+    }
+    .ph-variant-card h3 { font-size: 15.5px; margin-bottom: 8px; }
+    .ph-variant-card ul { margin: 0; padding-left: 20px; }
+    .ph-variant-card li { font-size: 13.5px; line-height: 1.9; color: var(--text); }
+    .ph-sec-title { font-size: 14px; font-weight: 600; margin: 18px 0 4px; color: var(--text); }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/poker-handbook.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/poker-handbook.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/poker-handbook.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/poker-handbook.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>Poker Handbook</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🃏</div>
+        <h1>Poker Handbook</h1>
+      </div>
+      <p class="tool-desc">An online poker quick-reference handbook: hand rankings with exact probabilities, the Texas Holdem table flow and position guide, a 60+ term bilingual glossary, and Omaha and Short Deck rule differences. All content loads locally and works offline.</p>
+    </section>
+
+    <section class="tool-panel">
+
+      <div class="ph-tabs" role="tablist" aria-label="Sections">
+        <button class="ph-tab active" type="button" data-tab="hands" role="tab">Hand Rankings</button>
+        <button class="ph-tab" type="button" data-tab="texas" role="tab">Texas Holdem Rules</button>
+        <button class="ph-tab" type="button" data-tab="glossary" role="tab">Glossary</button>
+        <button class="ph-tab" type="button" data-tab="variants" role="tab">Omaha and Short Deck</button>
+      </div>
+
+      <!-- Tab 1: 牌型大小 -->
+      <div class="ph-panel active" id="panel-hands">
+        <p class="wc-note" style="margin-top:0;">Listed from strongest to weakest. Probabilities are computed from the total number of 5-card hands out of 52 cards, C(52,5)=2,598,960. A Royal Flush is the suited A K Q J 10, the largest special form of a straight flush.</p>
+        <div class="table-wrap">
+          <table class="data-table ph-rank-table" id="handTable">
+            <thead>
+              <tr>
+                <th>Rank</th><th>Hand</th><th>Example</th><th>Combinations</th><th>Probability</th><th>Odds</th><th>Notes</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="info-note">Tip: when comparing hands, first look at the hand category; if the category matches, compare key card ranks in order, and if those still match, compare the kicker. In a straight the Ace can be the highest card (10-J-Q-K-A) or the lowest (A-2-3-4-5).</div>
+      </div>
+
+      <!-- Tab 2: 德州扑克规则 -->
+      <div class="ph-panel" id="panel-texas">
+        <div class="ph-sec-title" style="margin-top:0;">Table Flow</div>
+        <div class="ph-flow">
+          <div class="ph-step">
+            <div class="no">1</div>
+            <div>
+              <div class="st-title">Blinds</div>
+              <div class="st-desc">Before each hand, the Small Blind (SB) and Big Blind (BB) post forced bets at the agreed amounts, forming the initial pot. Blinds usually increase one level every 15 to 30 minutes.</div>
+            </div>
+          </div>
+          <div class="ph-step">
+            <div class="no">2</div>
+            <div>
+              <div class="st-title">Pre-flop</div>
+              <div class="st-desc">Each player is dealt 2 hole cards. Action starts with UTG, to the left of the Big Blind, and each player may fold, call, or raise until no one raises again.</div>
+            </div>
+          </div>
+          <div class="ph-step">
+            <div class="no">3</div>
+            <div>
+              <div class="st-title">Flop</div>
+              <div class="st-desc">Three community cards are dealt, followed by a betting round. On every street after the flop (Flop/Turn/River), action starts with the SB, to the left of the Button (BTN).</div>
+            </div>
+          </div>
+          <div class="ph-step">
+            <div class="no">4</div>
+            <div>
+              <div class="st-title">Turn</div>
+              <div class="st-desc">The 4th community card is dealt. The board structure is largely set, another betting round follows, and the pot usually grows noticeably on this street.</div>
+            </div>
+          </div>
+          <div class="ph-step">
+            <div class="no">5</div>
+            <div>
+              <div class="st-title">River</div>
+              <div class="st-desc">The final community card is dealt, making 5 in total, and the last betting round takes place. No more cards are coming, and the final battle of value bets and bluffs unfolds here.</div>
+            </div>
+          </div>
+          <div class="ph-step">
+            <div class="no">6</div>
+            <div>
+              <div class="st-title">Showdown</div>
+              <div class="st-desc">If two or more players remain after the betting, cards are shown: each player freely combines 2 hole cards with the 5 community cards to make the best 5-card hand, and the strongest hand wins the pot.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ph-sec-title">Positions Overview</div>
+        <div class="ph-table-wrap">
+          <div class="ph-table">
+            <div class="felt-label">Texas Holdem seating (6-max)<br>Action moves clockwise</div>
+            <span class="ph-seat" style="left:16%; top:26%;">UTG<small>UTG</small></span>
+            <span class="ph-seat" style="left:40%; top:10%;">HJ<small>HJ</small></span>
+            <span class="ph-seat" style="left:64%; top:10%;">CO<small>CO</small></span>
+            <span class="ph-seat" style="left:88%; top:48%;">BTN<small>BTN</small></span>
+            <span class="ph-seat" style="left:74%; top:88%;">SB<small>SB</small></span>
+            <span class="ph-seat" style="left:30%; top:88%;">BB<small>BB</small></span>
+          </div>
+        </div>
+        <ul class="ph-pos-list">
+          <li><b>UTG (Under the Gun)</b>: acts first before the flop; the worst position, so you need a very strong hand to get involved.</li>
+          <li><b>HJ (Hijack)</b>: a mid-early position between UTG and CO where you can widen your opening range appropriately.</li>
+          <li><b>CO (Cutoff)</b>: a strong position just left of the Button and a popular spot for stealing the blinds.</li>
+          <li><b>BTN (Button)</b>: acts last after the flop with the most complete information, making it the most profitable seat at the table.</li>
+          <li><b>SB (Small Blind)</b>: second to last to act before the flop and first to act after it, the worst position throughout the hand.</li>
+          <li><b>BB (Big Blind)</b>: has posted the larger blind, acts last before the flop, and may see the flop for free if no one raises.</li>
+        </ul>
+
+        <div class="ph-sec-title">Betting Rounds</div>
+        <ul class="ph-pos-list">
+          <li>Limit or No-Limit per game: in Limit the bet size on each street is fixed; in No-Limit you can push your entire stack in at once (All-in).</li>
+          <li>Action goes around the table once per street until all remaining players have matched the same bet, at which point the street ends.</li>
+          <li>If a player goes All-in, a main pot is set aside and the remaining players keep betting the excess into a side pot.</li>
+        </ul>
+
+        <div class="ph-sec-title">Minimum Raise Rule</div>
+        <div class="info-note">A raise must be at least as large as the previous bet or raise. For example, with blinds of 10/20, the first raise is at least to 40; if someone raises to 100, the next minimum raise increment is 80 (to at least 180). If a player goes All-in for less than the minimum raise, the raise window does not reopen and others may only call or fold.</div>
+
+        <div class="ph-sec-title">Side Pots</div>
+        <div class="info-note">When a player goes All-in against opponents with more chips, the All-in player can only win a main pot matching their stack; the excess forms side pots among the remaining players. Multiple All-ins can create several side pots, which are settled one by one by hand strength.</div>
+      </div>
+
+      <!-- Tab 3: 术语词典 -->
+      <div class="ph-panel" id="panel-glossary">
+        <div class="ph-search-row">
+          <div class="form-item" style="flex:1; max-width:360px;">
+            <label for="glossarySearch">Search Term</label>
+            <input type="text" id="glossarySearch" class="form-input" placeholder="Search by English or Chinese keyword, e.g. All-in, bluff" spellcheck="false">
+          </div>
+          <span class="ph-count badge blue" id="glossaryCount" style="margin-top:18px;"></span>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table ph-glossary-table" id="glossaryTable">
+            <thead>
+              <tr><th>Term</th><th>Chinese</th><th>Explanation</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="empty-tip" id="glossaryEmpty" hidden>No matching terms. Try another keyword</div>
+      </div>
+
+      <!-- Tab 4: 奥马哈与短牌 -->
+      <div class="ph-panel" id="panel-variants">
+        <div class="ph-variant-grid">
+          <div class="ph-variant-card">
+            <h3>Omaha</h3>
+            <ul>
+              <li>Each player is dealt 4 hole cards, and there are still 5 community cards.</li>
+              <li>Hand-building rule: you must use exactly 2 hole cards plus 3 community cards, no more and no fewer.</li>
+              <li>For example, with A-spades A-hearts K-diamonds Q-clubs, an A-diamonds on the board does not make three of a kind, because using only 1 hole card is illegal.</li>
+              <li>Because the number of hole cards you may use is restricted, hand strength is usually more concentrated than in Texas Holdem, and flushes and straights appear more often and bigger.</li>
+              <li>Common variants: Pot-Limit Omaha (PLO) and Omaha Hi-Lo, where the pot is split between high and low.</li>
+            </ul>
+          </div>
+          <div class="ph-variant-card">
+            <h3>Short Deck (6+)</h3>
+            <ul>
+              <li>Remove the 2, 3, 4 and 5 and only 36 cards remain, which noticeably changes the distribution of hands.</li>
+              <li>The Ace can count as 5: the lowest straight is A-6-7-8-9, while 10-J-Q-K-A remains the highest straight.</li>
+              <li>A straight beats a flush, the biggest difference from standard rules.</li>
+              <li>Three of a kind (Set) beats a straight, and full houses are relatively more common.</li>
+              <li>High card and one pair appear less often, so outcomes depend more on big hands and draws.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="info-note">The basic flow of both variants (blinds, four betting rounds, showdown comparison) matches Texas Holdem; the main differences are the number of hole cards, hand-building rules, and hand ranking order.</div>
+        <div class="warn-note">This handbook is for learning and reference only. Please follow local laws and regulations, stay rational, and keep away from gambling.</div>
+      </div>
+
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>What is the order of poker hand rankings?</h3>
+        <p>From strongest to weakest: straight flush (royal flush is the largest), four of a kind, full house, flush, straight, three of a kind, two pair, one pair, and high card. Straight flushes total only 40 combinations, about 0.0015%, while high card is the most common at roughly 50%.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is the difference between Texas Holdem and Omaha?</h3>
+        <p>In Texas Holdem each player has 2 hole cards and may freely use any 5 of the hole and community cards to make the best hand. In Omaha each player has 4 hole cards and must use exactly 2 of them plus 3 community cards, so the structure of hand strength and strategy differ greatly.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Which is bigger, a straight or a flush?</h3>
+        <p>Under standard rules a flush beats a straight, but in Short Deck (remove 2-5) the rule changes so a straight beats a flush, the Ace can count as 5 for the lowest straight, and three of a kind (Set) also beats a straight.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/poker-handbook.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

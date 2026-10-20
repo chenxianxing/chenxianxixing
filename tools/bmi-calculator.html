@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BMI与每日热量计算器 - 在线BMI/基础代谢/减脂热量计算工具 | 在线工具大全</title>
+  <meta name="description" content="免费在线BMI与每日热量计算器，输入性别、年龄、身高、体重即可计算BMI（中国与WHO双标准分类）、健康体重范围、理想体重、基础代谢率BMR、每日总热量TDEE，并提供减脂、增肌、维持热量建议与三大营养素搭配方案，全部本地计算。">
+  <meta name="keywords" content="BMI计算器,BMI,每日热量计算,基础代谢率,BMR,TDEE,减脂热量,增肌热量,Mifflin-St Jeor,三大营养素">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/bmi-calculator.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="BMI与每日热量计算器 - 在线BMI/基础代谢/减脂热量计算工具">
+  <meta property="og:description" content="输入性别年龄身高体重，一键计算BMI双标准分类、健康体重范围、BMR、TDEE与减脂增肌目标热量及三大营养素方案。">
+  <meta property="og:url" content="https://example.com/tools/bmi-calculator.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9A%96%EF%B8%8F%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "BMI与每日热量计算器",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线BMI与每日热量计算器，支持BMI中国与WHO双标准分类、健康体重范围、Devine理想体重、Mifflin-St Jeor基础代谢率、TDEE每日总热量与三大营养素方案。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["BMI中国标准与WHO标准双分类", "健康体重范围计算", "Devine理想体重公式", "Mifflin-St Jeor基础代谢率", "TDEE每日总热量消耗", "减脂/增肌/维持目标热量", "三大营养素三套方案", "BMI可视化刻度条", "公制英制单位切换"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "BMI多少算正常？中国标准和WHO标准有什么区别？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "中国标准：BMI小于18.5偏瘦，18.5-23.9正常，24-27.9超重，28及以上肥胖；WHO标准：小于18.5偏瘦，18.5-24.9正常，25-29.9超重，30及以上肥胖。亚洲人群在相同BMI下体脂率往往更高，因此中国标准的上限更低。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "BMR和TDEE有什么区别？活动系数怎么选？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "BMR（基础代谢率）是人体安静状态下维持生命所需的最低热量，本工具采用Mifflin-St Jeor公式计算；TDEE（每日总热量消耗）= BMR × 活动系数，反映含日常活动与运动的总消耗。卧床约1.2、轻度活动1.375、中度1.55、高强度1.725、极高强度1.9，可按每周运动频率选择最接近的一档。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "减脂建议每天少摄入500千卡安全吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "在TDEE基础上减少500千卡约对应每周减重0.5公斤，属于温和可持续的速度；增肌建议在TDEE基础上增加300千卡并配合抗阻训练。个人差异较大，孕妇、青少年及慢性病患者应在专业人士指导下调整。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .unit-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .ft-row { display: flex; gap: 8px; align-items: center; }
+    .ft-row .form-input { width: 100%; }
+    .ft-sep { color: var(--muted); font-size: 14px; }
+
+    /* BMI 刻度条 */
+    .bmi-scale { margin-top: 20px; }
+    .scale-bar {
+      position: relative;
+      display: flex;
+      height: 16px;
+      border-radius: 999px;
+      overflow: visible;
+      margin-top: 6px;
+    }
+    .scale-bar .seg { height: 100%; }
+    .scale-bar .seg:first-child { border-radius: 999px 0 0 999px; }
+    .scale-bar .seg:last-child { border-radius: 0 999px 999px 0; }
+    .seg-thin { background: #93c5fd; width: 14%; }
+    .seg-normal { background: #6ee7b7; width: 22%; }
+    .seg-over { background: #fcd34d; width: 16%; }
+    .seg-fat { background: #fca5a5; width: 48%; }
+    .scale-pointer {
+      position: absolute;
+      top: -6px;
+      width: 4px;
+      height: 28px;
+      background: #111827;
+      border-radius: 2px;
+      transform: translateX(-2px);
+      transition: left 0.2s;
+    }
+    .scale-pointer::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: -7px;
+      transform: translateX(-50%);
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 6px solid #111827;
+    }
+    .scale-ticks {
+      position: relative;
+      height: 20px;
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .scale-ticks span {
+      position: absolute;
+      transform: translateX(-50%);
+      white-space: nowrap;
+    }
+    .scale-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+    .scale-legend i {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+      margin-right: 5px;
+      vertical-align: -1px;
+    }
+    .weekly-tip {
+      font-size: 13.5px;
+      color: var(--text);
+      margin-top: 14px;
+      line-height: 1.7;
+    }
+    .weekly-tip b { color: var(--primary); }
+    .goal-radio label { white-space: nowrap; }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/bmi-calculator.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/bmi-calculator.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/bmi-calculator.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="../en/tools/bmi-calculator.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>BMI与每日热量计算器</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">⚖️</div>
+        <h1>BMI与每日热量计算器</h1>
+      </div>
+      <p class="tool-desc">在线BMI与每日热量计算工具，输入性别、年龄、身高、体重，即可计算BMI（中国与WHO双标准）、健康体重范围、理想体重、基础代谢率与每日总热量，并获得减脂、增肌、维持目标热量与三大营养素搭配建议，全部在浏览器本地完成。</p>
+    </section>
+
+    <section class="tool-panel">
+
+      <div class="unit-row">
+        <div class="radio-row" id="unitRow" role="radiogroup" aria-label="单位制">
+          <label class="checked"><input type="radio" name="unit" value="metric" checked>公制 cm/kg</label>
+          <label><input type="radio" name="unit" value="imperial">英制 ft/in / lb</label>
+        </div>
+        <span class="badge blue">Mifflin-St Jeor 公式</span>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-item">
+          <label>性别</label>
+          <div class="radio-row" id="sexRow" role="radiogroup" aria-label="性别">
+            <label class="checked"><input type="radio" name="sex" value="male" checked>男</label>
+            <label><input type="radio" name="sex" value="female">女</label>
+          </div>
+        </div>
+        <div class="form-item">
+          <label for="age">年龄（岁）</label>
+          <input type="number" id="age" class="form-input" value="30" min="10" max="100" step="1">
+        </div>
+        <div class="form-item" id="cmWrap">
+          <label for="cm">身高（cm）</label>
+          <input type="number" id="cm" class="form-input" value="170" min="50" max="250" step="0.5">
+        </div>
+        <div class="form-item" id="ftWrap" hidden>
+          <label for="ft">身高（ft / in）</label>
+          <div class="ft-row">
+            <input type="number" id="ft" class="form-input" value="5" min="1" max="8" step="1" aria-label="英尺">
+            <span class="ft-sep">ft</span>
+            <input type="number" id="inch" class="form-input" value="7" min="0" max="11" step="1" aria-label="英寸">
+            <span class="ft-sep">in</span>
+          </div>
+        </div>
+        <div class="form-item" id="kgWrap">
+          <label for="kg">体重（kg）</label>
+          <input type="number" id="kg" class="form-input" value="65" min="20" max="300" step="0.5">
+        </div>
+        <div class="form-item" id="lbWrap" hidden>
+          <label for="lb">体重（lb）</label>
+          <input type="number" id="lb" class="form-input" value="143" min="40" max="660" step="1">
+        </div>
+        <div class="form-item">
+          <label for="activity">活动系数</label>
+          <select id="activity" class="form-select">
+            <option value="1.2">卧床/久坐不动（1.2）</option>
+            <option value="1.375" selected>轻度活动（1.375）</option>
+            <option value="1.55">中度活动（1.55）</option>
+            <option value="1.725">高强度运动（1.725）</option>
+            <option value="1.9">极高强度/体力工作（1.9）</option>
+          </select>
+        </div>
+        <div class="form-item">
+          <label>目标</label>
+          <div class="radio-row goal-radio" id="goalRow" role="radiogroup" aria-label="目标">
+            <label class="checked"><input type="radio" name="goal" value="cut" checked>减脂</label>
+            <label><input type="radio" name="goal" value="maintain">维持</label>
+            <label><input type="radio" name="goal" value="bulk">增肌</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="op-row">
+        <button class="btn btn-primary" id="btnCalc" type="button">开始计算</button>
+        <button class="btn" id="btnReset" type="button">恢复默认</button>
+      </div>
+
+      <div class="warn-note" id="bmiError" hidden></div>
+
+      <div class="result-grid">
+        <div class="result-card primary">
+          <div class="num" id="bmiVal">--</div>
+          <div class="label">BMI 中国标准：<span id="chinaCat">--</span></div>
+        </div>
+        <div class="result-card">
+          <div class="num" id="healthyRange">--</div>
+          <div class="label">健康体重范围（BMI 18.5-23.9）</div>
+        </div>
+        <div class="result-card">
+          <div class="num" id="idealWeight">--</div>
+          <div class="label">理想体重（Devine 公式）</div>
+        </div>
+        <div class="result-card">
+          <div class="num" id="bmrVal">--</div>
+          <div class="label">基础代谢率 BMR（千卡/天）</div>
+        </div>
+        <div class="result-card">
+          <div class="num" id="tdeeVal">--</div>
+          <div class="label">每日总热量 TDEE（千卡/天）</div>
+        </div>
+        <div class="result-card">
+          <div class="num" id="goalVal">--</div>
+          <div class="label" id="goalLabel">目标热量（减脂）</div>
+        </div>
+      </div>
+
+      <div class="bmi-scale">
+        <div class="scale-bar" aria-hidden="true">
+          <div class="seg seg-thin"></div>
+          <div class="seg seg-normal"></div>
+          <div class="seg seg-over"></div>
+          <div class="seg seg-fat"></div>
+          <div class="scale-pointer" id="bmiPointer" style="left:0%;"></div>
+        </div>
+        <div class="scale-ticks" id="scaleTicks" aria-hidden="true">
+          <span style="left:0%;">15</span>
+          <span style="left:14%;">18.5</span>
+          <span style="left:36%;">24</span>
+          <span style="left:52%;">28</span>
+          <span style="left:100%;">40</span>
+        </div>
+        <div class="scale-legend">
+          <span><i style="background:#93c5fd;"></i>偏瘦 &lt;18.5</span>
+          <span><i style="background:#6ee7b7;"></i>正常 18.5-24</span>
+          <span><i style="background:#fcd34d;"></i>超重 24-28</span>
+          <span><i style="background:#fca5a5;"></i>肥胖 ≥28</span>
+        </div>
+      </div>
+
+      <p class="weekly-tip" id="weeklyTip"></p>
+
+      <div class="table-wrap">
+        <table class="data-table" id="macroTable">
+          <thead>
+            <tr id="macroHead">
+              <th>方案</th>
+              <th>碳水化合物（g）</th>
+              <th>蛋白质（g）</th>
+              <th>脂肪（g）</th>
+            </tr>
+          </thead>
+          <tbody id="macroBody"></tbody>
+        </table>
+      </div>
+
+      <div class="info-note" id="whoNote">WHO 标准对照：<b id="whoCat">--</b>（偏瘦 &lt;18.5 · 正常 18.5-24.9 · 超重 25-29.9 · 肥胖 ≥30）</div>
+
+      <div class="warn-note">免责声明：本工具的计算结果仅供参考，不构成医疗建议。减脂、增重或存在特殊健康状况时，请咨询专业医生或注册营养师。</div>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>BMI多少算正常？中国标准和WHO标准有什么区别？</h3>
+        <p>中国标准：BMI小于18.5偏瘦，18.5-23.9正常，24-27.9超重，28及以上肥胖；WHO标准：小于18.5偏瘦，18.5-24.9正常，25-29.9超重，30及以上肥胖。亚洲人群在相同BMI下体脂率往往更高，因此中国标准的上限更低。</p>
+      </div>
+      <div class="faq-item">
+        <h3>BMR和TDEE有什么区别？活动系数怎么选？</h3>
+        <p>BMR（基础代谢率）是人体安静状态下维持生命所需的最低热量，本工具采用Mifflin-St Jeor公式计算；TDEE（每日总热量消耗）= BMR × 活动系数，反映含日常活动与运动的总消耗。卧床约1.2、轻度活动1.375、中度1.55、高强度1.725、极高强度1.9，可按每周运动频率选择最接近的一档。</p>
+      </div>
+      <div class="faq-item">
+        <h3>减脂建议每天少摄入500千卡安全吗？</h3>
+        <p>在TDEE基础上减少500千卡约对应每周减重0.5公斤，属于温和可持续的速度；增肌建议在TDEE基础上增加300千卡并配合抗阻训练。个人差异较大，孕妇、青少年及慢性病患者应在专业人士指导下调整。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/bmi-calculator.js"></script>
+</body>
+</html>

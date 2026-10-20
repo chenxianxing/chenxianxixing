@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mermaid Online Editor - Flowchart/Sequence/Class Diagram Generator | Online Tools Hub</title>
+  <meta name="description" content="A free online Mermaid editor with live preview and export for flowcharts, sequence diagrams, class diagrams, ER diagrams, Gantt charts, mindmaps and pie charts. Everything renders locally in your browser with no upload and no sign-up.">
+  <meta name="keywords" content="Flowchart, Sequence Diagram, Class Diagram, ER Diagram, Gantt Chart, Mindmap, Pie Chart">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/mermaid-editor.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Mermaid Online Editor - Flowchart/Sequence/Class Diagram Generator">
+  <meta property="og:description" content="An online Mermaid editor with live preview and export for flowcharts, sequence diagrams, class diagrams, ER diagrams, Gantt charts, mindmaps and pie charts.">
+  <meta property="og:url" content="https://example.com/en/tools/mermaid-editor.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%8A%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <style>
+    .mm-preview {
+      width: 100%;
+      min-height: 360px;
+      height: 100%;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background:
+        linear-gradient(45deg, #f1f5f9 25%, transparent 25%) 0 0 / 20px 20px,
+        linear-gradient(-45deg, #f1f5f9 25%, transparent 25%) 0 0 / 20px 20px,
+        linear-gradient(45deg, transparent 75%, #f1f5f9 75%) 0 0 / 20px 20px,
+        linear-gradient(-45deg, transparent 75%, #f1f5f9 75%) 0 0 / 20px 20px,
+        #fbfcfe;
+      padding: 16px;
+      overflow: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .mm-preview #svgWrap {
+      transform-origin: center center;
+      transition: transform 0.15s ease;
+      max-width: 100%;
+    }
+    .mm-preview #svgWrap svg {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+    .mm-preview .empty-tip {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .mm-preview.has-svg .empty-tip {
+      display: none;
+    }
+    @media (max-width: 720px) {
+      .split-2 { grid-template-columns: 1fr; }
+      .mm-preview { min-height: 280px; }
+    }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Mermaid Online Editor",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "An online Mermaid editor supporting live preview and export of flowcharts, sequence diagrams, class diagrams, ER diagrams, Gantt charts, mindmaps and pie charts, rendered locally in the browser.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Live Preview", "Flowchart", "Sequence Diagram", "Class Diagram", "ER Diagram", "Gantt Chart", "Mindmap", "Pie Chart", "Export SVG", "Export PNG", "Theme Switch"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Does the Mermaid editor need an internet connection?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. All diagrams are rendered locally in your browser with the Mermaid library. Your code and diagrams are never uploaded to any server, which makes it safe for internal or sensitive workflows."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which export formats are supported?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "You can export the current diagram as an SVG vector image or a PNG bitmap. SVG scales without quality loss and stays editable, while PNG is handy for documents and slides."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why did the diagram fail to render?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Usually it is a Mermaid syntax error, such as a missing semicolon, a wrong node connector, or an unsupported keyword. Fix the syntax following the error message below, then click Render."
+        }
+      }
+    ]
+  }
+  </script>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/mermaid-editor.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/mermaid-editor.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/mermaid-editor.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/mermaid-editor.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>Mermaid Online Editor</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">📊</div>
+        <h1>Mermaid Online Editor</h1>
+      </div>
+      <p class="tool-desc">Type Mermaid syntax to render flowcharts, sequence diagrams, class diagrams, ER diagrams, Gantt charts, mind maps and pie charts in real time. Supports zooming, theme switching and export, all rendered locally in your browser.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="op-row">
+        <span class="form-label">Examples:</span>
+        <button class="btn" data-sample="flowchart">Flowchart</button>
+        <button class="btn" data-sample="sequence">Sequence Diagram</button>
+        <button class="btn" data-sample="class">Class Diagram</button>
+        <button class="btn" data-sample="er">ER Diagram</button>
+        <button class="btn" data-sample="gantt">Gantt Chart</button>
+        <button class="btn" data-sample="mindmap">Mindmap</button>
+        <button class="btn" data-sample="pie">Pie Chart</button>
+      </div>
+
+      <div class="split-2">
+        <div class="form-item">
+          <label for="mmInput">Mermaid Code</label>
+          <textarea id="mmInput" class="form-input" rows="18" spellcheck="false" placeholder="在此输入 Mermaid 语法，例如：flowchart TD&#10;A[开始] --> B{判断}&#10;B -->|是| C[执行]&#10;B -->|否| D[结束]"></textarea>
+          <div class="op-row" style="margin-top:8px; margin-bottom:0;">
+            <button class="btn btn-primary" id="btnRender" type="button">Render</button>
+            <button class="btn" id="btnClear" type="button">Clear</button>
+            <button class="btn" id="btnCopy" type="button">Copy Code</button>
+            <button class="btn" id="btnSample" type="button">Load Sample</button>
+          </div>
+        </div>
+
+        <div class="form-item">
+          <label>Preview</label>
+          <div id="preview" class="mm-preview">
+            <div id="svgWrap"></div>
+            <div class="empty-tip" id="mmEmpty">Enter code on the left or click an example above, the preview will appear here</div>
+          </div>
+          <div class="op-row" style="margin-top:8px; margin-bottom:0;">
+            <button class="btn" id="btnZoomIn" type="button">Zoom In</button>
+            <button class="btn" id="btnZoomOut" type="button">Zoom Out</button>
+            <button class="btn" id="btnZoomReset" type="button">Reset Zoom</button>
+            <button class="btn" id="btnFit" type="button">Fit Width</button>
+            <span class="spacer"></span>
+            <button class="btn" id="btnSvg" type="button">Download SVG</button>
+            <button class="btn" id="btnPng" type="button">Download PNG</button>
+          </div>
+          <div class="op-row" style="margin-bottom:0;">
+            <span class="form-label">Theme</span>
+            <div class="radio-row" id="themeRow" role="radiogroup" aria-label="Diagram theme">
+              <label class="checked"><input type="radio" name="mmtheme" value="default" checked>default</label>
+              <label><input type="radio" name="mmtheme" value="neutral">neutral</label>
+              <label><input type="radio" name="mmtheme" value="dark">dark</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="warn-note" id="mmError" hidden></div>
+
+      <p class="wc-note">Note: <b>100% rendered locally in your browser</b>, your input is never uploaded to any server. If rendering fails, check the Mermaid syntax (e.g. semicolons, connectors, keywords) and the error message will show in the box above.</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>Does the Mermaid editor need an internet connection?</h3>
+        <p>No. All diagrams are rendered locally in your browser with the Mermaid library. Your code and diagrams are never uploaded to any server, which makes it safe for internal or sensitive workflows.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Which export formats are supported?</h3>
+        <p>You can export the current diagram as an SVG vector image or a PNG bitmap. SVG scales without quality loss and stays editable, while PNG is handy for documents and slides.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Why did the diagram fail to render?</h3>
+        <p>Usually it is a Mermaid syntax error, such as a missing semicolon, a wrong node connector, or an unsupported keyword. Fix the syntax following the error message below, then click Render.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/vendor/mermaid.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/mermaid-editor.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

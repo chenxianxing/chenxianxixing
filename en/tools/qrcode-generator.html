@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Generator - Online QR Code Maker and PNG Download Tool | Online Tools</title>
+  <meta name="description" content="Free online QR code generator that creates QR codes from text, URLs and multi-line text, with customizable size 128-1024, error correction level L/M/Q/H, foreground and background colors and margin. Download PNG images in one click; all processing is done locally in your browser.">
+  <meta name="keywords" content="QR Code Generator, online tools, free tools, web tools, browser tools">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/qrcode-generator.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="QR Code Generator - Online QR Code Maker and PNG Download Tool">
+  <meta property="og:description" content="Online QR code generator with customizable size, error correction level, foreground and background colors and margin, plus one-click PNG download.">
+  <meta property="og:url" content="https://example.com/en/tools/qrcode-generator.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%B1%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "QR Code Generator",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online QR code generator that creates QR codes from text and URLs, with customizable size, error correction level, foreground and background colors and margin, plus PNG export.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Text/URL to QR Code", "Size 128-1024 adjustment", "Error Correction Level L/M/Q/H", "Custom Foreground and Background Colors", "Margin Setting", "One-Click PNG Download"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What does the QR code error correction level do?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The error correction level determines how likely a QR code remains scannable after being obscured or damaged. L tolerates about 7% damage, M about 15%, Q about 25% and H about 30%. Use a higher error correction level when there is a lot of content or when printing on uneven surfaces."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can the generated QR codes be used commercially?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. QR codes themselves carry no fee; this tool generates them entirely in your local browser and neither collects nor uploads any content. The results can be freely used for commercial or personal purposes."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is a bigger QR code always clearer?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Clarity depends mainly on content density and print resolution rather than size alone. More content means denser modules, so it is recommended to increase the size appropriately and set a margin to ensure reliable scanning."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    #qrBox {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 200px;
+      background: #fbfcfe;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 6px 0 14px;
+    }
+    .qr-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 720px) { .qr-row { grid-template-columns: 1fr; } }
+    .color-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: flex-end;
+    }
+    .color-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .color-item input[type="color"] {
+      width: 46px;
+      height: 38px;
+      padding: 2px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: #fff;
+      cursor: pointer;
+    }
+    .color-item input[type="text"] {
+      width: 110px;
+    }
+    .slider-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+      min-width: 180px;
+    }
+    .slider-item .val {
+      font-size: 13px;
+      color: var(--primary);
+      font-weight: 600;
+    }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/qrcode-generator.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/qrcode-generator.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/qrcode-generator.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/qrcode-generator.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>QR Code Generator</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">📱</div>
+        <h1>QR Code Generator</h1>
+      </div>
+      <p class="tool-desc">Online QR code maker that generates QR codes from text, URLs and multi-line text in one click, with customizable size, error correction level, foreground and background colors and margin, plus PNG export. All processing is done locally in your browser.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="form-item">
+        <label for="qrContent">QR Code Content (URL or text, multi-line supported)</label>
+        <textarea id="qrContent" class="form-input" rows="4" placeholder="Enter a URL or text, e.g. https://example.com" spellcheck="false"></textarea>
+      </div>
+
+      <div class="qr-row" style="margin-top:14px;">
+        <div class="slider-item">
+          <label for="qrSize">Size: <span class="val" id="qrSizeVal">256</span> px</label>
+          <input type="range" id="qrSize" min="128" max="1024" step="8" value="256">
+        </div>
+        <div class="slider-item">
+          <label for="qrMargin">Margin: <span class="val" id="qrMarginVal">16</span> px</label>
+          <input type="range" id="qrMargin" min="0" max="64" step="2" value="16">
+        </div>
+      </div>
+
+      <div class="op-row" style="margin-top:16px;">
+        <div class="radio-row" id="qrLevelRow" role="radiogroup" aria-label="Error Correction Level">
+          <label class="checked"><input type="radio" name="qrlv" value="L">L</label>
+          <label><input type="radio" name="qrlv" value="M" checked>M</label>
+          <label><input type="radio" name="qrlv" value="Q">Q</label>
+          <label><input type="radio" name="qrlv" value="H">H</label>
+        </div>
+        <span class="spacer"></span>
+        <span class="badge blue">Error Correction L&lt;M&lt;Q&lt;H</span>
+      </div>
+
+      <div class="color-row" style="margin-top:14px;">
+        <div class="color-item">
+          <label for="qrFg">Foreground Color</label>
+          <input type="color" id="qrFg" value="#000000">
+        </div>
+        <div class="color-item">
+          <input type="text" id="qrFgHex" class="form-input" value="#000000" maxlength="7" spellcheck="false">
+        </div>
+        <div class="color-item">
+          <label for="qrBg">Background Color</label>
+          <input type="color" id="qrBg" value="#FFFFFF">
+        </div>
+        <div class="color-item">
+          <input type="text" id="qrBgHex" class="form-input" value="#FFFFFF" maxlength="7" spellcheck="false">
+        </div>
+      </div>
+
+      <div id="qrBox" style="margin-top:16px;">
+        <div class="empty-tip">The QR code will appear here once you enter content</div>
+      </div>
+
+      <div class="op-row">
+        <button class="btn btn-primary" id="btnGen" type="button">Generate QR Code</button>
+        <button class="btn" id="btnDownload" type="button">Download PNG</button>
+        <button class="btn" id="btnCopy" type="button">Copy Content</button>
+        <span class="spacer"></span>
+        <button class="btn" id="btnClear" type="button">Clear</button>
+      </div>
+
+      <div class="warn-note" id="qrError" hidden></div>
+
+      <p class="wc-note">Note: QR codes are generated entirely in your local browser and no content is uploaded. Colors can be set with the color picker or by typing a HEX value directly (e.g. #1e40af); the margin leaves a white quiet zone around the QR code, which helps improve scan success rates.</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>What does the QR code error correction level do?</h3>
+        <p>The error correction level determines how likely a QR code remains scannable after being obscured or damaged. L tolerates about 7% damage, M about 15%, Q about 25% and H about 30%. Use a higher error correction level when there is a lot of content or when printing on uneven surfaces.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Can the generated QR codes be used commercially?</h3>
+        <p>Yes. QR codes themselves carry no fee; this tool generates them entirely in your local browser and neither collects nor uploads any content. The results can be freely used for commercial or personal purposes.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Is a bigger QR code always clearer?</h3>
+        <p>Clarity depends mainly on content density and print resolution rather than size alone. More content means denser modules, so it is recommended to increase the size appropriately and set a margin to ensure reliable scanning.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/vendor/qrcode.min.js"></script>
+  <script src="../assets/js/qrcode-generator.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

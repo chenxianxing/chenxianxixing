@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSV to JSON - Online CSV and JSON Converter | Online Tools</title>
+  <meta name="description" content="Free online CSV to JSON tool supporting comma, semicolon, Tab and pipe delimiters, RFC4180 quoted field parsing, first-row header detection, and converting JSON arrays back to CSV. All processing is done locally in your browser, with copy and download support.">
+  <meta name="keywords" content="CSV to JSON, RFC4180, online tools, free tools, web tools, browser tools">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/csv-to-json.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="CSV to JSON - Online CSV and JSON Converter">
+  <meta property="og:description" content="Online CSV/JSON converter supporting multiple delimiters and RFC4180 quote parsing, with copy and download of results.">
+  <meta property="og:url" content="https://example.com/en/tools/csv-to-json.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%84%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "CSV to JSON",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online CSV and JSON converter supporting multiple delimiters, RFC4180 quote parsing and first-row header detection.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["CSV to JSON array", "JSON array back to CSV", "Multiple delimiters (comma/semicolon/Tab/pipe/custom)", "First-row header detection", "RFC4180 quoted field parsing", "Copy and download results"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What if a field contains a comma or a line break?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "This tool follows the RFC4180 standard: a field wrapped in double quotes may contain delimiters, line breaks and double quotes (doubling represents one quote). Improper wrapping will cause parsing misalignment, so always quote fields that contain special characters."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What does Use first row as header mean?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "When checked, the first CSV row is treated as the field names and the output is an array of objects keyed by the header; when unchecked, the output is a 2D array (each element is the array of values for one row), which suits header-less raw data."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What should I do when parsing fails on a specific row?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The error message points to the specific line number. The most common cause is an unpaired quote. Check whether a closing quote is missing on that line, or whether quotes inside a field are written as two double quotes as required."
+        }
+      }
+    ]
+  }
+  </script>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/csv-to-json.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/csv-to-json.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/csv-to-json.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/csv-to-json.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>CSV to JSON</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">📄</div>
+        <h1>CSV to JSON</h1>
+      </div>
+      <p class="tool-desc">Online CSV and JSON converter supporting multiple delimiters and RFC4180 quoted field parsing. All data processing is done locally in your browser and nothing is uploaded.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="op-row">
+        <div class="radio-row" id="modeRow" role="radiogroup" aria-label="Conversion direction">
+          <label class="checked"><input type="radio" name="mode" value="toJson" checked>CSV → JSON</label>
+          <label><input type="radio" name="mode" value="toCsv">JSON → CSV</label>
+        </div>
+      </div>
+
+      <!-- CSV → JSON -->
+      <div id="panelToJson">
+        <div class="form-grid">
+          <div class="form-item">
+            <label for="delim">Delimiter</label>
+            <select id="delim" class="form-select">
+              <option value=",">Comma ,</option>
+              <option value=";">Semicolon ;</option>
+              <option value="\t">Tab</option>
+              <option value="|">Pipe |</option>
+              <option value="__custom__">Custom</option>
+            </select>
+          </div>
+          <div class="form-item" id="customDelimWrap" hidden>
+            <label for="customDelim">Custom Delimiter</label>
+            <input type="text" id="customDelim" class="form-input" maxlength="3" placeholder="e.g. | or ::">
+          </div>
+          <div class="form-item">
+            <label for="jsonFormat">Output Format</label>
+            <select id="jsonFormat" class="form-select">
+              <option value="pretty">Pretty (indented)</option>
+              <option value="compact">Minified (single line)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="checkbox-row">
+          <label><input type="checkbox" id="hasHeader" checked> Use first row as header</label>
+          <label><input type="checkbox" id="trimWs" checked> Trim leading/trailing whitespace in fields</label>
+        </div>
+
+        <div class="split-2" style="margin-top:14px;">
+          <div class="form-item">
+            <label for="csvInput">CSV content (paste or choose a file)</label>
+            <textarea id="csvInput" class="form-input" rows="12" placeholder="name,age,city&#10;Alice,18,New York&#10;Bob,21,London" spellcheck="false"></textarea>
+          </div>
+          <div class="form-item">
+            <label for="jsonOutput">JSON Output</label>
+            <textarea id="jsonOutput" class="form-input" rows="12" readonly placeholder="The conversion result will appear here" spellcheck="false"></textarea>
+          </div>
+        </div>
+
+        <div class="op-row" style="margin-top:14px; margin-bottom:0;">
+          <button class="btn btn-primary" id="btnFile" type="button">Choose CSV File</button>
+          <input type="file" id="fileInput" accept=".csv,.txt" hidden>
+          <button class="btn" id="btnConvert" type="button">Convert</button>
+          <button class="btn" id="btnCopyJson" type="button">Copy result</button>
+          <button class="btn" id="btnDownloadJson" type="button">Download .json</button>
+          <span class="spacer"></span>
+          <button class="btn" id="btnClearJson" type="button">Clear</button>
+        </div>
+
+        <div class="warn-note" id="errJson" hidden></div>
+        <p class="wc-note">Note: Parsing follows the RFC4180 standard. A field wrapped in double quotes may contain delimiters, line breaks and double quotes (two consecutive double quotes represent one quote). Always wrap fields containing special characters in quotes.</p>
+      </div>
+
+      <!-- JSON → CSV -->
+      <div id="panelToCsv" hidden>
+        <div class="form-item" style="margin-bottom:14px;">
+          <label for="csvDelimOut">Output Delimiter</label>
+          <select id="csvDelimOut" class="form-select" style="max-width:220px;">
+            <option value=",">Comma ,</option>
+            <option value=";">Semicolon ;</option>
+            <option value="\t">Tab</option>
+            <option value="|">Pipe |</option>
+          </select>
+        </div>
+
+        <div class="split-2">
+          <div class="form-item">
+            <label for="jsonInput">JSON array (array of objects or 2D array)</label>
+            <textarea id="jsonInput" class="form-input" rows="12" placeholder='[{"name":"张三","age":18},{"name":"李四","age":21}]' spellcheck="false"></textarea>
+          </div>
+          <div class="form-item">
+            <label for="csvOutput">CSV Output</label>
+            <textarea id="csvOutput" class="form-input" rows="12" readonly placeholder="The conversion result will appear here" spellcheck="false"></textarea>
+          </div>
+        </div>
+
+        <div class="op-row" style="margin-top:14px; margin-bottom:0;">
+          <button class="btn btn-primary" id="btnConvertCsv" type="button">Convert</button>
+          <button class="btn" id="btnCopyCsv" type="button">Copy result</button>
+          <button class="btn" id="btnDownloadCsv" type="button">Download .csv</button>
+          <span class="spacer"></span>
+          <button class="btn" id="btnClearCsv" type="button">Clear</button>
+        </div>
+
+        <div class="warn-note" id="errCsv" hidden></div>
+        <p class="wc-note">Note: An array of objects automatically uses the first-row keys as the header; a 2D array is output row by row. Fields containing delimiters, quotes or line breaks are automatically quoted and escaped.</p>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>What if a field contains a comma or a line break?</h3>
+        <p>This tool follows the RFC4180 standard: a field wrapped in double quotes may contain delimiters, line breaks and double quotes (doubling represents one quote). Improper wrapping will cause parsing misalignment, so always quote fields that contain special characters.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What does Use first row as header mean?</h3>
+        <p>When checked, the first CSV row is treated as the field names and the output is an array of objects keyed by the header; when unchecked, the output is a 2D array (each element is the array of values for one row), which suits header-less raw data.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What should I do when parsing fails on a specific row?</h3>
+        <p>The error message points to the specific line number. The most common cause is an unpaired quote. Check whether a closing quote is missing on that line, or whether quotes inside a field are written as two double quotes as required.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/csv-to-json.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

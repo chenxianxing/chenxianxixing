@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URL Encoder/Decoder - Online URL Encode/Decode Converter | Online Tools</title>
+  <meta name="description" content="Free online URL encoder/decoder supporting four modes: encodeURIComponent, encodeURI, decodeURIComponent and decodeURI. Convert in real time, copy with one click, and handle Chinese and English URLs and special characters. No registration required.">
+  <meta name="keywords" content="URLEncode, URLDecode, encodeURIComponent, decodeURIComponent">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/url-encode.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="URL Encoder/Decoder - Online URL Encode/Decode Converter">
+  <meta property="og:description" content="Online URL encoder/decoder supporting four modes: encodeURIComponent, encodeURI, decodeURIComponent and decodeURI, with real-time conversion and one-click copying.">
+  <meta property="og:url" content="https://example.com/en/tools/url-encode.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%B0%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "URL Encode & Decode",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online URL encoder/decoder supporting four modes: encodeURIComponent, encodeURI, decodeURIComponent and decodeURI.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["URL encoding (encodeURIComponent)", "URL encoding (encodeURI)", "URL decoding (decodeURIComponent)", "URL decoding (decodeURI)", "Live conversion", "One-Click Copy"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the difference between encodeURI and encodeURIComponent?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "encodeURI is used to encode a complete URL and does not escape URL structure characters such as : / ? # & =; encodeURIComponent is used to encode URL parameter values and escapes all characters except letters, digits and - _ . ! ~ * ' ( ). Use encodeURI for an entire URL and encodeURIComponent for parameter values."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is URL encoding necessary?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "When a URL contains special characters such as Chinese characters, spaces, emoji or & # ?, encoding is required; otherwise it may cause request errors or abnormal parameter parsing. The Chinese text seen in the browser address bar is usually the result after encoding."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What should I do if decoding fails with an error?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "decodeURIComponent throws a URIError when it encounters an invalid percent-encoded sequence (such as %zz or a lone %). Please check whether the input is a valid URL-encoded string, or try switching to decodeURI mode."
+        }
+      }
+    ]
+  }
+  </script>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/url-encode.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/url-encode.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/url-encode.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/url-encode.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>URL Encode & Decode</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🔗</div>
+        <h1>URL Encode & Decode</h1>
+      </div>
+      <p class="tool-desc">Online URL encode/decode converter supporting four modes: encodeURIComponent, encodeURI, decodeURIComponent and decodeURI. Input is converted instantly and all processing is done locally in the browser.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="op-row">
+        <div class="radio-row" id="modeRow" role="radiogroup" aria-label="Conversion Mode">
+          <label class="checked"><input type="radio" name="mode" value="encodeComponent" checked>Encode Component</label>
+          <label><input type="radio" name="mode" value="encodeURI">Encode URI</label>
+          <label><input type="radio" name="mode" value="decodeComponent">Decode Component</label>
+          <label><input type="radio" name="mode" value="decodeURI">Decode URI</label>
+        </div>
+        <span class="spacer"></span>
+        <label class="checkbox-row" style="font-size:13px;"><input type="checkbox" id="autoConvert" checked> Live conversion</label>
+      </div>
+
+      <div class="split-2">
+        <div class="form-item">
+          <label for="ueInput">Raw Content</label>
+          <textarea id="ueInput" class="form-input" rows="10" placeholder="Enter the content to encode or decode, e.g. https://example.com/search?q=hello" spellcheck="false"></textarea>
+        </div>
+        <div class="form-item">
+          <label for="ueOutput">Result</label>
+          <textarea id="ueOutput" class="form-input" rows="10" readonly placeholder="The conversion result will appear here" spellcheck="false"></textarea>
+        </div>
+      </div>
+
+      <div class="op-row" style="margin-top:14px; margin-bottom:0;">
+        <button class="btn btn-primary" id="btnConvert" type="button">Convert Now</button>
+        <button class="btn" id="btnSwap" type="button">Use Result as Input</button>
+        <button class="btn" id="btnCopy" type="button">Copy result</button>
+        <span class="spacer"></span>
+        <button class="btn" id="btnClear" type="button">Clear</button>
+      </div>
+
+      <div class="warn-note" id="ueError" hidden></div>
+
+      <p class="wc-note">Note: <b>encodeURIComponent</b> escapes all characters except letters, digits and - _ . ! ~ * ' ( ), which suits encoding URL parameter values; <b>encodeURI</b> keeps URL structure characters such as : / ? # &amp; =, which suits encoding complete URLs. If an error is shown when decoding, the input is not a valid percent-encoded sequence.</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>What is the difference between encodeURI and encodeURIComponent?</h3>
+        <p>encodeURI is used to encode a complete URL and does not escape URL structure characters such as : / ? # &amp; =; encodeURIComponent is used to encode URL parameter values and escapes all characters except letters, digits and - _ . ! ~ * ' ( ). Use encodeURI for an entire URL and encodeURIComponent for parameter values.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Is URL encoding necessary?</h3>
+        <p>When a URL contains special characters such as Chinese characters, spaces, emoji or &amp; # ?, encoding is required; otherwise it may cause request errors or abnormal parameter parsing. The Chinese text seen in the browser address bar is usually the result after encoding.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What should I do if decoding fails with an error?</h3>
+        <p>decodeURIComponent throws a URIError when it encounters an invalid percent-encoded sequence (such as %zz or a lone %). Please check whether the input is a valid URL-encoded string, or try switching to decodeURI mode.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/url-encode.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

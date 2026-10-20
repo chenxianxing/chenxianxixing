@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON Workbench - Online JSON Validator, Tree View and Path Query | Online Tools</title>
+  <meta name="description" content="Free online JSON workbench with syntax validation (line and column numbers), a collapsible tree view, colored keys/strings/numbers/booleans, array and object badges, node value and path copying, and $.a.b[0] style path query location, all running locally in your browser.">
+  <meta name="keywords" content="JSON Formatter, online tools, free tools, web tools, browser tools">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/json-viewer.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="JSON Workbench - Online JSON Validator, Tree View and Path Query">
+  <meta property="og:description" content="Online JSON workbench with syntax validation, tree view and path query location, node coloring and one-click copying.">
+  <meta property="og:url" content="https://example.com/en/tools/json-viewer.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%8D%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <style>
+    .jt-tree { margin-top: 16px; border: 1px solid var(--border); border-radius: 11px; background: #fbfcfe; padding: 12px 14px; max-height: 560px; overflow: auto; font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; font-size: 13.5px; }
+    .jt-node { padding-left: 0; }
+    .jt-children { padding-left: 20px; border-left: 1px dashed #e5e7eb; margin-left: 6px; }
+    .jt-node.collapsed > .jt-children { display: none; }
+    .jt-row { display: flex; align-items: center; gap: 4px; padding: 2px 4px; border-radius: 6px; flex-wrap: wrap; }
+    .jt-row:hover { background: var(--primary-light); }
+    .jt-row.jt-hl { background: #fde68a; }
+    .jt-caret { width: 16px; text-align: center; cursor: pointer; color: var(--muted); user-select: none; flex-shrink: 0; }
+    .jt-caret.leaf { cursor: default; color: #cbd5e1; }
+    .jt-key { color: #7c3aed; }
+    .jt-str { color: #059669; }
+    .jt-num { color: #d97706; }
+    .jt-bool { color: #2563eb; }
+    .jt-null { color: #9ca3af; }
+    .jt-acts { margin-left: auto; display: none; gap: 6px; }
+    .jt-row:hover .jt-acts { display: inline-flex; }
+    .jt-btn { border: 1px solid var(--border); background: #fff; color: var(--muted); font-size: 12px; border-radius: 6px; padding: 1px 8px; cursor: pointer; }
+    .jt-btn:hover { border-color: var(--primary); color: var(--primary); }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "JSON Workbench",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online JSON validation, tree view and path query tool with node coloring and copying.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["JSON syntax validation (with line/column numbers)", "Collapsible tree view", "Colored keys/strings/numbers/booleans/null", "Array length and object key count badges", "Copy node values and paths", "$.a.b[0] path query location"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Does JSON validation report the error position?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. When the JSON syntax is invalid, the tool parses the error message and works out the exact line and column, helping you locate the problem quickly."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What path format does path query support?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It supports path syntax like $.store.book[0].title: object properties use dots and array elements use bracket indexes. Enter a path and click Locate to highlight the matching node."
+        }
+      },
+      {
+          "@type": "Question",
+          "name": "Can I copy the value or path of a node directly?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Hover over any node row and two buttons appear, Copy Value and Copy Path, which copy the node JSON value and the full path string respectively."
+          }
+      }
+    ]
+  }
+  </script>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/json-viewer.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/json-viewer.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/json-viewer.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/json-viewer.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>JSON Workbench</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🔍</div>
+        <h1>JSON Workbench</h1>
+      </div>
+      <p class="tool-desc">Online JSON validation, tree view and path query tool with line/column location of syntax errors, collapsible nodes, colored keys/strings/numbers/booleans, array and object badges, and node value and path copying.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="form-item">
+        <label for="jvInput">JSON Input</label>
+        <textarea id="jvInput" class="form-input" rows="12" placeholder='{ "store": { "book": [ { "title": "示例", "price": 9.9 } ] } }' spellcheck="false"></textarea>
+      </div>
+
+      <div class="op-row" style="margin-top:12px;">
+        <button class="btn btn-primary" id="btnFormat" type="button">Format</button>
+        <button class="btn" id="btnCompact" type="button">Compress</button>
+        <button class="btn" id="btnExample" type="button">Sample</button>
+        <span class="spacer"></span>
+        <button class="btn" id="btnClear" type="button">Clear</button>
+      </div>
+
+      <div class="warn-note" id="jvError" hidden></div>
+
+      <div class="op-row" style="margin-top:14px;">
+        <input type="text" id="pathQuery" class="form-input" style="max-width:380px;" placeholder="Enter a path, e.g. $.store.book[0].title">
+        <button class="btn" id="btnLocate" type="button">Locate</button>
+        <button class="btn" id="btnExpand" type="button">Expand All</button>
+        <button class="btn" id="btnCollapse" type="button">Collapse All</button>
+        <span class="spacer"></span>
+        <span class="badge blue" id="jvStat">Not parsed</span>
+      </div>
+
+      <div class="jt-tree" id="jvTree"><div class="empty-tip">Enter valid JSON above and the tree structure will be shown here</div></div>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>Does JSON validation report the error position?</h3>
+        <p>Yes. When the JSON syntax is invalid, the tool parses the error message and works out the exact line and column, helping you locate the problem quickly.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What path format does path query support?</h3>
+        <p>It supports path syntax like $.store.book[0].title: object properties use dots and array elements use bracket indexes. Enter a path and click Locate to highlight the matching node.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Can I copy the value or path of a node directly?</h3>
+        <p>Yes. Hover over any node row and two buttons appear, Copy Value and Copy Path, which copy the node JSON value and the full path string respectively.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/json-viewer.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

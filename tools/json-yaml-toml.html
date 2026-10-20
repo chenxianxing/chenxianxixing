@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON/YAML/TOML转换 - 在线JSON转YAML/TOML互转工具 | 在线工具大全</title>
+  <meta name="description" content="免费在线JSON/YAML/TOML转换工具，支持JSON转YAML、JSON转TOML、YAML转JSON、YAML转TOML、TOML转JSON、TOML转YAML六种方向，自动识别粘贴格式，错误提示带行号，全部在浏览器本地完成，数据不上传。">
+  <meta name="keywords" content="JSON转YAML,YAML转JSON,JSON转TOML,TOML转JSON,YAML转TOML,TOML转YAML,JSON格式化,格式转换,在线转换工具,配置文件转换">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/json-yaml-toml.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="JSON/YAML/TOML转换 - 在线格式互转工具">
+  <meta property="og:description" content="支持JSON、YAML、TOML六种互转方向的在线工具，自动识别格式、错误带行号，本地转换不上传。">
+  <meta property="og:url" content="https://example.com/tools/json-yaml-toml.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%84%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "JSON/YAML/TOML 转换",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线JSON/YAML/TOML互转工具，支持六种转换方向，自动识别粘贴格式，错误提示带行号，全部在浏览器本地完成。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["JSON 转 YAML", "JSON 转 TOML", "YAML 转 JSON", "YAML 转 TOML", "TOML 转 JSON", "TOML 转 YAML", "自动识别粘贴格式", "错误行号提示", "本地转换不上传", "一键复制与下载"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "三种格式之间转换会丢失数据吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "JSON、YAML、TOML 都支持字符串、数字、布尔、数组与嵌套对象，常规结构转换不会丢失数据。需要注意：TOML 没有 null 类型，遇到 null 值会报错；TOML 的日期时间会保留为字符串；YAML 的锚点与别名等高级特性在转换中会被展开为普通结构。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "为什么转换为 TOML 时报 null 错误？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "TOML 规范本身没有 null 类型，这是为了保持类型系统的确定性。将 JSON 或 YAML 转换为 TOML 时，如果数据中包含 null，工具会明确指出出错的键，请先删除该键，或把值改为空字符串、0 等。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "转换是在服务器上完成的吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "不是。所有解析与生成都在你的浏览器本地完成，页面不会发起任何网络请求，输入内容不会上传到任何服务器，可以安全处理包含敏感信息的配置数据。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .mode-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .mode-tabs label {
+      padding: 8px 16px;
+      font-size: 14px;
+      cursor: pointer;
+      background: #fbfcfe;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+      user-select: none;
+    }
+    .mode-tabs input { display: none; }
+    .mode-tabs label.checked,
+    .mode-tabs label:has(input:checked) {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+      -webkit-text-fill-color: #fff;
+    }
+    .code-area {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, "Courier New", monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      min-height: 320px;
+    }
+    .block-title { font-size: 15px; font-weight: 600; margin: 22px 0 10px; }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/json-yaml-toml.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/json-yaml-toml.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/json-yaml-toml.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+        <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="../en/tools/json-yaml-toml.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>JSON/YAML/TOML 转换</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🔄</div>
+        <h1>JSON/YAML/TOML 转换</h1>
+      </div>
+      <p class="tool-desc">在线 JSON、YAML、TOML 互转工具，支持 JSON 转 YAML、JSON 转 TOML、YAML 转 JSON、YAML 转 TOML、TOML 转 JSON、TOML 转 YAML 六种方向，自动识别粘贴内容格式，错误提示带行号，所有转换均在浏览器本地完成。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="mode-tabs" id="ioTabs" role="tablist" aria-label="转换方向">
+        <label class="checked"><input type="radio" name="dir" value="json-yaml" checked>JSON → YAML</label>
+        <label><input type="radio" name="dir" value="json-toml">JSON → TOML</label>
+        <label><input type="radio" name="dir" value="yaml-json">YAML → JSON</label>
+        <label><input type="radio" name="dir" value="yaml-toml">YAML → TOML</label>
+        <label><input type="radio" name="dir" value="toml-json">TOML → JSON</label>
+        <label><input type="radio" name="dir" value="toml-yaml">TOML → YAML</label>
+      </div>
+
+      <div class="op-row">
+        <button class="btn btn-primary" id="btnConvert" type="button">转换</button>
+        <label class="checkbox-row" style="font-size:13px;"><input type="checkbox" id="prettyOut" checked> 美化输出</label>
+        <label class="checkbox-row" style="font-size:13px;"><input type="checkbox" id="autoConvert" checked> 实时转换</label>
+        <span class="spacer"></span>
+        <span class="result-line" id="ioMeta"></span>
+      </div>
+
+      <div class="split-2">
+        <div class="form-item">
+          <label for="ioInput">输入</label>
+          <textarea id="ioInput" class="form-input code-area" rows="14" spellcheck="false" placeholder="在此粘贴内容，支持 JSON、YAML、TOML"></textarea>
+        </div>
+        <div class="form-item">
+          <label for="ioOutput">输出</label>
+          <textarea id="ioOutput" class="form-input code-area" rows="14" readonly spellcheck="false" placeholder="转换结果会显示在这里"></textarea>
+        </div>
+      </div>
+
+      <div class="op-row" style="margin-top:14px; margin-bottom:0;">
+        <button class="btn" id="btnCopy" type="button">复制结果</button>
+        <button class="btn" id="btnDownload" type="button">下载</button>
+        <button class="btn" id="btnSample" type="button">示例</button>
+        <span class="spacer"></span>
+        <button class="btn" id="btnClear" type="button">清空</button>
+      </div>
+
+      <div class="info-note" id="ioDetect" hidden><span id="ioDetectText"></span></div>
+      <div class="warn-note" id="ioError" hidden></div>
+
+      <h2 class="block-title">三种配置格式对比</h2>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr><th>格式</th><th>语法风格</th><th>注释</th><th>典型用途</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>JSON</b></td>
+              <td>键名加双引号，花括号包裹，逗号分隔，最严谨</td>
+              <td>不支持</td>
+              <td>API 数据交换、前后端传输</td>
+            </tr>
+            <tr>
+              <td><b>YAML</b></td>
+              <td>缩进表示层级，键值用冒号加空格分隔</td>
+              <td>支持 # 注释</td>
+              <td>配置文件、CI/CD 流水线、Kubernetes</td>
+            </tr>
+            <tr>
+              <td><b>TOML</b></td>
+              <td>键 = 值，[表] 与 [[数组表]] 组织层级</td>
+              <td>支持 # 注释</td>
+              <td>项目配置（Cargo.toml、pyproject.toml）</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="wc-note">说明：<b>所有转换均在浏览器本地完成，数据不上传。</b>TOML 与 YAML 输出固定为美化格式，JSON 输出可通过「美化输出」切换缩进与压缩；解析失败时会给出字段名、行号等定位信息，方便快速排查。</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>三种格式之间转换会丢失数据吗？</h3>
+        <p>JSON、YAML、TOML 都支持字符串、数字、布尔、数组与嵌套对象，常规结构转换不会丢失数据。需要注意：TOML 没有 null 类型，遇到 null 值会报错；TOML 的日期时间会保留为字符串；YAML 的锚点与别名等高级特性在转换中会被展开为普通结构。</p>
+      </div>
+      <div class="faq-item">
+        <h3>为什么转换为 TOML 时报 null 错误？</h3>
+        <p>TOML 规范本身没有 null 类型，这是为了保持类型系统的确定性。将 JSON 或 YAML 转换为 TOML 时，如果数据中包含 null，工具会明确指出出错的键，请先删除该键，或把值改为空字符串、0 等。</p>
+      </div>
+      <div class="faq-item">
+        <h3>转换是在服务器上完成的吗？</h3>
+        <p>不是。所有解析与生成都在你的浏览器本地完成，页面不会发起任何网络请求，输入内容不会上传到任何服务器，可以安全处理包含敏感信息的配置数据。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/vendor/js-yaml.min.js"></script>
+  <script src="../assets/js/toml-lite.js"></script>
+  <script src="../assets/js/json-yaml-toml.js"></script>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Query Parameter Parser - URL Query String Parsing and Rebuilding | Online Tools</title>
+  <meta name="description" content="Free online query parameter parser. Enter a full URL or query string to parse it into a key-value parameter table, with support for editing, adding and removing parameters, an encoding toggle and real-time URL rebuilding, all with one-click copying. All parsing is done locally in your browser and no data is uploaded.">
+  <meta name="keywords" content="Query Parameter Parser, query string, urlencode">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/query-parser.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Query Parameter Parser - URL Query String Parsing and Rebuilding">
+  <meta property="og:description" content="Enter a full URL or query string to parse it into a key-value parameter table, with support for editing, adding and removing parameters, an encoding toggle and real-time URL rebuilding, all with one-click copying.">
+  <meta property="og:url" content="https://example.com/en/tools/query-parser.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%97%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Query Parameter Parser",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online query parameter parser that turns full URLs or query strings into a key-value parameter table, with support for editing, adding and removing parameters, an encoding toggle and real-time URL rebuilding.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Parse URL/query string", "Editable parameter table", "Add/remove parameter rows", "Encoding toggle", "Real-time URL rebuilding", "One-Click Copy"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What input formats does the tool support?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It supports full URLs (the query part after the question mark is extracted automatically), query strings with a question mark (e.g. ?a=1&b=2), and bare parameter strings without one (e.g. a=1&b=2). A #hash fragment in the URL is preserved separately and is not treated as a parameter."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What does the encoding toggle do?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "When on, every parameter value is encoded with encodeURIComponent while rebuilding the URL, which is suitable for direct use in requests; when off, values are concatenated as-is, which is suitable for viewing or building readable links with Chinese/special characters. The parameter table also marks whether each row is currently URL-encoded."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What happens if the pasted URL contains a #hash?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The tool correctly recognizes the part after # as the hash (fragment identifier) and preserves it separately, without mixing it into the parameters. The rebuilt URL also appends the hash unchanged at the end."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .qp-input-row { margin-bottom: 14px; }
+    .qp-input-row textarea {
+      width: 100%;
+      min-height: 84px;
+      resize: vertical;
+    }
+    .qp-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 16px; }
+    .qp-actions .spacer { flex: 1; }
+    .qp-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+    .qp-table th, .qp-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: middle; }
+    .qp-table th { background: #f8fafc; font-weight: 600; position: sticky; top: 0; }
+    .qp-table input[type="text"] { height: 34px; }
+    .qp-table .col-key { width: 30%; }
+    .qp-table .col-val { width: 42%; }
+    .qp-table .col-flag { width: 14%; white-space: nowrap; color: var(--muted); font-size: 12px; }
+    .qp-table .col-op { width: 14%; text-align: center; }
+    .qp-del {
+      border: 1px solid var(--border); background: var(--card); color: #dc2626;
+      border-radius: 8px; width: 30px; height: 30px; cursor: pointer; font-size: 15px; line-height: 1;
+    }
+    .qp-del:hover { background: #fef2f2; border-color: #fca5a5; }
+    .qp-result-label { font-size: 13px; color: var(--muted); margin: 4px 0 6px; }
+    .qp-url-box {
+      width: 100%; min-height: 70px; border: 1px solid var(--border); border-radius: 11px;
+      background: #f8fafc; padding: 12px 14px; font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+      font-size: 13.5px; line-height: 1.7; color: var(--text); white-space: pre-wrap; word-break: break-all;
+      resize: vertical;
+    }
+    .qp-url-box:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(37,99,235,0.10); background: #fff; outline: none; }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/query-parser.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/query-parser.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/query-parser.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/query-parser.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>Query Parameter Parser</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🔗</div>
+        <h1>Query Parameter Parser</h1>
+      </div>
+      <p class="tool-desc">Enter a full URL or query string (?a=1&b=2) to automatically parse it into a key-value parameter table, with support for editing, adding and removing parameters, an encoding toggle and real-time URL rebuilding. All parsing is done locally in your browser and no data is uploaded.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="qp-input-row">
+        <label for="qpInput">Enter a URL or query string</label>
+        <textarea id="qpInput" class="form-input" placeholder="e.g. https://example.com/search?q=keyword&page=2#result, ?a=1&b=2, or a=1&b=2" spellcheck="false"></textarea>
+      </div>
+
+      <div class="qp-actions">
+        <button class="btn btn-primary" id="qpParse" type="button">Parser</button>
+        <button class="btn" id="qpLoad" type="button">Load Current Page URL</button>
+        <button class="btn" id="qpAdd" type="button">+ Add Parameter</button>
+        <span class="spacer"></span>
+        <label class="checkbox-row" style="font-size:13.5px;">
+          <input type="checkbox" id="qpEncode" checked> URL-encode values when rebuilding (encodeURIComponent)
+        </label>
+      </div>
+
+      <div class="table-wrap" style="max-height:none;">
+        <table class="qp-table">
+          <thead>
+            <tr>
+              <th class="col-key">Parameter Name</th>
+              <th class="col-val">Parameter Value</th>
+              <th class="col-flag">Encoding</th>
+              <th class="col-op">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="qpBody">
+          </tbody>
+        </table>
+      </div>
+
+      <div class="empty-tip" id="qpEmpty" hidden>No parameters yet. Enter content above and click Parse.</div>
+
+      <div style="margin-top:20px;">
+        <div class="qp-result-label">Rebuilt full URL (editable)</div>
+        <textarea id="qpUrl" class="qp-url-box" spellcheck="false" readonly></textarea>
+        <div class="op-row" style="margin-top:12px; margin-bottom:0;">
+          <button class="btn btn-primary" id="qpCopy" type="button">Copy URL</button>
+          <button class="btn" id="qpClear" type="button">Clear</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>What input formats does the tool support?</h3>
+        <p>It supports full URLs (the query part after the question mark is extracted automatically), query strings with a question mark (e.g. ?a=1&b=2), and bare parameter strings without one (e.g. a=1&b=2). A #hash fragment in the URL is preserved separately and is not treated as a parameter.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What does the encoding toggle do?</h3>
+        <p>When on, every parameter value is encoded with encodeURIComponent while rebuilding the URL, which is suitable for direct use in requests; when off, values are concatenated as-is, which is suitable for viewing or building readable links with Chinese/special characters. The parameter table also marks whether each row is currently URL-encoded.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What happens if the pasted URL contains a #hash?</h3>
+        <p>The tool correctly recognizes the part after # as the hash (fragment identifier) and preserves it separately, without mixing it into the parameters. The rebuilt URL also appends the hash unchanged at the end.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/query-parser.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timestamp Converter - Unix Timestamp and Date/Time Conversion Tool | Online Tools</title>
+  <meta name="description" content="Free online Unix timestamp converter with automatic second/millisecond detection and conversion between local time, ISO 8601 and UTC. Includes a real-time clock, quick time buttons and common timestamp references. All calculations run locally in your browser.">
+  <meta name="keywords" content="Timestamp Converter, epoch, online tools, free tools, web tools, browser tools">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/timestamp-convert.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Timestamp Converter - Unix Timestamp and Date/Time Conversion Tool">
+  <meta property="og:description" content="Online Unix timestamp converter with automatic second/millisecond detection, conversion between local time, ISO 8601 and UTC, a real-time clock and one-click copy.">
+  <meta property="og:url" content="https://example.com/en/tools/timestamp-convert.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%8F%B1%EF%B8%8F%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Timestamp Converter",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online Unix timestamp converter with automatic second/millisecond detection, conversion between local time, ISO 8601 and UTC, a real-time clock and quick time buttons.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Auto Second/Millisecond Detection", "Local Time Display", "ISO 8601 Format", "UTC Format", "Reverse Date/Time Conversion", "Real-Time Clock", "Quick Time Buttons", "One-Click Copy"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I tell seconds from milliseconds in a timestamp?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A 10-digit Unix timestamp represents seconds (elapsed since 1970-01-01), while a 13-digit timestamp represents milliseconds. This tool automatically detects the length: 10 digits are parsed as seconds and 13 digits as milliseconds, and you can also switch units manually."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between local time, ISO 8601 and UTC?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Local time is shown in your device's time zone; ISO 8601 usually includes a time zone offset (such as +08:00); UTC is Coordinated Universal Time (zero offset). All three describe the same moment, just in different formats."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why does the same timestamp show different times in different time zones?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A timestamp itself is time zone independent and records an absolute moment. Converting it to a readable date-time requires a time zone, so Beijing (UTC+8) and London display different readable times even though the underlying timestamp is the same."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .ts-clock {
+      background: var(--primary-light);
+      border: 1px solid #bfdbfe;
+      border-radius: 12px;
+      padding: 18px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px 22px;
+      margin-bottom: 22px;
+    }
+    .ts-clock .label {
+      font-size: 13px;
+      color: #1e40af;
+      font-weight: 600;
+    }
+    .ts-clock .time {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--primary);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.5px;
+    }
+    .ts-clock .stamp {
+      font-size: 15px;
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 4px 10px;
+    }
+    .ts-block {
+      margin-bottom: 22px;
+    }
+    .ts-block h3 {
+      font-size: 16px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .ts-result-row {
+      display: grid;
+      grid-template-columns: 110px 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fbfcfe;
+      margin-bottom: 10px;
+    }
+    .ts-result-row .k {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .ts-result-row .v {
+      font-size: 15px;
+      font-variant-numeric: tabular-nums;
+      word-break: break-all;
+      font-family: "SFMono-Regular", Consolas, Menlo, "Courier New", monospace;
+    }
+    .ts-result-row .copy {
+      flex-shrink: 0;
+    }
+    .quick-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .ts-note {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-top: 12px;
+    }
+    @media (max-width: 640px) {
+      .ts-result-row { grid-template-columns: 1fr; }
+      .ts-clock .time { font-size: 22px; }
+    }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/timestamp-convert.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/timestamp-convert.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/timestamp-convert.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/timestamp-convert.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>Timestamp Converter</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">⏱️</div>
+        <h1>Timestamp Converter</h1>
+      </div>
+      <p class="tool-desc">Two-way converter between Unix timestamps (seconds/milliseconds) and date-time values, with automatic unit detection, local time, ISO 8601 and UTC formats, plus a real-time clock and quick time buttons. All calculations run locally in your browser.</p>
+    </section>
+
+    <section class="tool-panel">
+
+      <!-- 实时时钟 -->
+      <div class="ts-clock">
+        <div>
+          <div class="label">Current Time (Local)</div>
+          <div class="time" id="liveTime">--:--:--</div>
+        </div>
+        <div>
+          <div class="label">Current Timestamp</div>
+          <div>
+            <span class="stamp" id="liveSec">Seconds --</span>
+            <span class="stamp" id="liveMs">Milliseconds --</span>
+          </div>
+        </div>
+        <span class="spacer" style="flex:1;"></span>
+        <button class="btn" id="btnCopySec" type="button">Copy Seconds</button>
+        <button class="btn" id="btnCopyMs" type="button">Copy Milliseconds</button>
+      </div>
+
+      <!-- 时间戳 → 日期 -->
+      <div class="ts-block">
+        <h3>Timestamp → Date/Time</h3>
+        <div class="form-row">
+          <div class="form-item" style="flex:1; min-width:200px;">
+            <label for="tsInput">Unix Timestamp</label>
+            <input type="text" id="tsInput" class="form-input" placeholder="e.g. 1700000000 or 1700000000000" inputmode="numeric">
+          </div>
+          <div class="form-item" style="width:130px;">
+            <label for="tsUnit">Unit</label>
+            <select id="tsUnit" class="form-select">
+              <option value="auto">Auto Detect</option>
+              <option value="s">Seconds (s)</option>
+              <option value="ms">Milliseconds (ms)</option>
+            </select>
+          </div>
+        </div>
+        <div class="op-row" style="margin-bottom:8px;">
+          <button class="btn btn-primary" id="btnNow" type="button">Use Current</button>
+          <button class="btn" id="btnClearTs" type="button">Clear</button>
+        </div>
+        <div id="tsResults">
+          <div class="empty-tip">Enter a timestamp to see local time, ISO 8601 and UTC formats here</div>
+        </div>
+      </div>
+
+      <!-- 日期 → 时间戳 -->
+      <div class="ts-block">
+        <h3>Date/Time → Timestamp</h3>
+        <div class="form-row">
+          <div class="form-item" style="flex:1; min-width:240px;">
+            <label for="dtInput">Date/Time</label>
+            <input type="datetime-local" id="dtInput" class="form-input" step="1">
+          </div>
+          <div class="form-item" style="flex:1; min-width:240px;">
+            <label for="dtText">or text format (YYYY-MM-DD HH:mm:ss)</label>
+            <input type="text" id="dtText" class="form-input" placeholder="e.g. 2024-01-01 00:00:00">
+          </div>
+        </div>
+        <div class="op-row" style="margin-bottom:8px;">
+          <button class="btn btn-primary" id="btnDtToTs" type="button">Convert to Timestamp</button>
+          <button class="btn" id="btnCopyDtTs" type="button">Copy result</button>
+        </div>
+        <div id="dtResults">
+          <div class="empty-tip">Select or enter a date-time to see the corresponding timestamp in seconds/milliseconds</div>
+        </div>
+      </div>
+
+      <!-- 快捷时间 -->
+      <div class="ts-block">
+        <h3>Quick Time</h3>
+        <div class="quick-row">
+          <button class="btn" data-quick="today0">Today 00:00</button>
+          <button class="btn" data-quick="yesterday">This Time Yesterday</button>
+          <button class="btn" data-quick="monday">Monday 00:00 This Week</button>
+          <button class="btn" data-quick="month1">1st of This Month 00:00</button>
+          <button class="btn" data-quick="year1">Jan 1 This Year 00:00</button>
+        </div>
+        <p class="ts-note">Clicking a button fills both the Timestamp to Date/Time and Date/Time to Timestamp inputs above, so you can view and copy with one click.</p>
+      </div>
+
+      <!-- 常见参考表 -->
+      <div class="ts-block">
+        <h3>Common Timestamp References</h3>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr><th>Time Point</th><th>Seconds (10 digits)</th><th>Milliseconds (13 digits)</th></tr>
+            </thead>
+            <tbody id="refTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>How do I tell seconds from milliseconds in a timestamp?</h3>
+        <p>A 10-digit Unix timestamp represents seconds (elapsed since 1970-01-01), while a 13-digit timestamp represents milliseconds. This tool automatically detects the length: 10 digits are parsed as seconds and 13 digits as milliseconds, and you can also switch units manually.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is the difference between local time, ISO 8601 and UTC?</h3>
+        <p>Local time is shown in your device's time zone; ISO 8601 usually includes a time zone offset (such as +08:00); UTC is Coordinated Universal Time (zero offset). All three describe the same moment, just in different formats.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Why does the same timestamp show different times in different time zones?</h3>
+        <p>A timestamp itself is time zone independent and records an absolute moment. Converting it to a readable date-time requires a time zone, so Beijing (UTC+8) and London display different readable times even though the underlying timestamp is the same.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/timestamp-convert.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Favicon生成器 - 在线多尺寸Favicon.ico与PNG图标生成工具 | 在线工具大全</title>
+  <meta name="description" content="免费在线Favicon生成器，上传一张图片即可生成16/32/48/64/128/180/192/512多尺寸PNG图标、favicon.ico、apple-touch-icon与manifest.json，一键打包ZIP下载，全部本地生成，图片不上传。">
+  <meta name="keywords" content="favicon生成,favicon.ico,网站图标,图标生成,apple-touch-icon,manifest生成,多尺寸图标,在线favicon制作,ico转换">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/favicon-generator.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Favicon生成器 - 在线多尺寸Favicon.ico与PNG图标生成工具">
+  <meta property="og:description" content="上传一张图片，自动生成多尺寸PNG、favicon.ico、apple-touch-icon与manifest.json，可打包ZIP下载，全部在浏览器本地完成。">
+  <meta property="og:url" content="https://example.com/tools/favicon-generator.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%A8%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Favicon生成器",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线Favicon与网站图标生成工具，上传一张图片即可生成多尺寸PNG、favicon.ico、apple-touch-icon与manifest.json，全部在浏览器本地完成。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["多尺寸PNG生成（16-512）", "favicon.ico合成（内嵌PNG）", "apple-touch-icon生成", "manifest.json生成", "HTML引用代码生成", "ZIP打包下载", "本地处理不上传"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "生成的 favicon.ico 为什么内嵌 PNG 数据？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ICO 容器允许内嵌 PNG 图像，现代浏览器均可正常解析。相比传统 BMP 位图，PNG 压缩率更高、支持透明通道与抗锯齿，因此本工具将 16×16、32×32、48×48 三个尺寸的 PNG 合成为同一个 favicon.ico，兼顾画质与兼容性。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "上传的图片会上传到服务器吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "不会。图片读取、缩放绘制、图标生成与 ZIP 打包全部在浏览器本地完成，不发起任何网络请求，离线状态下也能正常使用。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "生成的图标如何用到网站上？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "将 favicon.ico、apple-touch-icon.png、icon-192.png、icon-512.png 与 manifest.json 放到网站根目录，再把工具生成的 HTML 代码复制到页面 <head> 中即可。manifest.json 中的 name、short_name、theme_color、background_color 均按你填写的参数生成。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .fg-drop {
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 30px 18px;
+      text-align: center;
+      color: var(--muted);
+      background: #fbfcfe;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .fg-drop:hover, .fg-drop.dragover {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+    .fg-drop .big { font-size: 15px; font-weight: 600; }
+    .fg-drop .sub { font-size: 13px; margin-top: 4px; }
+
+    .fg-preview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(118px, 1fr));
+      gap: 12px;
+    }
+    .fg-cell {
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: #fff;
+      padding: 12px 8px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .fg-imgbox {
+      width: 72px;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background-color: #fff;
+      background-image: linear-gradient(45deg, #edf0f5 25%, transparent 25%), linear-gradient(-45deg, #edf0f5 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #edf0f5 75%), linear-gradient(-45deg, transparent 75%, #edf0f5 75%);
+      background-size: 12px 12px;
+      background-position: 0 0, 0 6px, 6px -6px, -6px 0;
+    }
+    .fg-imgbox img { image-rendering: pixelated; }
+    .fg-size { font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .fg-mini {
+      height: 28px;
+      padding: 0 10px;
+      font-size: 12.5px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--text);
+      cursor: pointer;
+      font-family: var(--font);
+    }
+    .fg-mini:hover { border-color: var(--primary); color: var(--primary); }
+    .fg-color { padding: 3px; height: 38px; cursor: pointer; }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/favicon-generator.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/favicon-generator.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/favicon-generator.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="../en/tools/favicon-generator.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>Favicon生成器</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🎨</div>
+        <h1>Favicon生成器</h1>
+      </div>
+      <p class="tool-desc">在线Favicon与网站图标生成工具，上传一张图片即可生成 16/32/48/64/128/180/192/512 多尺寸 PNG 图标、favicon.ico、apple-touch-icon 与 manifest.json，并可一键打包下载。所有处理均在浏览器本地完成。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="fg-drop" id="fgDrop">
+        <div class="big">拖拽图片到此处，或点击选择文件</div>
+        <div class="sub">支持 PNG / JPG / JPEG / WebP / SVG，单个文件最大 10MB</div>
+      </div>
+      <input type="file" id="fgInput" accept=".png,.jpg,.jpeg,.webp,.svg,image/png,image/jpeg,image/webp,image/svg+xml" hidden>
+
+      <div id="fgEditor" hidden>
+        <div class="op-row" style="margin-top:16px;">
+          <span class="badge blue" id="fgFileInfo"></span>
+          <span class="spacer"></span>
+          <button class="btn" id="fgReset" type="button">重新上传</button>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-item">
+            <label for="fgSiteName">站点名称</label>
+            <input type="text" id="fgSiteName" class="form-input" placeholder="显示在浏览器标签页与书签中的名称" value="我的网站">
+          </div>
+          <div class="form-item">
+            <label for="fgShortName">短名称</label>
+            <input type="text" id="fgShortName" class="form-input" placeholder="主屏幕图标下方名称，建议 12 字以内" value="网站">
+          </div>
+          <div class="form-item">
+            <label for="fgThemeColor">主题色</label>
+            <input type="color" id="fgThemeColor" class="form-input fg-color" value="#2563eb">
+          </div>
+          <div class="form-item">
+            <label for="fgBgColor">背景色</label>
+            <input type="color" id="fgBgColor" class="form-input fg-color" value="#ffffff">
+          </div>
+        </div>
+
+        <div class="form-item">
+          <div class="form-label">多尺寸预览</div>
+          <div class="fg-preview-grid" id="fgPreview" style="margin-top:8px;"></div>
+        </div>
+
+        <div class="op-row">
+          <button class="btn" id="fgDlIco" type="button">下载 favicon.ico</button>
+          <button class="btn" id="fgDlApple" type="button">下载 apple-touch-icon.png</button>
+          <button class="btn" id="fgDl192" type="button">下载 icon-192.png</button>
+          <button class="btn" id="fgDl512" type="button">下载 icon-512.png</button>
+          <button class="btn" id="fgDlManifest" type="button">下载 manifest.json</button>
+        </div>
+
+        <div class="form-item">
+          <label for="fgHtmlCode">HTML 引用代码（复制到 &lt;head&gt; 中）</label>
+          <pre class="code-box" id="fgHtmlCode"></pre>
+        </div>
+
+        <div class="op-row" style="margin-bottom:0;">
+          <button class="btn" id="fgCopyHtml" type="button">复制 HTML 代码</button>
+          <span class="spacer"></span>
+          <button class="btn btn-primary" id="fgZip" type="button">打包下载 ZIP</button>
+        </div>
+      </div>
+
+      <div class="warn-note" id="fgError" hidden></div>
+
+      <p class="wc-note">说明：全部处理均在浏览器本地完成，图片不会上传到任何服务器。favicon.ico 内嵌 PNG 数据，兼容现代浏览器；ZIP 包为无压缩 STORE 格式，可直接解压使用。</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>生成的 favicon.ico 为什么内嵌 PNG 数据？</h3>
+        <p>ICO 容器允许内嵌 PNG 图像，现代浏览器均可正常解析。相比传统 BMP 位图，PNG 压缩率更高、支持透明通道与抗锯齿，因此本工具将 16×16、32×32、48×48 三个尺寸的 PNG 合成为同一个 favicon.ico，兼顾画质与兼容性。</p>
+      </div>
+      <div class="faq-item">
+        <h3>上传的图片会上传到服务器吗？</h3>
+        <p>不会。图片读取、缩放绘制、图标生成与 ZIP 打包全部在浏览器本地完成，不发起任何网络请求，离线状态下也能正常使用。</p>
+      </div>
+      <div class="faq-item">
+        <h3>生成的图标如何用到网站上？</h3>
+        <p>将 favicon.ico、apple-touch-icon.png、icon-192.png、icon-512.png 与 manifest.json 放到网站根目录，再把工具生成的 HTML 代码复制到页面 &lt;head&gt; 中即可。manifest.json 中的 name、short_name、theme_color、background_color 均按你填写的参数生成。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/favicon-generator.js"></script>
+</body>
+</html>

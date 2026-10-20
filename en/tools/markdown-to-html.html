@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Markdown to HTML - Online Markdown to HTML Code Tool | Online Tools</title>
+  <meta name="description" content="Free online Markdown to HTML tool that converts Markdown to HTML code in real time. Optionally generate a complete HTML document with basic styles, copy or download the .html file with one click, and check the handy Markdown syntax cheat sheet.">
+  <meta name="keywords" content="Markdown to HTML, online tools, free tools, web tools, browser tools">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/markdown-to-html.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Markdown to HTML - Online Markdown to HTML Code Tool">
+  <meta property="og:description" content="Online Markdown to HTML tool: real-time conversion, full document generation, copy and download, plus a syntax cheat sheet.">
+  <meta property="og:url" content="https://example.com/en/tools/markdown-to-html.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%A6%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Markdown to HTML",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online Markdown to HTML tool: real-time conversion, full document generation, copy and download, plus a syntax cheat sheet.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Convert to HTML code in real time", "Generate complete HTML document", "Copy HTML code", "Download .html file", "Markdown syntax cheat sheet", "Runs Locally, No Upload"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What does the Generate complete HTML document option do?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "When checked, the conversion result includes the complete HTML document structure (<!DOCTYPE html>, head, meta and embedded basic typography styles), ready to save as a .html file and open in a browser. When unchecked, only the HTML fragment inside the body is output, which is convenient for embedding into existing pages."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is the converted HTML safe?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Markdown natively supports raw HTML, so the conversion preserves whatever you write. Since everything is done locally in the browser with no upload, it is suitable for your own documents; if you convert Markdown from untrusted sources, please check it for script tags before inserting it into a web page."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which common syntaxes does Markdown support?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Common syntaxes include headings (#), emphasis (**bold** / *italic*), lists (ordered and unordered), links and images, inline and block code, tables and quotes (>). A complete cheat sheet is provided at the bottom of the page."
+        }
+      }
+    ]
+  }
+  </script>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/markdown-to-html.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/markdown-to-html.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/markdown-to-html.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/markdown-to-html.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>Markdown to HTML</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🔦</div>
+        <h1>Markdown to HTML</h1>
+      </div>
+      <p class="tool-desc">Online Markdown to HTML tool: enter Markdown on the left and get HTML code in real time on the right. Optionally generate a complete HTML document with basic styles, then copy or download the .html file with one click. All conversion is done locally in your browser.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="op-row">
+        <label class="checkbox-row" style="font-size:13px;"><input type="checkbox" id="mhFull"> Generate complete HTML document (with basic styles)</label>
+      </div>
+
+      <div class="split-2">
+        <div class="form-item">
+          <label for="mhInput">Markdown Input</label>
+          <textarea id="mhInput" class="form-input" rows="14" placeholder="Type Markdown content here" spellcheck="false"></textarea>
+        </div>
+        <div class="form-item">
+          <label for="mhOutput">HTML Code Output</label>
+          <div class="code-box" id="mhOutput" style="min-height:320px;"><span class="empty-tip" style="padding:40px 0;">The converted HTML code will appear here</span></div>
+        </div>
+      </div>
+
+      <div class="op-row" style="margin-top:14px; margin-bottom:0;">
+        <button class="btn btn-primary" id="btnCopy" type="button">Copy HTML</button>
+        <button class="btn" id="btnDownload" type="button">Download .html</button>
+        <button class="btn" id="btnSample" type="button">Load Sample</button>
+        <span class="spacer"></span>
+        <button class="btn" id="btnClear" type="button">Clear</button>
+      </div>
+
+      <h3 style="font-size:15px; margin:20px 0 10px;">Markdown Syntax Cheat Sheet</h3>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr><th>Type</th><th>Syntax</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Heading</td><td><code># 一级 / ## 二级 / ### 三级</code></td><td>Headings at different levels</td></tr>
+            <tr><td>Emphasis</td><td><code>**粗体** *斜体* ~~删除线~~</code></td><td>Bold, italic, strikethrough</td></tr>
+            <tr><td>List</td><td><code>- 项目</code> or <code>1. 项目</code></td><td>Bullet list / numbered list</td></tr>
+            <tr><td>Link</td><td><code>[文字](https://)</code></td><td>Link</td></tr>
+            <tr><td>Image</td><td><code>![alt](https://)</code></td><td>Image</td></tr>
+            <tr><td>Code</td><td><code>`行内`</code> or <code>```块```</code></td><td>Inline code / code block</td></tr>
+            <tr><td>Table</td><td><code>| a | b |</code> line break <code>| --- | --- |</code></td><td>Table (header in the first row, separator in the second)</td></tr>
+            <tr><td>Quote</td><td><code>&gt; 引用内容</code></td><td>Block quote</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>What does the Generate complete HTML document option do?</h3>
+        <p>When checked, the conversion result includes the complete HTML document structure (&lt;!DOCTYPE html&gt;, head, meta and embedded basic typography styles), ready to save as a .html file and open in a browser. When unchecked, only the HTML fragment inside the body is output, which is convenient for embedding into existing pages.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Is the converted HTML safe?</h3>
+        <p>Markdown natively supports raw HTML, so the conversion preserves whatever you write. Since everything is done locally in the browser with no upload, it is suitable for your own documents; if you convert Markdown from untrusted sources, please check it for script tags before inserting it into a web page.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Which common syntaxes does Markdown support?</h3>
+        <p>Common syntaxes include headings (#), emphasis (**bold** / *italic*), lists (ordered and unordered), links and images, inline and block code, tables and quotes (&gt;). A complete cheat sheet is provided at the bottom of the page.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/vendor/marked.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/markdown-to-html.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

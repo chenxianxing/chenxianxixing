@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Markdown Editor - Online Real-time Preview & Export Tool | Online Tools</title>
+  <meta name="description" content="Free online Markdown editor with split-pane real-time preview, one-click toolbar syntax insertion, automatic draft saving, HTML export with styles and .md download. Runs entirely locally with no uploads, great for writing and note-taking.">
+  <meta name="keywords" content="Markdown Editor, Markdown to HTML, Live Preview">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/markdown-editor.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Markdown Editor - Online Real-time Preview & Export Tool">
+  <meta property="og:description" content="Online Markdown editor with real-time preview, toolbar syntax insertion, automatic draft saving, HTML export and .md download. Runs locally, nothing uploaded.">
+  <meta property="og:url" content="https://example.com/en/tools/markdown-editor.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%9D%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Markdown Editor",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online Markdown editor with split-pane real-time preview, toolbar syntax insertion, automatic draft saving, HTML export and .md download.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Split-pane Real-time Preview", "One-click Toolbar Syntax Insertion", "Automatic Draft Saving", "Export Styled HTML", "Download .md File", "Runs Locally, No Upload"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Are drafts saved automatically?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Your edits are saved to browser localStorage in real time and are restored when you open the page again after refreshing or closing it. Click Clear Draft to delete the locally saved content."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does the exported HTML file include styles?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. The export generates a complete HTML document with basic typography styles embedded (headings, lists, code blocks, tables, quotes, etc.), so opening it in a browser gives a clean reading experience."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Will my document be uploaded?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. All Markdown parsing and exporting is done locally in your browser; document content is only stored on your own device (localStorage) and is never sent to any server."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .md-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    .md-toolbar .btn {
+      padding: 0 10px;
+      height: 32px;
+      font-size: 13px;
+      min-width: 34px;
+    }
+    .md-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 720px) {
+      .md-split { grid-template-columns: 1fr; }
+    }
+    .md-pane {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .md-pane .pane-label {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #mdInput {
+      width: 100%;
+      min-height: 420px;
+      resize: vertical;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 16px;
+      font-size: 14px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, "Courier New", monospace;
+      line-height: 1.7;
+      color: var(--text);
+      background: #fbfcfe;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    #mdInput:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.10);
+      background: #fff;
+    }
+    .md-preview {
+      width: 100%;
+      min-height: 420px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: #fff;
+      padding: 18px 20px;
+      overflow: auto;
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--text);
+    }
+    .md-preview h1, .md-preview h2, .md-preview h3,
+    .md-preview h4, .md-preview h5, .md-preview h6 {
+      margin: 18px 0 10px;
+      line-height: 1.4;
+    }
+    .md-preview h1 { font-size: 26px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+    .md-preview h2 { font-size: 22px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+    .md-preview h3 { font-size: 18px; }
+    .md-preview p { margin: 10px 0; }
+    .md-preview ul, .md-preview ol { margin: 10px 0 10px 24px; }
+    .md-preview li { margin: 4px 0; }
+    .md-preview blockquote {
+      margin: 12px 0;
+      padding: 8px 16px;
+      border-left: 4px solid var(--primary);
+      background: var(--primary-light);
+      color: #1e40af;
+      border-radius: 6px;
+    }
+    .md-preview code {
+      background: #f1f5f9;
+      padding: 2px 6px;
+      border-radius: 5px;
+      font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+      font-size: 13px;
+    }
+    .md-preview pre {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      padding: 14px 16px;
+      border-radius: 10px;
+      overflow: auto;
+      margin: 12px 0;
+    }
+    .md-preview pre code { background: none; padding: 0; }
+    .md-preview table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 12px 0;
+      font-size: 14px;
+    }
+    .md-preview th, .md-preview td {
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      text-align: left;
+    }
+    .md-preview th { background: #f8fafc; }
+    .md-preview a { color: var(--primary); }
+    .md-preview img { max-width: 100%; border-radius: 8px; }
+    .md-preview hr { border: none; border-top: 1px solid var(--border); margin: 18px 0; }
+    .md-draft-hint {
+      font-size: 12px;
+      color: #059669;
+      display: none;
+    }
+    .md-draft-hint.show { display: inline; }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/markdown-editor.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/markdown-editor.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/markdown-editor.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/markdown-editor.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>Markdown Editor</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">📝</div>
+        <h1>Markdown Editor</h1>
+      </div>
+      <p class="tool-desc">Online Markdown editor: write on the left and preview in real time on the right, insert common syntax with one click from the toolbar, drafts auto-save locally, and you can export styled HTML or download .md files. All processing is done in your browser.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="md-toolbar" id="mdToolbar">
+        <button class="btn" type="button" data-md="bold" title="Bold">B</button>
+        <button class="btn" type="button" data-md="italic" title="Italic"><i>I</i></button>
+        <button class="btn" type="button" data-md="strike" title="Strikethrough"><s>S</s></button>
+        <button class="btn" type="button" data-md="h1" title="Heading 1">H1</button>
+        <button class="btn" type="button" data-md="h2" title="Heading 2">H2</button>
+        <button class="btn" type="button" data-md="h3" title="Heading 3">H3</button>
+        <button class="btn" type="button" data-md="ul" title="Bullet List">• List</button>
+        <button class="btn" type="button" data-md="ol" title="Numbered List">1. List</button>
+        <button class="btn" type="button" data-md="quote" title="Quote">❝ Quote</button>
+        <button class="btn" type="button" data-md="link" title="Link">🔗 Link</button>
+        <button class="btn" type="button" data-md="image" title="Image">🖼 Image</button>
+        <button class="btn" type="button" data-md="code" title="Inline Code">&lt;/&gt; Code</button>
+        <button class="btn" type="button" data-md="codeblock" title="Code Block">{ } Code Block</button>
+        <button class="btn" type="button" data-md="table" title="Table">▦ Table</button>
+        <button class="btn" type="button" data-md="hr" title="Divider">― Divider</button>
+      </div>
+
+      <div class="md-split">
+        <div class="md-pane">
+          <div class="pane-label">
+            Editor
+            <span class="md-draft-hint" id="draftHint">Draft auto-saved</span>
+          </div>
+          <textarea id="mdInput" spellcheck="false" placeholder="Type Markdown here for real-time preview on the right…"></textarea>
+        </div>
+        <div class="md-pane">
+          <div class="pane-label">Preview</div>
+          <div class="md-preview" id="mdPreview"><span class="empty-tip" style="padding:40px 0;">Preview will appear here</span></div>
+        </div>
+      </div>
+
+      <div class="op-row" style="margin-top:16px; margin-bottom:0;">
+        <button class="btn" id="btnSample" type="button">Load Sample</button>
+        <button class="btn" id="btnExportHtml" type="button">Export HTML</button>
+        <button class="btn" id="btnDownloadMd" type="button">Download .md</button>
+        <button class="btn" id="btnClearDraft" type="button">Clear Draft</button>
+        <span class="spacer"></span>
+        <button class="btn" id="btnClear" type="button">Clear</button>
+      </div>
+
+      <p class="wc-note">Note: content is previewed in real time and auto-saved to your browser (localStorage), so it is restored even after refreshing the page. Click Clear Draft to delete the local save. The exported HTML embeds basic styles and can be shared or printed directly.</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>Are drafts saved automatically?</h3>
+        <p>Yes. Your edits are saved to browser localStorage in real time and are restored when you open the page again after refreshing or closing it. Click Clear Draft to delete the locally saved content.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Does the exported HTML file include styles?</h3>
+        <p>Yes. The export generates a complete HTML document with basic typography styles embedded (headings, lists, code blocks, tables, quotes, etc.), so opening it in a browser gives a clean reading experience.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Will my document be uploaded?</h3>
+        <p>No. All Markdown parsing and exporting is done locally in your browser; document content is only stored on your own device (localStorage) and is never sent to any server.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/vendor/marked.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/markdown-editor.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

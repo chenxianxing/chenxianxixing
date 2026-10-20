@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Gradient Generator - Online Linear/Radial/Conic Gradient Code Generator | Online Tools</title>
+  <meta name="description" content="Free online CSS gradient generator supporting linear, radial and conic gradients. Visually adjust the angle, shape, position and multiple color stops, preview in real time and copy ready-to-use CSS code, with a collection of popular gradient presets.">
+  <meta name="keywords" content="CSS Gradient Generator, Linear Gradient, Radial Gradient, Conic Gradient, css gradient">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/css-gradient.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="CSS Gradient Generator - Online Linear/Radial/Conic Gradient Code Generator">
+  <meta property="og:description" content="Visual CSS gradient generator supporting linear, radial and conic gradients, with live preview and one-click CSS code copy.">
+  <meta property="og:url" content="https://example.com/en/tools/css-gradient.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%88%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "CSS Gradient Generator",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online CSS gradient generator supporting linear, radial and conic gradients, with visual adjustment and real-time generation of copyable CSS code.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Linear Gradient", "Radial Gradient", "Conic Gradient", "Add/Remove Color Stops", "Live Preview", "One-Click CSS Copy"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the difference between linear and radial gradients?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A linear gradient transitions along a straight line (its direction is controlled by the angle), which suits diagonal or top-to-bottom transitions; a radial gradient spreads outward from the center as a circle or ellipse, ideal for glows and button highlights; a conic gradient sweeps its colors around the center point."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I use the generated CSS code directly?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Copy the generated background property and paste it into the CSS rule of the target element. Virtually all modern browsers natively support linear-gradient, radial-gradient and conic-gradient."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How many color stops can I set?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "There is no fixed limit on the number of color stops. The tool provides two by default; click Add Color Stop at any time to add more, or delete extra stops. Keep at least two for a valid gradient."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    #gPreview {
+      width: 100%;
+      height: 200px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin: 6px 0 14px;
+    }
+    .g-controls {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 720px) { .g-controls { grid-template-columns: 1fr; } }
+    .slider-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    .slider-item .val { font-size: 13px; color: var(--primary); font-weight: 600; }
+    .stop-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #fbfcfe;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 10px;
+      margin-bottom: 8px;
+    }
+    .stop-item input[type="color"] {
+      width: 38px; height: 34px; padding: 2px;
+      border: 1px solid var(--border); border-radius: 8px; background: #fff; cursor: pointer; flex-shrink: 0;
+    }
+    .stop-item .stop-color-hex {
+      width: 92px;
+    }
+    .stop-item .stop-pos { flex: 1; }
+    .stop-item .stop-pos-val { width: 52px; text-align: right; font-size: 13px; color: var(--muted); }
+    .stop-item .stop-del {
+      border: none; background: #fef2f2; color: #dc2626;
+      width: 30px; height: 30px; border-radius: 8px; cursor: pointer; font-size: 16px; line-height: 1; flex-shrink: 0;
+    }
+    .stop-item .stop-del:hover { background: #fee2e2; }
+    .preset-row { display: flex; flex-wrap: wrap; gap: 10px; }
+    .preset-chip {
+      border: 1px solid var(--border); border-radius: 999px;
+      padding: 7px 14px; font-size: 13px; cursor: pointer; color: var(--text);
+      background: #fff; display: inline-flex; align-items: center; gap: 8px;
+    }
+    .preset-chip:hover { border-color: var(--primary); color: var(--primary); }
+    .preset-chip .swatch { width: 16px; height: 16px; border-radius: 5px; flex-shrink: 0; }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/css-gradient.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/css-gradient.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/css-gradient.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/css-gradient.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>CSS Gradient Generator</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🌈</div>
+        <h1>CSS Gradient Generator</h1>
+      </div>
+      <p class="tool-desc">Online CSS gradient code generator supporting linear, radial and conic gradients. Visually adjust the angle, shape, position and multiple color stops, preview in real time and copy ready-to-use CSS code with one click.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="op-row">
+        <div class="radio-row" id="gTypeRow" role="radiogroup" aria-label="Gradient Type">
+          <label class="checked"><input type="radio" name="gType" value="linear" checked>Linear</label>
+          <label><input type="radio" name="gType" value="radial">Radial</label>
+          <label><input type="radio" name="gType" value="conic">Conic</label>
+        </div>
+        <span class="spacer"></span>
+        <button class="btn" id="btnCopyCss" type="button">Copy CSS</button>
+      </div>
+
+      <div id="gPreview"></div>
+
+      <div class="g-controls">
+        <div>
+          <div id="linearOpts">
+            <div class="slider-item">
+              <label for="gAngle">Angle: <span class="val" id="gAngleVal">135</span>°</label>
+              <input type="range" id="gAngle" min="0" max="360" step="1" value="135">
+            </div>
+          </div>
+          <div id="radialOpts" hidden>
+            <div class="op-row" style="margin-bottom:12px;">
+              <div class="radio-row" id="gShapeRow" role="radiogroup" aria-label="Radial Shape">
+                <label class="checked"><input type="radio" name="gShape" value="circle" checked>Circle</label>
+                <label><input type="radio" name="gShape" value="ellipse">Ellipse</label>
+              </div>
+            </div>
+            <div class="form-item">
+              <label for="gPos">Center Position</label>
+              <select id="gPos" class="form-select">
+                <option value="center" selected>center</option>
+                <option value="top">top</option>
+                <option value="bottom">bottom</option>
+                <option value="left">left</option>
+                <option value="right">right</option>
+                <option value="top left">top left</option>
+                <option value="top right">top right</option>
+                <option value="bottom left">bottom left</option>
+                <option value="bottom right">bottom right</option>
+              </select>
+            </div>
+          </div>
+          <div id="conicOpts" hidden>
+            <div class="slider-item">
+              <label for="gAngleConic">Start Angle: <span class="val" id="gAngleConicVal">0</span>°</label>
+              <input type="range" id="gAngleConic" min="0" max="360" step="1" value="0">
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label style="font-size:13px;color:var(--muted);font-weight:500;">Color Stops</label>
+          <div id="gStops" style="margin-top:6px;"></div>
+          <button class="btn" id="btnAddStop" type="button" style="margin-top:4px;">+ Add Color Stop</button>
+        </div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <label style="font-size:13px;color:var(--muted);font-weight:500;">Generated CSS</label>
+        <div class="code-box" id="gCode" readonly style="margin-top:6px;"></div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <label style="font-size:13px;color:var(--muted);font-weight:500;">Popular Gradient Presets</label>
+        <div class="preset-row" id="gPresets" style="margin-top:8px;"></div>
+      </div>
+
+      <p class="wc-note">Note: The stop position is the percentage of the gradient occupied by that color. Click the color picker or type a HEX value directly. The copied CSS is the  <b>background</b>  property; paste it straight into the style of the target element to apply it.</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>What is the difference between linear and radial gradients?</h3>
+        <p>A linear gradient transitions along a straight line (its direction is controlled by the angle), which suits diagonal or top-to-bottom transitions; a radial gradient spreads outward from the center as a circle or ellipse, ideal for glows and button highlights; a conic gradient sweeps its colors around the center point.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How do I use the generated CSS code directly?</h3>
+        <p>Copy the generated background property and paste it into the CSS rule of the target element. Virtually all modern browsers natively support linear-gradient, radial-gradient and conic-gradient.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How many color stops can I set?</h3>
+        <p>There is no fixed limit on the number of color stops. The tool provides two by default; click Add Color Stop at any time to add more, or delete extra stops. Keep at least two for a valid gradient.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/css-gradient.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Favicon Generator - Multi-size Favicon.ico and PNG Icon Generator | Online Tools</title>
+  <meta name="description" content="Free online favicon generator. Upload one image to generate 16/32/48/64/128/180/192/512 multi-size PNG icons, favicon.ico, apple-touch-icon and manifest.json, then download everything as a ZIP. All generated locally, images are never uploaded.">
+  <meta name="keywords" content="favicon.ico, apple-touch-icon, online tools, free tools, web tools, browser tools">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/favicon-generator.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Favicon Generator - Multi-size Favicon.ico and PNG Icon Generator">
+  <meta property="og:description" content="Upload one image to auto-generate multi-size PNGs, favicon.ico, apple-touch-icon and manifest.json, packaged as a ZIP download, all in your browser.">
+  <meta property="og:url" content="https://example.com/en/tools/favicon-generator.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%A8%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Favicon Generator",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线Favicon与WebsiteIconGenerate工具，上传Mon张Image即可Generate多尺寸PNG、favicon.ico、apple-touch-icon与manifest.json，All在Browser本地完成。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["多尺寸PNGGenerate（16-512）", "favicon.ico合成（内嵌PNG）", "apple-touch-iconGenerate", "manifest.jsonGenerate", "HTMLQuoteCodeGenerate", "ZIP打包Download", "Processed Locally, Nothing Uploaded"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Why does the generated favicon.ico embed PNG data?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The ICO container allows embedded PNG images, which all modern browsers can parse. Compared with traditional BMP bitmaps, PNG offers better compression, an alpha channel and anti-aliasing, so this tool packs 16x16, 32x32 and 48x48 PNGs into a single favicon.ico for both quality and compatibility."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Will my uploaded image be sent to a server?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Image reading, scaling, icon rendering and ZIP packaging all happen locally in your browser with no network requests, so it works offline too."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I use the generated icons on my website?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "将 favicon.ico、apple-touch-icon.png、icon-192.png、icon-512.png 与 manifest.json 放到Website根目录，再把工具Generate的 HTML CodeCopy到页面 <head> Medium即可。manifest.json Medium的 name、short_name、theme_color、background_color 均按你填写的ParametersGenerate。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .fg-drop {
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 30px 18px;
+      text-align: center;
+      color: var(--muted);
+      background: #fbfcfe;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .fg-drop:hover, .fg-drop.dragover {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+    .fg-drop .big { font-size: 15px; font-weight: 600; }
+    .fg-drop .sub { font-size: 13px; margin-top: 4px; }
+
+    .fg-preview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(118px, 1fr));
+      gap: 12px;
+    }
+    .fg-cell {
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: #fff;
+      padding: 12px 8px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .fg-imgbox {
+      width: 72px;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background-color: #fff;
+      background-image: linear-gradient(45deg, #edf0f5 25%, transparent 25%), linear-gradient(-45deg, #edf0f5 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #edf0f5 75%), linear-gradient(-45deg, transparent 75%, #edf0f5 75%);
+      background-size: 12px 12px;
+      background-position: 0 0, 0 6px, 6px -6px, -6px 0;
+    }
+    .fg-imgbox img { image-rendering: pixelated; }
+    .fg-size { font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .fg-mini {
+      height: 28px;
+      padding: 0 10px;
+      font-size: 12.5px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--text);
+      cursor: pointer;
+      font-family: var(--font);
+    }
+    .fg-mini:hover { border-color: var(--primary); color: var(--primary); }
+    .fg-color { padding: 3px; height: 38px; cursor: pointer; }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/favicon-generator.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/favicon-generator.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/favicon-generator.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/favicon-generator.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>Favicon Generator</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🎨</div>
+        <h1>Favicon Generator</h1>
+      </div>
+      <p class="tool-desc">Online favicon and website icon generator. Upload a single image to create 16/32/48/64/128/180/192/512 multi-size PNG icons, favicon.ico, apple-touch-icon and manifest.json, all downloadable in one ZIP. Everything runs locally in your browser.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="fg-drop" id="fgDrop">
+        <div class="big">Drag and drop an image here, or click to choose a file</div>
+        <div class="sub">Supports PNG / JPG / JPEG / WebP / SVG, up to 10MB per file</div>
+      </div>
+      <input type="file" id="fgInput" accept=".png,.jpg,.jpeg,.webp,.svg,image/png,image/jpeg,image/webp,image/svg+xml" hidden>
+
+      <div id="fgEditor" hidden>
+        <div class="op-row" style="margin-top:16px;">
+          <span class="badge blue" id="fgFileInfo"></span>
+          <span class="spacer"></span>
+          <button class="btn" id="fgReset" type="button">Upload Again</button>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-item">
+            <label for="fgSiteName">Site Name</label>
+            <input type="text" id="fgSiteName" class="form-input" placeholder="Shown in browser tabs and bookmarks" value="My Website">
+          </div>
+          <div class="form-item">
+            <label for="fgShortName">Short Name</label>
+            <input type="text" id="fgShortName" class="form-input" placeholder="Name under the home screen icon, 12 characters or less recommended" value="Website">
+          </div>
+          <div class="form-item">
+            <label for="fgThemeColor">Theme Color</label>
+            <input type="color" id="fgThemeColor" class="form-input fg-color" value="#2563eb">
+          </div>
+          <div class="form-item">
+            <label for="fgBgColor">Background Color</label>
+            <input type="color" id="fgBgColor" class="form-input fg-color" value="#ffffff">
+          </div>
+        </div>
+
+        <div class="form-item">
+          <div class="form-label">Multi-size Preview</div>
+          <div class="fg-preview-grid" id="fgPreview" style="margin-top:8px;"></div>
+        </div>
+
+        <div class="op-row">
+          <button class="btn" id="fgDlIco" type="button">Download favicon.ico</button>
+          <button class="btn" id="fgDlApple" type="button">Download apple-touch-icon.png</button>
+          <button class="btn" id="fgDl192" type="button">Download icon-192.png</button>
+          <button class="btn" id="fgDl512" type="button">Download icon-512.png</button>
+          <button class="btn" id="fgDlManifest" type="button">Download manifest.json</button>
+        </div>
+
+        <div class="form-item">
+          <label for="fgHtmlCode">HTML reference code (copy into &lt;head&gt;)</label>
+          <pre class="code-box" id="fgHtmlCode"></pre>
+        </div>
+
+        <div class="op-row" style="margin-bottom:0;">
+          <button class="btn" id="fgCopyHtml" type="button">Copy HTML Code</button>
+          <span class="spacer"></span>
+          <button class="btn btn-primary" id="fgZip" type="button">Download ZIP Package</button>
+        </div>
+      </div>
+
+      <div class="warn-note" id="fgError" hidden></div>
+
+      <p class="wc-note">Note: everything is processed locally in your browser and images are never uploaded. favicon.ico embeds PNG data and works in all modern browsers; the ZIP is an uncompressed STORE archive that can be extracted directly.</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>Why does the generated favicon.ico embed PNG data?</h3>
+        <p>The ICO container allows embedded PNG images, which all modern browsers can parse. Compared with traditional BMP bitmaps, PNG offers better compression, an alpha channel and anti-aliasing, so this tool packs 16x16, 32x32 and 48x48 PNGs into a single favicon.ico for both quality and compatibility.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Will my uploaded image be sent to a server?</h3>
+        <p>No. Image reading, scaling, icon rendering and ZIP packaging all happen locally in your browser with no network requests, so it works offline too.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How do I use the generated icons on my website?</h3>
+        <p>Put favicon.ico, apple-touch-icon.png, icon-192.png, icon-512.png and manifest.json in your website root directory, then copy the generated HTML code into the &lt;head&gt; section of your pages. The name, short_name, theme_color and background_color in manifest.json are filled in from the values you enter.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/favicon-generator.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

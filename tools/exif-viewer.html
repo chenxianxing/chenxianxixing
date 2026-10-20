@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EXIF查看器 - 在线照片EXIF信息与GPS位置查看工具 | 在线工具大全</title>
+  <meta name="description" content="免费在线EXIF查看器，上传JPEG照片即可查看相机品牌、型号、拍摄时间、曝光参数、ISO感光度、焦距与GPS位置等全部EXIF信息，支持一键清除隐私数据后下载，100%本地处理，照片不上传。">
+  <meta name="keywords" content="EXIF查看,照片EXIF,EXIF信息查看,GPS位置查看,清除EXIF,照片元数据,拍摄参数,图片隐私,exif">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/exif-viewer.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="EXIF查看器 - 在线照片EXIF信息与GPS位置查看工具">
+  <meta property="og:description" content="上传JPEG照片，查看相机参数、拍摄时间与GPS位置等全部EXIF信息，可清除隐私数据后下载，全部在浏览器本地完成。">
+  <meta property="og:url" content="https://example.com/tools/exif-viewer.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%B7%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "EXIF查看器",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线EXIF查看器，上传JPEG照片即可查看相机参数、拍摄时间与GPS位置等全部EXIF信息，支持清除隐私数据后下载，100%本地处理。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["EXIF分组展示（IFD0/Exif/GPS/Interop/IFD1）", "常见标签中文名映射", "GPS十进制度数换算", "地图链接查看位置", "隐私信息一键清除", "清除前后标签对比", "本地处理不上传"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "EXIF 信息会泄露隐私吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "会。JPEG 照片的 EXIF 可能包含 GPS 精确位置、拍摄时间与设备型号等信息，直接分享原图可能暴露行踪与设备信息。建议分享前使用本工具清除位置、时间与设备信息。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "为什么提示未检测到 EXIF 信息？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "可能原因有三：文件不是 JPEG 格式（PNG、WebP 等不含 EXIF）；照片经过截图、编辑软件导出或社交媒体压缩，元数据已被移除；拍摄设备关闭了位置信息记录。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "清除 EXIF 后的照片还能正常查看吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "可以。清除操作只移除元数据段，不改变照片的像素内容，画面质量、尺寸与格式均不受影响，可正常查看、打印与分享。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .exif-drop {
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 30px 18px;
+      text-align: center;
+      color: var(--muted);
+      background: #fbfcfe;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .exif-drop:hover, .exif-drop.dragover {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+    .exif-drop .big { font-size: 15px; font-weight: 600; }
+    .exif-drop .sub { font-size: 13px; margin-top: 4px; }
+
+    .exif-file-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .exif-file-item {
+      background: #fbfcfe;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+    }
+    .exif-file-item .k { font-size: 12.5px; color: var(--muted); }
+    .exif-file-item .v { font-size: 14px; color: var(--text); word-break: break-all; }
+
+    .exif-thumb-wrap {
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .exif-thumb-wrap img {
+      max-width: 160px;
+      max-height: 160px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+    }
+    .exif-thumb-label { font-size: 13px; color: var(--muted); }
+
+    .exif-group-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      margin-top: 18px;
+    }
+    table.data-table td.val {
+      max-width: 360px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .exif-clear-box {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #fbfcfe;
+      padding: 16px;
+      margin-top: 20px;
+    }
+    .exif-compare { font-size: 13.5px; color: var(--muted); }
+    .exif-compare b { color: var(--primary); }
+    .exif-clear-result { margin-top: 14px; }
+    .exif-clear-result img {
+      max-width: 220px;
+      max-height: 220px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      display: block;
+      margin-bottom: 10px;
+    }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/exif-viewer.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/exif-viewer.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/exif-viewer.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="../en/tools/exif-viewer.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>EXIF查看器</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">📷</div>
+        <h1>EXIF查看器</h1>
+      </div>
+      <p class="tool-desc">在线照片EXIF信息查看工具，上传JPEG照片即可查看相机品牌、型号、拍摄时间、曝光参数与GPS位置等全部元数据，支持清除隐私信息后下载。所有处理均在浏览器本地完成。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="exif-drop" id="exifDrop">
+        <div class="big">拖拽 JPEG 照片到此处，或点击选择文件</div>
+        <div class="sub">仅支持 JPEG（.jpg / .jpeg）格式，单个文件最大 30MB</div>
+      </div>
+      <input type="file" id="exifInput" accept=".jpg,.jpeg,image/jpeg" hidden>
+
+      <div id="exifResult" hidden>
+        <div class="exif-file-info">
+          <div class="exif-file-item"><span class="k">文件名称</span><span class="v" id="exifName">-</span></div>
+          <div class="exif-file-item"><span class="k">文件类型</span><span class="v" id="exifType">-</span></div>
+          <div class="exif-file-item"><span class="k">文件大小</span><span class="v" id="exifSize">-</span></div>
+          <div class="exif-file-item"><span class="k">像素尺寸</span><span class="v" id="exifDim">-</span></div>
+        </div>
+
+        <div class="exif-thumb-wrap" id="exifThumbWrap" hidden>
+          <img id="exifThumb" alt="EXIF 内置缩略图">
+          <span class="exif-thumb-label">EXIF 内置缩略图</span>
+        </div>
+
+        <div class="warn-note" id="exifGpsWarn" hidden>
+          <b>该照片包含位置信息，分享前建议清除</b>
+          <div id="exifGpsText" style="margin-top:4px;"></div>
+          <a id="exifMapLink" href="#" target="_blank" rel="noopener noreferrer">在地图中查看</a>
+        </div>
+
+        <div class="info-note" id="exifNone" hidden>未检测到 EXIF 信息：该文件可能不是 JPEG 格式，或图片经过截图、编辑后元数据已被移除。</div>
+
+        <div id="exifTables"></div>
+
+        <div class="exif-clear-box" id="exifClearBox" hidden>
+          <div class="form-label">清除隐私信息</div>
+          <div class="checkbox-row" id="exifScopes" style="margin-top:8px;">
+            <label><input type="checkbox" value="gps" checked> GPS 位置</label>
+            <label><input type="checkbox" value="time"> 拍摄时间</label>
+            <label><input type="checkbox" value="device"> 设备信息</label>
+            <label><input type="checkbox" value="all"> 全部 EXIF</label>
+          </div>
+          <div class="op-row" style="margin-top:12px;">
+            <button class="btn btn-primary" id="exifClearBtn" type="button">清除并生成新照片</button>
+            <span class="exif-compare" id="exifCompare"></span>
+          </div>
+          <div class="exif-clear-result" id="exifClearResult" hidden>
+            <img id="exifNewPreview" alt="清除后的照片预览">
+            <button class="btn" id="exifDownloadBtn" type="button">下载清除后的照片</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="warn-note" id="exifError" hidden></div>
+
+      <p class="wc-note">说明：100% 本地处理，照片不上传。EXIF 解析、GPS 换算与隐私清除均在你的浏览器中完成，可离线使用。</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>EXIF 信息会泄露隐私吗？</h3>
+        <p>会。JPEG 照片的 EXIF 可能包含 GPS 精确位置、拍摄时间与设备型号等信息，直接分享原图可能暴露行踪与设备信息。建议分享前使用本工具清除位置、时间与设备信息。</p>
+      </div>
+      <div class="faq-item">
+        <h3>为什么提示未检测到 EXIF 信息？</h3>
+        <p>可能原因有三：文件不是 JPEG 格式（PNG、WebP 等不含 EXIF）；照片经过截图、编辑软件导出或社交媒体压缩，元数据已被移除；拍摄设备关闭了位置信息记录。</p>
+      </div>
+      <div class="faq-item">
+        <h3>清除 EXIF 后的照片还能正常查看吗？</h3>
+        <p>可以。清除操作只移除元数据段，不改变照片的像素内容，画面质量、尺寸与格式均不受影响，可正常查看、打印与分享。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/vendor/piexif.js"></script>
+  <script src="../assets/js/exif-viewer.js"></script>
+</body>
+</html>

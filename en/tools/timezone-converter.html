@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>World Clock & Time Zone Converter - Online Time Zone & World Time Tool | Online Tools</title>
+  <meta name="description" content="Free online world clock and time zone converter with built-in clocks for Beijing, Tokyo, London and New York. Add, remove and reorder any time zone, convert times, scrub through a day, look up UTC-12 to UTC+14 zones and find overlapping work hours. Runs locally on IANA time zone data, no network needed.">
+  <meta name="keywords" content="World Clock, DST, online tools, free tools, web tools, browser tools">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/timezone-converter.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="World Clock & Time Zone Converter - Online Time Zone & World Time Tool">
+  <meta property="og:description" content="World clocks for popular cities plus time zone conversion, a UTC-12 to UTC+14 lookup table, a day-scrub slider and overlapping work-hours calculation, all running locally on IANA time zone data.">
+  <meta property="og:url" content="https://example.com/en/tools/timezone-converter.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%90%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "World Clock & Time Zone Converter",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线World Clock & Time Zone Converter工具，内置Popular Cities时钟，支持Time Zone增减排序、TimeConvert、Time Slider、UTC-12至UTC+14Time Zone速查与Overlapping Work Hours计算。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["多城市World Clock每Second刷新", "Time Zone增删与排序", "Source Zone到多Target ZoneTimeConvert", "Mondays内1440MinuteTime Slider", "UTC-12至UTC+14Time Zone速查表", "跨Time ZoneOverlapping Work Hours计算", "Copy城市Current Time", "纯本地计算无网络Please求"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Which time zones does the world clock support, and where does the data come from?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "About 50 popular cities and the full IANA time zone dropdown are built in, covering UTC-12 to UTC+14. All times are computed locally with the browser's Intl.DateTimeFormat and the IANA time zone database, with no external requests. Clocks refresh every second, and the time slider lets you view any moment of the day."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does the time converter translate a source-zone time into target zones?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The source wall time is first combined with that zone's UTC offset to reconstruct an exact UTC instant, then formatted for each target zone. Daylight saving time is handled automatically, so for example the New York to Beijing difference changes from 13 to 12 hours during DST, with no manual adjustment."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does the tool tell whether a zone observes daylight saving time?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It compares the zone's UTC offset in January and July: if the two differ, the zone observes DST and the clock card shows a DST badge; when the current offset matches the summer offset, the zone is currently in daylight saving time."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .sub-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin: 26px 0 12px;
+      padding-top: 20px;
+      border-top: 1px dashed var(--border);
+    }
+    .tool-panel > .sub-title:first-child {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: none;
+    }
+    .panel-tip {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 12px;
+      line-height: 1.7;
+    }
+    .live-tip {
+      font-size: 12.5px;
+      color: var(--muted);
+    }
+    .clock-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 12px;
+    }
+    .clock-card {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px 14px;
+      background: #fbfcfe;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 12px 14px;
+    }
+    .clock-info { flex: 1; min-width: 132px; }
+    .clock-city { font-size: 14px; font-weight: 600; }
+    .clock-time {
+      font-size: 26px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      color: var(--primary);
+      line-height: 1.25;
+    }
+    .clock-date { font-size: 12.5px; color: var(--muted); }
+    .clock-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      align-items: flex-start;
+    }
+    .clock-ops { display: flex; gap: 6px; }
+    .mini {
+      height: 30px;
+      padding: 0 9px;
+      font-size: 13px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--text);
+      cursor: pointer;
+      font-family: var(--font);
+    }
+    .mini:hover { border-color: var(--primary); color: var(--primary); }
+    .mini.danger:hover { border-color: #dc2626; color: #dc2626; }
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+    .slider-row label { font-size: 13px; color: var(--muted); }
+    .time-slider { flex: 1; min-width: 200px; accent-color: var(--primary); }
+    .slider-val {
+      font-variant-numeric: tabular-nums;
+      font-weight: 600;
+      font-size: 14px;
+      min-width: 52px;
+    }
+    .conv-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 10px;
+    }
+    .conv-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #fbfcfe;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+    .conv-tz { font-size: 13px; font-weight: 600; }
+    .conv-time {
+      font-size: 13px;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+      flex: 1;
+    }
+    .conv-row .mini { height: 28px; padding: 0 8px; }
+    @media (max-width: 640px) {
+      .clock-time { font-size: 22px; }
+    }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/timezone-converter.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/timezone-converter.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/timezone-converter.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/timezone-converter.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>World Clock & Time Zone Converter</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🌐</div>
+        <h1>World Clock & Time Zone Converter</h1>
+      </div>
+      <p class="tool-desc">Online world clock and time zone converter with built-in clocks for Beijing, Tokyo, London and New York. Add, remove and reorder any time zone, convert times, scrub through a day, look up UTC-12 to UTC+14 zones and find overlapping work hours, all computed locally from your browser's time zone data.</p>
+    </section>
+
+    <section class="tool-panel">
+
+      <h3 class="sub-title">World Clock</h3>
+      <p class="panel-tip">Popular city clocks are shown by default and refresh every second. Add more zones from the dropdowns, or drag the time slider to see every zone at any moment of the day.</p>
+
+      <div class="op-row">
+        <select id="wcCity" class="form-select" style="max-width:190px;" aria-label="Popular Cities"></select>
+        <select id="wcTz" class="form-select" style="max-width:230px;" aria-label="IANA Time Zone"></select>
+        <button class="btn btn-primary" id="btnAddClock" type="button">Add Clock</button>
+        <span class="spacer"></span>
+        <span class="live-tip" id="liveTip"></span>
+      </div>
+
+      <div class="clock-list" id="clockList"></div>
+
+      <div class="slider-row">
+        <label for="timeSlider">Time Slider</label>
+        <input type="range" id="timeSlider" class="time-slider" min="0" max="1439" value="0" aria-label="Time Slider">
+        <span class="slider-val" id="sliderVal">00:00</span>
+        <button class="btn" id="btnLive" type="button" hidden>Back to Live</button>
+      </div>
+
+      <h3 class="sub-title">Time Converter</h3>
+      <div class="form-grid">
+        <div class="form-item">
+          <label for="srcTz">Source Zone</label>
+          <select id="srcTz" class="form-select"></select>
+        </div>
+        <div class="form-item">
+          <label for="srcTime">Source Time</label>
+          <input type="datetime-local" id="srcTime" class="form-input">
+        </div>
+      </div>
+      <div class="conv-list" id="convList"></div>
+      <div class="op-row">
+        <select id="convTz" class="form-select" style="max-width:230px;" aria-label="Target Zone"></select>
+        <button class="btn" id="btnAddTarget" type="button">Add Target Zone</button>
+      </div>
+
+      <h3 class="sub-title">Common Time Zones</h3>
+      <div class="table-wrap">
+        <table class="data-table" id="tzTable">
+          <thead>
+            <tr><th>Time Zone</th><th>Representative Cities</th><th>Current Time</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <h3 class="sub-title">Overlapping Work Hours</h3>
+      <div class="form-grid">
+        <div class="form-item">
+          <label for="wfzA">Zone A</label>
+          <select id="wfzA" class="form-select"></select>
+        </div>
+        <div class="form-item">
+          <label for="wfzB">Zone B</label>
+          <select id="wfzB" class="form-select"></select>
+        </div>
+        <div class="form-item">
+          <label for="wfStartA">A Work Start</label>
+          <input type="number" id="wfStartA" class="form-input" min="0" max="24" step="1" value="9">
+        </div>
+        <div class="form-item">
+          <label for="wfEndA">A Work End</label>
+          <input type="number" id="wfEndA" class="form-input" min="0" max="24" step="1" value="18">
+        </div>
+        <div class="form-item">
+          <label for="wfStartB">B Work Start</label>
+          <input type="number" id="wfStartB" class="form-input" min="0" max="24" step="1" value="9">
+        </div>
+        <div class="form-item">
+          <label for="wfEndB">B Work End</label>
+          <input type="number" id="wfEndB" class="form-input" min="0" max="24" step="1" value="18">
+        </div>
+      </div>
+      <div class="op-row">
+        <button class="btn btn-primary" id="btnOverlap" type="button">Calculate Overlap</button>
+      </div>
+      <div class="info-note" id="overlapResult" hidden></div>
+
+      <p class="wc-note">Note: all times are computed locally with the browser's built-in Intl.DateTimeFormat and the IANA time zone database. Daylight saving time is handled automatically and no network requests are made. The time slider derives each zone's time from today's local date; overlapping work hours are computed on a 24-hour circle and handle day crossings automatically.</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>Which time zones does the world clock support, and where does the data come from?</h3>
+        <p>About 50 popular cities and the full IANA time zone dropdown are built in, covering UTC-12 to UTC+14. All times are computed locally with the browser's Intl.DateTimeFormat and the IANA time zone database, with no external requests. Clocks refresh every second, and the time slider lets you view any moment of the day.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How does the time converter translate a source-zone time into target zones?</h3>
+        <p>The source wall time is first combined with that zone's UTC offset to reconstruct an exact UTC instant, then formatted for each target zone. Daylight saving time is handled automatically, so for example the New York to Beijing difference changes from 13 to 12 hours during DST, with no manual adjustment.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How does the tool tell whether a zone observes daylight saving time?</h3>
+        <p>It compares the zone's UTC offset in January and July: if the two differ, the zone observes DST and the clock card shows a DST badge; when the current offset matches the summer offset, the zone is currently in daylight saving time.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/timezone-converter.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

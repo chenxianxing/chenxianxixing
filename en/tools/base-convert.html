@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Number Base Converter - Convert Between 2/8/10/16 and Any Base Online | Online Tools</title>
+  <meta name="description" content="Free online number base converter supporting binary, octal, decimal, hexadecimal and any base from 2 to 36, with negative number and BigInt support, plus a byte HEX view. All calculations run locally in your browser.">
+  <meta name="keywords" content="Base Converter, Binary Conversion, BigInt, Hexadecimal">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/base-convert.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Number Base Converter - Convert Between 2/8/10/16 and Any Base Online">
+  <meta property="og:description" content="Online number base converter supporting conversion between any bases 2-36, negative numbers, large integers and a byte HEX view.">
+  <meta property="og:url" content="https://example.com/en/tools/base-convert.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%A2%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Base Converter",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online number base converter supporting binary, octal, decimal, hexadecimal and any base from 2 to 36, with negative number and large integer support.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Binary Conversion", "Octal Conversion", "Decimal Conversion", "Hexadecimal Conversion", "Any Base 2-36", "Negative Numbers", "BigInt Support", "Byte HEX View", "One-Click Copy"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I enter hexadecimal or binary numbers?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The tool parses input according to the source base you select. Choose Hexadecimal and you can enter FF or 0xFF; choose Binary and you can enter 1010 or 0b1010; choose Octal and you can enter 17 or 0o17. Input containing characters that are invalid for the selected base will show an error."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How large can the numbers be? Are negative numbers supported?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "This tool uses BigInt for arbitrary-precision integer arithmetic. In theory it is limited only by browser memory, so it can handle very large integers with dozens or even hundreds of digits. Negative numbers starting with a minus sign are also supported."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the byte HEX view for?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It encodes text into UTF-8 bytes and displays them as two-digit hexadecimal groups (e.g. Hello becomes 48 65 6C 6C 6F), which is useful for inspecting the underlying bytes of a string. The reverse is also supported: paste HEX to restore it as text."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .bc-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: flex-end;
+      margin-bottom: 14px;
+    }
+    .bc-row .form-item { flex: 1; min-width: 150px; }
+    .bc-input {
+      width: 100%;
+      height: 44px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 0 14px;
+      font-size: 16px;
+      font-family: "SFMono-Regular", Consolas, Menlo, "Courier New", monospace;
+      color: var(--text);
+      background: #fbfcfe;
+      outline: none;
+    }
+    .bc-input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(37,99,235,0.10); background:#fff; }
+    .bc-prefix-note { font-size: 13px; color: var(--muted); margin-top: 8px; }
+    .bc-hex-box {
+      width:100%;
+      min-height:120px;
+      border:1px solid var(--border);
+      border-radius:11px;
+      background:#f8fafc;
+      padding:14px 16px;
+      font-family:"SFMono-Regular",Consolas,Menlo,"Courier New",monospace;
+      font-size:14px;
+      line-height:1.9;
+      color:var(--text);
+      white-space:pre-wrap;
+      word-break:break-all;
+      resize:vertical;
+    }
+    .bc-hex-box:focus { border-color:var(--primary); box-shadow:0 0 0 4px rgba(37,99,235,0.10); background:#fff; outline:none; }
+    .bc-custom {
+      display:flex; align-items:center; gap:8px;
+    }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/base-convert.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/base-convert.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/base-convert.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/base-convert.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>Base Converter</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🔢</div>
+        <h1>Base Converter</h1>
+      </div>
+      <p class="tool-desc">Online number base converter supporting binary, octal, decimal, hexadecimal and any base from 2 to 36, with negative number and BigInt support, plus a byte HEX view. All calculations run locally in your browser.</p>
+    </section>
+
+    <section class="tool-panel">
+
+      <div class="bc-row">
+        <div class="form-item" style="flex:2;">
+          <label for="bcInput">Enter a Number</label>
+          <input type="text" id="bcInput" class="bc-input" placeholder="e.g. 255, FF, 1010, -12345678901234567890" spellcheck="false">
+        </div>
+        <div class="form-item">
+          <label for="bcFrom">Source Base</label>
+          <select id="bcFrom" class="form-select">
+            <option value="2">Binary (2)</option>
+            <option value="8">Octal (8)</option>
+            <option value="10" selected>Decimal (10)</option>
+            <option value="16">Hexadecimal (16)</option>
+            <option value="custom">Custom (2-36)</option>
+          </select>
+        </div>
+        <div class="form-item bc-custom" id="bcCustomWrap" style="display:none; flex:1;">
+          <div class="form-item" style="flex:1;">
+            <label for="bcCustom">Custom Base</label>
+            <input type="number" id="bcCustom" class="form-input" min="2" max="36" value="36">
+          </div>
+        </div>
+      </div>
+
+      <div class="op-row" style="margin-bottom:6px;">
+        <button class="btn btn-primary" id="btnBcConvert" type="button">Convert</button>
+        <button class="btn" id="btnBcCopy" type="button">Copy result</button>
+        <label class="bc-custom" style="gap:6px; align-items:center;">
+          <span style="font-size:13px; color:var(--muted);">Target Base</span>
+          <input type="number" id="bcToCustom" class="form-input" style="width:72px;" min="2" max="36" value="36">
+        </label>
+        <span class="spacer"></span>
+        <span class="bc-prefix-note" id="bcPrefixNote"></span>
+      </div>
+
+      <div class="warn-note" id="bcError" hidden></div>
+
+      <div class="result-grid" id="bcResult"></div>
+
+      <h3 style="font-size:16px; margin:24px 0 4px;">Extra: Byte HEX View</h3>
+      <p class="tool-desc" style="margin-top:0;">Encode text into UTF-8 bytes and display them as two-digit hexadecimal groups, or convert HEX back to text.</p>
+      <div class="split-2">
+        <div class="form-item">
+          <label for="bcText">Text</label>
+          <textarea id="bcText" class="bc-hex-box" placeholder="Enter text, e.g. Hello">Hello</textarea>
+        </div>
+        <div class="form-item">
+          <label for="bcHex">HEX (two digits per group, space-separated)</label>
+          <textarea id="bcHex" class="bc-hex-box" placeholder="Paste HEX bytes, e.g. 48 65 6C 6C 6F">48 65 6C 6C 6F</textarea>
+        </div>
+      </div>
+      <div class="op-row" style="margin-top:12px; margin-bottom:0;">
+        <button class="btn" id="btnTextToHex" type="button">Text → HEX</button>
+        <button class="btn" id="btnHexToText" type="button">HEX → Text</button>
+        <button class="btn" id="btnCopyHex" type="button">Copy HEX</button>
+      </div>
+
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>How do I enter hexadecimal or binary numbers?</h3>
+        <p>The tool parses input according to the source base you select. Choose Hexadecimal and you can enter FF or 0xFF; choose Binary and you can enter 1010 or 0b1010; choose Octal and you can enter 17 or 0o17. Input containing characters that are invalid for the selected base will show an error.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How large can the numbers be? Are negative numbers supported?</h3>
+        <p>This tool uses BigInt for arbitrary-precision integer arithmetic. In theory it is limited only by browser memory, so it can handle very large integers with dozens or even hundreds of digits. Negative numbers starting with a minus sign are also supported.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is the byte HEX view for?</h3>
+        <p>It encodes text into UTF-8 bytes and displays them as two-digit hexadecimal groups (e.g. Hello becomes 48 65 6C 6C 6F), which is useful for inspecting the underlying bytes of a string. The reverse is also supported: paste HEX to restore it as text.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/base-convert.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WKT Geometry Parser - WKT to GeoJSON with Visual Preview | Online Tools</title>
+  <meta name="description" content="Free online WKT geometry parser supporting POINT, LINESTRING, POLYGON and their MULTI and GEOMETRYCOLLECTION variants, with Z/M coordinate recognition. It outputs the geometry type, coordinate count, bounding box, coordinate table and RFC 7946 compliant GeoJSON, plus an SVG preview. All parsing is done locally.">
+  <meta name="keywords" content="Well-Known Text, GeoJSON, RFC 7946">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/wkt-parser.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="WKT Geometry Parser - WKT to GeoJSON with Visual Preview">
+  <meta property="og:description" content="Supports POINT/LINESTRING/POLYGON with MULTI and GEOMETRYCOLLECTION variants, recognizes Z/M coordinates, outputs GeoJSON and provides an SVG preview.">
+  <meta property="og:url" content="https://example.com/en/tools/wkt-parser.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%97%BA%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "WKT Geometry Parser",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online WKT geometry parser supporting POINT, LINESTRING, POLYGON and their MULTI and GEOMETRYCOLLECTION variants, with Z/M coordinate recognition, GeoJSON output and an SVG preview.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Parse WKT Geometry", "Z/M Coordinate Support", "GeoJSON Output (RFC 7946)", "Coordinate Table", "Bounding Box (bbox)", "SVG Visual Preview", "Download .json"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Which WKT geometry types does the tool support?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "POINT, LINESTRING, POLYGON, MULTIPOINT, MULTILINESTRING, MULTIPOLYGON and GEOMETRYCOLLECTION are supported. Z, M and ZM dimension markers after coordinates (3D / measured values) are also recognized, so basic 2D and common 3D formats are parsed correctly."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is the output GeoJSON standards compliant?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The output strictly follows RFC 7946: it includes type, coordinates (or geometries for geometry collections) and an optional top-level bbox field. It can be used directly with map libraries such as Leaflet, Mapbox and OpenLayers, or in geodata processing pipelines."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What happens if the input format is wrong?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Parsing first checks bracket balance and coordinate values. If brackets do not match or coordinates are not valid numbers, the error message will point to the approximate location so you can quickly find and fix the WKT text."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .wkt-input-row textarea {
+      width: 100%; min-height: 120px; resize: vertical;
+      font-family: "SFMono-Regular", Consolas, Menlo, monospace; font-size: 13.5px;
+    }
+    .wkt-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 12px; margin-bottom: 6px; }
+    .wkt-actions .spacer { flex: 1; }
+    .wkt-err { margin-top: 12px; }
+    .wkt-section-title { font-size: 15px; font-weight: 600; margin: 22px 0 8px; }
+    .wkt-table td.num { font-variant-numeric: tabular-nums; }
+    .wkt-table td.dim { color: var(--muted); }
+    #wktSvg {
+      width: 100%; max-width: 640px; height: auto; display: block; margin: 0 auto;
+      background: #f8fafc; border: 1px solid var(--border); border-radius: 11px;
+    }
+    .wkt-json-box {
+      width: 100%; min-height: 200px; border: 1px solid var(--border); border-radius: 11px;
+      background: #f8fafc; padding: 14px 16px; font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+      font-size: 13px; line-height: 1.6; color: var(--text); white-space: pre; overflow: auto;
+      resize: vertical;
+    }
+    .wkt-json-box:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(37,99,235,0.10); background: #fff; outline: none; }
+    .wkt-bbox {
+      font-size: 13px; color: var(--muted); background: #fbfcfe; border: 1px solid var(--border);
+      border-radius: 9px; padding: 8px 12px; display: inline-block; font-variant-numeric: tabular-nums;
+    }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/wkt-parser.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/wkt-parser.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/wkt-parser.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/wkt-parser.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>WKT Geometry Parser</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🗺️</div>
+        <h1>WKT Geometry Parser</h1>
+      </div>
+      <p class="tool-desc">Enter Well-Known Text (WKT) geometry and parse the geometry type, coordinate count, nesting depth and bounding box locally, generate RFC 7946 compliant GeoJSON, and preview it as SVG. Z/M dimension markers are supported and no data is uploaded.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="wkt-input-row">
+        <label for="wktInput">WKT Text</label>
+        <textarea id="wktInput" class="form-input" spellcheck="false" placeholder="e.g. POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10))"></textarea>
+      </div>
+
+      <div class="wkt-actions">
+        <button class="btn btn-primary" id="wktParse" type="button">Parser</button>
+        <button class="btn" id="wktSample" type="button">Load Sample</button>
+        <button class="btn" id="wktClear" type="button">Clear</button>
+        <span class="spacer"></span>
+        <label class="checkbox-row" style="font-size:13.5px;">
+          <input type="checkbox" id="wktExtra" checked> Keep Z/M Dimensions
+        </label>
+      </div>
+
+      <div class="warn-note wkt-err" id="wktError" hidden></div>
+
+      <div class="result-grid" id="wktStats" hidden>
+        <div class="result-card"><div class="num" id="stType">-</div><div class="label">Geometry Type</div></div>
+        <div class="result-card"><div class="num" id="stCount">-</div><div class="label">Coordinate Count</div></div>
+        <div class="result-card"><div class="num" id="stLevel">-</div><div class="label">Nesting Depth</div></div>
+        <div class="result-card"><div class="num" id="stDim">-</div><div class="label">Dimensions</div></div>
+      </div>
+
+      <div id="wktBboxWrap" hidden style="margin-top:14px;">
+        <span class="wkt-bbox" id="wktBbox"></span>
+      </div>
+
+      <div class="wkt-section-title">Coordinate List</div>
+      <div class="table-wrap" id="wktTableWrap" hidden>
+        <table class="data-table wkt-table">
+          <thead id="wktThead"></thead>
+          <tbody id="wktTbody"></tbody>
+        </table>
+      </div>
+
+      <div class="wkt-section-title">SVG Preview</div>
+      <div id="wktSvgWrap">
+        <div class="empty-tip" id="wktSvgEmpty">A geometry preview will be shown here after parsing.</div>
+        <svg id="wktSvg" viewBox="0 0 640 400" hidden xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+
+      <div class="wkt-section-title">GeoJSON Output (RFC 7946 Compliant)</div>
+      <textarea id="wktJson" class="wkt-json-box" spellcheck="false" readonly placeholder="Parsed results will be generated as GeoJSON and shown here"></textarea>
+      <div class="op-row" style="margin-top:12px; margin-bottom:0;">
+        <button class="btn btn-primary" id="wktCopy" type="button">Copy GeoJSON</button>
+        <button class="btn" id="wktDownload" type="button">Download .json</button>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>Which WKT geometry types does the tool support?</h3>
+        <p>POINT, LINESTRING, POLYGON, MULTIPOINT, MULTILINESTRING, MULTIPOLYGON and GEOMETRYCOLLECTION are supported. Z, M and ZM dimension markers after coordinates (3D / measured values) are also recognized, so basic 2D and common 3D formats are parsed correctly.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Is the output GeoJSON standards compliant?</h3>
+        <p>The output strictly follows RFC 7946: it includes type, coordinates (or geometries for geometry collections) and an optional top-level bbox field. It can be used directly with map libraries such as Leaflet, Mapbox and OpenLayers, or in geodata processing pipelines.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What happens if the input format is wrong?</h3>
+        <p>Parsing first checks bracket balance and coordinate values. If brackets do not match or coordinates are not valid numbers, the error message will point to the approximate location so you can quickly find and fix the WKT text.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/wkt-parser.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

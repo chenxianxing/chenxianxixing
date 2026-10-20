@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Border Radius Generator - Online border-radius Shorthand Code Generator | Online Tools</title>
+  <meta name="description" content="Free online CSS border-radius generator with independent corners, elliptical radii (horizontal/vertical dual values) and px/% unit switching. Preview changes live, generate border-radius shorthand code, and pick from creative presets such as circle, pill and leaf.">
+  <meta name="keywords" content="CSS Border Radius Generator, Corner Radius, css border radius">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/border-radius.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="CSS Border Radius Generator - Online border-radius Shorthand Code Generator">
+  <meta property="og:description" content="Online CSS border-radius generator with independent corners, elliptical radii and unit switching, with live preview and one-click code copy.">
+  <meta property="og:url" content="https://example.com/en/tools/border-radius.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%B2%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "CSS Border Radius Generator",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online CSS border-radius generator with independent corners, elliptical radii and unit switching, live preview and border-radius shorthand code generation.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Independent Corner Radii", "Elliptical Dual Radii", "px/% Unit Switching", "Live Preview", "One-Click CSS Copy", "Creative Presets"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the shorthand order of border-radius?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The four values of border-radius correspond to top-left, top-right, bottom-right and bottom-left (clockwise). With only two values, the first applies to the top-left/bottom-right and the second to the top-right/bottom-left (diagonal corners match). For elliptical radii, separate the horizontal and vertical values with a slash, e.g. 10px / 20px."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between px and % units?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "px is a fixed pixel radius that does not change with the container size, while % is a percentage relative to the side the radius sits on: for example, 50% yields a perfect circle on a square and an ellipse on a rectangle. Prefer % for responsive layouts or perfect circles."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I create elliptical corners (leaf or petal shapes)?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Use the slash syntax to specify the horizontal and vertical radii separately, e.g. border-radius: 50% 50% 50% 0 / 60% 60% 40% 40%. The advanced mode of this tool lets you adjust both values for each corner directly to create such effects."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    #brPreview {
+      width: 100%;
+      height: 240px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin: 6px 0 16px;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: #fff;
+      font-size: 18px;
+      font-weight: 600;
+      text-align: center;
+      padding: 16px;
+      box-sizing: border-box;
+    }
+    .br-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 720px) { .br-controls { grid-template-columns: 1fr; } }
+    .slider-item { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+    .slider-item .val { font-size: 13px; color: var(--primary); font-weight: 600; }
+    .corner-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .preset-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+    .preset-chip {
+      border: 1px solid var(--border); border-radius: 999px;
+      padding: 7px 14px; font-size: 13px; cursor: pointer; color: var(--text);
+      background: #fff; display: inline-flex; align-items: center; gap: 8px;
+    }
+    .preset-chip:hover { border-color: var(--primary); color: var(--primary); }
+    .preset-chip .swatch { width: 16px; height: 16px; border-radius: 5px; background:#2563eb; flex-shrink:0; }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/border-radius.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/border-radius.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/border-radius.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/border-radius.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>CSS Border Radius Generator</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🔲</div>
+        <h1>CSS Border Radius Generator</h1>
+      </div>
+      <p class="tool-desc">Online CSS border radius generator supporting independent corners, elliptical radii (horizontal/vertical dual values) and px/% unit switching, with live visual preview and directly copyable border-radius shorthand code.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="op-row">
+        <div class="radio-row" id="brUnitRow" role="radiogroup" aria-label="Unit">
+          <label class="checked"><input type="radio" name="brUnit" value="px" checked>px</label>
+          <label><input type="radio" name="brUnit" value="%">%</label>
+        </div>
+        <label class="checkbox-row" style="font-size:13px;margin-left:6px;">
+          <input type="checkbox" id="brAdvanced"> Advanced Mode (elliptical radius / separate horizontal and vertical values)
+        </label>
+        <span class="spacer"></span>
+        <button class="btn" id="btnCopyCss" type="button">Copy CSS</button>
+      </div>
+
+      <div id="brPreview">Radius Preview</div>
+
+      <div class="br-controls">
+        <div>
+          <label style="font-size:13px;color:var(--muted);font-weight:500;">Corner Radius</label>
+          <div class="corner-grid" id="brCorners" style="margin-top:8px;"></div>
+          <div id="brAdvancedBox" hidden style="margin-top:12px;">
+            <label style="font-size:13px;color:var(--muted);font-weight:500;">Elliptical Radius · Vertical Radius</label>
+            <div class="corner-grid" id="brCornersV" style="margin-top:8px;"></div>
+          </div>
+        </div>
+
+        <div>
+          <label style="font-size:13px;color:var(--muted);font-weight:500;">Preview Content</label>
+          <div class="radio-row" id="brContentRow" style="margin-top:8px;">
+            <label class="checked"><input type="radio" name="brContent" value="solid" checked>Solid Block</label>
+            <label><input type="radio" name="brContent" value="gradient">Gradient Block</label>
+            <label><input type="radio" name="brContent" value="image">Image Placeholder</label>
+            <label><input type="radio" name="brContent" value="text">Text Card</label>
+          </div>
+
+          <label style="font-size:13px;color:var(--muted);font-weight:500;display:block;margin:16px 0 6px;">Generated CSS</label>
+          <div class="code-box" id="brCode" readonly></div>
+        </div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <label style="font-size:13px;color:var(--muted);font-weight:500;">Creative Presets</label>
+        <div class="preset-row" id="brPresets" style="margin-top:8px;"></div>
+      </div>
+
+      <p class="wc-note">Note: The four sliders correspond to the top-left, top-right, bottom-right and bottom-left corners in order. In advanced mode you can set the horizontal and vertical radius of each corner separately to create elliptical effects such as leaves and petals.</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>What is the shorthand order of border-radius?</h3>
+        <p>The four values of border-radius correspond to top-left, top-right, bottom-right and bottom-left (clockwise). With only two values, the first applies to the top-left/bottom-right and the second to the top-right/bottom-left (diagonal corners match). For elliptical radii, separate the horizontal and vertical values with a slash, e.g. 10px / 20px.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is the difference between px and % units?</h3>
+        <p>px is a fixed pixel radius that does not change with the container size, while % is a percentage relative to the side the radius sits on: for example, 50% yields a perfect circle on a square and an ellipse on a rectangle. Prefer % for responsive layouts or perfect circles.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How do I create elliptical corners (leaf or petal shapes)?</h3>
+        <p>Use the slash syntax to specify the horizontal and vertical radii separately, e.g. border-radius: 50% 50% 50% 0 / 60% 60% 40% 40%. The advanced mode of this tool lets you adjust both values for each corner directly to create such effects.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/border-radius.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

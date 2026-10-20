@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random Picker & Decision Wheel - Online Random Selection, Spinning Wheel & Number Generator | Online Tools</title>
+  <meta name="description" content="Free online random picker and decision wheel tool: spinning wheel draw, list draw, random numbers, dice roll and coin flip. All computed locally, fair and unbiased, no sign-up, one-click copy.">
+  <meta name="keywords" content="Decision Wheel, Dice, Coin Flip, List Draw">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/random-picker.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Random Picker &amp; Decision Wheel - Online Random Selection Tool">
+  <meta property="og:description" content="A local random tool with spinning wheel draw, list draw, random number generation, dice roll and coin flip. Fair, unbiased, with one-click copy.">
+  <meta property="og:url" content="https://example.com/en/tools/random-picker.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%AF%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <style>
+    /* ---------- 模式切换 tab ---------- */
+    .mode-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+    .mode-tabs button {
+      height: 38px;
+      padding: 0 18px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--card);
+      color: var(--muted);
+      font-size: 14px;
+      font-family: var(--font);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .mode-tabs button:hover { color: var(--primary); border-color: var(--primary); }
+    .mode-tabs button.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+      -webkit-text-fill-color: #fff;
+      font-weight: 600;
+    }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ---------- 转盘 ---------- */
+    .wheel-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      align-items: flex-start;
+    }
+    .wheel-canvas-box { position: relative; flex-shrink: 0; }
+    #wheelCanvas {
+      border-radius: 50%;
+      box-shadow: var(--shadow);
+      background: #fff;
+      display: block;
+    }
+    .wheel-pointer {
+      position: absolute;
+      top: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 14px solid transparent;
+      border-right: 14px solid transparent;
+      border-top: 26px solid #ef4444;
+      filter: drop-shadow(0 2px 2px rgba(0,0,0,.2));
+      z-index: 2;
+    }
+    .wheel-side { flex: 1; min-width: 240px; }
+    .wheel-items-edit { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+    .wheel-item-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .wheel-item-row .swatch {
+      width: 18px; height: 18px; border-radius: 5px; flex-shrink: 0;
+      border: 1px solid rgba(0,0,0,.1);
+    }
+    .wheel-item-row input {
+      flex: 1; min-width: 0;
+      height: 34px; border: 1px solid var(--border); border-radius: 8px;
+      padding: 0 10px; font-size: 14px; font-family: var(--font);
+      background: #fbfcfe; color: var(--text); outline: none;
+    }
+    .wheel-item-row input:focus { border-color: var(--primary); background: #fff; }
+    .wheel-item-row .del {
+      flex-shrink: 0; width: 30px; height: 30px; border: 1px solid var(--border);
+      border-radius: 8px; background: var(--card); color: var(--muted);
+      cursor: pointer; font-size: 15px; line-height: 1;
+    }
+    .wheel-item-row .del:hover { color: #dc2626; border-color: #fca5a5; }
+    .wheel-result {
+      margin-top: 14px; padding: 14px 16px; border-radius: 11px;
+      background: var(--primary-light); border: 1px solid #bfdbfe;
+      font-size: 16px; font-weight: 600; color: var(--primary);
+      text-align: center;
+    }
+    .wheel-history {
+      margin-top: 12px; font-size: 13.5px; color: var(--muted);
+      max-height: 120px; overflow: auto; line-height: 1.9;
+    }
+    .wheel-history span { display: inline-block; margin-right: 10px; }
+
+    /* ---------- 列表抽签 ---------- */
+    .draw-stat {
+      margin-top: 12px; font-size: 14px; color: var(--muted);
+      display: flex; gap: 16px; flex-wrap: wrap;
+    }
+    .draw-result {
+      margin-top: 12px; padding: 14px 16px; border-radius: 11px;
+      background: var(--primary-light); border: 1px solid #bfdbfe;
+      font-size: 18px; font-weight: 700; color: var(--primary);
+      text-align: center; word-break: break-all;
+    }
+    .shuffle-list {
+      margin-top: 10px; font-size: 14px; line-height: 1.9; color: var(--text);
+    }
+
+    /* ---------- 随机数结果 ---------- */
+    .rng-output {
+      margin-top: 14px; width: 100%; min-height: 120px;
+      border: 1px solid var(--border); border-radius: 11px; background: #f8fafc;
+      padding: 14px 16px; font-family: Consolas, Menlo, monospace; font-size: 14px;
+      line-height: 1.8; color: var(--text); white-space: pre-wrap; word-break: break-all;
+    }
+
+    /* ---------- 骰子 ---------- */
+    .dice-area { display: flex; flex-wrap: wrap; gap: 14px; margin: 8px 0 14px; }
+    .die {
+      width: 64px; height: 64px; border-radius: 14px;
+      background: #fff; border: 1px solid var(--border);
+      box-shadow: var(--shadow); display: flex; align-items: center; justify-content: center;
+      font-size: 46px; line-height: 1; color: #1f2937;
+      transition: transform 0.1s;
+    }
+    .die.rolling { animation: diceShake 0.12s linear infinite; }
+    @keyframes diceShake {
+      0% { transform: translateY(0) rotate(0); }
+      25% { transform: translateY(-6px) rotate(-8deg); }
+      50% { transform: translateY(0) rotate(0); }
+      75% { transform: translateY(-4px) rotate(8deg); }
+      100% { transform: translateY(0) rotate(0); }
+    }
+    .dice-total {
+      margin-top: 8px; font-size: 16px; font-weight: 700; color: var(--primary);
+    }
+    .dice-history { margin-top: 10px; font-size: 13.5px; color: var(--muted); line-height: 1.9; }
+
+    /* ---------- 硬币 ---------- */
+    .coin-stage { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+    .coin {
+      width: 110px; height: 110px; border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #fde68a, #f59e0b 60%, #d97706);
+      border: 3px solid #b45309; box-shadow: var(--shadow);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 30px; font-weight: 800; color: #7c2d12;
+      transition: transform 1s cubic-bezier(.2,.8,.2,1);
+    }
+    .coin-wrap { perspective: 600px; }
+    .coin.flipping { animation: coinFlip 1s ease-in-out; }
+    @keyframes coinFlip {
+      0% { transform: rotateY(0); }
+      100% { transform: rotateY(1800deg); }
+    }
+    .coin-stat { font-size: 14px; color: var(--muted); }
+
+    .sub-note { font-size: 13px; color: var(--muted); margin-top: 10px; line-height: 1.7; }
+    .seed-box {
+      margin-top: 14px; padding: 12px 16px; border: 1px dashed var(--border);
+      border-radius: 10px; background: #fbfcfe;
+    }
+    .seed-box label { font-size: 13px; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+    .seed-box input[type="text"] {
+      height: 34px; border: 1px solid var(--border); border-radius: 8px;
+      padding: 0 10px; font-size: 14px; font-family: var(--font);
+      background: #fff; color: var(--text); outline: none; margin-left: 8px; width: 180px;
+    }
+    .seed-box input[type="text"]:focus { border-color: var(--primary); }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Random Draw & Decision Spinner",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线RandomDraw与Decision Wheel工具，支持Spinner抽奖、List Draw、Random NumberGenerate、DiceRoll、Coin Flip。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Decision Wheel抽奖", "List Draw", "Random NumberGenerate", "DiceRoll", "Coin Flip", "公平种子复现Mode", "本地计算"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Is the wheel draw result fair?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. The wheel uses the browser's native crypto random number to pick one sector with equal probability, so every item has the same chance and the result is unpredictable. Enabling fair seed mode switches to a deterministic algorithm for reproducible demos."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is fair seed mode for?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "With the same seed, the results of random draw, dice and coin flip will be identical, which is handy for classroom demos or reproducing a specific result. Without it, true crypto random is used and results differ each time."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What algorithm ensures unbiased random numbers?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "By default it uses Web Crypto's crypto.getRandomValues with rejection sampling, ensuring every integer is equally probable and unbiased; seed mode switches to the mulberry32 pseudo-random algorithm for reproducibility."
+        }
+      }
+    ]
+  }
+  </script>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/random-picker.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/random-picker.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/random-picker.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/random-picker.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>Random Picker &amp; Decision Wheel</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🎯</div>
+        <h1>Random Picker &amp; Decision Wheel</h1>
+      </div>
+      <p class="tool-desc">Online random selection tool: decision wheel, list draw, random numbers, dice and coin flip, all done locally in your browser. Fair, unbiased, no network needed.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="mode-tabs" id="modeTabs" role="tablist">
+        <button type="button" class="active" data-mode="wheel">Decision Wheel</button>
+        <button type="button" data-mode="list">List Draw</button>
+        <button type="button" data-mode="number">Random Number</button>
+        <button type="button" data-mode="dice">Dice</button>
+        <button type="button" data-mode="coin">Coin Flip</button>
+      </div>
+
+      <!-- 决策转盘 -->
+      <div class="tab-panel active" id="panel-wheel">
+        <div class="wheel-wrap">
+          <div class="wheel-canvas-box">
+            <div class="wheel-pointer"></div>
+            <canvas id="wheelCanvas" width="320" height="320" aria-label="Decision Wheel"></canvas>
+          </div>
+          <div class="wheel-side">
+            <div class="wheel-items-edit" id="wheelItems"></div>
+            <div class="op-row" style="margin-bottom:8px;">
+              <button class="btn" type="button" id="btnAddItem">Add Item</button>
+              <button class="btn" type="button" id="btnImport">Batch Import</button>
+            </div>
+            <div class="checkbox-row" style="margin-bottom:12px;">
+              <label><input type="checkbox" id="removeAfterWin"> Remove the item after it wins</label>
+            </div>
+            <div class="op-row" style="margin-bottom:0;">
+              <button class="btn btn-primary" type="button" id="btnSpin">Start Spinning</button>
+              <button class="btn" type="button" id="btnWheelReset">Reset</button>
+            </div>
+            <div class="wheel-result" id="wheelResult">Click Start Spinning to draw a result</div>
+            <div class="wheel-history" id="wheelHistory"></div>
+          </div>
+        </div>
+        <div class="seed-box">
+          <label><input type="checkbox" id="seedMode"> Fair Seed Mode</label>
+          <input type="text" id="seedInput" placeholder="Enter a seed, e.g. demo" disabled>
+          <span class="sub-note" style="display:block;margin-left:0;margin-top:8px;">With the same seed, results are reproducible for demonstration.</span>
+        </div>
+      </div>
+
+      <!-- 列表抽签 -->
+      <div class="tab-panel" id="panel-list">
+        <div class="form-item">
+          <label for="listInput">Candidates (one per line)</label>
+          <textarea id="listInput" class="form-input" rows="8" placeholder="Enter one candidate per line, e.g.:&#10;Alice&#10;Bob&#10;Carol"></textarea>
+        </div>
+        <div class="checkbox-row" style="margin:10px 0;">
+          <label><input type="checkbox" id="listNoRepeat" checked> No-repeat mode (draw until empty)</label>
+        </div>
+        <div class="op-row" style="margin-bottom:0;">
+          <button class="btn btn-primary" type="button" id="btnDrawOne">Draw One</button>
+          <button class="btn" type="button" id="btnShuffle">Shuffle All</button>
+          <button class="btn" type="button" id="btnListReset">Reset</button>
+          <span class="spacer"></span>
+          <button class="btn" type="button" id="btnCopyList">Copy result</button>
+        </div>
+        <div class="draw-stat">
+          <span id="listRemain">Remaining: 0</span>
+          <span id="listDrawn">Drawn: 0</span>
+        </div>
+        <div class="draw-result" id="listResult" hidden></div>
+        <div class="shuffle-list" id="shuffleList"></div>
+      </div>
+
+      <!-- 随机数 -->
+      <div class="tab-panel" id="panel-number">
+        <div class="form-grid">
+          <div class="form-item">
+            <label for="rngMin">Min</label>
+            <input type="number" id="rngMin" class="form-input" value="1">
+          </div>
+          <div class="form-item">
+            <label for="rngMax">Max</label>
+            <input type="number" id="rngMax" class="form-input" value="100">
+          </div>
+          <div class="form-item">
+            <label for="rngCount">Count</label>
+            <input type="number" id="rngCount" class="form-input" value="5" min="1" max="1000">
+          </div>
+        </div>
+        <div class="checkbox-row" style="margin-bottom:10px;">
+          <label><input type="checkbox" id="rngUnique"> Unique</label>
+          <label><input type="checkbox" id="rngDecimal"> Decimals</label>
+          <label id="rngDigitsWrap" style="display:none;">Decimal places <input type="number" id="rngDigits" class="form-input" style="width:70px;height:32px;display:inline-block;" value="2" min="1" max="8"></label>
+        </div>
+        <div class="op-row" style="margin-bottom:0;">
+          <button class="btn btn-primary" type="button" id="btnRngGen">Generate</button>
+          <button class="btn" type="button" id="btnRngCopy">Copy result</button>
+          <button class="btn" type="button" id="btnRngClear">Clear</button>
+        </div>
+        <div class="rng-output" id="rngOutput" aria-label="Random number result"></div>
+      </div>
+
+      <!-- 骰子 -->
+      <div class="tab-panel" id="panel-dice">
+        <div class="form-item" style="max-width:220px;">
+          <label for="diceCount">Number of dice (1-6)</label>
+          <input type="number" id="diceCount" class="form-input" value="2" min="1" max="6">
+        </div>
+        <div class="op-row" style="margin-bottom:0;">
+          <button class="btn btn-primary" type="button" id="btnRoll">Roll</button>
+          <button class="btn" type="button" id="btnDiceReset">Clear History</button>
+        </div>
+        <div class="dice-area" id="diceArea"></div>
+        <div class="dice-total" id="diceTotal"></div>
+        <div class="dice-history" id="diceHistory"></div>
+      </div>
+
+      <!-- 抛硬币 -->
+      <div class="tab-panel" id="panel-coin">
+        <div class="coin-stage">
+          <div class="coin-wrap">
+            <div class="coin" id="coin">Heads</div>
+          </div>
+          <button class="btn btn-primary" type="button" id="btnFlip">Coin Flip</button>
+          <div class="coin-stat" id="coinResult">Click the button to flip</div>
+          <div class="coin-stat" id="coinStat">Heads 0 · Tails 0 · Head rate 0%</div>
+        </div>
+      </div>
+
+      <p class="sub-note">All randomness is generated locally in your browser; no data is uploaded. True random uses Web Crypto; seed mode uses the mulberry32 pseudo-random algorithm for reproducibility.</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>Is the wheel draw result fair?</h3>
+        <p>Yes. The wheel uses the browser's native crypto random number to pick one sector with equal probability, so every item has the same chance and the result is unpredictable. Enabling fair seed mode switches to a deterministic algorithm for reproducible demos.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is fair seed mode for?</h3>
+        <p>With the same seed, the results of random draw, dice and coin flip will be identical, which is handy for classroom demos or reproducing a specific result. Without it, true crypto random is used and results differ each time.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What algorithm ensures unbiased random numbers?</h3>
+        <p>By default it uses Web Crypto's crypto.getRandomValues with rejection sampling, ensuring every integer is equally probable and unbiased; seed mode switches to the mulberry32 pseudo-random algorithm for reproducibility.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/random-picker.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDF Merge & Split - Online PDF Merge / Split / Rotate Tool | Online Tools</title>
+  <meta name="description" content="Free online PDF merge and split tool. Merge multiple files in order, split by page range, split every N pages, and rotate all pages. 100% browser-based local processing, files are never uploaded, keeping your data private.">
+  <meta name="keywords" content="online tools, free tools, web tools, browser tools">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/pdf-merge-split.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="PDF Merge & Split - Online PDF Merge / Split / Rotate Tool">
+  <meta property="og:description" content="Merge multiple files in order, split by page range, split every N pages, and rotate all pages - all done locally in your browser, with no file uploads.">
+  <meta property="og:url" content="https://example.com/en/tools/pdf-merge-split.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%84%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "PDF Merge & Split",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Free online PDF merge and split tool. Merge multiple files in order, split by page range, split every N pages, and rotate all pages. 100% browser-based local processing; files are never uploaded.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Merge multiple files in order", "Split by page range", "Split every N pages", "Rotate all pages 0/90/180/270", "Processed Locally, Nothing Uploaded", "Download as a ZIP archive"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Does the PDF merge and split tool upload my files?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. All reading, merging, splitting, and rotating operations run locally in your browser. Files are never uploaded to any server, so it is suitable for documents containing private or confidential content."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the page count of a merged PDF?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The merged result concatenates files in list order, and the total page count equals the sum of all files. You can reorder files in the list before merging, and you can also set a uniform rotation angle for all pages of a file."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can encrypted or corrupted PDFs be processed?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Encrypted (password-protected) or severely corrupted PDFs cannot be parsed, and the tool will show a friendly notice. Please remove password protection first, or use an intact, undamaged file before proceeding."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .mode-tabs {
+      display: inline-flex;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .mode-tabs label {
+      padding: 8px 22px;
+      font-size: 14px;
+      cursor: pointer;
+      background: #fbfcfe;
+      color: var(--muted);
+      border-right: 1px solid var(--border);
+      transition: background 0.15s, color 0.15s;
+    }
+    .mode-tabs label:last-child { border-right: none; }
+    .mode-tabs input { display: none; }
+    .mode-tabs label.checked,
+    .mode-tabs label:has(input:checked) {
+      background: var(--primary);
+      color: #fff;
+      -webkit-text-fill-color: #fff;
+    }
+    .panel-mode { display: none; }
+    .panel-mode.active { display: block; }
+
+    .drop-zone {
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 26px 18px;
+      text-align: center;
+      color: var(--muted);
+      background: #fbfcfe;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .drop-zone:hover, .drop-zone.dragover {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+    .drop-zone .big { font-size: 15px; font-weight: 600; }
+
+    .file-list { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; }
+    .file-row {
+      display: grid;
+      grid-template-columns: 28px 1fr auto auto auto;
+      align-items: center;
+      gap: 12px;
+      background: #fbfcfe;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 10px 14px;
+    }
+    .file-row .idx { font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .file-row .meta { min-width: 0; }
+    .file-row .fname {
+      font-size: 14px; font-weight: 600; color: var(--text);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .file-row .fsub { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+    .file-row select {
+      height: 34px; border: 1px solid var(--border); border-radius: 8px;
+      padding: 0 8px; font-size: 13px; background: #fff; color: var(--text);
+    }
+    .file-row .mini {
+      height: 30px; padding: 0 9px; font-size: 13px; border: 1px solid var(--border);
+      border-radius: 8px; background: #fff; color: var(--text); cursor: pointer;
+    }
+    .file-row .mini:hover { border-color: var(--primary); color: var(--primary); }
+    .file-row .mini.danger:hover { border-color: #dc2626; color: #dc2626; }
+    .file-row .ctrl-col { display: flex; gap: 6px; }
+
+    .split-box {
+      border: 1px solid var(--border); border-radius: 12px; padding: 16px;
+      background: #fbfcfe; margin-top: 14px;
+    }
+    .range-input { max-width: 360px; }
+    .split-method {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;
+    }
+    @media (max-width: 640px) {
+      .split-method { grid-template-columns: 1fr; }
+      .file-row { grid-template-columns: 22px 1fr auto; }
+      .file-row .ctrl-col { grid-column: 1 / -1; justify-content: flex-end; }
+    }
+    .result-line { margin-top: 12px; font-size: 14px; color: var(--text); }
+    .result-line b { color: var(--primary); }
+    .split-results { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/pdf-merge-split.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/pdf-merge-split.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/pdf-merge-split.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/pdf-merge-split.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>PDF Merge & Split</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">📄</div>
+        <h1>PDF Merge & Split</h1>
+      </div>
+      <p class="tool-desc">Online PDF merge, split, and rotate tool. Merge multiple files in order, split by page range, split into multiple parts every N pages, and rotate all pages uniformly. All operations run locally in your browser and files are never uploaded.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="mode-tabs" role="tablist" aria-label="Operation Mode">
+        <label class="checked"><input type="radio" name="mode" value="merge" checked>Merge</label>
+        <label><input type="radio" name="mode" value="split">Split</label>
+      </div>
+
+      <!-- 合并模式 -->
+      <div class="panel-mode active" id="mergePanel">
+        <div class="drop-zone" id="mergeDrop">
+          <div class="big">Drag PDF files here, or click to select</div>
+          <div style="font-size:13px;margin-top:4px;">Multiple files supported, up to 50MB per file</div>
+        </div>
+        <input type="file" id="mergeInput" accept=".pdf,application/pdf" multiple hidden>
+
+        <div class="file-list" id="mergeList"></div>
+
+        <div class="op-row" style="margin-top:16px;">
+          <button class="btn btn-primary" id="btnMerge" type="button">Merge & Download</button>
+          <button class="btn" id="btnClearMerge" type="button">Clear List</button>
+          <span class="spacer"></span>
+          <span class="result-line" id="mergeInfo"></span>
+        </div>
+      </div>
+
+      <!-- 拆分模式 -->
+      <div class="panel-mode" id="splitPanel">
+        <div class="drop-zone" id="splitDrop">
+          <div class="big">Select a single PDF file to split</div>
+          <div style="font-size:13px;margin-top:4px;">Up to 50MB per file</div>
+        </div>
+        <input type="file" id="splitInput" accept=".pdf,application/pdf" hidden>
+
+        <div id="splitReady" hidden>
+          <div class="result-grid" style="margin-top:14px;">
+            <div class="result-card"><div class="num" id="splitPages">0</div><div class="label">Page Count</div></div>
+            <div class="result-card"><div class="num" id="splitSize">0</div><div class="label">File Size</div></div>
+          </div>
+
+          <div class="split-box">
+            <div class="split-method">
+              <label class="radio-row-wrap">
+                <input type="radio" name="splitMethod" value="range" checked>
+                <span>By Page Range</span>
+              </label>
+              <label class="radio-row-wrap">
+                <input type="radio" name="splitMethod" value="every">
+                <span>Every N Pages</span>
+              </label>
+            </div>
+
+            <div class="form-item" id="rangeWrap">
+              <label for="rangeInput">Page range (e.g. 1-3,5,8-10, starting from 1, comma-separated)</label>
+              <input type="text" id="rangeInput" class="form-input range-input" placeholder="E.g.: 1-3,5,8-10">
+            </div>
+
+            <div class="form-item" id="everyWrap" hidden>
+              <label for="everyInput">Pages per part</label>
+              <input type="number" id="everyInput" class="form-input" style="max-width:160px;" value="2" min="1" max="999">
+            </div>
+
+            <div class="op-row" style="margin:14px 0 0;">
+              <button class="btn btn-primary" id="btnSplit" type="button">Start Splitting</button>
+              <button class="btn" id="btnResetSplit" type="button">Choose Again</button>
+            </div>
+          </div>
+
+          <div class="split-results" id="splitResults"></div>
+        </div>
+      </div>
+
+      <div class="warn-note" id="pdfError" hidden></div>
+
+      <p class="wc-note">Note: <b>100% browser-based local processing; files are never uploaded.</b>Merging concatenates files in list order, and you can set a uniform rotation angle for each file. Splitting supports extraction by page range or slicing by a fixed page count. Encrypted, corrupted, or non-PDF files will be rejected with a notice.</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>Does the PDF merge and split tool upload my files?</h3>
+        <p>No. All reading, merging, splitting, and rotating operations run locally in your browser. Files are never uploaded to any server, so it is suitable for documents containing private or confidential content.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is the page count of a merged PDF?</h3>
+        <p>The merged result concatenates files in list order, and the total page count equals the sum of all files. You can reorder files in the list before merging, and you can also set a uniform rotation angle for all pages of a file.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Can encrypted or corrupted PDFs be processed?</h3>
+        <p>Encrypted (password-protected) or severely corrupted PDFs cannot be parsed, and the tool will show a friendly notice. Please remove password protection first, or use an intact, undamaged file before proceeding.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/vendor/pdf-lib.min.js"></script>
+  <script src="../assets/js/pdf-merge-split.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

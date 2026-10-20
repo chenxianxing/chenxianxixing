@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BMI & Daily Calorie Calculator - Online BMI / BMR / Fat Loss Calorie Tool | Online Tools</title>
+  <meta name="description" content="Free online BMI and daily calorie calculator. Enter gender, age, height and weight to get your BMI with both Chinese and WHO classifications, healthy weight range, ideal weight, BMR and TDEE, plus cutting, bulking and maintenance calorie targets with macronutrient plans. All computed locally.">
+  <meta name="keywords" content="BMI, BMR, TDEE, Mifflin-St Jeor">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/bmi-calculator.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="BMI & Daily Calorie Calculator - Online BMI / BMR / Fat Loss Calorie Tool">
+  <meta property="og:description" content="Enter gender, age, height and weight to calculate BMI in two standards, healthy weight range, BMR, TDEE, cutting and bulking calorie targets and macronutrient plans.">
+  <meta property="og:url" content="https://example.com/en/tools/bmi-calculator.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9A%96%EF%B8%8F%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "BMI & Daily Calorie Calculator",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线BMI & Daily Calorie Calculator，支持BMIMedium国与WHO双标准分类、Health体重Range、Devine理想体重、Mifflin-St Jeor基础代谢率、TDEE每Sun总热量与Wed大营养素Plan。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["BMIMedium国标准与WHO标准双分类", "Health体重Range计算", "Devine理想体重公式", "Mifflin-St Jeor基础代谢率", "TDEE每Sun总热量消耗", "Fat Loss/Muscle Gain/MaintainGoal热量", "Wed大营养素Wed套Plan", "BMI可视化刻度 entries", "公制英制Unit切换"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What BMI is considered normal? What is the difference between the Chinese and WHO standards?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Chinese standard: under 18.5 underweight, 18.5-23.9 normal, 24-27.9 overweight, 28 and above obese. WHO standard: under 18.5 underweight, 18.5-24.9 normal, 25-29.9 overweight, 30 and above obese. Asian populations tend to carry more body fat at the same BMI, so the Chinese standard has a lower upper limit."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between BMR and TDEE? How do I choose the activity factor?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "BMR (basal metabolic rate) is the minimum energy needed to sustain life at rest, calculated here with the Mifflin-St Jeor equation. TDEE (total daily energy expenditure) = BMR × activity factor, reflecting total burn including daily activity and exercise. Bedridden is about 1.2, lightly active 1.375, moderately active 1.55, very active 1.725 and extremely active 1.9; pick the level closest to your weekly exercise frequency."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is it safe to eat 500 kcal less per day for fat loss?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A 500 kcal deficit below TDEE corresponds to losing about 0.5 kg per week, a moderate and sustainable pace. For muscle gain, add 300 kcal above TDEE and pair it with resistance training. Individual results vary; pregnant women, teenagers and people with chronic conditions should adjust under professional guidance."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .unit-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .ft-row { display: flex; gap: 8px; align-items: center; }
+    .ft-row .form-input { width: 100%; }
+    .ft-sep { color: var(--muted); font-size: 14px; }
+
+    /* BMI 刻度条 */
+    .bmi-scale { margin-top: 20px; }
+    .scale-bar {
+      position: relative;
+      display: flex;
+      height: 16px;
+      border-radius: 999px;
+      overflow: visible;
+      margin-top: 6px;
+    }
+    .scale-bar .seg { height: 100%; }
+    .scale-bar .seg:first-child { border-radius: 999px 0 0 999px; }
+    .scale-bar .seg:last-child { border-radius: 0 999px 999px 0; }
+    .seg-thin { background: #93c5fd; width: 14%; }
+    .seg-normal { background: #6ee7b7; width: 22%; }
+    .seg-over { background: #fcd34d; width: 16%; }
+    .seg-fat { background: #fca5a5; width: 48%; }
+    .scale-pointer {
+      position: absolute;
+      top: -6px;
+      width: 4px;
+      height: 28px;
+      background: #111827;
+      border-radius: 2px;
+      transform: translateX(-2px);
+      transition: left 0.2s;
+    }
+    .scale-pointer::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: -7px;
+      transform: translateX(-50%);
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 6px solid #111827;
+    }
+    .scale-ticks {
+      position: relative;
+      height: 20px;
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .scale-ticks span {
+      position: absolute;
+      transform: translateX(-50%);
+      white-space: nowrap;
+    }
+    .scale-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+    .scale-legend i {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+      margin-right: 5px;
+      vertical-align: -1px;
+    }
+    .weekly-tip {
+      font-size: 13.5px;
+      color: var(--text);
+      margin-top: 14px;
+      line-height: 1.7;
+    }
+    .weekly-tip b { color: var(--primary); }
+    .goal-radio label { white-space: nowrap; }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/bmi-calculator.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/bmi-calculator.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/bmi-calculator.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/bmi-calculator.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>BMI & Daily Calorie Calculator</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">⚖️</div>
+        <h1>BMI & Daily Calorie Calculator</h1>
+      </div>
+      <p class="tool-desc">Online BMI and daily calorie calculator. Enter gender, age, height and weight to get your BMI (Chinese and WHO standards), healthy weight range, ideal weight, BMR and TDEE, plus cutting, bulking and maintenance calorie targets with macronutrient plans, all computed locally in your browser.</p>
+    </section>
+
+    <section class="tool-panel">
+
+      <div class="unit-row">
+        <div class="radio-row" id="unitRow" role="radiogroup" aria-label="Unit System">
+          <label class="checked"><input type="radio" name="unit" value="metric" checked>Metric cm/kg</label>
+          <label><input type="radio" name="unit" value="imperial">Imperial ft/in / lb</label>
+        </div>
+        <span class="badge blue">Mifflin-St Jeor formula</span>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-item">
+          <label>Gender</label>
+          <div class="radio-row" id="sexRow" role="radiogroup" aria-label="Gender">
+            <label class="checked"><input type="radio" name="sex" value="male" checked>Male</label>
+            <label><input type="radio" name="sex" value="female">Female</label>
+          </div>
+        </div>
+        <div class="form-item">
+          <label for="age">Age (years)</label>
+          <input type="number" id="age" class="form-input" value="30" min="10" max="100" step="1">
+        </div>
+        <div class="form-item" id="cmWrap">
+          <label for="cm">Height (cm)</label>
+          <input type="number" id="cm" class="form-input" value="170" min="50" max="250" step="0.5">
+        </div>
+        <div class="form-item" id="ftWrap" hidden>
+          <label for="ft">Height (ft / in)</label>
+          <div class="ft-row">
+            <input type="number" id="ft" class="form-input" value="5" min="1" max="8" step="1" aria-label="Feet">
+            <span class="ft-sep">ft</span>
+            <input type="number" id="inch" class="form-input" value="7" min="0" max="11" step="1" aria-label="Inches">
+            <span class="ft-sep">in</span>
+          </div>
+        </div>
+        <div class="form-item" id="kgWrap">
+          <label for="kg">Weight (kg)</label>
+          <input type="number" id="kg" class="form-input" value="65" min="20" max="300" step="0.5">
+        </div>
+        <div class="form-item" id="lbWrap" hidden>
+          <label for="lb">Weight (lb)</label>
+          <input type="number" id="lb" class="form-input" value="143" min="40" max="660" step="1">
+        </div>
+        <div class="form-item">
+          <label for="activity">Activity Factor</label>
+          <select id="activity" class="form-select">
+            <option value="1.2">Bedridden / sedentary (1.2)</option>
+            <option value="1.375" selected>Lightly active (1.375)</option>
+            <option value="1.55">Moderately active (1.55)</option>
+            <option value="1.725">Very active (1.725)</option>
+            <option value="1.9">Extremely active / physical job (1.9)</option>
+          </select>
+        </div>
+        <div class="form-item">
+          <label>Goal</label>
+          <div class="radio-row goal-radio" id="goalRow" role="radiogroup" aria-label="Goal">
+            <label class="checked"><input type="radio" name="goal" value="cut" checked>Fat Loss</label>
+            <label><input type="radio" name="goal" value="maintain">Maintain</label>
+            <label><input type="radio" name="goal" value="bulk">Muscle Gain</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="op-row">
+        <button class="btn btn-primary" id="btnCalc" type="button">Calculate</button>
+        <button class="btn" id="btnReset" type="button">Reset Defaults</button>
+      </div>
+
+      <div class="warn-note" id="bmiError" hidden></div>
+
+      <div class="result-grid">
+        <div class="result-card primary">
+          <div class="num" id="bmiVal">--</div>
+          <div class="label">BMI (China standard): <span id="chinaCat">--</span></div>
+        </div>
+        <div class="result-card">
+          <div class="num" id="healthyRange">--</div>
+          <div class="label">Healthy Weight Range (BMI 18.5-23.9)</div>
+        </div>
+        <div class="result-card">
+          <div class="num" id="idealWeight">--</div>
+          <div class="label">Ideal Weight (Devine formula)</div>
+        </div>
+        <div class="result-card">
+          <div class="num" id="bmrVal">--</div>
+          <div class="label">Basal Metabolic Rate BMR (kcal/day)</div>
+        </div>
+        <div class="result-card">
+          <div class="num" id="tdeeVal">--</div>
+          <div class="label">Total Daily Energy Expenditure TDEE (kcal/day)</div>
+        </div>
+        <div class="result-card">
+          <div class="num" id="goalVal">--</div>
+          <div class="label" id="goalLabel">Target Calories (Fat Loss)</div>
+        </div>
+      </div>
+
+      <div class="bmi-scale">
+        <div class="scale-bar" aria-hidden="true">
+          <div class="seg seg-thin"></div>
+          <div class="seg seg-normal"></div>
+          <div class="seg seg-over"></div>
+          <div class="seg seg-fat"></div>
+          <div class="scale-pointer" id="bmiPointer" style="left:0%;"></div>
+        </div>
+        <div class="scale-ticks" id="scaleTicks" aria-hidden="true">
+          <span style="left:0%;">15</span>
+          <span style="left:14%;">18.5</span>
+          <span style="left:36%;">24</span>
+          <span style="left:52%;">28</span>
+          <span style="left:100%;">40</span>
+        </div>
+        <div class="scale-legend">
+          <span><i style="background:#93c5fd;"></i>Underweight &lt;18.5</span>
+          <span><i style="background:#6ee7b7;"></i>Normal 18.5-24</span>
+          <span><i style="background:#fcd34d;"></i>Overweight 24-28</span>
+          <span><i style="background:#fca5a5;"></i>Obese ≥28</span>
+        </div>
+      </div>
+
+      <p class="weekly-tip" id="weeklyTip"></p>
+
+      <div class="table-wrap">
+        <table class="data-table" id="macroTable">
+          <thead>
+            <tr id="macroHead">
+              <th>Plan</th>
+              <th>Carbohydrates (g)</th>
+              <th>Protein (g)</th>
+              <th>Fat (g)</th>
+            </tr>
+          </thead>
+          <tbody id="macroBody"></tbody>
+        </table>
+      </div>
+
+      <div class="info-note" id="whoNote">WHO standard: <b id="whoCat">--</b>(Underweight &lt;18.5 · Normal 18.5-24.9 · Overweight 25-29.9 · Obese ≥30)</div>
+
+      <div class="warn-note">Disclaimer: the results are for reference only and do not constitute medical advice. For weight loss, weight gain or special health conditions, please consult a doctor or a registered dietitian.</div>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>What BMI is considered normal? What is the difference between the Chinese and WHO standards?</h3>
+        <p>Chinese standard: under 18.5 underweight, 18.5-23.9 normal, 24-27.9 overweight, 28 and above obese. WHO standard: under 18.5 underweight, 18.5-24.9 normal, 25-29.9 overweight, 30 and above obese. Asian populations tend to carry more body fat at the same BMI, so the Chinese standard has a lower upper limit.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is the difference between BMR and TDEE? How do I choose the activity factor?</h3>
+        <p>BMR (basal metabolic rate) is the minimum energy needed to sustain life at rest, calculated here with the Mifflin-St Jeor equation. TDEE (total daily energy expenditure) = BMR × activity factor, reflecting total burn including daily activity and exercise. Bedridden is about 1.2, lightly active 1.375, moderately active 1.55, very active 1.725 and extremely active 1.9; pick the level closest to your weekly exercise frequency.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Is it safe to eat 500 kcal less per day for fat loss?</h3>
+        <p>A 500 kcal deficit below TDEE corresponds to losing about 0.5 kg per week, a moderate and sustainable pace. For muscle gain, add 300 kcal above TDEE and pair it with resistance training. Individual results vary; pregnant women, teenagers and people with chronic conditions should adjust under professional guidance.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/bmi-calculator.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

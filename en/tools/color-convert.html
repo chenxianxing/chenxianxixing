@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Color Converter - HEX/RGB/HSL/HSV Online Tool | Online Tools</title>
+  <meta name="description" content="Free online color converter with a color picker and HEX, RGB, HSL and HSV conversion. Features real-time preview, complementary colors, light and dark variants, rgba/hsla with opacity, plus a quick reference of common web colors. All calculations run locally in your browser.">
+  <meta name="keywords" content="Color Converter, Color Picker, HSV, Hex Color">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/color-convert.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Color Converter - HEX/RGB/HSL/HSV Online Tool">
+  <meta property="og:description" content="Online color converter with color picker, HEX/RGB/HSL/HSV conversion, real-time preview and derived colors.">
+  <meta property="og:url" content="https://example.com/en/tools/color-convert.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%A8%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Color Converter",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online color converter with color picker, HEX/RGB/HSL/HSV conversion and derived color generation.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Color Picker", "HEX Conversion", "RGB Conversion", "HSL Conversion", "HSV Conversion", "Live Preview", "Complementary", "Light/Dark Variants", "rgba/hsla Opacity", "Common Web Colors"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the difference between HEX, RGB, HSL and HSV?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "HEX and RGB are essentially the same: both represent colors with red, green and blue channels, and HEX is just a hexadecimal shorthand. HSL uses hue, saturation and lightness, while HSV uses hue, saturation and value. These models match human color perception more intuitively and make color adjustment easier."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I represent colors with transparency?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Add an alpha channel to RGB or HSL: rgba(r,g,b,a) or hsla(h,s,l,a), where a ranges from 0 to 1. This tool provides an opacity slider and outputs rgba/hsla in real time."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How is the complementary color calculated?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "In the HSL/HSV color space, rotating the hue by 180 degrees gives the complementary color, which sits directly opposite on the color wheel and is often used for color contrast. This tool also provides light and dark variants."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .cc-grid {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+    .cc-preview-wrap {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      background-color: #fff;
+      background-image:
+        linear-gradient(45deg, #e5e7eb 25%, transparent 25%),
+        linear-gradient(-45deg, #e5e7eb 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #e5e7eb 75%),
+        linear-gradient(-45deg, transparent 75%, #e5e7eb 75%);
+      background-size: 18px 18px;
+      background-position: 0 0, 0 9px, 9px -9px, -9px 0;
+    }
+    .cc-preview {
+      height: 200px;
+      width: 100%;
+    }
+    .cc-preview-hex {
+      text-align: center;
+      font-size: 16px;
+      font-weight: 700;
+      padding: 10px;
+      background: rgba(255,255,255,0.85);
+      border-top: 1px solid var(--border);
+      font-variant-numeric: tabular-nums;
+    }
+    .cc-controls .form-item { margin-bottom: 12px; }
+    .cc-triple {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .cc-triple .form-item { margin-bottom: 0; }
+    .cc-alpha {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .cc-alpha input[type="range"] { flex: 1; }
+    .cc-seg-title {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 600;
+      margin: 16px 0 8px;
+    }
+    .cc-derived {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .cc-deriv-card {
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      overflow: hidden;
+      background: var(--card);
+    }
+    .cc-deriv-swatch { height: 56px; }
+    .cc-deriv-info { padding: 8px 10px; font-size: 13px; }
+    .cc-deriv-info .nm { font-weight: 600; }
+    .cc-deriv-info .vl { color: var(--muted); font-variant-numeric: tabular-nums; word-break: break-all; }
+    .cc-palette {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .cc-swatch {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      background: var(--card);
+    }
+    .cc-swatch .sw { height: 44px; }
+    .cc-swatch .lb { padding: 6px 8px; font-size: 12px; }
+    .cc-swatch .lb .hex { color: var(--muted); font-variant-numeric: tabular-nums; }
+    @media (max-width: 720px) {
+      .cc-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/color-convert.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/color-convert.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/color-convert.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/color-convert.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>Color Converter</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🎨</div>
+        <h1>Color Converter</h1>
+      </div>
+      <p class="tool-desc">Online color converter supporting conversion between HEX, RGB, HSL and HSV with a color picker, large real-time preview, complementary colors, light and dark variants, rgba/hsla with opacity, and a quick reference of common web colors.</p>
+    </section>
+
+    <section class="tool-panel">
+
+      <div class="cc-grid">
+        <div>
+          <div class="cc-preview-wrap">
+            <div class="cc-preview" id="ccPreview"></div>
+            <div class="cc-preview-hex" id="ccPreviewHex">#000000</div>
+          </div>
+          <div class="cc-seg-title">Opacity (Alpha)</div>
+          <div class="cc-alpha">
+            <input type="range" id="ccAlpha" min="0" max="100" value="100">
+            <span id="ccAlphaVal" style="font-size:13px; min-width:42px; text-align:right;">100%</span>
+          </div>
+        </div>
+
+        <div class="cc-controls">
+          <div class="form-item">
+            <label for="ccPicker">Color Picker</label>
+            <input type="color" id="ccPicker" value="#3b82f6" style="width:100%; height:42px; border:1px solid var(--border); border-radius:9px; background:#fbfcfe; cursor:pointer;">
+          </div>
+          <div class="form-item">
+            <label for="ccHex">HEX</label>
+            <input type="text" id="ccHex" class="form-input" value="#3B82F6" spellcheck="false">
+          </div>
+          <div class="cc-seg-title">RGB</div>
+          <div class="cc-triple">
+            <div class="form-item"><label for="ccR">R (0-255)</label><input type="number" id="ccR" class="form-input" min="0" max="255" value="59"></div>
+            <div class="form-item"><label for="ccG">G (0-255)</label><input type="number" id="ccG" class="form-input" min="0" max="255" value="130"></div>
+            <div class="form-item"><label for="ccB">B (0-255)</label><input type="number" id="ccB" class="form-input" min="0" max="255" value="246"></div>
+          </div>
+          <div class="cc-seg-title">HSL</div>
+          <div class="cc-triple">
+            <div class="form-item"><label for="ccH">H (0-360)</label><input type="number" id="ccH" class="form-input" min="0" max="360" value="217"></div>
+            <div class="form-item"><label for="ccS">S (0-100)</label><input type="number" id="ccS" class="form-input" min="0" max="100" value="91"></div>
+            <div class="form-item"><label for="ccL">L (0-100)</label><input type="number" id="ccL" class="form-input" min="0" max="100" value="60"></div>
+          </div>
+          <div class="cc-seg-title">HSV</div>
+          <div class="cc-triple">
+            <div class="form-item"><label for="ccH2">H (0-360)</label><input type="number" id="ccH2" class="form-input" min="0" max="360" value="217"></div>
+            <div class="form-item"><label for="ccS2">S (0-100)</label><input type="number" id="ccS2" class="form-input" min="0" max="100" value="76"></div>
+            <div class="form-item"><label for="ccV">V (0-100)</label><input type="number" id="ccV" class="form-input" min="0" max="100" value="96"></div>
+          </div>
+          <div class="warn-note" id="ccError" hidden></div>
+        </div>
+      </div>
+
+      <div class="op-row" style="margin-top:16px;">
+        <button class="btn" data-copy-fmt="hex" type="button">Copy HEX</button>
+        <button class="btn" data-copy-fmt="rgb" type="button">Copy RGB</button>
+        <button class="btn" data-copy-fmt="hsl" type="button">Copy HSL</button>
+        <button class="btn" data-copy-fmt="rgba" type="button">Copy RGBA</button>
+      </div>
+
+      <h3 style="font-size:16px; margin:24px 0 4px;">Derived Colors</h3>
+      <div class="cc-derived" id="ccDerived"></div>
+
+      <h3 style="font-size:16px; margin:24px 0 4px;">Common Web Colors</h3>
+      <div class="cc-palette" id="ccPalette"></div>
+
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>What is the difference between HEX, RGB, HSL and HSV?</h3>
+        <p>HEX and RGB are essentially the same: both represent colors with red, green and blue channels, and HEX is just a hexadecimal shorthand. HSL uses hue, saturation and lightness, while HSV uses hue, saturation and value. These models match human color perception more intuitively and make color adjustment easier.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How do I represent colors with transparency?</h3>
+        <p>Add an alpha channel to RGB or HSL: rgba(r,g,b,a) or hsla(h,s,l,a), where a ranges from 0 to 1. This tool provides an opacity slider and outputs rgba/hsla in real time.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How is the complementary color calculated?</h3>
+        <p>In the HSL/HSV color space, rotating the hue by 180 degrees gives the complementary color, which sits directly opposite on the color wheel and is often used for color contrast. This tool also provides light and dark variants.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/color-convert.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

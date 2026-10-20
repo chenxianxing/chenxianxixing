@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image to Base64 - Online Image Base64 Encoder/Decoder | Online Tools</title>
+  <meta name="description" content="Free online image Base64 converter. Choose or drop an image to convert it to a DataURL, pure Base64, CSS background or HTML code in one click, and decode Base64 back to an image for preview and download locally in your browser. Nothing is ever uploaded to a server.">
+  <meta name="keywords" content="online tools, free tools, web tools, browser tools">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/image-base64.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Image to Base64 - Online Image Base64 Encoder/Decoder">
+  <meta property="og:description" content="Online tool for converting images to Base64 in multiple output formats and decoding Base64 back into images, fully processed locally.">
+  <meta property="og:url" content="https://example.com/en/tools/image-base64.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%96%BC%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Image to Base64",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online image Base64 converter supporting DataURL, pure Base64, CSS and HTML output, plus decoding Base64 back into images.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Image to DataURL", "Pure Base64 Output", "CSS Background Code", "HTML Image Code", "Base64 to Image", "Processed Locally, Nothing Uploaded"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the point of converting images to Base64?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Base64 can embed images directly into HTML, CSS or JSON, cutting extra network requests for small icons or multi-image pages and making single-file sharing and offline display easier. The trade-off is that the size grows by roughly 33% over the original file."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Could my images be leaked during conversion?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. All reading, encoding and decoding is done locally in your browser via FileReader; images are never uploaded to any server, so this is suitable for sensitive images."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does the tool determine the image type from pasted Base64?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "If the pasted content starts with data:, the MIME type inside it is used directly; for pure Base64, the tool automatically recognizes common formats such as PNG, JPEG, GIF and WEBP from the file header. If recognition fails, it falls back to PNG and shows a notice."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .drop-zone {
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 26px;
+      text-align: center;
+      color: var(--muted);
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      font-size: 14px;
+    }
+    .drop-zone:hover { border-color: var(--primary); background: var(--primary-light); }
+    .drop-zone.dragover { border-color: var(--primary); background: var(--primary-light); }
+    .preview-wrap { text-align: center; background:#fbfcfe; border:1px solid var(--border); border-radius:12px; padding:14px; margin-top:12px; }
+    .preview-wrap img { max-width: 100%; max-height: 280px; border-radius: 8px; }
+    .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px,1fr)); gap: 12px; margin-top: 12px; }
+    .info-card { background:#fbfcfe; border:1px solid var(--border); border-radius:11px; padding:12px 14px; }
+    .info-card .num { font-size:17px; font-weight:700; color:var(--primary); word-break:break-all; }
+    .info-card .label { font-size:13px; color:var(--muted); margin-top:2px; }
+    #b64Output { max-height: 320px; }
+    .split-2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    @media (max-width:720px){ .split-2{ grid-template-columns:1fr; } }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/image-base64.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/image-base64.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/image-base64.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/image-base64.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>Image to Base64</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🖼️</div>
+        <h1>Image to Base64</h1>
+      </div>
+      <p class="tool-desc">Online image to Base64 tool. Choose or drop an image to convert it to a DataURL, pure Base64, CSS background or HTML code in one click, and decode Base64 back into image previews and downloads. Everything is processed locally and never uploaded.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="op-row">
+        <div class="radio-row" id="b64FmtRow" role="radiogroup" aria-label="Output Format">
+          <label class="checked"><input type="radio" name="b64fmt" value="full" checked>Full DataURL</label>
+          <label><input type="radio" name="b64fmt" value="raw">Pure Base64</label>
+          <label><input type="radio" name="b64fmt" value="css">CSS Background</label>
+          <label><input type="radio" name="b64fmt" value="html">HTML Code</label>
+        </div>
+      </div>
+
+      <div class="drop-zone" id="dropZone">
+        Click to choose an image, or drag and drop one here (images only, up to 20MB each)
+      </div>
+      <input type="file" id="imgInput" accept="image/*" hidden>
+
+      <div class="preview-wrap" id="origPreviewWrap" hidden>
+        <img id="origPreview" alt="Original Preview">
+      </div>
+
+      <div class="info-grid" id="infoGrid" hidden>
+        <div class="info-card"><div class="num" id="infoName">-</div><div class="label">File Name</div></div>
+        <div class="info-card"><div class="num" id="infoType">-</div><div class="label">File Type</div></div>
+        <div class="info-card"><div class="num" id="infoSize">-</div><div class="label">Original Size</div></div>
+        <div class="info-card"><div class="num" id="infoB64Size">-</div><div class="label">Base64 Size</div></div>
+      </div>
+
+      <div style="margin-top:14px;">
+        <label style="font-size:13px;color:var(--muted);font-weight:500;">Output</label>
+        <div class="code-box" id="b64Output" readonly style="margin-top:6px;"></div>
+      </div>
+
+      <div class="op-row" style="margin-top:12px;">
+        <button class="btn btn-primary" id="btnCopyB64" type="button">Copy result</button>
+        <button class="btn" id="btnDownloadTxt" type="button">Download .txt</button>
+        <span class="spacer"></span>
+        <button class="btn" id="btnClearImg" type="button">Clear</button>
+      </div>
+
+      <div class="warn-note" id="b64Error" hidden></div>
+
+      <hr style="border:none;border-top:1px solid var(--border);margin:22px 0 18px;">
+
+      <h3 style="font-size:16px;margin-bottom:12px;">Decode Base64 Back to an Image</h3>
+      <div class="form-item">
+        <label for="b64Paste">Paste Base64 (with or without the data: prefix)</label>
+        <textarea id="b64Paste" class="form-input" rows="4" placeholder="Paste the Base64 of an image or a full DataURL and the tool will decode it back into an image" spellcheck="false"></textarea>
+      </div>
+      <div class="op-row" style="margin-top:10px;">
+        <button class="btn btn-primary" id="btnRestore" type="button">Decode Image</button>
+        <button class="btn" id="btnDownloadImg" type="button" disabled>Download Image</button>
+        <span class="spacer"></span>
+        <button class="btn" id="btnClearPaste" type="button">Clear</button>
+      </div>
+
+      <div class="preview-wrap" id="reverseWrap" hidden>
+        <img id="reversePreview" alt="Decoded Image Preview">
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>What is the point of converting images to Base64?</h3>
+        <p>Base64 can embed images directly into HTML, CSS or JSON, cutting extra network requests for small icons or multi-image pages and making single-file sharing and offline display easier. The trade-off is that the size grows by roughly 33% over the original file.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Could my images be leaked during conversion?</h3>
+        <p>No. All reading, encoding and decoding is done locally in your browser via FileReader; images are never uploaded to any server, so this is suitable for sensitive images.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How does the tool determine the image type from pasted Base64?</h3>
+        <p>If the pasted content starts with data:, the MIME type inside it is used directly; for pure Base64, the tool automatically recognizes common formats such as PNG, JPEG, GIF and WEBP from the file header. If recognition fails, it falls back to PNG and shows a notice.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/image-base64.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

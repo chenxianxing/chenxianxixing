@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JWT Decoder - Online JWT Decoding / Token Parser | Online Tools</title>
+  <meta name="description" content="Free online JWT decoder: decode three-part (Header.Payload.Signature) JSON Web Tokens in real time, safely handle base64url, highlight standard claims such as iss, sub, aud, exp, iat, nbf and jti, and convert them into human-readable times. All parsing is done locally in the browser.">
+  <meta name="keywords" content="JWT Decoder, JSON Web Token, online tools, free tools, web tools, browser tools">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/jwt-decode.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="JWT Decoder - Online JWT Decoding / Token Parser">
+  <meta property="og:description" content="Decode three-part JSON Web Tokens in real time, highlight standard claims and convert them into human-readable times. Parsing is local and nothing is uploaded.">
+  <meta property="og:url" content="https://example.com/en/tools/jwt-decode.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%90%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "JWT Decoder",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online JWT decoder that decodes three-part JSON Web Tokens in real time and highlights standard claims.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Pretty-printed Header JSON", "Pretty-printed Payload JSON", "Raw Signature display", "Safe base64url decoding", "Standard claim highlighting and time conversion", "One-click copy of each part"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What parts make up a JWT?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A JWT (JSON Web Token) consists of three parts joined by dots: the first part is the Header (which declares the algorithm and type), the second is the Payload (which carries business and standard claims), and the third is the Signature (produced by signing the first two parts with a secret key). Decoding the first two parts lets you view the content, but the signature must be verified on the server with the secret key."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are the time fields exp, iat and nbf?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "They are all Unix timestamps in seconds: exp is the expiration time, iat is the issued-at time, and nbf means the token is not usable before this time (Not Before). This tool converts them into readable times and shows badges for exp, iat and nbf indicating whether the token has expired or taken effect."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is it safe to paste a JWT into a web page?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "All parsing in this tool is done locally in the browser and no token is ever uploaded to any server. However, you should still be careful about pasting tokens that contain sensitive information (such as identity or permissions) on untrusted third-party sites. Only parse tokens in trusted local tools."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .jwt-output-row { margin-top: 0; }
+    .jwt-part-label { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+    .jwt-part-label .badge { font-size: 11px; }
+    .jwt-claims { margin-top: 14px; }
+    .jwt-claims .claim-std { color: var(--primary); font-weight: 600; }
+    .jwt-time { font-size: 12px; color: var(--muted); margin-left: 8px; }
+    .jwt-warn { margin-top: 14px; }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/jwt-decode.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/jwt-decode.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/jwt-decode.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/jwt-decode.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>JWT Decoder</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🔐</div>
+        <h1>JWT Decoder</h1>
+      </div>
+      <p class="tool-desc">Online JSON Web Token parser: decode three-part tokens (Header / Payload / Signature) in real time, safely handle base64url, highlight standard claims and convert them into human-readable times. All parsing is done locally in the browser and nothing is uploaded to a server.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="form-item">
+        <label for="jwtInput">JWT (paste the complete three-part token)</label>
+        <textarea id="jwtInput" class="form-input code-box editable" rows="4" spellcheck="false" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IuW8oOS4iSIsImlhdCI6MTUxNjIzOTAyMn0.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"></textarea>
+      </div>
+
+      <div class="warn-note" id="jwtError" hidden></div>
+
+      <div class="split-2 jwt-output-row" style="margin-top:16px;">
+        <div class="form-item">
+          <div class="jwt-part-label">
+            <label for="jwtHeader" style="margin:0;">Header</label>
+            <span class="badge blue">Pretty JSON</span>
+            <span class="spacer" style="flex:1;"></span>
+            <button class="btn" id="btnCopyHeader" type="button">Copy</button>
+          </div>
+          <textarea id="jwtHeader" class="form-input code-box" rows="8" readonly spellcheck="false" placeholder="Header (decoded)"></textarea>
+        </div>
+        <div class="form-item">
+          <div class="jwt-part-label">
+            <label for="jwtPayload" style="margin:0;">Payload</label>
+            <span class="badge blue">Pretty JSON</span>
+            <span class="spacer" style="flex:1;"></span>
+            <button class="btn" id="btnCopyPayload" type="button">Copy</button>
+          </div>
+          <textarea id="jwtPayload" class="form-input code-box" rows="8" readonly spellcheck="false" placeholder="Payload (decoded)"></textarea>
+        </div>
+      </div>
+
+      <div class="form-item" style="margin-top:14px;">
+        <div class="jwt-part-label">
+          <label for="jwtSig" style="margin:0;">Signature</label>
+          <span class="badge">Raw (not decoded)</span>
+          <span class="spacer" style="flex:1;"></span>
+          <button class="btn" id="btnCopySig" type="button">Copy</button>
+        </div>
+        <textarea id="jwtSig" class="form-input code-box" rows="3" readonly spellcheck="false" placeholder="Signature (raw)"></textarea>
+      </div>
+
+      <div class="jwt-claims" id="jwtClaims" hidden>
+        <label style="font-size:13px;color:var(--muted);font-weight:500;">Standard Claims</label>
+        <div class="table-wrap" style="margin-top:8px;">
+          <table class="data-table">
+            <thead>
+              <tr><th>Field</th><th>Value</th><th>Notes</th></tr>
+            </thead>
+            <tbody id="jwtClaimsBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="jwt-warn">
+        <div class="info-note" style="margin-top:0;">
+          <b>Security note: </b>The first two parts of a JWT (Header and Payload) are only base64url-encoded, <b>not encrypted</b>, so anyone can decode and view the contents. Real tamper protection comes from the third part, the Signature. Do not paste tokens containing sensitive identity or permission information on untrusted sites. This tool only parses data locally and never uploads anything.
+        </div>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>What parts make up a JWT?</h3>
+        <p>A JWT (JSON Web Token) consists of three parts joined by dots: the first part is the Header (which declares the algorithm and type), the second is the Payload (which carries business and standard claims), and the third is the Signature (produced by signing the first two parts with a secret key). Decoding the first two parts lets you view the content, but the signature must be verified on the server with the secret key.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What are the time fields exp, iat and nbf?</h3>
+        <p>They are all Unix timestamps in seconds: exp is the expiration time, iat is the issued-at time, and nbf means the token is not usable before this time (Not Before). This tool converts them into readable times and shows badges for exp, iat and nbf indicating whether the token has expired or taken effect.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Is it safe to paste a JWT into a web page?</h3>
+        <p>All parsing in this tool is done locally in the browser and no token is ever uploaded to any server. However, you should still be careful about pasting tokens that contain sensitive information (such as identity or permissions) on untrusted third-party sites. Only parse tokens in trusted local tools.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/jwt-decode.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

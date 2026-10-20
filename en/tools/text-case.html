@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Case Converter - Online Letter Case & Naming Convention Tool | Online Tools</title>
+  <meta name="description" content="Free online case converter that supports UPPERCASE, lowercase, Title Case, Sentence case, swap case, and naming conventions including camelCase, PascalCase, snake_case, kebab-case and CONSTANT_CASE. Multi-select and combine in order.">
+  <meta name="keywords" content="Case Converter, camelCase, PascalCase, snake_case, kebab-case, CONSTANT_CASE">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/text-case.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Case Converter - Online Letter Case & Naming Convention Tool">
+  <meta property="og:description" content="Online case converter with multiple case and naming convention conversions. Multi-select and combine in order, with real-time preview and one-click copy.">
+  <meta property="og:url" content="https://example.com/en/tools/text-case.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%A0%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Case Converter",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online case converter with multiple case and naming convention conversions. Multi-select and combine in order.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["UPPERCASE / lowercase", "Title Case", "Sentence case", "Swap case", "camelCase/PascalCase", "snake_case/kebab-case/CONSTANT_CASE", "Multi-select & combine in order"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Can multiple conversions be combined?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. All mode buttons support multi-select and conversions are applied in the order listed on the page. For example, choosing lowercase first and then snake_case will normalize any text into underscore naming."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between camelCase and PascalCase?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "In camelCase (lower camel case), the first word starts lowercase and each subsequent word starts uppercase, e.g. myVariableName. In PascalCase (upper camel case), every word starts uppercase, e.g. MyVariableName. Both are common naming conventions in different programming languages."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is CONSTANT_CASE?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "CONSTANT_CASE, also known as upper snake case, uses all uppercase letters with words separated by underscores, e.g. MAX_COUNT. It is commonly used for naming constants, enum values or configuration items."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .tc-modes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .tc-mode {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: #fbfcfe;
+      color: var(--muted);
+      font-size: 13.5px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .tc-mode input { display: none; }
+    .tc-mode.active {
+      background: var(--primary);
+      color: #fff;
+      -webkit-text-fill-color: #fff;
+      border-color: var(--primary);
+    }
+    .tc-mode .ex {
+      font-family: "SFMono-Regular", Consolas, monospace;
+      font-size: 12px;
+      opacity: 0.85;
+    }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/text-case.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/text-case.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/text-case.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/text-case.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>Case Converter</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🔠</div>
+        <h1>Case Converter</h1>
+      </div>
+      <p class="tool-desc">Online letter case and naming convention converter that supports UPPERCASE, lowercase, Title Case, Sentence case, swap case, plus camelCase, PascalCase, snake_case, kebab-case and CONSTANT_CASE. Multi-select and combine in order, with real-time preview.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="form-item" style="margin-bottom:14px;">
+        <label>Conversion modes (multi-select, applied in list order)</label>
+        <div class="tc-modes" id="tcModes">
+          <label class="tc-mode"><input type="checkbox" value="upper"> UPPERCASE</label>
+          <label class="tc-mode"><input type="checkbox" value="lower"> lowercase</label>
+          <label class="tc-mode"><input type="checkbox" value="capitalize"> Title Case</label>
+          <label class="tc-mode"><input type="checkbox" value="sentence"> Sentence case</label>
+          <label class="tc-mode"><input type="checkbox" value="toggle"> Swap case</label>
+          <label class="tc-mode"><input type="checkbox" value="camel"> camelCase <span class="ex">myVar</span></label>
+          <label class="tc-mode"><input type="checkbox" value="pascal"> PascalCase <span class="ex">MyVar</span></label>
+          <label class="tc-mode"><input type="checkbox" value="snake"> snake_case <span class="ex">my_var</span></label>
+          <label class="tc-mode"><input type="checkbox" value="kebab"> kebab-case <span class="ex">my-var</span></label>
+          <label class="tc-mode"><input type="checkbox" value="constant"> CONSTANT_CASE <span class="ex">MY_VAR</span></label>
+        </div>
+      </div>
+
+      <div class="split-2">
+        <div class="form-item">
+          <label for="tcInput">Original Text</label>
+          <textarea id="tcInput" class="form-input" rows="10" placeholder="Enter the English text to convert, e.g. hello world example" spellcheck="false"></textarea>
+        </div>
+        <div class="form-item">
+          <label for="tcOutput">Result</label>
+          <textarea id="tcOutput" class="form-input" rows="10" readonly placeholder="The conversion result will appear here" spellcheck="false"></textarea>
+        </div>
+      </div>
+
+      <div class="op-row" style="margin-top:14px; margin-bottom:0;">
+        <button class="btn btn-primary" id="btnCopy" type="button">Copy result</button>
+        <button class="btn" id="btnSwap" type="button">Swap Input & Output</button>
+        <span class="spacer"></span>
+        <button class="btn" id="btnClear" type="button">Clear</button>
+      </div>
+
+      <p class="wc-note">Note: multiple modes can be checked at once and are applied in this order: UPPERCASE, lowercase, Title Case, Sentence case, swap case, camel, pascal, snake, kebab, CONSTANT_CASE. Naming convention modes first split the text into words (including camelCase boundaries and symbol separators) and then recombine them.</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>Can multiple conversions be combined?</h3>
+        <p>Yes. All mode buttons support multi-select and conversions are applied in the order listed on the page. For example, choosing lowercase first and then snake_case will normalize any text into underscore naming.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is the difference between camelCase and PascalCase?</h3>
+        <p>In camelCase (lower camel case), the first word starts lowercase and each subsequent word starts uppercase, e.g. myVariableName. In PascalCase (upper camel case), every word starts uppercase, e.g. MyVariableName. Both are common naming conventions in different programming languages.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is CONSTANT_CASE?</h3>
+        <p>CONSTANT_CASE, also known as upper snake case, uses all uppercase letters with words separated by underscores, e.g. MAX_COUNT. It is commonly used for naming constants, enum values or configuration items.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/text-case.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

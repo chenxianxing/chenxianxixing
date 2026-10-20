@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SQL Dump Generator - Online INSERT Statement Generator | Online Tools</title>
+  <meta name="description" content="Free online SQL dump generator that turns a table name plus a JSON array or CSV/TSV data into INSERT INTO statements in one click, with support for multi-value batch inserts, column selection, backquoted fields, NULL handling and single-quote escaping, plus copy and download.">
+  <meta name="keywords" content="SQL Dump, INSERT INTO, online tools, free tools, web tools, browser tools">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/sql-dump.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="SQL Dump Generator - Online INSERT Statement Generator">
+  <meta property="og:description" content="Generate INSERT statements from JSON or CSV data in one click, with multi-value batch inserts and column selection.">
+  <meta property="og:url" content="https://example.com/en/tools/sql-dump.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%92%BE%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "SQL Dump Generator",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online INSERT statement generator that converts JSON/CSV data into multi-value INSERT statements.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["JSON/CSV data to INSERT", "Multi-value batch insert (1/10/50/100 rows)", "Select specific columns", "Backquoted field names", "Output NULL for empty values", "Single-quote escaping and download"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Which data input formats are supported?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "JSON arrays of objects are supported, as are CSV/TSV tables with a header row separated by commas or tabs; the tool detects the delimiter automatically and extracts the column names."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What does Rows per INSERT mean?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It determines how many rows of data are combined into the multi-value form of a single INSERT statement (e.g. one statement per 10 rows). Smaller values produce more statements, larger values produce longer single statements; choose based on your database limits."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How are single quotes inside strings handled?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The tool automatically writes single quotes inside strings as two single quotes ('') to comply with the SQL standard. Empty strings or missing values are converted to the NULL keyword when Output NULL for empty values is enabled."
+        }
+      }
+    ]
+  }
+  </script>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/sql-dump.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/sql-dump.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/sql-dump.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/sql-dump.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>SQL Dump Generator</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">💾</div>
+        <h1>SQL Dump Generator</h1>
+      </div>
+      <p class="tool-desc">Online INSERT statement generator that builds INSERT INTO statements from a table name plus a JSON array or CSV/TSV data, with multi-value batch inserts, column selection, backquoted fields and NULL handling.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="form-grid">
+        <div class="form-item">
+          <label for="tblName">Table Name</label>
+          <input type="text" id="tblName" class="form-input" value="users" placeholder="e.g. users">
+        </div>
+        <div class="form-item">
+          <label for="dataFmt">Data Format</label>
+          <select id="dataFmt" class="form-select">
+            <option value="json">JSON Array</option>
+            <option value="csv">CSV/TSV Table</option>
+          </select>
+        </div>
+        <div class="form-item">
+          <label for="rowsPer">Rows per INSERT</label>
+          <select id="rowsPer" class="form-select">
+            <option value="1">1 (one row per statement)</option>
+            <option value="10" selected>10</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="checkbox-row">
+        <label><input type="checkbox" id="quoteCols" checked> Backquote field names</label>
+        <label><input type="checkbox" id="nullAsNull" checked> Output NULL for empty values</label>
+      </div>
+
+      <div class="form-item" style="margin-top:14px;">
+        <label for="dataInput">Data input (JSON array or CSV/TSV with header row)</label>
+        <textarea id="dataInput" class="form-input" rows="10" placeholder='[{"id":1,"name":"张三","age":18},{"id":2,"name":"李四","age":21}]' spellcheck="false"></textarea>
+      </div>
+
+      <div class="form-item" style="margin-top:14px;">
+        <label>Select columns (all by default, generated in order)</label>
+        <div class="checkbox-row" id="colList" style="gap:18px;"></div>
+      </div>
+
+      <div class="op-row" style="margin-top:14px; margin-bottom:0;">
+        <button class="btn btn-primary" id="btnGen" type="button">Generate INSERT</button>
+        <button class="btn" id="btnExample" type="button">Sample Data</button>
+        <span class="spacer"></span>
+        <button class="btn" id="btnClear" type="button">Clear</button>
+      </div>
+
+      <div class="warn-note" id="dumpErr" hidden></div>
+
+      <div class="form-item" style="margin-top:16px;">
+        <label>SQL Output</label>
+        <div class="code-box" id="dumpOut"></div>
+      </div>
+
+      <div class="op-row" style="margin-top:12px; margin-bottom:0;">
+        <button class="btn" id="btnCopyDump" type="button">Copy</button>
+        <button class="btn" id="btnDownloadDump" type="button">Download .sql</button>
+        <span class="spacer"></span>
+        <span class="badge blue" id="dumpStat"></span>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>Which data input formats are supported?</h3>
+        <p>JSON arrays of objects are supported, as are CSV/TSV tables with a header row separated by commas or tabs; the tool detects the delimiter automatically and extracts the column names.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What does Rows per INSERT mean?</h3>
+        <p>It determines how many rows of data are combined into the multi-value form of a single INSERT statement (e.g. one statement per 10 rows). Smaller values produce more statements, larger values produce longer single statements; choose based on your database limits.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How are single quotes inside strings handled?</h3>
+        <p>The tool automatically writes single quotes inside strings as two single quotes ('') to comply with the SQL standard. Empty strings or missing values are converted to the NULL keyword when Output NULL for empty values is enabled.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/sql-dump.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

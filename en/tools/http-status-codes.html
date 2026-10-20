@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTTP Status Codes - Complete Meanings and Handling Tips | Online Tools</title>
+  <meta name="description" content="Free online HTTP status code reference covering 60+ codes from 1xx to 5xx, with standard English names, descriptions and common causes with handling tips. Supports fuzzy search by code or name and category filtering; all lookups run locally.">
+  <meta name="keywords" content="200, 404, 500, HTTP Status Code">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/http-status-codes.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="HTTP Status Codes - Complete Meanings and Handling Tips">
+  <meta property="og:description" content="Covers 60+ HTTP status codes from 1xx to 5xx, with standard English names, descriptions and common causes with handling tips, plus search and category filtering.">
+  <meta property="og:url" content="https://example.com/en/tools/http-status-codes.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%A1%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "HTTP Status Codes",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online HTTP status code reference covering 60+ codes from 1xx to 5xx, with standard English names, descriptions and common causes with handling tips, plus search and category filtering.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Search by status code", "Fuzzy match by name/description", "Category filtering for 1xx-5xx", "Expand a card to view details", "Local offline lookup"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the difference between 301 and 302 redirects?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "301 Moved Permanently means the resource has moved to a new address permanently, and browsers and search engines will update bookmarks and indexes; 302 Found means a temporary jump and the original address is still in use. Both redirect automatically, but 301 passes SEO weight more explicitly. If you need to keep the original request method (e.g. POST stays POST), use 307 (temporary) or 308 (permanent)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between 401 and 403?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "401 Unauthorized means the request lacks valid authentication credentials and the server requires you to log in first or send a token; 403 Forbidden means you are authenticated but the current account has no permission to access the resource. In short: 401 asks who you are, while 403 says you do not have permission."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How should I handle 5xx errors?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "5xx indicates a server-side error. Common cases: 500 (code exception, check the server logs), 502/504 (no response from or timeout on the gateway/proxy upstream; check whether the backend is alive or overloaded), 503 (service temporarily unavailable, often during maintenance or rate limiting; retry later per the Retry-After header). Most 5xx errors require server-side troubleshooting; clients can retry first to confirm whether it is intermittent."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .hs-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .hs-search {
+      flex: 1;
+      min-width: 220px;
+    }
+    .hs-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .hs-tab {
+      font-size: 13.5px;
+      padding: 7px 14px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--card);
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.15s;
+      user-select: none;
+    }
+    .hs-tab:hover { border-color: var(--primary); color: var(--primary); }
+    .hs-tab.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+      -webkit-text-fill-color: #fff;
+    }
+    .hs-count {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .hs-list { display: flex; flex-direction: column; gap: 10px; }
+    .hs-card {
+      background: #fbfcfe;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      overflow: hidden;
+      transition: border-color 0.15s;
+    }
+    .hs-card:hover { border-color: #c7d2fe; }
+    .hs-card-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 16px;
+      cursor: pointer;
+    }
+    .hs-code {
+      font-size: 19px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      min-width: 46px;
+    }
+    .hs-name {
+      font-size: 14px;
+      font-weight: 600;
+      flex: 1;
+      min-width: 0;
+    }
+    .hs-name small {
+      display: block;
+      font-weight: 400;
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-top: 1px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .hs-toggle {
+      color: var(--muted);
+      font-size: 13px;
+      transition: transform 0.2s;
+    }
+    .hs-card.open .hs-toggle { transform: rotate(90deg); }
+    .hs-detail {
+      padding: 0 16px 16px 16px;
+      border-top: 1px solid var(--border);
+      margin-top: -1px;
+      padding-top: 14px;
+    }
+    .hs-detail .hs-advice {
+      font-size: 13.5px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-top: 8px;
+    }
+    .hs-detail .hs-advice b { color: var(--text); }
+    .cat-1xx .hs-code, .cat-1xx .badge { color: #2563eb; }
+    .cat-2xx .hs-code { color: #059669; }
+    .cat-3xx .hs-code { color: #7c3aed; }
+    .cat-4xx .hs-code { color: #d97706; }
+    .cat-5xx .hs-code { color: #dc2626; }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/http-status-codes.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/http-status-codes.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/http-status-codes.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/http-status-codes.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>HTTP Status Codes</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">📡</div>
+        <h1>HTTP Status Codes</h1>
+      </div>
+      <p class="tool-desc">Covers 60+ HTTP status codes from 1xx to 5xx, with standard English names, descriptions and common causes/handling tips. Supports fuzzy search by code, name or description and category filtering; all lookups run locally in your browser.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="hs-toolbar">
+        <input type="text" id="hsSearch" class="form-input hs-search" placeholder="Search status code / English name / description, e.g. 404, redirect, redirect" spellcheck="false" autocomplete="off">
+        <button class="btn" id="hsReset" type="button">Reset</button>
+      </div>
+
+      <div class="hs-tabs" id="hsTabs">
+        <span class="hs-tab active" data-cat="all">All</span>
+        <span class="hs-tab" data-cat="1xx">1xx Informational</span>
+        <span class="hs-tab" data-cat="2xx">2xx Success</span>
+        <span class="hs-tab" data-cat="3xx">3xx Redirect</span>
+        <span class="hs-tab" data-cat="4xx">4xx Client Error</span>
+        <span class="hs-tab" data-cat="5xx">5xx Server Error</span>
+      </div>
+
+      <div class="hs-count" id="hsCount"></div>
+      <div class="hs-list" id="hsList"></div>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>What is the difference between 301 and 302 redirects?</h3>
+        <p>301 Moved Permanently means the resource has moved to a new address permanently, and browsers and search engines will update bookmarks and indexes; 302 Found means a temporary jump and the original address is still in use. Both redirect automatically, but 301 passes SEO weight more explicitly. If you need to keep the original request method (e.g. POST stays POST), use 307 (temporary) or 308 (permanent).</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is the difference between 401 and 403?</h3>
+        <p>401 Unauthorized means the request lacks valid authentication credentials and the server requires you to log in first or send a token; 403 Forbidden means you are authenticated but the current account has no permission to access the resource. In short: 401 asks who you are, while 403 says you do not have permission.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How should I handle 5xx errors?</h3>
+        <p>5xx indicates a server-side error. Common cases: 500 (code exception, check the server logs), 502/504 (no response from or timeout on the gateway/proxy upstream; check whether the backend is alive or overloaded), 503 (service temporarily unavailable, often during maintenance or rate limiting; retry later per the Retry-After header). Most 5xx errors require server-side troubleshooting; clients can retry first to confirm whether it is intermittent.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/http-status-codes.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

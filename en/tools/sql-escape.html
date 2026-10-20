@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SQL Escape - Online SQL String Escaping and IN List Generation | Online Tools</title>
+  <meta name="description" content="Free online SQL escape tool supporting single-quote doubling, backslash, line break, carriage return, tab and NUL escaping, unescaping, and one-click generation of 'a','b','c' style IN lists from multi-line text, all processed locally in your browser.">
+  <meta name="keywords" content="SQL Escape, online tools, free tools, web tools, browser tools">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/sql-escape.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="SQL Escape - Online SQL String Escaping and IN List Generation">
+  <meta property="og:description" content="An all-in-one SQL escape tool with single-quote doubling, control character escaping and IN list generation, processed entirely locally.">
+  <meta property="og:url" content="https://example.com/en/tools/sql-escape.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%90%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "SQL Escape",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online SQL string escaping and IN list generation tool with single-quote doubling, control character escaping and unescaping.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Single-quote doubling escape", "Backslash escaping", "Line break/carriage return/tab/NUL escaping", "Unescape of escaped results", "Generate IN lists from multi-line text", "One-Click Copy"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Why escape SQL strings?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A single quote inside a string can break the SQL statement structure and even lead to SQL injection. Writing single quotes as two single quotes ('') is the most basic escaping method and ensures the string is parsed correctly by the database."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How are control characters such as line breaks and tabs escaped?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "工具会把实际的line break、回车、制表符与 NUL  characters分别Escape为 \\n、\\r、\\t、\\0 形式的Text，并把Tails斜杠本身Escape为 \\\\，便于Security地写入 SQL 语句。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is IN list generation for?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It automatically turns one value per line into a comma-separated form like 'a','b','c' that can be pasted directly into an IN (...) condition, removing blank lines and adding quotes automatically."
+        }
+      }
+    ]
+  }
+  </script>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/sql-escape.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/sql-escape.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/sql-escape.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/sql-escape.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>SQL Escape</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🔐</div>
+        <h1>SQL Escape</h1>
+      </div>
+      <p class="tool-desc">Online SQL string escaping and IN list generation tool supporting single-quote doubling, backslash and control character escaping, unescaping, and one-click IN list generation from multi-line text.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="op-row">
+        <div class="radio-row" id="modeRow" role="radiogroup" aria-label="Function">
+          <label class="checked"><input type="radio" name="mode" value="escape" checked>String Escape</label>
+          <label><input type="radio" name="mode" value="inlist">IN List Generation</label>
+        </div>
+      </div>
+
+      <!-- 字符串转义 -->
+      <div id="panelEscape">
+        <div class="op-row">
+          <div class="radio-row" id="dirRow" role="radiogroup" aria-label="Orientation">
+            <label class="checked"><input type="radio" name="dir" value="escape" checked>Escape</label>
+            <label><input type="radio" name="dir" value="unescape">Unescape</label>
+          </div>
+          <span class="spacer"></span>
+          <label class="checkbox-row" style="font-size:13px;"><input type="checkbox" id="wrapQuote" checked> Wrap result in single quotes</label>
+        </div>
+
+        <div class="split-2">
+          <div class="form-item">
+            <label for="escInput">Original Text</label>
+            <textarea id="escInput" class="form-input" rows="12" placeholder="O'Brien&#10;Line 1&#10;Line 2" spellcheck="false"></textarea>
+          </div>
+          <div class="form-item">
+            <label for="escOutput">Escape Result</label>
+            <textarea id="escOutput" class="form-input" rows="12" readonly placeholder="The result will appear here" spellcheck="false"></textarea>
+          </div>
+        </div>
+
+        <div class="op-row" style="margin-top:14px; margin-bottom:0;">
+          <button class="btn btn-primary" id="btnConvert" type="button">Convert</button>
+          <button class="btn" id="btnCopy" type="button">Copy result</button>
+          <span class="spacer"></span>
+          <button class="btn" id="btnClear" type="button">Clear</button>
+        </div>
+        <p class="wc-note">Note: escaping converts  <b>'</b>  into  <b>''</b>，<b>\</b>  into  <b>\\</b>, and line break/carriage return/tab/NUL into  <b>\n \r \t \0</b>. Unescape reverses the process. Checking Wrap result in single quotes encloses the whole result in single quotes.</p>
+      </div>
+
+      <!-- IN 列表 -->
+      <div id="panelInlist" hidden>
+        <div class="form-item" style="margin-bottom:14px;">
+          <label class="checkbox-row"><input type="checkbox" id="inParen"> Include parentheses ( )</label>
+        </div>
+        <div class="split-2">
+          <div class="form-item">
+            <label for="inInput">Multi-line text (one item per line)</label>
+            <textarea id="inInput" class="form-input" rows="12" placeholder="apple&#10;banana&#10;cherry&#10;&#10;(blank lines are ignored)" spellcheck="false"></textarea>
+          </div>
+          <div class="form-item">
+            <label for="inOutput">IN List Result</label>
+            <textarea id="inOutput" class="form-input" rows="12" readonly placeholder="'apple','banana','cherry'" spellcheck="false"></textarea>
+          </div>
+        </div>
+        <div class="op-row" style="margin-top:14px; margin-bottom:0;">
+          <button class="btn btn-primary" id="btnGenIn" type="button">Generate</button>
+          <button class="btn" id="btnCopyIn" type="button">Copy result</button>
+          <span class="spacer"></span>
+          <button class="btn" id="btnClearIn" type="button">Clear</button>
+        </div>
+        <p class="wc-note">Note: blank lines and leading/trailing whitespace are removed automatically, each item is wrapped in single quotes and joined with commas into a single line, ready to use in  <b>IN (...)</b>  conditions.</p>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>Why escape SQL strings?</h3>
+        <p>A single quote inside a string can break the SQL statement structure and even lead to SQL injection. Writing single quotes as two single quotes ('') is the most basic escaping method and ensures the string is parsed correctly by the database.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How are control characters such as line breaks and tabs escaped?</h3>
+        <p>The tool escapes actual line breaks, carriage returns, tabs and NUL characters into the text forms \n, \r, \t and \0 respectively, and escapes the backslash itself as \\, so the result can be written safely into SQL statements.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is IN list generation for?</h3>
+        <p>It automatically turns one value per line into a comma-separated form like 'a','b','c' that can be pasted directly into an IN (...) condition, removing blank lines and adding quotes automatically.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/sql-escape.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

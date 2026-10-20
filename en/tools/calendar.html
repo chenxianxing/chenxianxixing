@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calendar Tool - Online Calendar, Holiday Schedule & Countdown | Online Tools</title>
+  <meta name="description" content="Free online calendar tool with month view, today highlighting and Sunday/Monday week start switching. Built-in 2024-2027 Chinese public holiday and makeup workday data, date details, monthly workday statistics and a countdown to the next holiday. Runs entirely locally.">
+  <meta name="keywords" content="Public Holiday, Calendar Tool, online tools, free tools, web tools, browser tools">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/calendar.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Calendar Tool - Online Calendar, Holiday Schedule & Countdown">
+  <meta property="og:description" content="Online calendar tool with built-in 2024-2027 public holiday and makeup workday data, month view, date details, monthly statistics and a holiday countdown.">
+  <meta property="og:url" content="https://example.com/en/tools/calendar.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%85%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Calendar Tool",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线Calendar Tool，支持Month视图浏览、Monday/Sunday起始切换，内置2024-2027YearMedium国Public Holiday与Makeup Workday数据，提供Date Details、This Month与Holidays倒计时。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Month视图Calendar浏览", "Today高亮与非本Month淡化", "Monday/Sunday起始切换", "2024-2027Public Holiday数据", "Makeup Workday标记", "Date Details（Line 几days/Line 几Week/Days From Today）", "本MonthWorkday与Holidays统计", "Next Public Holiday倒计时", "keys盘快捷keys翻Month"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Which years of holiday data does the calendar tool support?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Public holiday arrangements for 2024 to 2027 are built in, covering New Year's Day, Spring Festival, Qingming Festival, Labour Day, Dragon Boat Festival, Mid-Autumn Festival and National Day, including holiday dates and makeup workdays. Dates from 2028 onward display normally but without holiday labels, until data can be added once official notices are published."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How are workdays and holidays counted in the monthly statistics?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Workdays are Monday to Friday dates outside holiday ranges, plus weekend dates marked as makeup workdays. Holidays are dates within official holiday ranges and may overlap with weekends. Weekends are Saturdays and Sundays. The three counts can add up to more than the days in the month because holidays and weekends overlap."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What keyboard shortcuts are available?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "When the page body has focus (shortcuts are inactive while an input is focused), press the left arrow ◀ for the previous month, the right arrow ▶ for the next month, and the letter T to jump back to the current month with today selected."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .cal-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .cal-title { display: flex; align-items: center; gap: 6px; }
+    .cal-title select { height: 34px; width: auto; padding: 0 8px; }
+    .cal-ym { font-size: 13px; color: var(--muted); }
+    .cal-week {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+    .cal-week span {
+      text-align: center;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--muted);
+      padding: 6px 0;
+    }
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+    }
+    .cal-cell {
+      position: relative;
+      min-height: 66px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      padding: 8px 8px 6px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      font-family: var(--font);
+      text-align: left;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .cal-cell:hover { border-color: var(--primary); background: var(--primary-light); }
+    .cal-num {
+      font-size: 15px;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      line-height: 1.2;
+    }
+    .cal-cell.other-month { background: #f9fafb; }
+    .cal-cell.other-month .cal-num { color: #b6bcc6; font-weight: 500; }
+    .cal-cell.today { border: 2px solid var(--primary); padding: 7px 7px 5px; }
+    .cal-cell.today .cal-num { color: var(--primary); }
+    .cal-cell.selected { background: var(--primary-light); border-color: var(--primary); }
+    .cal-cell.holiday { background: #f0fdf4; border-color: #bbf7d0; }
+    .cal-cell.holiday .cal-num { color: #047857; }
+    .cal-cell.makeup { background: #fffbeb; border-color: #fde68a; }
+    .cal-cell.makeup .cal-num { color: #b45309; }
+    .cal-cell.today.holiday, .cal-cell.today.makeup { border-width: 2px; }
+    .cal-fest {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 3px;
+      max-width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .cal-badge {
+      margin-top: auto;
+      font-size: 11px;
+      line-height: 1.6;
+      padding: 0 7px;
+      border-radius: 999px;
+    }
+    .cal-badge.rest { background: #ecfdf5; color: #059669; }
+    .cal-badge.work { background: #fef3c7; color: #b45309; }
+    .cal-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-top: 12px;
+    }
+    .cal-legend i {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+      margin-right: 5px;
+      vertical-align: -1px;
+    }
+    .detail-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin: 24px 0 4px;
+    }
+    @media (max-width: 640px) {
+      .cal-cell { min-height: 54px; padding: 6px 6px 4px; }
+      .cal-cell.today { padding: 5px 5px 3px; }
+      .cal-num { font-size: 13.5px; }
+      .cal-fest { font-size: 10px; }
+    }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/calendar.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/calendar.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/calendar.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/calendar.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>Calendar Tool</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">📅</div>
+        <h1>Calendar Tool</h1>
+      </div>
+      <p class="tool-desc">Online calendar tool with month view, today highlighting and Sunday/Monday week start switching. Built-in 2024-2027 Chinese public holiday arrangements and makeup workday data, date details, monthly workday statistics and a countdown to the next holiday. Runs entirely locally.</p>
+    </section>
+
+    <section class="tool-panel">
+
+      <div class="cal-toolbar">
+        <button class="btn" id="btnPrev" type="button">◀ Previous</button>
+        <button class="btn" id="btnNext" type="button">Next ▶</button>
+        <button class="btn btn-primary" id="btnToday" type="button">Today</button>
+        <span class="spacer"></span>
+        <div class="cal-title">
+          <select id="yearSel" class="form-select" aria-label="Year"></select>
+          <span class="cal-ym">Year</span>
+          <select id="monthSel" class="form-select" aria-label="Month"></select>
+          <span class="cal-ym">Month</span>
+        </div>
+        <div class="radio-row" id="weekStartRow" role="radiogroup" aria-label="Week Starts On">
+          <label class="checked"><input type="radio" name="ws" value="0" checked>Sunday</label>
+          <label><input type="radio" name="ws" value="1">Monday</label>
+        </div>
+      </div>
+
+      <div class="cal-week" id="calWeek"></div>
+      <div class="cal-grid" id="calGrid"></div>
+
+      <div class="cal-legend">
+        <span><i style="background:#f0fdf4;border:1px solid #bbf7d0;"></i>Public Holiday</span>
+        <span><i style="background:#fffbeb;border:1px solid #fde68a;"></i>Makeup Workday</span>
+        <span><i style="background:#fff;border:2px solid var(--primary);"></i>Today</span>
+      </div>
+
+      <div class="detail-title">Date Details</div>
+      <div class="result-grid" id="dayDetail">
+        <div class="result-card primary">
+          <div class="num" id="ddDate">--</div>
+          <div class="label">Gregorian Date</div>
+        </div>
+        <div class="result-card">
+          <div class="num" id="ddWeek">--</div>
+          <div class="label">Weekday</div>
+        </div>
+        <div class="result-card">
+          <div class="num" id="ddDayOfYear">--</div>
+          <div class="label">Day of Year</div>
+        </div>
+        <div class="result-card">
+          <div class="num" id="ddWeekNo">--</div>
+          <div class="label">Week of Year</div>
+        </div>
+        <div class="result-card">
+          <div class="num" id="ddDiff">--</div>
+          <div class="label">Days From Today</div>
+        </div>
+        <div class="result-card">
+          <div class="num" id="ddType">--</div>
+          <div class="label">Holiday / Workday</div>
+        </div>
+      </div>
+
+      <div class="detail-title">This Month</div>
+      <div class="result-grid">
+        <div class="result-card">
+          <div class="num" id="stDays">--</div>
+          <div class="label">Days in Month</div>
+        </div>
+        <div class="result-card">
+          <div class="num" id="stWork">--</div>
+          <div class="label">Workdays</div>
+        </div>
+        <div class="result-card">
+          <div class="num" id="stHoliday">--</div>
+          <div class="label">Holiday Days</div>
+        </div>
+        <div class="result-card">
+          <div class="num" id="stWeekend">--</div>
+          <div class="label">Weekend Days</div>
+        </div>
+      </div>
+
+      <div class="detail-title">Next Public Holiday</div>
+      <div class="result-grid">
+        <div class="result-card primary">
+          <div class="num" id="cdName">--</div>
+          <div class="label">Holiday Name</div>
+        </div>
+        <div class="result-card">
+          <div class="num" id="cdRange">--</div>
+          <div class="label">Holiday Dates</div>
+        </div>
+        <div class="result-card">
+          <div class="num" id="cdDays">--</div>
+          <div class="label">Countdown (days)</div>
+        </div>
+      </div>
+
+      <p class="info-note">Keyboard shortcuts: press ◀ / ▶ to switch to the previous or next month, and T to return to today. Shortcuts are inactive while an input or dropdown is focused. Holiday data comes from the State Council's annual holiday arrangements; data for 2028 and later is not yet available.</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>Which years of holiday data does the calendar tool support?</h3>
+        <p>Public holiday arrangements for 2024 to 2027 are built in, covering New Year's Day, Spring Festival, Qingming Festival, Labour Day, Dragon Boat Festival, Mid-Autumn Festival and National Day, including holiday dates and makeup workdays. Dates from 2028 onward display normally but without holiday labels, until data can be added once official notices are published.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How are workdays and holidays counted in the monthly statistics?</h3>
+        <p>Workdays are Monday to Friday dates outside holiday ranges, plus weekend dates marked as makeup workdays. Holidays are dates within official holiday ranges and may overlap with weekends. Weekends are Saturdays and Sundays. The three counts can add up to more than the days in the month because holidays and weekends overlap.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What keyboard shortcuts are available?</h3>
+        <p>When the page body has focus (shortcuts are inactive while an input is focused), press the left arrow ◀ for the previous month, the right arrow ▶ for the next month, and the letter T to jump back to the current month with today selected.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/calendar.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

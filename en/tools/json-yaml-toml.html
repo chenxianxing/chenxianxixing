@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON/YAML/TOML Converter - Online JSON to YAML/TOML Tool | Online Tools</title>
+  <meta name="description" content="Free online JSON/YAML/TOML converter supporting six directions: JSON to YAML, JSON to TOML, YAML to JSON, YAML to TOML, TOML to JSON and TOML to YAML. It auto-detects pasted formats, reports errors with line numbers, and runs entirely in your browser with no upload.">
+  <meta name="keywords" content="JSON Formatter, online tools, free tools, web tools, browser tools">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/json-yaml-toml.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="JSON/YAML/TOML Converter - Online Format Conversion Tool">
+  <meta property="og:description" content="Online tool for converting between JSON, YAML and TOML in six directions, with format auto-detection, line-numbered errors and local conversion without upload.">
+  <meta property="og:url" content="https://example.com/en/tools/json-yaml-toml.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%84%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "JSON/YAML/TOML Converter",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online JSON/YAML/TOML converter with six conversion directions, format auto-detection, line-numbered errors, all done locally in your browser.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["JSON to YAML", "JSON to TOML", "YAML to JSON", "YAML to TOML", "TOML to JSON", "TOML to YAML", "Auto-detect pasted format", "Line-numbered error hints", "Local conversion, no upload", "One-click copy and download"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Does converting between the three formats lose data?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "JSON, YAML and TOML all support strings, numbers, booleans, arrays and nested objects, so regular structures convert without data loss. Note that TOML has no null type and reports an error on null values; TOML datetimes are kept as strings; advanced YAML features such as anchors and aliases are expanded into plain structures during conversion."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why is there a null error when converting to TOML?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The TOML specification has no null type, which keeps its type system deterministic. When converting JSON or YAML to TOML, if the data contains null the tool points out the offending key; please remove that key or change its value to an empty string, 0, etc."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is the conversion done on a server?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. All parsing and generation happen locally in your browser. The page makes no network requests and your input is never uploaded to any server, so it is safe for configuration data containing sensitive information."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .mode-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .mode-tabs label {
+      padding: 8px 16px;
+      font-size: 14px;
+      cursor: pointer;
+      background: #fbfcfe;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+      user-select: none;
+    }
+    .mode-tabs input { display: none; }
+    .mode-tabs label.checked,
+    .mode-tabs label:has(input:checked) {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+      -webkit-text-fill-color: #fff;
+    }
+    .code-area {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, "Courier New", monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      min-height: 320px;
+    }
+    .block-title { font-size: 15px; font-weight: 600; margin: 22px 0 10px; }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/json-yaml-toml.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/json-yaml-toml.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/json-yaml-toml.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+        <span class="lang-switch"><a class="lang-link" href="../../tools/json-yaml-toml.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>JSON/YAML/TOML Converter</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🔄</div>
+        <h1>JSON/YAML/TOML Converter</h1>
+      </div>
+      <p class="tool-desc">Online converter between JSON, YAML and TOML, supporting JSON to YAML, JSON to TOML, YAML to JSON, YAML to TOML, TOML to JSON and TOML to YAML. It auto-detects pasted content, reports errors with line numbers, and performs all conversions locally in your browser.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="mode-tabs" id="ioTabs" role="tablist" aria-label="Conversion direction">
+        <label class="checked"><input type="radio" name="dir" value="json-yaml" checked>JSON → YAML</label>
+        <label><input type="radio" name="dir" value="json-toml">JSON → TOML</label>
+        <label><input type="radio" name="dir" value="yaml-json">YAML → JSON</label>
+        <label><input type="radio" name="dir" value="yaml-toml">YAML → TOML</label>
+        <label><input type="radio" name="dir" value="toml-json">TOML → JSON</label>
+        <label><input type="radio" name="dir" value="toml-yaml">TOML → YAML</label>
+      </div>
+
+      <div class="op-row">
+        <button class="btn btn-primary" id="btnConvert" type="button">Convert</button>
+        <label class="checkbox-row" style="font-size:13px;"><input type="checkbox" id="prettyOut" checked> Pretty output</label>
+        <label class="checkbox-row" style="font-size:13px;"><input type="checkbox" id="autoConvert" checked> Live conversion</label>
+        <span class="spacer"></span>
+        <span class="result-line" id="ioMeta"></span>
+      </div>
+
+      <div class="split-2">
+        <div class="form-item">
+          <label for="ioInput">Input</label>
+          <textarea id="ioInput" class="form-input code-area" rows="14" spellcheck="false" placeholder="Paste content here, JSON/YAML/TOML supported"></textarea>
+        </div>
+        <div class="form-item">
+          <label for="ioOutput">Output</label>
+          <textarea id="ioOutput" class="form-input code-area" rows="14" readonly spellcheck="false" placeholder="The conversion result will appear here"></textarea>
+        </div>
+      </div>
+
+      <div class="op-row" style="margin-top:14px; margin-bottom:0;">
+        <button class="btn" id="btnCopy" type="button">Copy result</button>
+        <button class="btn" id="btnDownload" type="button">Download</button>
+        <button class="btn" id="btnSample" type="button">Sample</button>
+        <span class="spacer"></span>
+        <button class="btn" id="btnClear" type="button">Clear</button>
+      </div>
+
+      <div class="info-note" id="ioDetect" hidden><span id="ioDetectText"></span></div>
+      <div class="warn-note" id="ioError" hidden></div>
+
+      <h2 class="block-title">Comparison of the three config formats</h2>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr><th>Format</th><th>Syntax style</th><th>Comments</th><th>Typical uses</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>JSON</b></td>
+              <td>Double-quoted keys wrapped in braces, comma separated, the strictest</td>
+              <td>Not supported</td>
+              <td>API data exchange, client-server transfer</td>
+            </tr>
+            <tr>
+              <td><b>YAML</b></td>
+              <td>Indentation expresses hierarchy, key and value separated by a colon and space</td>
+              <td>Supports # comments</td>
+              <td>Config files, CI/CD pipelines, Kubernetes</td>
+            </tr>
+            <tr>
+              <td><b>TOML</b></td>
+              <td>Key = value, with [table] and [[array of tables]] for hierarchy</td>
+              <td>Supports # comments</td>
+              <td>Project configs (Cargo.toml, pyproject.toml)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="wc-note">Note: <b>All conversions run locally in your browser and no data is uploaded.</b>TOML and YAML output is always pretty-printed; JSON output can switch between indented and compact via Pretty output. When parsing fails, the field name and line number are shown to help you locate the problem quickly.</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>Does converting between the three formats lose data?</h3>
+        <p>JSON, YAML and TOML all support strings, numbers, booleans, arrays and nested objects, so regular structures convert without data loss. Note that TOML has no null type and reports an error on null values; TOML datetimes are kept as strings; advanced YAML features such as anchors and aliases are expanded into plain structures during conversion.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Why is there a null error when converting to TOML?</h3>
+        <p>The TOML specification has no null type, which keeps its type system deterministic. When converting JSON or YAML to TOML, if the data contains null the tool points out the offending key; please remove that key or change its value to an empty string, 0, etc.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Is the conversion done on a server?</h3>
+        <p>No. All parsing and generation happen locally in your browser. The page makes no network requests and your input is never uploaded to any server, so it is safe for configuration data containing sensitive information.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/vendor/js-yaml.min.js"></script>
+  <script src="../assets/js/toml-lite.js"></script>
+  <script src="../assets/js/json-yaml-toml.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

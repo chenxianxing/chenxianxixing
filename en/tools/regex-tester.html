@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Regex Tester - Live Match Validation and Replacement Tool | Online Tools</title>
+  <meta name="description" content="Free online regular expression tester with live highlighting of matches, capture group viewing, replacement testing ($1/$& syntax) and a cheat sheet of common regexes (email, phone number, URL, IP and more). Type to test instantly; everything runs locally and nothing is uploaded.">
+  <meta name="keywords" content="Online Regex Tester, online tools, free tools, web tools, browser tools">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/regex-tester.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Online Regex Tester - Live Match Validation and Replacement Tool">
+  <meta property="og:description" content="Online regular expression tester with live highlighting of matches, capture group support, replacement testing and a cheat sheet of common regexes. Everything runs locally and nothing is uploaded.">
+  <meta property="og:url" content="https://example.com/en/tools/regex-tester.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%B0%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Online Regex Tester",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online regular expression tester with live highlighting of matches, capture group viewing, replacement testing and a cheat sheet of common regexes.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Live match highlighting", "Capture group viewing", "Replacement testing ($1/$&)", "Common Regex Cheat Sheet", "Match timing statistics", "Runs Locally, No Upload"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Are regex test results uploaded to a server?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. All matching is performed locally in your browser with the JavaScript RegExp engine, and neither the regular expression nor the test text ever leaves your device."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What do the flags g, i, m and s mean?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "g means global matching (find all matches instead of only the first); i means ignore case; m means multiline mode (^ and $ match the start and end of each line); s means the dot matches newline characters; u means Unicode mode; y means sticky matching (matching starts from lastIndex)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What do $1 and $& mean in replacements?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "$1 to $9 refer to the contents of capture groups 1 through 9; $& means the entire matched text; $` means the content before the matched text; $' means the content after the matched text; $$ means a literal dollar sign."
+        }
+      }
+    ]
+  }
+  </script>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/regex-tester.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/regex-tester.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/regex-tester.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/regex-tester.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>Online Regex Tester</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🧪</div>
+        <h1>Online Regex Tester</h1>
+      </div>
+      <p class="tool-desc">Enter a regular expression and test text to highlight all matches in real time, view capture group contents and test replacements. All computation is done locally in the browser and no data is uploaded.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="form-row">
+        <div class="form-item" style="flex:1; min-width:260px;">
+          <label for="rePattern">Regular Expression</label>
+          <input type="text" id="rePattern" class="form-input" placeholder="e.g. \d{3}-\d{3,4} or [\w.-]+@[\w.-]+\.\w+" spellcheck="false">
+        </div>
+        <div class="form-item">
+          <label>Flags</label>
+          <div class="checkbox-row" id="reFlags">
+            <label><input type="checkbox" value="g" checked> g Global</label>
+            <label><input type="checkbox" value="i"> i Ignore case</label>
+            <label><input type="checkbox" value="m"> m Multiline</label>
+            <label><input type="checkbox" value="s"> s Dot matches newline</label>
+            <label><input type="checkbox" value="u"> u Unicode</label>
+            <label><input type="checkbox" value="y"> y Sticky</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-item" style="margin-bottom:14px;">
+        <label for="reText">Test Text</label>
+        <textarea id="reText" class="form-input" rows="7" placeholder="Enter the test text to match; one entry per line or a natural paragraph both work" spellcheck="false"></textarea>
+      </div>
+
+      <div class="warn-note" id="reError" hidden></div>
+
+      <div class="op-row" style="margin-bottom:0;">
+        <span class="badge blue" id="reCount">Found 0 matches</span>
+        <span class="badge" id="reTime">Took 0 ms</span>
+        <span class="spacer"></span>
+        <button class="btn" id="btnClear" type="button">Clear</button>
+      </div>
+
+      <h3 style="font-size:15px; margin:16px 0 8px;">Match Preview</h3>
+      <div class="code-box" id="rePreview" style="min-height:80px;"><span class="empty-tip" style="padding:12px 0;">After you enter a regex and test text, the matches will be highlighted here</span></div>
+
+      <h3 style="font-size:15px; margin:18px 0 8px;">Match Details</h3>
+      <div class="table-wrap" id="reTableWrap" hidden>
+        <table class="data-table">
+          <thead>
+            <tr><th>#</th><th>Match</th><th>Position</th><th>Length</th><th>Capture Groups</th></tr>
+          </thead>
+          <tbody id="reTableBody"></tbody>
+        </table>
+      </div>
+      <div class="empty-tip" id="reNoMatch">No matches yet</div>
+
+      <h3 style="font-size:15px; margin:18px 0 8px;">Replacement Test <span class="badge">Supports $1 $&amp; $` $' $$</span></h3>
+      <div class="form-row">
+        <div class="form-item" style="flex:1; min-width:240px;">
+          <label for="reReplaceTo">Replace with</label>
+          <input type="text" id="reReplaceTo" class="form-input" placeholder="e.g. $1-$2 or *** (masked)" spellcheck="false">
+        </div>
+        <div class="form-item" style="flex:1; min-width:240px;">
+          <label for="reReplaceCount">Replacements</label>
+          <input type="text" id="reReplaceCount" class="form-input" value="0" readonly>
+        </div>
+      </div>
+      <div class="code-box" id="reReplaceOut">The replacement result will appear here</div>
+
+      <h3 style="font-size:15px; margin:18px 0 8px;">Common Regex Cheat Sheet</h3>
+      <div class="op-row" id="rePresets" style="margin-bottom:0;"></div>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>Are regex test results uploaded to a server?</h3>
+        <p>No. All matching is performed locally in your browser with the JavaScript RegExp engine, and neither the regular expression nor the test text ever leaves your device.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What do the flags g, i, m and s mean?</h3>
+        <p>g means global matching (find all matches instead of only the first); i means ignore case; m means multiline mode (^ and $ match the start and end of each line); s means the dot matches newline characters; u means Unicode mode; y means sticky matching (matching starts from lastIndex).</p>
+      </div>
+      <div class="faq-item">
+        <h3>What do $1 and $&amp; mean in replacements?</h3>
+        <p>$1 to $9 refer to the contents of capture groups 1 through 9; $&amp; means the entire matched text; $` means the content before the matched text; $' means the content after the matched text; $$ means a literal dollar sign.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/regex-tester.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

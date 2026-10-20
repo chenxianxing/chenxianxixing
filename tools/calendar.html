@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>日历工具 - 在线日历查询/节假日安排/倒计时工具 | 在线工具大全</title>
+  <meta name="description" content="免费在线日历工具，支持月视图浏览、今天高亮、周一/周日起始切换，内置2024-2027年中国法定节假日与调休上班日数据，提供日期详情、本月工作日统计与下一个节假日倒计时，全部本地运行。">
+  <meta name="keywords" content="在线日历,日历查询,法定节假日,放假安排,调休上班,节假日倒计时,月历,日历工具,2026年放假安排,工作日统计">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/calendar.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="日历工具 - 在线日历查询/节假日安排/倒计时工具">
+  <meta property="og:description" content="在线日历查询工具，内置2024-2027年法定节假日与调休数据，支持月视图、日期详情、本月统计与节假日倒计时。">
+  <meta property="og:url" content="https://example.com/tools/calendar.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%85%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "日历工具",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线日历工具，支持月视图浏览、周一/周日起始切换，内置2024-2027年中国法定节假日与调休上班日数据，提供日期详情、本月统计与节假日倒计时。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["月视图日历浏览", "今天高亮与非本月淡化", "周一/周日起始切换", "2024-2027法定节假日数据", "调休上班日标记", "日期详情（第几天/第几周/距今天数）", "本月工作日与节假日统计", "下一个节假日倒计时", "键盘快捷键翻月"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "日历工具支持哪些年份的节假日数据？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "已内置2024年至2027年的中国法定节假日放假安排，含元旦、春节、清明节、劳动节、端午节、中秋节、国庆节的放假日期与调休上班日。2028年及以后的日期会正常显示日历，但没有节假日标识，待官方通知发布后可补充数据。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "本月统计里的工作日和节假日是怎么算的？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "工作日指周一到周五且不在放假范围内的日期，加上被标记为调休上班的周末日期；节假日指处于法定放假区间内的日期，可能与周末重叠；周末数指周六和周日的天数。三者之和可能大于本月总天数，因为节假日与周末存在重叠。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "键盘快捷键有哪些？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "在页面空白处聚焦时（输入框聚焦时快捷键不生效），按左方向键 ◀ 切换上一个月，按右方向键 ▶ 切换下一个月，按字母 T 快速回到今天所在的月份并选中今天。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .cal-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .cal-title { display: flex; align-items: center; gap: 6px; }
+    .cal-title select { height: 34px; width: auto; padding: 0 8px; }
+    .cal-ym { font-size: 13px; color: var(--muted); }
+    .cal-week {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+    .cal-week span {
+      text-align: center;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--muted);
+      padding: 6px 0;
+    }
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+    }
+    .cal-cell {
+      position: relative;
+      min-height: 66px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      padding: 8px 8px 6px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      font-family: var(--font);
+      text-align: left;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .cal-cell:hover { border-color: var(--primary); background: var(--primary-light); }
+    .cal-num {
+      font-size: 15px;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      line-height: 1.2;
+    }
+    .cal-cell.other-month { background: #f9fafb; }
+    .cal-cell.other-month .cal-num { color: #b6bcc6; font-weight: 500; }
+    .cal-cell.today { border: 2px solid var(--primary); padding: 7px 7px 5px; }
+    .cal-cell.today .cal-num { color: var(--primary); }
+    .cal-cell.selected { background: var(--primary-light); border-color: var(--primary); }
+    .cal-cell.holiday { background: #f0fdf4; border-color: #bbf7d0; }
+    .cal-cell.holiday .cal-num { color: #047857; }
+    .cal-cell.makeup { background: #fffbeb; border-color: #fde68a; }
+    .cal-cell.makeup .cal-num { color: #b45309; }
+    .cal-cell.today.holiday, .cal-cell.today.makeup { border-width: 2px; }
+    .cal-fest {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 3px;
+      max-width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .cal-badge {
+      margin-top: auto;
+      font-size: 11px;
+      line-height: 1.6;
+      padding: 0 7px;
+      border-radius: 999px;
+    }
+    .cal-badge.rest { background: #ecfdf5; color: #059669; }
+    .cal-badge.work { background: #fef3c7; color: #b45309; }
+    .cal-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-top: 12px;
+    }
+    .cal-legend i {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+      margin-right: 5px;
+      vertical-align: -1px;
+    }
+    .detail-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin: 24px 0 4px;
+    }
+    @media (max-width: 640px) {
+      .cal-cell { min-height: 54px; padding: 6px 6px 4px; }
+      .cal-cell.today { padding: 5px 5px 3px; }
+      .cal-num { font-size: 13.5px; }
+      .cal-fest { font-size: 10px; }
+    }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/calendar.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/calendar.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/calendar.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="../en/tools/calendar.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>日历工具</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">📅</div>
+        <h1>日历工具</h1>
+      </div>
+      <p class="tool-desc">在线日历查询工具，支持月视图浏览、今天高亮、周一/周日起始切换，内置 2024-2027 年中国法定节假日放假安排与调休上班日数据，提供日期详情、本月工作日统计与下一个节假日倒计时，全部本地运行。</p>
+    </section>
+
+    <section class="tool-panel">
+
+      <div class="cal-toolbar">
+        <button class="btn" id="btnPrev" type="button">◀ 上月</button>
+        <button class="btn" id="btnNext" type="button">下月 ▶</button>
+        <button class="btn btn-primary" id="btnToday" type="button">今天</button>
+        <span class="spacer"></span>
+        <div class="cal-title">
+          <select id="yearSel" class="form-select" aria-label="年"></select>
+          <span class="cal-ym">年</span>
+          <select id="monthSel" class="form-select" aria-label="月"></select>
+          <span class="cal-ym">月</span>
+        </div>
+        <div class="radio-row" id="weekStartRow" role="radiogroup" aria-label="每周起始日">
+          <label class="checked"><input type="radio" name="ws" value="0" checked>周日</label>
+          <label><input type="radio" name="ws" value="1">周一</label>
+        </div>
+      </div>
+
+      <div class="cal-week" id="calWeek"></div>
+      <div class="cal-grid" id="calGrid"></div>
+
+      <div class="cal-legend">
+        <span><i style="background:#f0fdf4;border:1px solid #bbf7d0;"></i>法定节假日</span>
+        <span><i style="background:#fffbeb;border:1px solid #fde68a;"></i>调休上班日</span>
+        <span><i style="background:#fff;border:2px solid var(--primary);"></i>今天</span>
+      </div>
+
+      <div class="detail-title">日期详情</div>
+      <div class="result-grid" id="dayDetail">
+        <div class="result-card primary">
+          <div class="num" id="ddDate">--</div>
+          <div class="label">公历日期</div>
+        </div>
+        <div class="result-card">
+          <div class="num" id="ddWeek">--</div>
+          <div class="label">星期</div>
+        </div>
+        <div class="result-card">
+          <div class="num" id="ddDayOfYear">--</div>
+          <div class="label">当年第几天</div>
+        </div>
+        <div class="result-card">
+          <div class="num" id="ddWeekNo">--</div>
+          <div class="label">当年第几周</div>
+        </div>
+        <div class="result-card">
+          <div class="num" id="ddDiff">--</div>
+          <div class="label">距今天数</div>
+        </div>
+        <div class="result-card">
+          <div class="num" id="ddType">--</div>
+          <div class="label">节假日 / 工作日</div>
+        </div>
+      </div>
+
+      <div class="detail-title">本月统计</div>
+      <div class="result-grid">
+        <div class="result-card">
+          <div class="num" id="stDays">--</div>
+          <div class="label">本月天数</div>
+        </div>
+        <div class="result-card">
+          <div class="num" id="stWork">--</div>
+          <div class="label">工作日天数</div>
+        </div>
+        <div class="result-card">
+          <div class="num" id="stHoliday">--</div>
+          <div class="label">节假日天数</div>
+        </div>
+        <div class="result-card">
+          <div class="num" id="stWeekend">--</div>
+          <div class="label">周末天数</div>
+        </div>
+      </div>
+
+      <div class="detail-title">下一个节假日</div>
+      <div class="result-grid">
+        <div class="result-card primary">
+          <div class="num" id="cdName">--</div>
+          <div class="label">节日名称</div>
+        </div>
+        <div class="result-card">
+          <div class="num" id="cdRange">--</div>
+          <div class="label">放假日期</div>
+        </div>
+        <div class="result-card">
+          <div class="num" id="cdDays">--</div>
+          <div class="label">倒计时（天）</div>
+        </div>
+      </div>
+
+      <p class="info-note">键盘快捷键：按 ◀ / ▶ 方向键切换上月、下月，按 T 键回到今天；输入框或下拉列表聚焦时快捷键不生效。节假日数据来源于国务院办公厅发布的年度放假安排，2028 年及以后暂无数据。</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>日历工具支持哪些年份的节假日数据？</h3>
+        <p>已内置2024年至2027年的中国法定节假日放假安排，含元旦、春节、清明节、劳动节、端午节、中秋节、国庆节的放假日期与调休上班日。2028年及以后的日期会正常显示日历，但没有节假日标识，待官方通知发布后可补充数据。</p>
+      </div>
+      <div class="faq-item">
+        <h3>本月统计里的工作日和节假日是怎么算的？</h3>
+        <p>工作日指周一到周五且不在放假范围内的日期，加上被标记为调休上班的周末日期；节假日指处于法定放假区间内的日期，可能与周末重叠；周末数指周六和周日的天数。三者之和可能大于本月总天数，因为节假日与周末存在重叠。</p>
+      </div>
+      <div class="faq-item">
+        <h3>键盘快捷键有哪些？</h3>
+        <p>在页面空白处聚焦时（输入框聚焦时快捷键不生效），按左方向键 ◀ 切换上一个月，按右方向键 ▶ 切换下一个月，按字母 T 快速回到今天所在的月份并选中今天。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/calendar.js"></script>
+</body>
+</html>

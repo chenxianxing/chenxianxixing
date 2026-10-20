@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unit Converter - Length, Mass, Area, Volume, Temperature and More Online | Online Tools</title>
+  <meta name="description" content="Free online unit converter supporting ten categories: length, mass, area, volume, temperature, speed, time, pressure, power and data storage. Convert in both directions in real time, see results for all units, and copy with one click. All calculations run locally in your browser.">
+  <meta name="keywords" content="Unit Converter, Length Conversion, Mass Conversion, Area Conversion, Temperature Conversion, Speed Conversion, Pressure Conversion, Power Conversion">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/unit-convert.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Unit Converter - Length, Mass, Area, Volume, Temperature and More Online">
+  <meta property="og:description" content="Online unit converter supporting two-way real-time conversion across ten categories, with a full unit list and one-click copy.">
+  <meta property="og:url" content="https://example.com/en/tools/unit-convert.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%90%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Unit Converter",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online unit converter supporting two-way conversion across ten categories: length, mass, area, volume, temperature, speed, time, pressure, power and data storage.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Length Conversion", "Mass Conversion", "Area Conversion", "Volume Conversion", "Temperature Conversion", "Speed Conversion", "Time Conversion", "Pressure Conversion", "Power Conversion", "Data Storage Conversion", "Real-Time Conversion", "One-Click Copy"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Why can temperature not be converted by simply multiplying a factor like length?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Celsius, Fahrenheit, Kelvin and Rankine have offsets (different zero points), so they are not simple proportional relationships and require dedicated conversion formulas. This tool has these formulas built in, so any unit can be converted correctly."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How precise are the conversion results?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Results are shown at common precision (up to about 10 significant digits) with redundant trailing zeros removed automatically. Scientific notation may be used for extreme magnitudes, but the error is negligible for everyday and engineering estimates."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does data storage conversion use 1024 or 1000?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The data storage category in this tool uses the decimal system (1 KB = 1000 B) for general conversion. If you need KiB/MiB (1024 base) distinctions, use the Data Size Converter tool on this site, which lets you switch bases with one click."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .cat-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+    .cat-tabs button {
+      border: 1px solid var(--border);
+      background: #fbfcfe;
+      color: var(--muted);
+      border-radius: 9px;
+      padding: 7px 14px;
+      font-size: 14px;
+      cursor: pointer;
+      font-family: var(--font);
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .cat-tabs button.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+      -webkit-text-fill-color: #fff;
+    }
+    .uc-main {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: flex-end;
+      margin-bottom: 8px;
+    }
+    .uc-main .form-item { flex: 1; min-width: 140px; }
+    .uc-result {
+      margin-top: 14px;
+    }
+    .uc-big {
+      background: var(--primary-light);
+      border: 1px solid #bfdbfe;
+      border-radius: 12px;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .uc-big .v {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--primary);
+      font-variant-numeric: tabular-nums;
+      word-break: break-all;
+    }
+    .uc-big .u { font-size: 16px; color: var(--muted); }
+    .uc-swap-note { font-size: 13px; color: var(--muted); margin: 12px 0 0; }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/unit-convert.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/unit-convert.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/unit-convert.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/unit-convert.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>Unit Converter</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">📐</div>
+        <h1>Unit Converter</h1>
+      </div>
+      <p class="tool-desc">Online unit converter covering ten categories: length, mass, area, volume, temperature, speed, time, pressure, power and data storage. Convert between source and target units in both directions in real time, and see the value in every unit.</p>
+    </section>
+
+    <section class="tool-panel">
+
+      <div class="cat-tabs" id="catTabs"></div>
+
+      <div class="uc-main">
+        <div class="form-item" style="flex:1.2;">
+          <label for="ucValue">Value</label>
+          <input type="text" id="ucValue" class="form-input" placeholder="Enter the value to convert" inputmode="decimal" value="1">
+        </div>
+        <div class="form-item">
+          <label for="ucFrom">Source Unit</label>
+          <select id="ucFrom" class="form-select"></select>
+        </div>
+        <div class="form-item" style="width:48px; flex:0 0 48px;">
+          <label>&nbsp;</label>
+          <button class="btn" id="btnSwap" type="button" title="Swap Source/Target Units" style="width:100%; padding:0;">⇄</button>
+        </div>
+        <div class="form-item">
+          <label for="ucTo">Target Unit</label>
+          <select id="ucTo" class="form-select"></select>
+        </div>
+      </div>
+
+      <div class="op-row" style="margin-bottom:0;">
+        <button class="btn btn-primary" id="btnConvert" type="button">Convert</button>
+        <button class="btn" id="btnCopy" type="button">Copy result</button>
+        <span class="spacer"></span>
+        <span class="uc-swap-note" id="ucHint"></span>
+      </div>
+
+      <div class="uc-result" id="ucResult"></div>
+
+      <h3 style="font-size:16px; margin:22px 0 4px;">Results for this value in all units</h3>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr><th>Unit</th><th>Conversion Results</th></tr>
+          </thead>
+          <tbody id="ucTable"></tbody>
+        </table>
+      </div>
+
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>Why can temperature not be converted by simply multiplying a factor like length?</h3>
+        <p>Celsius, Fahrenheit, Kelvin and Rankine have offsets (different zero points), so they are not simple proportional relationships and require dedicated conversion formulas. This tool has these formulas built in, so any unit can be converted correctly.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How precise are the conversion results?</h3>
+        <p>Results are shown at common precision (up to about 10 significant digits) with redundant trailing zeros removed automatically. Scientific notation may be used for extreme magnitudes, but the error is negligible for everyday and engineering estimates.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Does data storage conversion use 1024 or 1000?</h3>
+        <p>The data storage category in this tool uses the decimal system (1 KB = 1000 B) for general conversion. If you need KiB/MiB (1024 base) distinctions, use the Data Size Converter tool on this site, which lets you switch bases with one click.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/unit-convert.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>

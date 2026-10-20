@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User-Agent Parser - Browser/OS/Device/Bot Detection | Online Tools</title>
+  <meta name="description" content="Free online User-Agent parser. Paste or auto-detect a UA string to parse the browser name and version, rendering engine, operating system, device type and whether it is a crawler bot. Supports one-click insertion of common UA examples; all parsing is done with local regular expressions.">
+  <meta name="keywords" content="User-Agent Parser, UserAgent, Device Type">
+  <meta name="author" content="Online Tools">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/en/tools/user-agent-parser.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="User-Agent Parser - Browser/OS/Device/Bot Detection">
+  <meta property="og:description" content="Paste or auto-detect a UA string to parse the browser, rendering engine, operating system, device type and whether it is a crawler bot, with one-click insertion of common UA examples.">
+  <meta property="og:url" content="https://example.com/en/tools/user-agent-parser.html">
+  <meta property="og:site_name" content="Online Tools">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%95%B5%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "User-Agent Parser",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Online User-Agent parser that parses the browser name and version, rendering engine, operating system, device type and whether it is a crawler bot, with one-click insertion of common UA examples.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Auto-detect the current browser UA", "Parse browser and version", "Parse rendering engine", "Parse operating system", "Detect device type", "Detect crawler bots", "Copy Parsed JSON"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Can User-Agent strings identify every browser accurately?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "UA strings are declared by the browser itself and can theoretically be forged, so parsing is a best-effort identification based on string patterns. Common browsers (Chrome, Firefox, Safari, Edge, WeChat/QQ built-in browsers, etc.) are identified reliably; for niche or heavily customized browsers, only the engine level may be recognized. All matching in this tool uses local regular expressions and no information is uploaded."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How can I tell whether a visitor is a crawler or bot?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The tool checks whether the UA contains typical crawler identifiers such as Googlebot, Baiduspider, Bingbot, Yandex, Bytespider or Shenma, or the generic keywords Spider/Crawler/Bot. If matched, it is flagged as a crawler bot, which helps with statistics or anti-bot analysis."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why do different browsers on the same computer write the engine differently?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Modern browsers are mostly based on Chromium (the Blink engine), but the UA retains legacy compatibility fields (such as the Safari version and AppleWebKit identifier). The tool synthesizes these fields and prefers the real product name (such as Edge or Chrome) over the engine name, giving a product judgment closer to reality."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .ua-input-row { margin-bottom: 14px; }
+    .ua-input-row textarea {
+      width: 100%; min-height: 76px; resize: vertical; font-family: "SFMono-Regular", Consolas, Menlo, monospace; font-size: 13px;
+    }
+    .ua-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 16px; }
+    .ua-actions .spacer { flex: 1; }
+    .ua-sample { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 18px; }
+    .ua-sample .lbl { font-size: 13px; color: var(--muted); margin-right: 2px; }
+    .ua-chip {
+      font-size: 13px; padding: 6px 12px; border: 1px solid var(--border); border-radius: 999px;
+      background: var(--card); color: var(--text); cursor: pointer; transition: all 0.15s;
+    }
+    .ua-chip:hover { border-color: var(--primary); color: var(--primary); }
+    .ua-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 6px; }
+    .ua-card { background: #fbfcfe; border: 1px solid var(--border); border-radius: 11px; padding: 13px 16px; }
+    .ua-card .k { font-size: 12.5px; color: var(--muted); margin-bottom: 4px; }
+    .ua-card .v { font-size: 16px; font-weight: 600; color: var(--text); word-break: break-all; }
+    .ua-card .v .badge { font-size: 11px; font-weight: 400; vertical-align: middle; margin-left: 6px; }
+    .ua-json-wrap { margin-top: 18px; }
+    .ua-json-wrap .qp-result-label { margin-bottom: 6px; }
+    .ua-bot-warn { margin-top: 14px; }
+  </style>
+
+
+
+
+
+
+  <link rel="alternate" hreflang="zh-Hans" href="https://example.com/tools/user-agent-parser.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/tools/user-agent-parser.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/tools/user-agent-parser.html">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>Online Tools<span class="brand-sub">Free Online Tools</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+              <span class="lang-switch"><a class="lang-link" href="../../tools/user-agent-parser.html">中文</a><span class="lang-cur">English</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="../index.html#tools">All Tools</a> &gt; <span>User-Agent Parser</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🕵️</div>
+        <h1>User-Agent Parser</h1>
+      </div>
+      <p class="tool-desc">Paste or auto-detect a User-Agent string to parse locally the browser name and version, rendering engine, operating system and version, device type and whether it is a crawler bot. Opening the page auto-fills the current browser UA; all parsing is done with local regular expressions in your browser and no data is uploaded.</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="ua-input-row">
+        <label for="uaInput">User-Agent String</label>
+        <textarea id="uaInput" class="form-input" placeholder="Paste a UA string; the current browser UA is auto-filled when the page loads" spellcheck="false"></textarea>
+      </div>
+
+      <div class="ua-actions">
+        <button class="btn btn-primary" id="uaParse" type="button">Parser</button>
+        <button class="btn" id="uaUseCurrent" type="button">Fill Current Browser UA</button>
+        <span class="spacer"></span>
+        <button class="btn" id="uaCopy" type="button">Copy Parsed JSON</button>
+        <button class="btn" id="uaClear" type="button">Clear</button>
+      </div>
+
+      <div class="ua-sample">
+        <span class="lbl">Common examples:</span>
+        <span class="ua-chip" data-key="chrome">Desktop Chrome</span>
+        <span class="ua-chip" data-key="iphone">iPhone Safari</span>
+        <span class="ua-chip" data-key="android">Android Chrome</span>
+        <span class="ua-chip" data-key="wechat">WeChat Built-in</span>
+        <span class="ua-chip" data-key="googlebot">Googlebot</span>
+      </div>
+
+      <div class="ua-grid" id="uaResult">
+        <div class="empty-tip" style="grid-column:1/-1;">Enter a UA and click Parse to view the results.</div>
+      </div>
+
+      <div class="ua-json-wrap">
+        <div class="qp-result-label">Parsed Result JSON (copyable)</div>
+        <textarea id="uaJson" class="qp-url-box" spellcheck="false" readonly placeholder="The parsed result will be generated and shown here as JSON"></textarea>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>Can User-Agent strings identify every browser accurately?</h3>
+        <p>UA strings are declared by the browser itself and can theoretically be forged, so parsing is a best-effort identification based on string patterns. Common browsers (Chrome, Firefox, Safari, Edge, WeChat/QQ built-in browsers, etc.) are identified reliably; for niche or heavily customized browsers, only the engine level may be recognized. All matching in this tool uses local regular expressions and no information is uploaded.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How can I tell whether a visitor is a crawler or bot?</h3>
+        <p>The tool checks whether the UA contains typical crawler identifiers such as Googlebot, Baiduspider, Bingbot, Yandex, Bytespider or Shenma, or the generic keywords Spider/Crawler/Bot. If matched, it is flagged as a crawler bot, which helps with statistics or anti-bot analysis.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Why do different browsers on the same computer write the engine differently?</h3>
+        <p>Modern browsers are mostly based on Chromium (the Blink engine), but the UA retains legacy compatibility fields (such as the Safari version and AppleWebKit identifier). The tool synthesizes these fields and prefers the real product name (such as Edge or Chrome) over the engine name, giving a product judgment closer to reality.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> Online Tools · All tools are free forever</span>
+      <div class="links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#tools">All Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/user-agent-parser.js"></script>
+
+  <script src="../assets/js/i18n/en.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+</body>
+</html>
