@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTTP状态码速查 - 完整HTTP状态码含义与处理建议 | 在线工具大全</title>
+  <meta name="description" content="免费在线HTTP状态码速查表，收录1xx到5xx共60余种状态码，含英文标准名称、中文说明与常见原因处理建议。支持按状态码/名称模糊搜索与分类筛选，所有查询均在本地完成。">
+  <meta name="keywords" content="HTTP状态码,状态码速查,200,404,500,状态码含义,HTTP Status Code,3xx重定向,4xx客户端错误,5xx服务器错误,HTTP响应码">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/http-status-codes.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="HTTP状态码速查 - 完整HTTP状态码含义与处理建议">
+  <meta property="og:description" content="收录1xx到5xx共60余种HTTP状态码，含英文标准名称、中文说明与常见原因处理建议，支持搜索与分类筛选。">
+  <meta property="og:url" content="https://example.com/tools/http-status-codes.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%A1%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "HTTP状态码速查",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线HTTP状态码速查工具，收录1xx到5xx共60余种状态码，含英文标准名称、中文说明与常见原因处理建议，支持搜索与分类筛选。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["按状态码搜索", "按名称/说明模糊匹配", "分类筛选1xx-5xx", "卡片展开查看详情", "本地离线查询"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "301 和 302 重定向有什么区别？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "301 Moved Permanently 表示资源已永久移动到新地址，浏览器和搜索引擎会更新书签与索引；302 Found 表示临时跳转，原地址仍在使用。二者都会自动重定向，但301对SEO的权重传递更明确。若需保持原请求方法（如POST仍是POST），应使用307（临时）或308（永久）。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "401 和 403 有什么不同？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "401 Unauthorized 表示请求缺少有效的身份验证凭证，服务器要求先登录或携带Token；403 Forbidden 表示已经过身份验证，但当前账号没有访问该资源的权限。简单说：401是“你是谁”，403是“你没权限”。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "出现 5xx 错误应该如何处理？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "5xx 表示服务器侧出错。常见如500（代码异常，查服务端日志）、502/504（网关/代理上游无响应或超时，检查后端是否存活或过载）、503（服务暂时不可用，常在维护或限流，可参考Retry-After头稍后重试）。多数5xx需要服务端排查，客户端可先重试确认是否为偶发。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .hs-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .hs-search {
+      flex: 1;
+      min-width: 220px;
+    }
+    .hs-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .hs-tab {
+      font-size: 13.5px;
+      padding: 7px 14px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--card);
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.15s;
+      user-select: none;
+    }
+    .hs-tab:hover { border-color: var(--primary); color: var(--primary); }
+    .hs-tab.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+      -webkit-text-fill-color: #fff;
+    }
+    .hs-count {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .hs-list { display: flex; flex-direction: column; gap: 10px; }
+    .hs-card {
+      background: #fbfcfe;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      overflow: hidden;
+      transition: border-color 0.15s;
+    }
+    .hs-card:hover { border-color: #c7d2fe; }
+    .hs-card-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 16px;
+      cursor: pointer;
+    }
+    .hs-code {
+      font-size: 19px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      min-width: 46px;
+    }
+    .hs-name {
+      font-size: 14px;
+      font-weight: 600;
+      flex: 1;
+      min-width: 0;
+    }
+    .hs-name small {
+      display: block;
+      font-weight: 400;
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-top: 1px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .hs-toggle {
+      color: var(--muted);
+      font-size: 13px;
+      transition: transform 0.2s;
+    }
+    .hs-card.open .hs-toggle { transform: rotate(90deg); }
+    .hs-detail {
+      padding: 0 16px 16px 16px;
+      border-top: 1px solid var(--border);
+      margin-top: -1px;
+      padding-top: 14px;
+    }
+    .hs-detail .hs-advice {
+      font-size: 13.5px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-top: 8px;
+    }
+    .hs-detail .hs-advice b { color: var(--text); }
+    .cat-1xx .hs-code, .cat-1xx .badge { color: #2563eb; }
+    .cat-2xx .hs-code { color: #059669; }
+    .cat-3xx .hs-code { color: #7c3aed; }
+    .cat-4xx .hs-code { color: #d97706; }
+    .cat-5xx .hs-code { color: #dc2626; }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="en/tools/http-status-codes.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>HTTP状态码速查</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">📡</div>
+        <h1>HTTP状态码速查</h1>
+      </div>
+      <p class="tool-desc">收录 1xx 到 5xx 共 60 余种 HTTP 状态码，含英文标准名称、中文说明与常见原因/处理建议。支持按状态码、名称或说明模糊搜索与分类筛选，所有查询均在浏览器本地完成。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="hs-toolbar">
+        <input type="text" id="hsSearch" class="form-input hs-search" placeholder="搜索状态码 / 英文名称 / 中文说明，例如：404、redirect、重定向" spellcheck="false" autocomplete="off">
+        <button class="btn" id="hsReset" type="button">重置</button>
+      </div>
+
+      <div class="hs-tabs" id="hsTabs">
+        <span class="hs-tab active" data-cat="all">全部</span>
+        <span class="hs-tab" data-cat="1xx">1xx 信息</span>
+        <span class="hs-tab" data-cat="2xx">2xx 成功</span>
+        <span class="hs-tab" data-cat="3xx">3xx 重定向</span>
+        <span class="hs-tab" data-cat="4xx">4xx 客户端错误</span>
+        <span class="hs-tab" data-cat="5xx">5xx 服务端错误</span>
+      </div>
+
+      <div class="hs-count" id="hsCount"></div>
+      <div class="hs-list" id="hsList"></div>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>301 和 302 重定向有什么区别？</h3>
+        <p>301 Moved Permanently 表示资源已永久移动到新地址，浏览器和搜索引擎会更新书签与索引；302 Found 表示临时跳转，原地址仍在使用。二者都会自动重定向，但 301 对 SEO 的权重传递更明确。若需保持原请求方法（如 POST 仍是 POST），应使用 307（临时）或 308（永久）。</p>
+      </div>
+      <div class="faq-item">
+        <h3>401 和 403 有什么不同？</h3>
+        <p>401 Unauthorized 表示请求缺少有效的身份验证凭证，服务器要求先登录或携带 Token；403 Forbidden 表示已经过身份验证，但当前账号没有访问该资源的权限。简单说：401 是“你是谁”，403 是“你没权限”。</p>
+      </div>
+      <div class="faq-item">
+        <h3>出现 5xx 错误应该如何处理？</h3>
+        <p>5xx 表示服务器侧出错。常见如 500（代码异常，查服务端日志）、502/504（网关/代理上游无响应或超时，检查后端是否存活或过载）、503（服务暂时不可用，常在维护或限流，可参考 Retry-After 头稍后重试）。多数 5xx 需要服务端排查，客户端可先重试确认是否为偶发。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/http-status-codes.js"></script>
+</body>
+</html>

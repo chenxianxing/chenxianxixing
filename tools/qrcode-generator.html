@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>二维码生成器 - 在线二维码制作/图片下载工具 | 在线工具大全</title>
+  <meta name="description" content="免费在线二维码生成器，支持文字、网址、多行文本生成二维码，可自定义尺寸128-1024、容错级别L/M/Q/H、前景色背景色与边距，一键下载PNG图片，所有处理均在浏览器本地完成。">
+  <meta name="keywords" content="二维码生成器,二维码制作,QR码生成,在线二维码,二维码下载,网址二维码,文本二维码,二维码图片">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/qrcode-generator.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="二维码生成器 - 在线二维码制作/图片下载工具">
+  <meta property="og:description" content="支持自定义尺寸、容错级别、前景色背景色与边距的在线二维码生成器，一键下载PNG。">
+  <meta property="og:url" content="https://example.com/tools/qrcode-generator.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%B1%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "二维码生成器",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线二维码生成器，支持文字与网址生成二维码，可自定义尺寸、容错级别、前景色、背景色与边距并导出PNG。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["文字/网址生成二维码", "尺寸128-1024调节", "容错级别L/M/Q/H", "前景色背景色自定义", "边距设置", "一键下载PNG"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "二维码的容错级别有什么作用？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "容错级别决定二维码被遮挡或污损后仍能扫描的概率。L约可遮挡7%、M约15%、Q约25%、H约30%。内容较多或需印刷在不平整表面时建议使用较高容错级别。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "生成的二维码可以用于商业用途吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "可以。二维码本身不收取费用，本工具完全在浏览器本地生成，不收集、不上传任何内容，生成结果可自由用于商业或个人场景。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "二维码尺寸越大越清晰吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "清晰度主要取决于内容密度与打印分辨率，而非单纯尺寸。内容越多模块越密，建议适当提高尺寸并设置一定边距，以保证扫码设备稳定识别。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    #qrBox {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 200px;
+      background: #fbfcfe;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 6px 0 14px;
+    }
+    .qr-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 720px) { .qr-row { grid-template-columns: 1fr; } }
+    .color-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: flex-end;
+    }
+    .color-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .color-item input[type="color"] {
+      width: 46px;
+      height: 38px;
+      padding: 2px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: #fff;
+      cursor: pointer;
+    }
+    .color-item input[type="text"] {
+      width: 110px;
+    }
+    .slider-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+      min-width: 180px;
+    }
+    .slider-item .val {
+      font-size: 13px;
+      color: var(--primary);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="en/tools/qrcode-generator.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>二维码生成器</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">📱</div>
+        <h1>二维码生成器</h1>
+      </div>
+      <p class="tool-desc">在线二维码制作工具，支持文字、网址、多行文本一键生成二维码，可自定义尺寸、容错级别、前景色背景色与边距，并导出 PNG 图片，所有处理均在浏览器本地完成。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="form-item">
+        <label for="qrContent">二维码内容（URL 或 文本，支持多行）</label>
+        <textarea id="qrContent" class="form-input" rows="4" placeholder="输入网址或文本内容，例如：https://example.com" spellcheck="false"></textarea>
+      </div>
+
+      <div class="qr-row" style="margin-top:14px;">
+        <div class="slider-item">
+          <label for="qrSize">尺寸：<span class="val" id="qrSizeVal">256</span> px</label>
+          <input type="range" id="qrSize" min="128" max="1024" step="8" value="256">
+        </div>
+        <div class="slider-item">
+          <label for="qrMargin">边距：<span class="val" id="qrMarginVal">16</span> px</label>
+          <input type="range" id="qrMargin" min="0" max="64" step="2" value="16">
+        </div>
+      </div>
+
+      <div class="op-row" style="margin-top:16px;">
+        <div class="radio-row" id="qrLevelRow" role="radiogroup" aria-label="容错级别">
+          <label class="checked"><input type="radio" name="qrlv" value="L">L</label>
+          <label><input type="radio" name="qrlv" value="M" checked>M</label>
+          <label><input type="radio" name="qrlv" value="Q">Q</label>
+          <label><input type="radio" name="qrlv" value="H">H</label>
+        </div>
+        <span class="spacer"></span>
+        <span class="badge blue">容错 L&lt;M&lt;Q&lt;H</span>
+      </div>
+
+      <div class="color-row" style="margin-top:14px;">
+        <div class="color-item">
+          <label for="qrFg">前景色</label>
+          <input type="color" id="qrFg" value="#000000">
+        </div>
+        <div class="color-item">
+          <input type="text" id="qrFgHex" class="form-input" value="#000000" maxlength="7" spellcheck="false">
+        </div>
+        <div class="color-item">
+          <label for="qrBg">背景色</label>
+          <input type="color" id="qrBg" value="#FFFFFF">
+        </div>
+        <div class="color-item">
+          <input type="text" id="qrBgHex" class="form-input" value="#FFFFFF" maxlength="7" spellcheck="false">
+        </div>
+      </div>
+
+      <div id="qrBox" style="margin-top:16px;">
+        <div class="empty-tip">输入内容后将在此显示二维码</div>
+      </div>
+
+      <div class="op-row">
+        <button class="btn btn-primary" id="btnGen" type="button">生成二维码</button>
+        <button class="btn" id="btnDownload" type="button">下载 PNG</button>
+        <button class="btn" id="btnCopy" type="button">复制内容</button>
+        <span class="spacer"></span>
+        <button class="btn" id="btnClear" type="button">清空</button>
+      </div>
+
+      <div class="warn-note" id="qrError" hidden></div>
+
+      <p class="wc-note">说明：二维码完全在本地浏览器生成，不会上传任何内容。颜色支持点击取色器或直接输入 HEX 值（如 #1e40af）；边距会在二维码四周留出白色的安静区，有助于提高扫码成功率。</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>二维码的容错级别有什么作用？</h3>
+        <p>容错级别决定二维码被遮挡或污损后仍能扫描的概率。L约可遮挡7%、M约15%、Q约25%、H约30%。内容较多或需印刷在不平整表面时建议使用较高容错级别。</p>
+      </div>
+      <div class="faq-item">
+        <h3>生成的二维码可以用于商业用途吗？</h3>
+        <p>可以。二维码本身不收取费用，本工具完全在浏览器本地生成，不收集、不上传任何内容，生成结果可自由用于商业或个人场景。</p>
+      </div>
+      <div class="faq-item">
+        <h3>二维码尺寸越大越清晰吗？</h3>
+        <p>清晰度主要取决于内容密度与打印分辨率，而非单纯尺寸。内容越多模块越密，建议适当提高尺寸并设置一定边距，以保证扫码设备稳定识别。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/vendor/qrcode.min.js"></script>
+  <script src="../assets/js/qrcode-generator.js"></script>
+</body>
+</html>

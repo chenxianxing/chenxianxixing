@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>图片Base64转换 - 在线图片转Base64编码/还原工具 | 在线工具大全</title>
+  <meta name="description" content="免费在线图片Base64转换工具，支持选择或拖入图片一键转为DataURL、纯Base64、CSS背景与HTML代码，并在浏览器本地还原Base64为图片预览与下载，全部处理不上传服务器。">
+  <meta name="keywords" content="图片转base64,base64图片,图片base64转换,base64编码,图片转dataurl,base64转图片,在线图片工具">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/image-base64.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="图片Base64转换 - 在线图片转Base64编码/还原工具">
+  <meta property="og:description" content="支持图片转Base64多格式输出与Base64还原图片的在线工具，完全本地处理。">
+  <meta property="og:url" content="https://example.com/tools/image-base64.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%96%BC%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "图片Base64转换",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线图片Base64转换工具，支持图片转DataURL、纯Base64、CSS与HTML代码，并可反向还原Base64为图片。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["图片转DataURL", "纯Base64输出", "CSS背景代码", "HTML图片代码", "Base64还原图片", "本地处理不上传"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "图片转成Base64有什么用处？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Base64 可将图片直接内嵌进 HTML、CSS 或 JSON 中，减少小图标或多图场景下的额外网络请求，便于单文件分享与离线展示。代价是体积会比原文件大约增加 33%。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "转换过程会泄露我的图片吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "不会。所有读取、编码与还原均在浏览器本地通过 FileReader 完成，图片不会上传到任何服务器，适合处理含有敏感信息的图像。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "粘贴的Base64如何判断图片类型？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "若粘贴内容以 data: 开头则直接按其中的 MIME 类型处理；纯 Base64 时工具会根据文件头特征自动识别 PNG、JPEG、GIF、WEBP 等常见格式，识别失败则按 PNG 处理并给出提示。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .drop-zone {
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 26px;
+      text-align: center;
+      color: var(--muted);
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      font-size: 14px;
+    }
+    .drop-zone:hover { border-color: var(--primary); background: var(--primary-light); }
+    .drop-zone.dragover { border-color: var(--primary); background: var(--primary-light); }
+    .preview-wrap { text-align: center; background:#fbfcfe; border:1px solid var(--border); border-radius:12px; padding:14px; margin-top:12px; }
+    .preview-wrap img { max-width: 100%; max-height: 280px; border-radius: 8px; }
+    .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px,1fr)); gap: 12px; margin-top: 12px; }
+    .info-card { background:#fbfcfe; border:1px solid var(--border); border-radius:11px; padding:12px 14px; }
+    .info-card .num { font-size:17px; font-weight:700; color:var(--primary); word-break:break-all; }
+    .info-card .label { font-size:13px; color:var(--muted); margin-top:2px; }
+    #b64Output { max-height: 320px; }
+    .split-2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    @media (max-width:720px){ .split-2{ grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="en/tools/image-base64.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>图片Base64转换</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🖼️</div>
+        <h1>图片Base64转换</h1>
+      </div>
+      <p class="tool-desc">在线图片转 Base64 工具，支持选择或拖入图片，一键转换为 DataURL、纯 Base64、CSS 背景与 HTML 代码，并可将 Base64 反向还原为图片预览与下载，全程本地处理不上传。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="op-row">
+        <div class="radio-row" id="b64FmtRow" role="radiogroup" aria-label="输出格式">
+          <label class="checked"><input type="radio" name="b64fmt" value="full" checked>完整 DataURL</label>
+          <label><input type="radio" name="b64fmt" value="raw">纯 Base64</label>
+          <label><input type="radio" name="b64fmt" value="css">CSS 背景</label>
+          <label><input type="radio" name="b64fmt" value="html">HTML 代码</label>
+        </div>
+      </div>
+
+      <div class="drop-zone" id="dropZone">
+        点击选择图片，或将图片拖拽到此处（仅支持图片，单张 ≤ 20MB）
+      </div>
+      <input type="file" id="imgInput" accept="image/*" hidden>
+
+      <div class="preview-wrap" id="origPreviewWrap" hidden>
+        <img id="origPreview" alt="原图预览">
+      </div>
+
+      <div class="info-grid" id="infoGrid" hidden>
+        <div class="info-card"><div class="num" id="infoName">-</div><div class="label">文件名称</div></div>
+        <div class="info-card"><div class="num" id="infoType">-</div><div class="label">文件类型</div></div>
+        <div class="info-card"><div class="num" id="infoSize">-</div><div class="label">原始大小</div></div>
+        <div class="info-card"><div class="num" id="infoB64Size">-</div><div class="label">Base64 后大小</div></div>
+      </div>
+
+      <div style="margin-top:14px;">
+        <label style="font-size:13px;color:var(--muted);font-weight:500;">输出结果</label>
+        <div class="code-box" id="b64Output" readonly style="margin-top:6px;"></div>
+      </div>
+
+      <div class="op-row" style="margin-top:12px;">
+        <button class="btn btn-primary" id="btnCopyB64" type="button">复制结果</button>
+        <button class="btn" id="btnDownloadTxt" type="button">下载 .txt</button>
+        <span class="spacer"></span>
+        <button class="btn" id="btnClearImg" type="button">清空</button>
+      </div>
+
+      <div class="warn-note" id="b64Error" hidden></div>
+
+      <hr style="border:none;border-top:1px solid var(--border);margin:22px 0 18px;">
+
+      <h3 style="font-size:16px;margin-bottom:12px;">Base64 反向还原为图片</h3>
+      <div class="form-item">
+        <label for="b64Paste">粘贴 Base64（可含或不含 data: 前缀）</label>
+        <textarea id="b64Paste" class="form-input" rows="4" placeholder="粘贴图片的 Base64 或完整 DataURL，工具将自动还原为图片" spellcheck="false"></textarea>
+      </div>
+      <div class="op-row" style="margin-top:10px;">
+        <button class="btn btn-primary" id="btnRestore" type="button">还原图片</button>
+        <button class="btn" id="btnDownloadImg" type="button" disabled>下载图片</button>
+        <span class="spacer"></span>
+        <button class="btn" id="btnClearPaste" type="button">清空</button>
+      </div>
+
+      <div class="preview-wrap" id="reverseWrap" hidden>
+        <img id="reversePreview" alt="还原图片预览">
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>图片转成Base64有什么用处？</h3>
+        <p>Base64 可将图片直接内嵌进 HTML、CSS 或 JSON 中，减少小图标或多图场景下的额外网络请求，便于单文件分享与离线展示。代价是体积会比原文件大约增加 33%。</p>
+      </div>
+      <div class="faq-item">
+        <h3>转换过程会泄露我的图片吗？</h3>
+        <p>不会。所有读取、编码与还原均在浏览器本地通过 FileReader 完成，图片不会上传到任何服务器，适合处理含有敏感信息的图像。</p>
+      </div>
+      <div class="faq-item">
+        <h3>粘贴的Base64如何判断图片类型？</h3>
+        <p>若粘贴内容以 data: 开头则直接按其中的 MIME 类型处理；纯 Base64 时工具会根据文件头特征自动识别 PNG、JPEG、GIF、WEBP 等常见格式，识别失败则按 PNG 处理并给出提示。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/image-base64.js"></script>
+</body>
+</html>

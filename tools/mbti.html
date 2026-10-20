@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MBTI性格测试 - 在线MBTI职业性格测试工具 | 在线工具大全</title>
+  <meta name="description" content="免费在线MBTI性格测试工具，48道题目覆盖E/I、S/N、T/F、J/P四个维度，5级量表快速作答，即时生成16型人格结果、维度倾向百分比、优势劣势与职业方向参考，浏览器本地完成。">
+  <meta name="keywords" content="MBTI,MBTI测试,性格测试,职业性格测试,MBTI免费测试,16型人格,MBTI在线测试,性格分析,人格测试,MBTI结果,MBTI题库">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/mbti.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="MBTI性格测试 - 在线MBTI职业性格测试工具">
+  <meta property="og:description" content="48道题目、四维度计分的在线MBTI性格测试，即时生成16型人格结果、维度倾向百分比、优势劣势与职业方向参考。">
+  <meta property="og:url" content="https://example.com/tools/mbti.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%A0%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "MBTI性格测试",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线MBTI性格测试工具，48道题目覆盖E/I、S/N、T/F、J/P四个维度，即时生成16型人格结果、维度倾向百分比与职业方向参考。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["48道测试题目", "5级量表作答", "四维度倾向百分比", "16型人格结果", "优势劣势分析", "职业方向参考", "本地计算不上传"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "MBTI测试的结果准确吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "MBTI测试基于自陈式量表统计四个维度的倾向，结果仅供娱乐与自我探索参考，可以帮助你从新的角度认识自己，但不能作为专业心理评估或招聘选拔的依据。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "测试数据会上传到服务器吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "不会。所有答题记录与得分计算均在你的浏览器本地完成，不上传任何服务器，关闭页面后数据即消失，无需注册登录。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "四个字母分别代表什么含义？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "E/I代表精力来源（外向/内向），S/N代表认知方式（实感/直觉），T/F代表决策方式（思考/情感），J/P代表生活态度（判断/知觉）。四个字母组合成16型人格，如INTJ建筑师。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    /* ---------- MBTI 专属 ---------- */
+    .mbti-progress { height: 8px; background: #eef2f7; border-radius: 999px; overflow: hidden; margin-bottom: 10px; }
+    .mbti-progress-bar { height: 100%; width: 0%; background: var(--primary); border-radius: 999px; transition: width 0.25s; }
+    .mbti-qmeta { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+    .mbti-qtext { font-size: 18px; font-weight: 600; line-height: 1.6; margin: 4px 0 6px; }
+    .mbti-options { display: flex; flex-direction: column; gap: 10px; margin: 16px 0 4px; }
+    .mbti-option { display: flex; align-items: center; gap: 10px; border: 1px solid var(--border); border-radius: 10px; padding: 11px 14px; font-size: 14.5px; cursor: pointer; background: #fbfcfe; color: var(--text); transition: border-color 0.15s, background 0.15s; }
+    .mbti-option:hover { border-color: var(--primary); background: var(--primary-light); }
+    .mbti-option.selected { border-color: var(--primary); background: var(--primary-light); color: var(--primary); font-weight: 600; }
+    .mbti-option input { accent-color: var(--primary); margin: 0; }
+    .mbti-qhint { font-size: 13px; color: var(--muted); }
+
+    .mbti-type-head { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    .mbti-type-code { font-size: 34px; font-weight: 800; color: var(--primary); letter-spacing: 3px; font-variant-numeric: tabular-nums; }
+    .mbti-type-name { font-size: 18px; font-weight: 700; }
+    .mbti-type-desc { font-size: 14px; color: var(--muted); line-height: 1.9; margin-top: 10px; }
+    .mbti-sec-title { font-size: 14px; font-weight: 600; margin: 20px 0 6px; color: var(--text); }
+    .mbti-list { margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.9; color: var(--text); }
+
+    .mbti-dim { margin-top: 14px; }
+    .mbti-dim-head { display: flex; justify-content: space-between; font-size: 13.5px; margin-bottom: 6px; }
+    .mbti-dim-head .dim-name { color: var(--muted); }
+    .mbti-dim-head b { color: var(--primary); font-variant-numeric: tabular-nums; }
+    .mbti-dim-track { height: 10px; background: #eef2f7; border-radius: 999px; overflow: hidden; }
+    .mbti-dim-fill { height: 100%; background: var(--primary); border-radius: 999px; transition: width 0.3s; }
+    .mbti-dim-side { font-size: 12.5px; color: var(--muted); margin-top: 4px; }
+
+    .mbti-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+    .mbti-tags .badge { font-size: 13px; padding: 4px 12px; }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="en/tools/mbti.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>MBTI性格测试</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🧠</div>
+        <h1>MBTI性格测试</h1>
+      </div>
+      <p class="tool-desc">在线MBTI职业性格测试，48道题目覆盖 E/I、S/N、T/F、J/P 四个维度，5级量表快速作答，即时生成16型人格结果、维度倾向百分比、优势劣势与职业方向参考。所有计算在浏览器本地完成。</p>
+    </section>
+
+    <section class="tool-panel">
+
+      <!-- 开始页 -->
+      <div id="mbtiStart">
+        <div class="result-grid">
+          <div class="result-card primary"><div class="num">48</div><div class="label">题目数量</div></div>
+          <div class="result-card"><div class="num">8~12</div><div class="label">预计用时（分钟）</div></div>
+          <div class="result-card"><div class="num">16</div><div class="label">可能结果（人格类型）</div></div>
+        </div>
+        <p class="wc-note">测试说明：共 48 道题目，每个维度 12 道。请根据第一反应选择最符合自己的选项，不必反复纠结；同一维度内答案没有对错之分。答题过程中可以随时返回上一题修改。结果将给出四字母人格类型、各维度倾向百分比、优势与劣势、适合的职业方向以及相性类型。</p>
+        <div class="warn-note">结果仅供娱乐与自我探索参考，非专业心理评估，请勿用于招聘选拔或临床诊断。</div>
+        <div class="op-row" style="margin-top:16px; margin-bottom:0;">
+          <button class="btn btn-primary" id="btnStart" type="button">开始测试</button>
+        </div>
+      </div>
+
+      <!-- 答题页 -->
+      <div id="mbtiQuiz" hidden>
+        <div class="mbti-progress"><div class="mbti-progress-bar" id="mbtiBar"></div></div>
+        <div class="mbti-qmeta"><span id="mbtiQMeta">第 1 / 48 题</span><span class="spacer" style="flex:1;"></span><span id="mbtiQGroup" class="badge blue"></span></div>
+        <h2 class="mbti-qtext" id="mbtiQText"></h2>
+        <div class="mbti-options" id="mbtiOptions" role="radiogroup" aria-label="选项"></div>
+        <div class="op-row" style="margin-top:14px; margin-bottom:0;">
+          <button class="btn" id="btnPrev" type="button">上一题</button>
+          <span class="spacer"></span>
+          <span class="mbti-qhint" id="mbtiQHint">选择后自动进入下一题</span>
+        </div>
+      </div>
+
+      <!-- 结果页 -->
+      <div id="mbtiResult" hidden>
+        <div class="mbti-type-head">
+          <div class="mbti-type-code" id="resCode">INTJ</div>
+          <div class="mbti-type-name" id="resName">建筑师</div>
+        </div>
+        <p class="mbti-type-desc" id="resDesc"></p>
+
+        <div class="mbti-sec-title" id="resDimTitle">维度倾向分析</div>
+        <div id="resDims"></div>
+
+        <div class="split-2" style="margin-top:16px;">
+          <div>
+            <div class="mbti-sec-title">优势</div>
+            <ul class="mbti-list" id="resStrengths"></ul>
+          </div>
+          <div>
+            <div class="mbti-sec-title">劣势</div>
+            <ul class="mbti-list" id="resWeaknesses"></ul>
+          </div>
+        </div>
+
+        <div class="mbti-sec-title">适合职业方向</div>
+        <div class="mbti-tags" id="resCareers"></div>
+
+        <div class="mbti-sec-title">相性类型</div>
+        <div class="mbti-tags" id="resMatch"></div>
+
+        <div class="op-row" style="margin-top:20px; margin-bottom:0;">
+          <button class="btn btn-primary" id="btnRestart" type="button">重新测试</button>
+          <button class="btn" id="btnCopyResult" type="button">复制结果文本</button>
+        </div>
+
+        <div class="info-note">测试结果仅供娱乐与自我探索参考，非专业心理评估。人格特质会随经历变化，请理性看待。</div>
+      </div>
+
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>MBTI测试的结果准确吗？</h3>
+        <p>MBTI测试基于自陈式量表统计四个维度的倾向，结果仅供娱乐与自我探索参考，可以帮助你从新的角度认识自己，但不能作为专业心理评估或招聘选拔的依据。</p>
+      </div>
+      <div class="faq-item">
+        <h3>测试数据会上传到服务器吗？</h3>
+        <p>不会。所有答题记录与得分计算均在你的浏览器本地完成，不上传任何服务器，关闭页面后数据即消失，无需注册登录。</p>
+      </div>
+      <div class="faq-item">
+        <h3>四个字母分别代表什么含义？</h3>
+        <p>E/I代表精力来源（外向/内向），S/N代表认知方式（实感/直觉），T/F代表决策方式（思考/情感），J/P代表生活态度（判断/知觉）。四个字母组合成16型人格，如INTJ建筑师。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/mbti.js"></script>
+</body>
+</html>

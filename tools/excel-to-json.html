@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Excel转JSON - 在线Excel/CSV转JSON工具 | 在线工具大全</title>
+  <meta name="description" content="免费在线Excel转JSON工具，支持 .xlsx/.xls/.csv 文件选择或拖入，Sheet 选择、首行表头、范围筛选，JSON 美化/压缩与表格预览，并可将 JSON 数组反向导出为 Excel，全程浏览器本地处理。">
+  <meta name="keywords" content="Excel转JSON,xlsx转json,csv转json,表格转JSON,Excel在线转换,JSON转Excel,数据导入导出,SheetJS">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/excel-to-json.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Excel转JSON - 在线Excel/CSV转JSON工具">
+  <meta property="og:description" content="支持文件拖入、Sheet 选择与范围筛选的 Excel/CSV 转 JSON 工具，并可反向导出 Excel。">
+  <meta property="og:url" content="https://example.com/tools/excel-to-json.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%8A%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <style>
+    .drop-zone {
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      background: #fbfcfe;
+      padding: 28px 20px;
+      text-align: center;
+      transition: border-color 0.15s, background 0.15s;
+      cursor: pointer;
+    }
+    .drop-zone.dragover {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+    .drop-zone .dz-icon { font-size: 34px; }
+    .drop-zone p { color: var(--muted); font-size: 14px; margin-top: 8px; display: flex; gap: 10px; align-items: center; justify-content: center; flex-wrap: wrap; }
+    .drop-zone .dz-inner { pointer-events: none; }
+    .drop-zone .dz-inner .btn { pointer-events: auto; }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Excel转JSON",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线Excel/CSV转JSON工具，支持Sheet选择、首行表头、范围筛选与反向导出Excel。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": [".xlsx/.xls/.csv 文件选择或拖入", "Sheet 选择与范围筛选", "首行表头开关", "JSON 美化/压缩", "前 50 行表格预览", "JSON 反向导出 Excel"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "支持哪些文件格式？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "支持 .xlsx、.xls 以及 .csv 三种格式，文件通过选择或拖拽上传，解析完全在浏览器本地完成，不会上传到任何服务器。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "首行表头有什么作用？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "勾选后第一行作为字段名，输出为以表头为键的对象数组；不勾选则输出二维数组，适合无表头的纯数据表。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "可以把 JSON 转回 Excel 吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "可以。在「JSON 转 Excel」中粘贴对象数组，点击生成即可下载 .xlsx 文件，列名取自首行对象的键。"
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="en/tools/excel-to-json.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>Excel转JSON</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">📊</div>
+        <h1>Excel转JSON</h1>
+      </div>
+      <p class="tool-desc">在线 Excel/CSV 转 JSON 工具，支持文件选择或拖入、Sheet 选择、首行表头与范围筛选，提供 JSON 美化/压缩与表格预览，并可将 JSON 数组反向导出为 Excel。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="op-row">
+        <div class="radio-row" id="modeRow" role="radiogroup" aria-label="方向">
+          <label class="checked"><input type="radio" name="mode" value="toJson" checked>Excel/CSV → JSON</label>
+          <label><input type="radio" name="mode" value="toExcel">JSON → Excel</label>
+        </div>
+      </div>
+
+      <!-- 文件转 JSON -->
+      <div id="panelToJson">
+        <div id="dropZone" class="drop-zone">
+          <div class="dz-inner">
+            <div class="dz-icon">📥</div>
+            <p>拖入 .xlsx / .xls / .csv 文件，或 <button type="button" class="btn" id="btnPick">选择文件</button></p>
+            <input type="file" id="fileInput" accept=".xlsx,.xls,.csv" hidden>
+          </div>
+        </div>
+
+        <div class="form-grid" style="margin-top:16px;">
+          <div class="form-item">
+            <label for="sheetSel">工作表 Sheet</label>
+            <select id="sheetSel" class="form-select"><option value="">请先选择文件</option></select>
+          </div>
+          <div class="form-item">
+            <label for="rangeInput">范围（可选，如 A1:D100）</label>
+            <input type="text" id="rangeInput" class="form-input" placeholder="留空表示全部">
+          </div>
+          <div class="form-item">
+            <label for="jsonFmt">输出格式</label>
+            <select id="jsonFmt" class="form-select">
+              <option value="pretty">美化</option>
+              <option value="compact">压缩</option>
+            </select>
+          </div>
+        </div>
+        <div class="checkbox-row">
+          <label><input type="checkbox" id="hasHeader" checked> 首行作为表头</label>
+          <span class="badge blue" id="rowStat">未读取</span>
+        </div>
+
+        <div class="split-2" style="margin-top:14px;">
+          <div class="form-item">
+            <label for="exJsonOutput">JSON 输出</label>
+            <textarea id="exJsonOutput" class="form-input" rows="14" readonly placeholder="转换结果会显示在这里" spellcheck="false"></textarea>
+          </div>
+          <div class="form-item">
+            <label>表格预览（前 50 行）</label>
+            <div class="table-wrap" id="previewWrap"><div class="empty-tip">尚未生成预览</div></div>
+          </div>
+        </div>
+
+        <div class="op-row" style="margin-top:14px; margin-bottom:0;">
+          <button class="btn btn-primary" id="btnConvertEx" type="button">转换</button>
+          <button class="btn" id="btnCopyEx" type="button">复制结果</button>
+          <button class="btn" id="btnDownloadEx" type="button">下载 .json</button>
+          <span class="spacer"></span>
+          <button class="btn" id="btnClearEx" type="button">清空</button>
+        </div>
+        <div class="warn-note" id="exWarn" hidden></div>
+      </div>
+
+      <!-- JSON 转 Excel -->
+      <div id="panelToExcel" hidden>
+        <div class="form-item" style="margin-bottom:14px;">
+          <label for="jsonInputEx">JSON 数组（对象数组，如 [{"a":1},{"a":2}]）</label>
+          <textarea id="jsonInputEx" class="form-input" rows="14" placeholder='[{"name":"张三","age":18},{"name":"李四","age":21}]' spellcheck="false"></textarea>
+        </div>
+        <div class="op-row" style="margin-top:0; margin-bottom:0;">
+          <button class="btn btn-primary" id="btnGenExcel" type="button">生成并下载 .xlsx</button>
+          <span class="spacer"></span>
+          <button class="btn" id="btnClearEx2" type="button">清空</button>
+        </div>
+        <div class="warn-note" id="exWarn2" hidden></div>
+        <p class="wc-note">说明：粘贴对象数组后点击生成，浏览器会直接下载 .xlsx 文件，列名取自首行对象的键，缺失字段留空。</p>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>支持哪些文件格式？</h3>
+        <p>支持 .xlsx、.xls 以及 .csv 三种格式，文件通过选择或拖拽上传，解析完全在浏览器本地完成，不会上传到任何服务器。</p>
+      </div>
+      <div class="faq-item">
+        <h3>首行表头有什么作用？</h3>
+        <p>勾选后第一行作为字段名，输出为以表头为键的对象数组；不勾选则输出二维数组，适合无表头的纯数据表。</p>
+      </div>
+      <div class="faq-item">
+        <h3>可以把 JSON 转回 Excel 吗？</h3>
+        <p>可以。在「JSON 转 Excel」中粘贴对象数组，点击生成即可下载 .xlsx 文件，列名取自首行对象的键。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/vendor/xlsx.full.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/excel-to-json.js"></script>
+</body>
+</html>

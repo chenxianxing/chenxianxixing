@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Markdown转HTML - 在线Markdown生成HTML代码工具 | 在线工具大全</title>
+  <meta name="description" content="免费在线Markdown转HTML工具，将Markdown实时转换为HTML代码，可选择生成带基础样式的完整HTML文档，一键复制或下载.html文件，并附Markdown常用语法速查表。">
+  <meta name="keywords" content="Markdown转HTML,Markdown生成HTML,Markdown转网页,MD转HTML,Markdown编译,Markdown语法速查,在线转换">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/markdown-to-html.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Markdown转HTML - 在线Markdown生成HTML代码工具">
+  <meta property="og:description" content="在线Markdown转HTML工具，实时转换、生成完整文档、复制下载，并附语法速查表。">
+  <meta property="og:url" content="https://example.com/tools/markdown-to-html.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%A6%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Markdown转HTML",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线Markdown转HTML工具，实时转换、生成完整文档、复制下载，并附语法速查表。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["实时转换为HTML代码", "生成完整HTML文档", "复制HTML代码", "下载.html文件", "Markdown语法速查表", "本地运行不上传"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "“生成完整HTML文档”有什么作用？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "勾选后，转换结果会包含完整的HTML文档结构（<!DOCTYPE html>、head、meta 与内嵌基础排版样式），可直接保存为 .html 文件用浏览器打开；不勾选则只输出 body 内的 HTML 片段，方便嵌入现有页面。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "转换后的HTML安全吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Markdown本身支持原始HTML，转换会保留你写入的内容。由于完全在本地浏览器完成、不上传，适合处理自己的文档；若转换不可信来源的Markdown，请在插入网页前自行检查其中的脚本标签。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Markdown支持哪些常用语法？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "常用语法包括标题（#）、强调（**粗体** / *斜体*）、列表（有序与无序）、链接与图片、行内与块级代码、表格以及引用（>）。页面底部提供了完整速查表。"
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="en/tools/markdown-to-html.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>Markdown转HTML</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🔦</div>
+        <h1>Markdown转HTML</h1>
+      </div>
+      <p class="tool-desc">在线Markdown转HTML工具，左侧输入Markdown、右侧实时输出HTML代码，可选择生成带基础样式的完整HTML文档，一键复制或下载.html文件。所有转换均在浏览器本地完成。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="op-row">
+        <label class="checkbox-row" style="font-size:13px;"><input type="checkbox" id="mhFull"> 生成完整HTML文档（含基础样式）</label>
+      </div>
+
+      <div class="split-2">
+        <div class="form-item">
+          <label for="mhInput">Markdown 输入</label>
+          <textarea id="mhInput" class="form-input" rows="14" placeholder="在此输入 Markdown 内容" spellcheck="false"></textarea>
+        </div>
+        <div class="form-item">
+          <label for="mhOutput">HTML 代码输出</label>
+          <div class="code-box" id="mhOutput" style="min-height:320px;"><span class="empty-tip" style="padding:40px 0;">转换后的 HTML 代码会显示在这里</span></div>
+        </div>
+      </div>
+
+      <div class="op-row" style="margin-top:14px; margin-bottom:0;">
+        <button class="btn btn-primary" id="btnCopy" type="button">复制 HTML</button>
+        <button class="btn" id="btnDownload" type="button">下载 .html</button>
+        <button class="btn" id="btnSample" type="button">载入示例</button>
+        <span class="spacer"></span>
+        <button class="btn" id="btnClear" type="button">清空</button>
+      </div>
+
+      <h3 style="font-size:15px; margin:20px 0 10px;">Markdown 常用语法速查表</h3>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr><th>类型</th><th>写法</th><th>效果说明</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>标题</td><td><code># 一级 / ## 二级 / ### 三级</code></td><td>不同级别的标题</td></tr>
+            <tr><td>强调</td><td><code>**粗体** *斜体* ~~删除线~~</code></td><td>加粗、倾斜、删除线</td></tr>
+            <tr><td>列表</td><td><code>- 项目</code> 或 <code>1. 项目</code></td><td>无序列表 / 有序列表</td></tr>
+            <tr><td>链接</td><td><code>[文字](https://)</code></td><td>超链接</td></tr>
+            <tr><td>图片</td><td><code>![alt](https://)</code></td><td>插入图片</td></tr>
+            <tr><td>代码</td><td><code>`行内`</code> 或 <code>```块```</code></td><td>行内代码 / 代码块</td></tr>
+            <tr><td>表格</td><td><code>| a | b |</code> 换行 <code>| --- | --- |</code></td><td>表格（首行表头，第二行分隔）</td></tr>
+            <tr><td>引用</td><td><code>&gt; 引用内容</code></td><td>块级引用</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>“生成完整HTML文档”有什么作用？</h3>
+        <p>勾选后，转换结果会包含完整的HTML文档结构（&lt;!DOCTYPE html&gt;、head、meta 与内嵌基础排版样式），可直接保存为 .html 文件用浏览器打开；不勾选则只输出 body 内的 HTML 片段，方便嵌入现有页面。</p>
+      </div>
+      <div class="faq-item">
+        <h3>转换后的HTML安全吗？</h3>
+        <p>Markdown本身支持原始HTML，转换会保留你写入的内容。由于完全在本地浏览器完成、不上传，适合处理自己的文档；若转换不可信来源的Markdown，请在插入网页前自行检查其中的脚本标签。</p>
+      </div>
+      <div class="faq-item">
+        <h3>Markdown支持哪些常用语法？</h3>
+        <p>常用语法包括标题（#）、强调（**粗体** / *斜体*）、列表（有序与无序）、链接与图片、行内与块级代码、表格以及引用（&gt;）。页面底部提供了完整速查表。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/vendor/marked.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/markdown-to-html.js"></script>
+</body>
+</html>

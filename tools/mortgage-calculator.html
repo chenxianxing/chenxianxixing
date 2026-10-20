@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>房贷计算器 - 商业贷款/公积金组合贷月供计算（等额本息/等额本金） | 在线工具大全</title>
+  <meta name="description" content="免费在线房贷计算器，支持商业贷款与公积金组合贷款，可选等额本息或等额本金还款方式，一键计算月供、总利息、总还款额，并生成完整还款计划表，数据本地计算不上传。">
+  <meta name="keywords" content="房贷计算器,月供计算器,等额本息,等额本金,组合贷款计算,公积金贷款计算,商业贷款计算,还款计划表,房贷计算器在线">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/mortgage-calculator.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="房贷计算器 - 月供/利息/还款计划一键计算">
+  <meta property="og:description" content="支持商业贷款、公积金组合贷款，等额本息与等额本金两种方式，一键计算月供、总利息与完整还款计划。">
+  <meta property="og:url" content="https://example.com/tools/mortgage-calculator.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%B0%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "房贷计算器",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "description": "在线房贷计算器，支持商业贷款与公积金组合贷款，等额本息与等额本金两种还款方式，可计算月供、总利息并生成还款计划表。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["等额本息月供计算", "等额本金月供计算", "商业贷款/公积金组合贷款", "总利息与总还款计算", "完整还款计划表", "本地计算不上传"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "等额本息和等额本金有什么区别？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "等额本息每月还款额固定，前期利息占比高、本金占比低；等额本金每月归还固定本金，月供逐月递减，总利息更少，但前期还款压力较大。以100万元贷款30年、年利率3.1%估算，等额本息总利息约53.7万元，等额本金约46.6万元。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "组合贷款是怎么计算的？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "组合贷款即商业贷款与公积金贷款两部分，分别按各自的本金、利率和相同年限计算月供后相加。本工具支持两部分独立设置金额与利率。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "计算结果准确吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "计算基于标准金融公式在浏览器本地完成，与银行等额本息/等额本金算法一致。实际还款以银行合同为准（利率变动、还款日、宽限期等因素银行会有细微差异），结果仅供预算参考。"
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="en/tools/mortgage-calculator.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>房贷计算器</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🏠</div>
+        <h1>房贷计算器</h1>
+      </div>
+      <p class="tool-desc">支持商业贷款与公积金组合贷款，可选等额本息或等额本金还款方式，实时计算月供、总利息、总还款额，并生成完整还款计划表。所有数据本地计算，不上传服务器。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="form-row">
+        <div class="form-item">
+          <label>贷款类型</label>
+          <div class="radio-row" id="mcLoanType">
+            <label class="checked"><input type="radio" name="loanType" value="commercial" checked> 商业贷款</label>
+            <label><input type="radio" name="loanType" value="combo"> 组合贷款</label>
+          </div>
+        </div>
+        <div class="form-item">
+          <label>还款方式</label>
+          <div class="radio-row" id="mcRepayType">
+            <label class="checked"><input type="radio" name="repayType" value="equalInstallment" checked> 等额本息</label>
+            <label><input type="radio" name="repayType" value="equalPrincipal"> 等额本金</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-item">
+          <label for="mcCommercialAmount">商业贷款总额（万元）</label>
+          <input type="number" id="mcCommercialAmount" class="form-input" value="100" min="0" step="1">
+        </div>
+        <div class="form-item">
+          <label for="mcCommercialRate">商业贷款年利率（%）</label>
+          <input type="number" id="mcCommercialRate" class="form-input" value="3.1" min="0" max="20" step="0.01">
+        </div>
+        <div class="form-item" id="mcGjjAmountItem" hidden>
+          <label for="mcGjjAmount">公积金贷款额（万元）</label>
+          <input type="number" id="mcGjjAmount" class="form-input" value="60" min="0" step="1">
+        </div>
+        <div class="form-item" id="mcGjjRateItem" hidden>
+          <label for="mcGjjRate">公积金年利率（%）</label>
+          <input type="number" id="mcGjjRate" class="form-input" value="2.6" min="0" max="20" step="0.01">
+        </div>
+        <div class="form-item">
+          <label for="mcYears">贷款年限（年）</label>
+          <input type="number" id="mcYears" class="form-input" value="30" min="1" max="30" step="1">
+        </div>
+      </div>
+
+      <div class="result-grid">
+        <div class="result-card primary">
+          <div class="num" id="mcMonthly">—</div>
+          <div class="label" id="mcMonthlyLabel">每月月供</div>
+        </div>
+        <div class="result-card">
+          <div class="num" id="mcTotalInterest">—</div>
+          <div class="label">支付利息总额</div>
+        </div>
+        <div class="result-card">
+          <div class="num" id="mcTotalPayment">—</div>
+          <div class="label">还款总额</div>
+        </div>
+        <div class="result-card">
+          <div class="num" id="mcInterestRatio">—</div>
+          <div class="label">利息占还款总额比例</div>
+        </div>
+      </div>
+
+      <div class="op-row" style="margin-top:16px; margin-bottom:0;">
+        <span class="badge blue" id="mcLoanSummary">—</span>
+        <span class="spacer"></span>
+        <button class="btn" id="btnCopyPlan" type="button">复制还款计划</button>
+      </div>
+
+      <h3 style="font-size:15px; margin:18px 0 8px;">还款计划表</h3>
+      <div class="table-wrap" id="mcTableWrap" hidden>
+        <table class="data-table">
+          <thead>
+            <tr><th>期数</th><th>月供</th><th>本金</th><th>利息</th><th>剩余本金</th></tr>
+          </thead>
+          <tbody id="mcTableBody"></tbody>
+        </table>
+      </div>
+      <div class="empty-tip" id="mcEmpty">请输入有效的贷款信息</div>
+
+      <p class="wc-note">说明：等额本息月供 = 本金 × 月利率 × (1+月利率)^期数 ÷ [(1+月利率)^期数 − 1]；等额本金每月归还固定本金，月供 = 本金÷期数 + 剩余本金 × 月利率。组合贷款中商业与公积金部分分别计算后相加。利率如有变动以银行最新公布为准，本工具结果仅供预算参考。</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>等额本息和等额本金有什么区别？</h3>
+        <p>等额本息每月还款额固定，前期利息占比高、本金占比低；等额本金每月归还固定本金，月供逐月递减，总利息更少，但前期还款压力较大。以100万元贷款30年、年利率3.1%估算，等额本息总利息约53.7万元，等额本金约46.6万元。</p>
+      </div>
+      <div class="faq-item">
+        <h3>组合贷款是怎么计算的？</h3>
+        <p>组合贷款即商业贷款与公积金贷款两部分，分别按各自的本金、利率和相同年限计算月供后相加。本工具支持两部分独立设置金额与利率。</p>
+      </div>
+      <div class="faq-item">
+        <h3>计算结果准确吗？</h3>
+        <p>计算基于标准金融公式在浏览器本地完成，与银行等额本息/等额本金算法一致。实际还款以银行合同为准（利率变动、还款日、宽限期等因素银行会有细微差异），结果仅供预算参考。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/mortgage-calculator.js"></script>
+</body>
+</html>

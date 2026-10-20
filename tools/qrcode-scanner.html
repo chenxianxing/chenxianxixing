@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>二维码扫描器 - 本地图片/摄像头扫码识别工具 | 在线工具大全</title>
+  <meta name="description" content="免费在线二维码扫描器，支持上传图片、粘贴截图、摄像头实时扫描三种方式，自动识别并分类展示网址、WiFi、名片、电话、邮箱、地理位置等二维码内容，所有解析均在浏览器本地完成，图片与画面不会上传。">
+  <meta name="keywords" content="二维码扫描,二维码识别,扫码,二维码解析,图片扫码,摄像头扫码,WiFi二维码,vCard二维码,本地二维码,二维码工具">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/qrcode-scanner.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="二维码扫描器 - 本地图片/摄像头扫码识别工具">
+  <meta property="og:description" content="支持上传图片、粘贴截图、摄像头实时扫描三种方式，自动识别网址、WiFi、名片等二维码内容。">
+  <meta property="og:url" content="https://example.com/tools/qrcode-scanner.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%B7%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "二维码扫描器",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "本地二维码扫描器，支持上传图片、粘贴截图、摄像头实时扫描，自动分类识别网址、WiFi、名片等格式。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["上传图片扫码", "粘贴截图扫码", "摄像头实时扫描", "网址识别", "WiFi识别", "名片识别", "扫描历史", "本地处理不上传"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "二维码扫描需要联网吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "不需要。本工具 100% 在浏览器本地完成解码，图片和摄像头画面均不会上传到任何服务器，断网也可正常使用。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "支持识别哪些二维码内容？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "支持网址(URL)、WiFi、名片(vCard/MECARD)、电话、邮箱、短信、地理位置以及普通文本等多种格式，扫描后会自动分类并结构化展示。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "摄像头无法开启怎么办？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "摄像头需要在 HTTPS 安全上下文或 localhost 环境下才可用。若以 file:// 直接打开或访问非安全网络，浏览器会禁用摄像头，此时可使用上传图片或粘贴截图的方式扫码。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .qs-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+    .qs-tab {
+      height: 36px; padding: 0 16px; border: 1px solid var(--border); border-radius: 9px;
+      background: var(--card); color: var(--muted); font-size: 14px; cursor: pointer; font-family: var(--font);
+      transition: border-color .15s, color .15s, background .15s;
+    }
+    .qs-tab.active { background: var(--primary); border-color: var(--primary); color: #fff; -webkit-text-fill-color: #fff; }
+    .scan-pane { margin-bottom: 8px; }
+    .drop-zone {
+      border: 2px dashed var(--border); border-radius: 14px; padding: 36px 20px; text-align: center;
+      cursor: pointer; transition: border-color .15s, background .15s; background: #fbfcfe;
+    }
+    .drop-zone:hover, .drop-zone.dragover { border-color: var(--primary); background: rgba(37,99,235,.05); }
+    .dz-icon { font-size: 42px; line-height: 1; }
+    .drop-zone p { margin: 8px 0 0; font-size: 15px; color: var(--text); }
+    .drop-zone .dz-sub { font-size: 13px; color: var(--muted); }
+    .clip-hint {
+      border: 1px solid var(--border); border-radius: 14px; padding: 36px 20px; text-align: center; background: #fbfcfe;
+    }
+    .clip-hint .dz-icon { font-size: 42px; }
+    .clip-hint p { margin: 8px 0 0; font-size: 15px; }
+    .clip-hint .dz-sub { font-size: 13px; color: var(--muted); }
+    .cam-wrap { position: relative; width: 100%; max-width: 520px; margin: 0 auto; border-radius: 14px; overflow: hidden; background: #0f172a; border: 1px solid var(--border); }
+    .cam-wrap video { display: block; width: 100%; height: auto; }
+    .cam-wrap canvas { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+    .cam-status { text-align: center; font-size: 13px; color: var(--muted); margin-top: 8px; }
+    .res-badges { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .res-link { display: inline-block; color: var(--primary); word-break: break-all; font-size: 15px; }
+    .res-link:hover { text-decoration: underline; }
+    .hist-list { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+    .hist-item { display: flex; align-items: center; gap: 10px; border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; background: #fbfcfe; }
+    .hist-item .hi-text { flex: 1; min-width: 0; font-size: 13.5px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .hist-item .hi-time { font-size: 12px; color: var(--muted); flex-shrink: 0; }
+    .hist-item .btn { height: 30px; padding: 0 12px; font-size: 13px; }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="en/tools/qrcode-scanner.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>二维码扫描器</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">📷</div>
+        <h1>二维码扫描器</h1>
+      </div>
+      <p class="tool-desc">支持上传图片、粘贴截图、摄像头实时扫描三种方式，自动识别并分类展示网址、WiFi、名片、电话、邮箱、地理位置等二维码内容，全程本地处理。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="qs-tabs" role="tablist">
+        <button class="qs-tab active" id="tabFile" type="button" data-pane="paneFile">上传图片</button>
+        <button class="qs-tab" id="tabClip" type="button" data-pane="paneClip">粘贴截图</button>
+        <button class="qs-tab" id="tabCam" type="button" data-pane="paneCam">摄像头扫描</button>
+      </div>
+
+      <div class="scan-pane" id="paneFile">
+        <div class="drop-zone" id="dropZone" tabindex="0" role="button" aria-label="点击或拖入二维码图片">
+          <input type="file" id="fileInput" accept="image/*" hidden>
+          <div class="dz-icon">🖼️</div>
+          <p>点击选择，或将二维码图片拖入此处</p>
+          <p class="dz-sub">支持 PNG / JPG / WEBP / GIF，图片不会上传</p>
+        </div>
+      </div>
+
+      <div class="scan-pane" id="paneClip" hidden>
+        <div class="clip-hint">
+          <div class="dz-icon">📋</div>
+          <p>在此页面按下 Ctrl / Cmd + V 粘贴截图</p>
+          <p class="dz-sub">直接粘贴系统剪贴板中的二维码图片即可识别</p>
+        </div>
+      </div>
+
+      <div class="scan-pane" id="paneCam" hidden>
+        <div class="cam-wrap">
+          <video id="camVideo" playsinline muted></video>
+          <canvas id="camCanvas"></canvas>
+        </div>
+        <div class="op-row" style="margin-top:12px; justify-content:center;">
+          <button class="btn btn-primary" id="btnStartCam" type="button">开启摄像头</button>
+          <button class="btn" id="btnStopCam" type="button">停止扫描</button>
+        </div>
+        <p class="cam-status" id="camStatus"></p>
+        <div class="warn-note" id="camWarn" hidden></div>
+      </div>
+
+      <div class="result-area" id="resultWrap" hidden>
+        <div class="op-row">
+          <span class="res-badges">
+            <span class="badge" id="resType">文本</span>
+            <span class="badge blue" id="resSource">来源</span>
+          </span>
+          <span class="spacer"></span>
+          <button class="btn" id="btnCopyResult" type="button">复制结果</button>
+          <button class="btn" id="btnRescan" type="button">重新扫描</button>
+        </div>
+        <div id="resDetail"></div>
+        <div class="form-item" style="margin-top:12px;">
+          <label for="resRaw">原始内容</label>
+          <div class="code-box" id="resRaw"></div>
+        </div>
+      </div>
+
+      <div class="history" id="historyBlock" hidden style="margin-top:18px;">
+        <div class="op-row">
+          <h3 style="margin:0;font-size:16px;">扫描历史</h3>
+          <span class="spacer"></span>
+          <button class="btn" id="btnClearHist" type="button">清空历史</button>
+        </div>
+        <div class="hist-list" id="historyList"></div>
+      </div>
+
+      <div class="info-note">说明：100% 本地处理，图片与摄像头画面不会上传到任何服务器，扫码结果仅在本机显示。</div>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>二维码扫描需要联网吗？</h3>
+        <p>不需要。本工具 100% 在浏览器本地完成解码，图片和摄像头画面均不会上传到任何服务器，断网也可正常使用。</p>
+      </div>
+      <div class="faq-item">
+        <h3>支持识别哪些二维码内容？</h3>
+        <p>支持网址(URL)、WiFi、名片(vCard/MECARD)、电话、邮箱、短信、地理位置以及普通文本等多种格式，扫描后会自动分类并结构化展示。</p>
+      </div>
+      <div class="faq-item">
+        <h3>摄像头无法开启怎么办？</h3>
+        <p>摄像头需要在 HTTPS 安全上下文或 localhost 环境下才可用。若以 file:// 直接打开或访问非安全网络，浏览器会禁用摄像头，此时可使用上传图片或粘贴截图的方式扫码。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/vendor/jsqr.js"></script>
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/qrcode-scanner.js"></script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>大小写转换 - 在线英文字母与命名法转换工具 | 在线工具大全</title>
+  <meta name="description" content="免费在线大小写转换工具，支持全部大写、全部小写、每词首字母大写、句首大写、反转大小写，以及camelCase、PascalCase、snake_case、kebab-case、CONSTANT_CASE命名法转换，可多选按序组合。">
+  <meta name="keywords" content="大小写转换,英文大小写,驼峰命名,camelCase,PascalCase,snake_case,kebab-case,常量命名,CONSTANT_CASE,首字母大写">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/text-case.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="大小写转换 - 在线英文字母与命名法转换工具">
+  <meta property="og:description" content="在线大小写转换工具，支持多种大小写与命名法转换，可多选按序组合，实时预览、一键复制。">
+  <meta property="og:url" content="https://example.com/tools/text-case.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%A0%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "大小写转换",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线大小写转换工具，支持多种大小写与命名法转换，可多选按序组合。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["全部大写/小写", "每词首字母大写", "句首大写", "反转大小写", "camelCase/PascalCase", "snake_case/kebab-case/CONSTANT_CASE", "可多选按序组合"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "可以把多种转换组合起来使用吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "可以。所有模式按钮都可多选，转换会按照页面列出的顺序依次应用。例如先选“全部小写”再选“snake_case”，可把任意文本规整为下划线命名。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "camelCase 和 PascalCase 有什么区别？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "camelCase（小驼峰）首单词首字母小写，后续单词首字母大写，例如 myVariableName；PascalCase（大驼峰）每个单词首字母都大写，例如 MyVariableName。两者常用于不同编程语言的命名约定。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "CONSTANT_CASE 是什么？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "CONSTANT_CASE 又称大写常量命名，所有字母大写、单词之间用下划线分隔，例如 MAX_COUNT。常见于常量、枚举值或配置项的命名。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .tc-modes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .tc-mode {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: #fbfcfe;
+      color: var(--muted);
+      font-size: 13.5px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .tc-mode input { display: none; }
+    .tc-mode.active {
+      background: var(--primary);
+      color: #fff;
+      -webkit-text-fill-color: #fff;
+      border-color: var(--primary);
+    }
+    .tc-mode .ex {
+      font-family: "SFMono-Regular", Consolas, monospace;
+      font-size: 12px;
+      opacity: 0.85;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="en/tools/text-case.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>大小写转换</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🔠</div>
+        <h1>大小写转换</h1>
+      </div>
+      <p class="tool-desc">在线英文字母大小写与命名法转换工具，支持全部大写、全部小写、每词首字母大写、句首大写、反转大小写，以及 camelCase、PascalCase、snake_case、kebab-case、CONSTANT_CASE，可多选按序组合，实时预览。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="form-item" style="margin-bottom:14px;">
+        <label>转换模式（可多选，按列表顺序依次应用）</label>
+        <div class="tc-modes" id="tcModes">
+          <label class="tc-mode"><input type="checkbox" value="upper"> 全部大写</label>
+          <label class="tc-mode"><input type="checkbox" value="lower"> 全部小写</label>
+          <label class="tc-mode"><input type="checkbox" value="capitalize"> 每词首字母大写</label>
+          <label class="tc-mode"><input type="checkbox" value="sentence"> 句首大写</label>
+          <label class="tc-mode"><input type="checkbox" value="toggle"> 反转大小写</label>
+          <label class="tc-mode"><input type="checkbox" value="camel"> camelCase <span class="ex">myVar</span></label>
+          <label class="tc-mode"><input type="checkbox" value="pascal"> PascalCase <span class="ex">MyVar</span></label>
+          <label class="tc-mode"><input type="checkbox" value="snake"> snake_case <span class="ex">my_var</span></label>
+          <label class="tc-mode"><input type="checkbox" value="kebab"> kebab-case <span class="ex">my-var</span></label>
+          <label class="tc-mode"><input type="checkbox" value="constant"> CONSTANT_CASE <span class="ex">MY_VAR</span></label>
+        </div>
+      </div>
+
+      <div class="split-2">
+        <div class="form-item">
+          <label for="tcInput">原始文本</label>
+          <textarea id="tcInput" class="form-input" rows="10" placeholder="输入需要转换的英文文本，例如：hello world example" spellcheck="false"></textarea>
+        </div>
+        <div class="form-item">
+          <label for="tcOutput">转换结果</label>
+          <textarea id="tcOutput" class="form-input" rows="10" readonly placeholder="转换结果会显示在这里" spellcheck="false"></textarea>
+        </div>
+      </div>
+
+      <div class="op-row" style="margin-top:14px; margin-bottom:0;">
+        <button class="btn btn-primary" id="btnCopy" type="button">复制结果</button>
+        <button class="btn" id="btnSwap" type="button">交换输入输出</button>
+        <span class="spacer"></span>
+        <button class="btn" id="btnClear" type="button">清空</button>
+      </div>
+
+      <p class="wc-note">说明：多种模式可同时勾选，将按“全部大写 → 全部小写 → 每词首字母 → 句首 → 反转 → camel → pascal → snake → kebab → 常量”的顺序依次应用。命名法模式会先按词拆分（含驼峰边界与符号分隔）再组合。</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>可以把多种转换组合起来使用吗？</h3>
+        <p>可以。所有模式按钮都可多选，转换会按照页面列出的顺序依次应用。例如先选“全部小写”再选“snake_case”，可把任意文本规整为下划线命名。</p>
+      </div>
+      <div class="faq-item">
+        <h3>camelCase 和 PascalCase 有什么区别？</h3>
+        <p>camelCase（小驼峰）首单词首字母小写，后续单词首字母大写，例如 myVariableName；PascalCase（大驼峰）每个单词首字母都大写，例如 MyVariableName。两者常用于不同编程语言的命名约定。</p>
+      </div>
+      <div class="faq-item">
+        <h3>CONSTANT_CASE 是什么？</h3>
+        <p>CONSTANT_CASE 又称大写常量命名，所有字母大写、单词之间用下划线分隔，例如 MAX_COUNT。常见于常量、枚举值或配置项的命名。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/text-case.js"></script>
+</body>
+</html>

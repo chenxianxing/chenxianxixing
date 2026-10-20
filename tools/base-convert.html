@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>进制转换 - 2/8/10/16及任意进制在线互转 | 在线工具大全</title>
+  <meta name="description" content="免费在线进制转换工具，支持二进制、八进制、十进制、十六进制及任意 2-36 进制互转，支持负数与超大数（BigInt），并可生成字节 HEX 视图，所有计算在浏览器本地完成。">
+  <meta name="keywords" content="进制转换,二进制转换,十进制转十六进制,任意进制,2进制,8进制,16进制,BigInt,十六进制,字节hex,进制在线转换">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/base-convert.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="进制转换 - 2/8/10/16及任意进制在线互转">
+  <meta property="og:description" content="支持 2-36 任意进制互转、负数与超大数、字节 HEX 视图的在线进制转换工具。">
+  <meta property="og:url" content="https://example.com/tools/base-convert.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%A2%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "进制转换",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线进制转换工具，支持二、八、十、十六进制及任意 2-36 进制互转，支持负数与超大数。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["二进制转换", "八进制转换", "十进制转换", "十六进制转换", "任意 2-36 进制", "负数支持", "超大数(BigInt)", "字节 HEX 视图", "一键复制"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "如何输入十六进制、二进制数字？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "本工具按你选择的源进制解析。选「十六进制」时可输入 FF 或带前缀 0xFF；选「二进制」时可输入 1010 或带前缀 0b1010；选「八进制」可输入 17 或 0o17。超出该进制合法字符的输入会提示错误。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "支持多大的数字？负数可以吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "本工具使用 BigInt 进行任意精度整数运算，理论上仅受浏览器内存限制，可处理几十上百位的超大整数；同时支持以负号开头的负数。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "字节 HEX 视图是做什么的？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "把一段文本按 UTF-8 编码成字节，并以两位十六进制一组的形式展示（如 Hello → 48 65 6C 6C 6F），常用于查看字符串的底层字节。也支持反向：粘贴 HEX 还原为文本。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .bc-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: flex-end;
+      margin-bottom: 14px;
+    }
+    .bc-row .form-item { flex: 1; min-width: 150px; }
+    .bc-input {
+      width: 100%;
+      height: 44px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 0 14px;
+      font-size: 16px;
+      font-family: "SFMono-Regular", Consolas, Menlo, "Courier New", monospace;
+      color: var(--text);
+      background: #fbfcfe;
+      outline: none;
+    }
+    .bc-input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(37,99,235,0.10); background:#fff; }
+    .bc-prefix-note { font-size: 13px; color: var(--muted); margin-top: 8px; }
+    .bc-hex-box {
+      width:100%;
+      min-height:120px;
+      border:1px solid var(--border);
+      border-radius:11px;
+      background:#f8fafc;
+      padding:14px 16px;
+      font-family:"SFMono-Regular",Consolas,Menlo,"Courier New",monospace;
+      font-size:14px;
+      line-height:1.9;
+      color:var(--text);
+      white-space:pre-wrap;
+      word-break:break-all;
+      resize:vertical;
+    }
+    .bc-hex-box:focus { border-color:var(--primary); box-shadow:0 0 0 4px rgba(37,99,235,0.10); background:#fff; outline:none; }
+    .bc-custom {
+      display:flex; align-items:center; gap:8px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="en/tools/base-convert.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>进制转换</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🔢</div>
+        <h1>进制转换</h1>
+      </div>
+      <p class="tool-desc">在线进制转换工具，支持二进制、八进制、十进制、十六进制及任意 2-36 进制互转，支持负数与超大整数（BigInt），并附字节 HEX 视图，所有计算均在浏览器本地完成。</p>
+    </section>
+
+    <section class="tool-panel">
+
+      <div class="bc-row">
+        <div class="form-item" style="flex:2;">
+          <label for="bcInput">输入数值</label>
+          <input type="text" id="bcInput" class="bc-input" placeholder="例如：255、FF、1010、-12345678901234567890" spellcheck="false">
+        </div>
+        <div class="form-item">
+          <label for="bcFrom">源进制</label>
+          <select id="bcFrom" class="form-select">
+            <option value="2">二进制 (2)</option>
+            <option value="8">八进制 (8)</option>
+            <option value="10" selected>十进制 (10)</option>
+            <option value="16">十六进制 (16)</option>
+            <option value="custom">自定义 (2-36)</option>
+          </select>
+        </div>
+        <div class="form-item bc-custom" id="bcCustomWrap" style="display:none; flex:1;">
+          <div class="form-item" style="flex:1;">
+            <label for="bcCustom">自定义进制</label>
+            <input type="number" id="bcCustom" class="form-input" min="2" max="36" value="36">
+          </div>
+        </div>
+      </div>
+
+      <div class="op-row" style="margin-bottom:6px;">
+        <button class="btn btn-primary" id="btnBcConvert" type="button">转换</button>
+        <button class="btn" id="btnBcCopy" type="button">复制结果</button>
+        <label class="bc-custom" style="gap:6px; align-items:center;">
+          <span style="font-size:13px; color:var(--muted);">目标进制</span>
+          <input type="number" id="bcToCustom" class="form-input" style="width:72px;" min="2" max="36" value="36">
+        </label>
+        <span class="spacer"></span>
+        <span class="bc-prefix-note" id="bcPrefixNote"></span>
+      </div>
+
+      <div class="warn-note" id="bcError" hidden></div>
+
+      <div class="result-grid" id="bcResult"></div>
+
+      <h3 style="font-size:16px; margin:24px 0 4px;">附加：字节 HEX 视图</h3>
+      <p class="tool-desc" style="margin-top:0;">将文本按 UTF-8 编码为字节并以两位十六进制分组展示，或反向将 HEX 还原为文本。</p>
+      <div class="split-2">
+        <div class="form-item">
+          <label for="bcText">文本</label>
+          <textarea id="bcText" class="bc-hex-box" placeholder="输入文本，如 Hello">Hello</textarea>
+        </div>
+        <div class="form-item">
+          <label for="bcHex">HEX（两位一组，空格分隔）</label>
+          <textarea id="bcHex" class="bc-hex-box" placeholder="粘贴 HEX 字节，如 48 65 6C 6C 6F">48 65 6C 6C 6F</textarea>
+        </div>
+      </div>
+      <div class="op-row" style="margin-top:12px; margin-bottom:0;">
+        <button class="btn" id="btnTextToHex" type="button">文本 → HEX</button>
+        <button class="btn" id="btnHexToText" type="button">HEX → 文本</button>
+        <button class="btn" id="btnCopyHex" type="button">复制 HEX</button>
+      </div>
+
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>如何输入十六进制、二进制数字？</h3>
+        <p>本工具按你选择的源进制解析。选「十六进制」时可输入 FF 或带前缀 0xFF；选「二进制」时可输入 1010 或带前缀 0b1010；选「八进制」可输入 17 或 0o17。超出该进制合法字符的输入会提示错误。</p>
+      </div>
+      <div class="faq-item">
+        <h3>支持多大的数字？负数可以吗？</h3>
+        <p>本工具使用 BigInt 进行任意精度整数运算，理论上仅受浏览器内存限制，可处理几十上百位的超大整数；同时支持以负号开头的负数。</p>
+      </div>
+      <div class="faq-item">
+        <h3>字节 HEX 视图是做什么的？</h3>
+        <p>把一段文本按 UTF-8 编码成字节，并以两位十六进制一组的形式展示（如 Hello → 48 65 6C 6C 6F），常用于查看字符串的底层字节。也支持反向：粘贴 HEX 还原为文本。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/base-convert.js"></script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON格式化 - 在线JSON美化/压缩/校验工具 | 在线工具大全</title>
+  <meta name="description" content="免费在线JSON格式化工具，支持JSON美化（2空格/4空格/Tab缩进）、压缩成单行、转义与去转义、语法校验并精确定位错误行列，提供可折叠树形视图，本地处理不上传，适合接口调试与数据查看。">
+  <meta name="keywords" content="JSON格式化,JSON美化,JSON压缩,JSON校验,JSON转义,JSON树形视图,JSON在线解析,JSON错误定位,JSON格式化工具">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/json-format.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="JSON格式化 - 在线JSON美化/压缩/校验工具">
+  <meta property="og:description" content="支持JSON美化、压缩、转义、去转义与语法校验的在线工具，可折叠树形视图，本地处理不上传。">
+  <meta property="og:url" content="https://example.com/tools/json-format.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%B9%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "JSON格式化",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线JSON格式化工具，支持美化、压缩、转义、去转义与语法校验，并提供可折叠树形视图。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["JSON美化（缩进可选）", "JSON压缩成单行", "JSON转义/去转义", "语法校验并定位错误行列", "可折叠树形视图", "复制与下载 .json"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "JSON校验提示错误时如何定位问题？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "本工具在解析失败时会给出错误原因以及出错位置的行号与列号，并标注字符偏移量。常见原因包括：多余的逗号、缺少引号、键名未用双引号、结尾多出的括号等。根据行列号回到原文修改即可。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "JSON格式化会改变数据内容吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "不会。美化/压缩/转义/去转义都只是改变文本的表现形式（缩进、空白、引号转义），不会改变数据的结构与值。校验通过后再格式化是安全的。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "大体积的JSON粘贴进来会卡吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "内容超过 1MB 时工具会提示性能风险，建议关闭实时格式化、先校验结构，或拆分后再处理。所有解析均在浏览器本地完成，不会上传到服务器。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .jf-input-row { margin-bottom: 0; }
+    .jf-toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 6px 0 14px; }
+    .jf-toolbar .spacer { flex: 1; }
+    .tree { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, "Courier New", monospace; font-size: 13.5px; line-height: 1.7; }
+    .tree details { padding-left: 16px; }
+    .tree > details { padding-left: 0; }
+    .tree summary { cursor: pointer; list-style: none; outline: none; user-select: none; }
+    .tree summary::-webkit-details-marker { display: none; }
+    .tree summary::before { content: "▸"; display: inline-block; width: 14px; color: var(--muted); transition: transform .12s; }
+    .tree details[open] > summary::before { content: "▾"; }
+    .tree .t-key { color: #7c3aed; font-weight: 600; }
+    .tree .t-str { color: #059669; }
+    .tree .t-num { color: #d97706; }
+    .tree .t-bool { color: #2563eb; }
+    .tree .t-null { color: #dc2626; }
+    .tree .t-type { color: #9ca3af; font-size: 11px; margin-left: 6px; font-style: italic; }
+    .tree .t-count { color: var(--muted); font-size: 11px; }
+    .tree .t-children { border-left: 1px dashed var(--border); margin: 2px 0 2px 6px; padding-left: 8px; }
+    .tree .t-leaf { padding: 1px 0; }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="en/tools/json-format.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>JSON格式化</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🧩</div>
+        <h1>JSON格式化</h1>
+      </div>
+      <p class="tool-desc">在线 JSON 美化、压缩、转义与语法校验工具，支持 2 空格 / 4 空格 / Tab 缩进，提供可折叠树形视图并精确定位错误行列，所有解析均在浏览器本地完成，不上传服务器。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="op-row">
+        <div class="radio-row" id="indentRow" role="radiogroup" aria-label="缩进方式">
+          <label class="checked"><input type="radio" name="indent" value="2" checked>2 空格</label>
+          <label><input type="radio" name="indent" value="4">4 空格</label>
+          <label><input type="radio" name="indent" value="tab">Tab</label>
+        </div>
+        <span class="spacer"></span>
+        <label class="checkbox-row" style="font-size:13px;"><input type="checkbox" id="autoFmt"> 实时格式化</label>
+      </div>
+
+      <div class="form-item">
+        <label for="jfInput">JSON 输入</label>
+        <textarea id="jfInput" class="form-input code-box editable" rows="12" spellcheck="false" placeholder='在此粘贴或输入 JSON，例如：{"name":"张三","age":18}'></textarea>
+      </div>
+
+      <div class="jf-toolbar">
+        <button class="btn btn-primary" id="btnFormat" type="button">格式化</button>
+        <button class="btn" id="btnMinify" type="button">压缩</button>
+        <button class="btn" id="btnEscape" type="button">转义</button>
+        <button class="btn" id="btnUnescape" type="button">去转义</button>
+        <button class="btn" id="btnValidate" type="button">校验</button>
+        <span class="spacer"></span>
+        <button class="btn" id="btnSample" type="button">示例</button>
+        <button class="btn" id="btnClear" type="button">清空</button>
+      </div>
+
+      <div class="warn-note" id="jfError" hidden></div>
+      <div class="info-note" id="jfPerf" hidden>内容较大（超过 1MB），格式化与树形视图可能较慢，建议先校验结构或拆分处理。</div>
+
+      <div class="form-item" style="margin-top:14px;">
+        <label for="jfOutput">结果</label>
+        <textarea id="jfOutput" class="form-input code-box" rows="12" readonly spellcheck="false" placeholder="格式化后的 JSON 会显示在这里"></textarea>
+      </div>
+
+      <div class="op-row" style="margin-top:8px; margin-bottom:0;">
+        <button class="btn" id="btnCopy" type="button">复制结果</button>
+        <button class="btn" id="btnDownload" type="button">下载 .json</button>
+      </div>
+
+      <div class="split-2" style="margin-top:20px;">
+        <div class="form-item">
+          <label>树形视图（点击折叠/展开）</label>
+          <div class="code-box" id="jfTree" style="min-height:220px;"><div class="empty-tip">格式化或校验后在此展示结构树</div></div>
+        </div>
+        <div class="form-item">
+          <label>校验信息</label>
+          <div class="code-box" id="jfInfo" style="min-height:220px;"><div class="empty-tip">点击「校验」查看结构与状态</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>JSON校验提示错误时如何定位问题？</h3>
+        <p>本工具在解析失败时会给出错误原因以及出错位置的行号与列号，并标注字符偏移量。常见原因包括：多余的逗号、缺少引号、键名未用双引号、结尾多出的括号等。根据行列号回到原文修改即可。</p>
+      </div>
+      <div class="faq-item">
+        <h3>JSON格式化会改变数据内容吗？</h3>
+        <p>不会。美化/压缩/转义/去转义都只是改变文本的表现形式（缩进、空白、引号转义），不会改变数据的结构与值。校验通过后再格式化是安全的。</p>
+      </div>
+      <div class="faq-item">
+        <h3>大体积的JSON粘贴进来会卡吗？</h3>
+        <p>内容超过 1MB 时工具会提示性能风险，建议关闭实时格式化、先校验结构，或拆分后再处理。所有解析均在浏览器本地完成，不会上传到服务器。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/json-format.js"></script>
+</body>
+</html>

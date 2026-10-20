@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SQL转义 - 在线SQL字符串转义与IN列表生成 | 在线工具大全</title>
+  <meta name="description" content="免费在线SQL转义工具，支持单引号加倍、反斜杠与换行回车制表符NUL转义、转义还原，以及多行文本一键生成 'a','b','c' 形式的 IN 列表，全部浏览器本地处理。">
+  <meta name="keywords" content="SQL转义,SQL字符串转义,单引号转义,SQL注入,IN列表生成,SQL escape,SQL还原,SQL安全">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/sql-escape.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="SQL转义 - 在线SQL字符串转义与IN列表生成">
+  <meta property="og:description" content="支持单引号加倍、控制字符转义与IN列表生成的一站式SQL转义工具，全程本地处理。">
+  <meta property="og:url" content="https://example.com/tools/sql-escape.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%90%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "SQL转义",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线SQL字符串转义与IN列表生成工具，支持单引号加倍、控制字符转义与还原。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["单引号加倍转义", "反斜杠转义", "换行/回车/制表符/NUL 转义", "转义结果还原", "多行文本生成 IN 列表", "一键复制"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "为什么要对 SQL 字符串做转义？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "字符串中的单引号会破坏 SQL 语句结构，甚至引发 SQL 注入。将单引号写成两个单引号（''）是最基础的转义方式，可确保字符串被数据库正确解析。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "换行、制表符等控制字符如何转义？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "工具会把实际的换行、回车、制表符与 NUL 字符分别转义为 \\n、\\r、\\t、\\0 形式的文本，并把反斜杠本身转义为 \\\\，便于安全地写入 SQL 语句。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "IN 列表生成有什么用？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "把每行一个的取值自动整理成 'a','b','c' 的逗号分隔形式，可直接粘贴进 IN (...) 条件，自动去除空行并加引号。"
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="en/tools/sql-escape.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>SQL转义</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🔐</div>
+        <h1>SQL转义</h1>
+      </div>
+      <p class="tool-desc">在线 SQL 字符串转义与 IN 列表生成工具，支持单引号加倍、反斜杠与控制字符转义、转义还原，以及多行文本一键生成 IN 列表。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="op-row">
+        <div class="radio-row" id="modeRow" role="radiogroup" aria-label="功能">
+          <label class="checked"><input type="radio" name="mode" value="escape" checked>字符串转义</label>
+          <label><input type="radio" name="mode" value="inlist">IN 列表生成</label>
+        </div>
+      </div>
+
+      <!-- 字符串转义 -->
+      <div id="panelEscape">
+        <div class="op-row">
+          <div class="radio-row" id="dirRow" role="radiogroup" aria-label="方向">
+            <label class="checked"><input type="radio" name="dir" value="escape" checked>转义</label>
+            <label><input type="radio" name="dir" value="unescape">还原</label>
+          </div>
+          <span class="spacer"></span>
+          <label class="checkbox-row" style="font-size:13px;"><input type="checkbox" id="wrapQuote" checked> 结果包裹单引号</label>
+        </div>
+
+        <div class="split-2">
+          <div class="form-item">
+            <label for="escInput">原始文本</label>
+            <textarea id="escInput" class="form-input" rows="12" placeholder="O'Brien&#10;第一行&#10;第二行" spellcheck="false"></textarea>
+          </div>
+          <div class="form-item">
+            <label for="escOutput">转义结果</label>
+            <textarea id="escOutput" class="form-input" rows="12" readonly placeholder="结果会显示在这里" spellcheck="false"></textarea>
+          </div>
+        </div>
+
+        <div class="op-row" style="margin-top:14px; margin-bottom:0;">
+          <button class="btn btn-primary" id="btnConvert" type="button">转换</button>
+          <button class="btn" id="btnCopy" type="button">复制结果</button>
+          <span class="spacer"></span>
+          <button class="btn" id="btnClear" type="button">清空</button>
+        </div>
+        <p class="wc-note">说明：转义会将 <b>'</b> 变成 <b>''</b>，<b>\</b> 变成 <b>\\</b>，换行/回车/制表符/NUL 变为 <b>\n \r \t \0</b>；还原则反向处理。勾选包裹单引号会把整段结果用单引号括起来。</p>
+      </div>
+
+      <!-- IN 列表 -->
+      <div id="panelInlist" hidden>
+        <div class="form-item" style="margin-bottom:14px;">
+          <label class="checkbox-row"><input type="checkbox" id="inParen"> 包含括号 ( )</label>
+        </div>
+        <div class="split-2">
+          <div class="form-item">
+            <label for="inInput">多行文本（每行一项）</label>
+            <textarea id="inInput" class="form-input" rows="12" placeholder="apple&#10;banana&#10;cherry&#10;&#10;（空行会被忽略）" spellcheck="false"></textarea>
+          </div>
+          <div class="form-item">
+            <label for="inOutput">IN 列表结果</label>
+            <textarea id="inOutput" class="form-input" rows="12" readonly placeholder="'apple','banana','cherry'" spellcheck="false"></textarea>
+          </div>
+        </div>
+        <div class="op-row" style="margin-top:14px; margin-bottom:0;">
+          <button class="btn btn-primary" id="btnGenIn" type="button">生成</button>
+          <button class="btn" id="btnCopyIn" type="button">复制结果</button>
+          <span class="spacer"></span>
+          <button class="btn" id="btnClearIn" type="button">清空</button>
+        </div>
+        <p class="wc-note">说明：自动去除空行与首尾空白，为每项加上单引号并以逗号连接成单行，可直接用于 <b>IN (...)</b> 条件。</p>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>为什么要对 SQL 字符串做转义？</h3>
+        <p>字符串中的单引号会破坏 SQL 语句结构，甚至引发 SQL 注入。将单引号写成两个单引号（''）是最基础的转义方式，可确保字符串被数据库正确解析。</p>
+      </div>
+      <div class="faq-item">
+        <h3>换行、制表符等控制字符如何转义？</h3>
+        <p>工具会把实际的换行、回车、制表符与 NUL 字符分别转义为 \n、\r、\t、\0 形式的文本，并把反斜杠本身转义为 \\，便于安全地写入 SQL 语句。</p>
+      </div>
+      <div class="faq-item">
+        <h3>IN 列表生成有什么用？</h3>
+        <p>把每行一个的取值自动整理成 'a','b','c' 的逗号分隔形式，可直接粘贴进 IN (...) 条件，自动去除空行并加引号。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/sql-escape.js"></script>
+</body>
+</html>

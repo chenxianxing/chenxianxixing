@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>去除空格 - 在线清理空白字符工具 | 在线工具大全</title>
+  <meta name="description" content="免费在线去除空格工具，支持去首尾空白、去所有空格、压缩连续空格、去制表符、去换行、去空行、去全部空白等多种模式自由组合，实时处理并显示字符数与行数变化。">
+  <meta name="keywords" content="去除空格,去空格,压缩空格,去制表符,去空行,去换行,清理空白,空白字符处理">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/remove-spaces.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="去除空格 - 在线清理空白字符工具">
+  <meta property="og:description" content="在线去除空格工具，多种空白清理模式自由组合，实时处理并显示字符与行数变化。">
+  <meta property="og:url" content="https://example.com/tools/remove-spaces.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%B9%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "去除空格",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线去除空格工具，支持多种空白清理模式自由组合，实时处理并显示字符与行数变化。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["去首尾空白", "去所有空格", "压缩连续空格", "去制表符", "去换行/去空行", "去全部空白", "实时显示字符行数变化"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "多种模式可以同时勾选吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "可以。所有模式都可勾选，处理会按固定顺序依次执行：先去首尾空白，再去除制表符、压缩连续空格、去除所有空格，最后处理换行与空行、去除全部空白。你可以按需组合。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "“去全部空白”和“去所有空格”有什么区别？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "“去所有空格”只删除半角空格字符；而“去全部空白”会删除所有空白字符，包括空格、制表符（Tab）、换行符等，常用于把多行文本压缩成一行无间隔内容。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "处理后字符和行数变化在哪里查看？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "处理结果上方会显示处理前后的字符数与行数对比，例如“1200 字符 → 1100 字符”，方便你直观了解清理效果。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .rs-modes {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+    }
+    .rs-mode {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: #fbfcfe;
+      font-size: 13.5px;
+      cursor: pointer;
+      user-select: none;
+      transition: border-color 0.15s;
+    }
+    .rs-mode input { width: 16px; height: 16px; }
+    .rs-counts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin: 6px 0 14px;
+      font-size: 13.5px;
+      color: var(--muted);
+    }
+    .rs-counts b { color: var(--text); font-variant-numeric: tabular-nums; }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="en/tools/remove-spaces.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>去除空格</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🧹</div>
+        <h1>去除空格</h1>
+      </div>
+      <p class="tool-desc">在线清理空白字符工具，支持去首尾空白、去所有空格、压缩连续空格、去制表符、去换行、去空行、去全部空白等多种模式自由组合，实时处理并显示字符数与行数变化，所有计算本地完成。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="form-item" style="margin-bottom:14px;">
+        <label>清理模式（可多选，按列表顺序依次应用）</label>
+        <div class="rs-modes" id="rsModes">
+          <label class="rs-mode"><input type="checkbox" value="trim"> 去首尾空白</label>
+          <label class="rs-mode"><input type="checkbox" value="tabs"> 去所有制表符</label>
+          <label class="rs-mode"><input type="checkbox" value="collapse"> 压缩连续空格为一个</label>
+          <label class="rs-mode"><input type="checkbox" value="spaces"> 去所有空格</label>
+          <label class="rs-mode"><input type="checkbox" value="newlines"> 去所有换行</label>
+          <label class="rs-mode"><input type="checkbox" value="empty"> 去空行</label>
+          <label class="rs-mode"><input type="checkbox" value="all"> 去全部空白（含换行空格）</label>
+        </div>
+      </div>
+
+      <div class="rs-counts" id="rsCounts">
+        <span>字符：<b id="rsChars">0 → 0</b></span>
+        <span>行数：<b id="rsLines">0 → 0</b></span>
+      </div>
+
+      <div class="split-2">
+        <div class="form-item">
+          <label for="rsInput">原始文本</label>
+          <textarea id="rsInput" class="form-input" rows="10" placeholder="输入需要清理空白的文本" spellcheck="false"></textarea>
+        </div>
+        <div class="form-item">
+          <label for="rsOutput">处理结果</label>
+          <textarea id="rsOutput" class="form-input" rows="10" readonly placeholder="处理结果会显示在这里" spellcheck="false"></textarea>
+        </div>
+      </div>
+
+      <div class="op-row" style="margin-top:14px; margin-bottom:0;">
+        <button class="btn btn-primary" id="btnCopy" type="button">复制结果</button>
+        <span class="spacer"></span>
+        <button class="btn" id="btnClear" type="button">清空</button>
+      </div>
+
+      <p class="wc-note">说明：勾选模式后将按“去首尾空白 → 制表符 → 压缩连续空格 → 去所有空格 → 去换行 → 去空行 → 去全部空白”的顺序依次处理。处理结果实时更新，并显示处理前后字符与行数变化。</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>多种模式可以同时勾选吗？</h3>
+        <p>可以。所有模式都可勾选，处理会按固定顺序依次执行：先去首尾空白，再去除制表符、压缩连续空格、去除所有空格，最后处理换行与空行、去除全部空白。你可以按需组合。</p>
+      </div>
+      <div class="faq-item">
+        <h3>“去全部空白”和“去所有空格”有什么区别？</h3>
+        <p>“去所有空格”只删除半角空格字符；而“去全部空白”会删除所有空白字符，包括空格、制表符（Tab）、换行符等，常用于把多行文本压缩成一行无间隔内容。</p>
+      </div>
+      <div class="faq-item">
+        <h3>处理后字符和行数变化在哪里查看？</h3>
+        <p>处理结果上方会显示处理前后的字符数与行数对比，例如“1200 字符 → 1100 字符”，方便你直观了解清理效果。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/remove-spaces.js"></script>
+</body>
+</html>

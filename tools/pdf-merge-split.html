@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDF合并与拆分 - 在线PDF合并/拆分/旋转工具 | 在线工具大全</title>
+  <meta name="description" content="免费在线PDF合并与拆分工具，支持多文件按序合并、按页码范围拆分、每N页拆分、整篇页面旋转，100%浏览器本地处理，文件不上传，保护隐私安全。">
+  <meta name="keywords" content="PDF合并,PDF拆分,PDF旋转,在线PDF合并,PDF拆分工具,合并PDF,拆分PDF,PDF页码,PDF处理">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/pdf-merge-split.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="PDF合并与拆分 - 在线PDF合并/拆分/旋转工具">
+  <meta property="og:description" content="支持多文件按序合并、按页码范围拆分、每N页拆分、整篇页面旋转，全部在浏览器本地完成，文件不上传。">
+  <meta property="og:url" content="https://example.com/tools/pdf-merge-split.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%84%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "PDF合并与拆分",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "免费在线PDF合并与拆分工具，支持多文件按序合并、按页码范围拆分、每N页拆分、整篇页面旋转，100%浏览器本地处理，文件不上传。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["多文件按序合并", "按页码范围拆分", "每N页拆分", "整篇页面旋转 0/90/180/270", "本地处理不上传", "可打包ZIP下载"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "PDF合并拆分工具会上传我的文件吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "不会。所有读取、合并、拆分与旋转操作均在你的浏览器本地完成，文件不会上传到任何服务器，适合处理包含隐私或机密内容的文档。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "合并后的PDF总页数是怎样的？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "合并结果按文件列表的顺序依次拼接，总页数等于各文件页数之和。你可以在文件列表中调整上下顺序后再合并，也可以为某个文件的全部页面设置统一旋转角度。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "加密或损坏的PDF能处理吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "加密（有打开密码）或严重损坏的PDF无法解析，工具会给出友好提示。请先解除密码保护或使用完整未损坏的文件后再进行操作。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .mode-tabs {
+      display: inline-flex;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .mode-tabs label {
+      padding: 8px 22px;
+      font-size: 14px;
+      cursor: pointer;
+      background: #fbfcfe;
+      color: var(--muted);
+      border-right: 1px solid var(--border);
+      transition: background 0.15s, color 0.15s;
+    }
+    .mode-tabs label:last-child { border-right: none; }
+    .mode-tabs input { display: none; }
+    .mode-tabs label.checked,
+    .mode-tabs label:has(input:checked) {
+      background: var(--primary);
+      color: #fff;
+      -webkit-text-fill-color: #fff;
+    }
+    .panel-mode { display: none; }
+    .panel-mode.active { display: block; }
+
+    .drop-zone {
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 26px 18px;
+      text-align: center;
+      color: var(--muted);
+      background: #fbfcfe;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .drop-zone:hover, .drop-zone.dragover {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+    .drop-zone .big { font-size: 15px; font-weight: 600; }
+
+    .file-list { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; }
+    .file-row {
+      display: grid;
+      grid-template-columns: 28px 1fr auto auto auto;
+      align-items: center;
+      gap: 12px;
+      background: #fbfcfe;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 10px 14px;
+    }
+    .file-row .idx { font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .file-row .meta { min-width: 0; }
+    .file-row .fname {
+      font-size: 14px; font-weight: 600; color: var(--text);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .file-row .fsub { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+    .file-row select {
+      height: 34px; border: 1px solid var(--border); border-radius: 8px;
+      padding: 0 8px; font-size: 13px; background: #fff; color: var(--text);
+    }
+    .file-row .mini {
+      height: 30px; padding: 0 9px; font-size: 13px; border: 1px solid var(--border);
+      border-radius: 8px; background: #fff; color: var(--text); cursor: pointer;
+    }
+    .file-row .mini:hover { border-color: var(--primary); color: var(--primary); }
+    .file-row .mini.danger:hover { border-color: #dc2626; color: #dc2626; }
+    .file-row .ctrl-col { display: flex; gap: 6px; }
+
+    .split-box {
+      border: 1px solid var(--border); border-radius: 12px; padding: 16px;
+      background: #fbfcfe; margin-top: 14px;
+    }
+    .range-input { max-width: 360px; }
+    .split-method {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;
+    }
+    @media (max-width: 640px) {
+      .split-method { grid-template-columns: 1fr; }
+      .file-row { grid-template-columns: 22px 1fr auto; }
+      .file-row .ctrl-col { grid-column: 1 / -1; justify-content: flex-end; }
+    }
+    .result-line { margin-top: 12px; font-size: 14px; color: var(--text); }
+    .result-line b { color: var(--primary); }
+    .split-results { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="en/tools/pdf-merge-split.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>PDF合并与拆分</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">📄</div>
+        <h1>PDF合并与拆分</h1>
+      </div>
+      <p class="tool-desc">在线PDF合并、拆分与旋转工具，支持多文件按序合并、按页码范围拆分、每N页拆分为多份，并可对整篇页面统一旋转。所有操作均在浏览器本地完成，文件不会上传。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="mode-tabs" role="tablist" aria-label="操作模式">
+        <label class="checked"><input type="radio" name="mode" value="merge" checked>合并</label>
+        <label><input type="radio" name="mode" value="split">拆分</label>
+      </div>
+
+      <!-- 合并模式 -->
+      <div class="panel-mode active" id="mergePanel">
+        <div class="drop-zone" id="mergeDrop">
+          <div class="big">拖拽 PDF 文件到此处，或点击选择</div>
+          <div style="font-size:13px;margin-top:4px;">支持多文件，单个文件最大 50MB</div>
+        </div>
+        <input type="file" id="mergeInput" accept=".pdf,application/pdf" multiple hidden>
+
+        <div class="file-list" id="mergeList"></div>
+
+        <div class="op-row" style="margin-top:16px;">
+          <button class="btn btn-primary" id="btnMerge" type="button">合并并下载</button>
+          <button class="btn" id="btnClearMerge" type="button">清空列表</button>
+          <span class="spacer"></span>
+          <span class="result-line" id="mergeInfo"></span>
+        </div>
+      </div>
+
+      <!-- 拆分模式 -->
+      <div class="panel-mode" id="splitPanel">
+        <div class="drop-zone" id="splitDrop">
+          <div class="big">选择要拆分的单个 PDF 文件</div>
+          <div style="font-size:13px;margin-top:4px;">单个文件最大 50MB</div>
+        </div>
+        <input type="file" id="splitInput" accept=".pdf,application/pdf" hidden>
+
+        <div id="splitReady" hidden>
+          <div class="result-grid" style="margin-top:14px;">
+            <div class="result-card"><div class="num" id="splitPages">0</div><div class="label">总页数</div></div>
+            <div class="result-card"><div class="num" id="splitSize">0</div><div class="label">文件大小</div></div>
+          </div>
+
+          <div class="split-box">
+            <div class="split-method">
+              <label class="radio-row-wrap">
+                <input type="radio" name="splitMethod" value="range" checked>
+                <span>按页码范围</span>
+              </label>
+              <label class="radio-row-wrap">
+                <input type="radio" name="splitMethod" value="every">
+                <span>每 N 页一份</span>
+              </label>
+            </div>
+
+            <div class="form-item" id="rangeWrap">
+              <label for="rangeInput">页码范围（如 1-3,5,8-10，从 1 开始，逗号分隔）</label>
+              <input type="text" id="rangeInput" class="form-input range-input" placeholder="例如：1-3,5,8-10">
+            </div>
+
+            <div class="form-item" id="everyWrap" hidden>
+              <label for="everyInput">每几页拆分为一份</label>
+              <input type="number" id="everyInput" class="form-input" style="max-width:160px;" value="2" min="1" max="999">
+            </div>
+
+            <div class="op-row" style="margin:14px 0 0;">
+              <button class="btn btn-primary" id="btnSplit" type="button">开始拆分</button>
+              <button class="btn" id="btnResetSplit" type="button">重新选择</button>
+            </div>
+          </div>
+
+          <div class="split-results" id="splitResults"></div>
+        </div>
+      </div>
+
+      <div class="warn-note" id="pdfError" hidden></div>
+
+      <p class="wc-note">说明：<b>100% 浏览器本地处理，文件不上传。</b>合并时按文件列表顺序拼接，可为每个文件设置统一旋转角度；拆分支持按页码范围提取或按固定页数切片。加密、损坏或非 PDF 文件将被拒绝并提示。</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>PDF合并拆分工具会上传我的文件吗？</h3>
+        <p>不会。所有读取、合并、拆分与旋转操作均在你的浏览器本地完成，文件不会上传到任何服务器，适合处理包含隐私或机密内容的文档。</p>
+      </div>
+      <div class="faq-item">
+        <h3>合并后的PDF总页数是怎样的？</h3>
+        <p>合并结果按文件列表的顺序依次拼接，总页数等于各文件页数之和。你可以在文件列表中调整上下顺序后再合并，也可以为某个文件的全部页面设置统一旋转角度。</p>
+      </div>
+      <div class="faq-item">
+        <h3>加密或损坏的PDF能处理吗？</h3>
+        <p>加密（有打开密码）或严重损坏的PDF无法解析，工具会给出友好提示。请先解除密码保护或使用完整未损坏的文件后再进行操作。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/vendor/pdf-lib.min.js"></script>
+  <script src="../assets/js/pdf-merge-split.js"></script>
+</body>
+</html>

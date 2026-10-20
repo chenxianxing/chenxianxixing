@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Token生成器 - 随机密钥/API Key/令牌在线生成 | 在线工具大全</title>
+  <meta name="description" content="免费在线Token生成器，使用浏览器 crypto 安全随机数生成随机令牌、密钥与 API Key，支持 Hex、Base64、Base64URL 多种格式与批量生成，所有计算均在本地完成，不会上传。">
+  <meta name="keywords" content="token生成器,随机令牌,API Key生成,密钥生成,随机密钥,base64,base64url,hex,安全令牌,密钥生成器">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/token-generator.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Token生成器 - 随机密钥/API Key/令牌在线生成">
+  <meta property="og:description" content="使用浏览器 crypto 安全随机数生成随机令牌、密钥与 API Key，支持 Hex、Base64、Base64URL 格式。">
+  <meta property="og:url" content="https://example.com/tools/token-generator.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%97%9D%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Token生成器",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线 Token 生成器，使用 crypto 安全随机数生成随机令牌、密钥与 API Key，支持多格式与批量生成。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Hex 格式", "Base64 格式", "Base64URL 格式", "长度 16-128 字节", "批量生成 1-100", "一键复制与下载"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Hex、Base64 和 Base64URL 该怎么选？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Hex（十六进制）兼容性好、可直接用于数据库或日志，但体积比原始字节大 1 倍；Base64 体积更小，常用于配置或传输；Base64URL 把 + 和 / 替换为 - 和 _，并去掉填充 =，适合放在 URL、JWT 或文件名中，避免被转义。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "生成的 Token 安全吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "本工具使用浏览器内置的 crypto.getRandomValues 密码学安全随机数生成器生成，不可被预测。所有内容仅在本地生成，不会上传。生成后请妥善保存，密钥一旦泄露应立刻轮换。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Token 需要多长才安全？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "用于会话令牌或 API Key 推荐至少 32 字节（256 位）的随机熵；短期或低敏感场景 16 字节也可接受。输出长度越长，暴力破解难度越高。请避免重复使用同一 Token 用于不同用途。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .tk-controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 4px;
+    }
+    .tk-radio .radio-row label { padding: 7px 16px; }
+    .tk-format .radio-row label { padding: 7px 14px; }
+    .tk-results {
+      margin-top: 14px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: #f8fafc;
+      max-height: 420px;
+      overflow: auto;
+    }
+    .tk-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .tk-item:last-child { border-bottom: none; }
+    .tk-item .tk-text {
+      flex: 1;
+      font-family: "SFMono-Regular", Consolas, Menlo, "Courier New", monospace;
+      font-size: 14px;
+      word-break: break-all;
+      color: var(--text);
+      user-select: all;
+    }
+    .tk-item .btn {
+      height: 30px;
+      padding: 0 11px;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+    .tk-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .tk-fmtnote {
+      margin-top: 16px;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+    .tk-fmtnote code {
+      background: #f3f4f6;
+      padding: 1px 6px;
+      border-radius: 5px;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="en/tools/token-generator.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>Token生成器</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🗝️</div>
+        <h1>Token生成器</h1>
+      </div>
+      <p class="tool-desc">在线随机令牌/密钥/API Key 生成工具，使用浏览器 crypto 安全随机数生成，支持 Hex、Base64、Base64URL 多种格式与批量生成，所有计算均在本地完成，不会上传。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="tk-controls">
+        <div class="form-item">
+          <label for="tkLength">长度（字节，16-128）</label>
+          <input type="number" id="tkLength" class="form-input" min="16" max="128" value="32">
+        </div>
+        <div class="form-item tk-format">
+          <label>输出格式</label>
+          <div class="radio-row" id="tkFormat" role="radiogroup" aria-label="输出格式">
+            <label class="checked"><input type="radio" name="tkfmt" value="hex" checked>Hex</label>
+            <label><input type="radio" name="tkfmt" value="b64">Base64</label>
+            <label><input type="radio" name="tkfmt" value="b64url">Base64URL</label>
+          </div>
+        </div>
+        <div class="form-item">
+          <label for="tkCount">数量（1-100）</label>
+          <input type="number" id="tkCount" class="form-input" min="1" max="100" value="5">
+        </div>
+      </div>
+
+      <div class="op-row" style="margin-top:14px;">
+        <button class="btn btn-primary" id="btnGen" type="button">生成 Token</button>
+      </div>
+
+      <div class="info-note">
+        🔒 <b>安全提示：</b>所有 Token 仅在你的浏览器本地生成，不会经过任何网络传输或服务器存储。生成的密钥请妥善保存，一旦泄露请立即轮换。不要在公开代码仓库或日志中明文保存。
+      </div>
+
+      <div class="tk-results" id="tkResults" hidden></div>
+
+      <div class="tk-actions" id="tkActions" hidden>
+        <button class="btn" id="btnCopyAll" type="button">复制全部</button>
+        <button class="btn" id="btnDownload" type="button">下载 .txt</button>
+      </div>
+
+      <div class="tk-fmtnote">
+        <b>各格式适用场景：</b><br>
+        • <code>Hex</code>（十六进制）：兼容性最好，可直接存入数据库或打印在日志，但长度是原始字节的 2 倍，适合用作随机盐值、设备指纹。<br>
+        • <code>Base64</code>：体积比 Hex 小约 1/3，常用于配置文件或网络传输，但不适合直接放进 URL。<br>
+        • <code>Base64URL</code>：将 <code>+</code> 和 <code>/</code> 替换为 <code>-</code> 和 <code>_</code>，并去掉末尾填充 <code>=</code>，专用于 URL、JWT 载荷或文件名，不会被转义。
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>Hex、Base64 和 Base64URL 该怎么选？</h3>
+        <p>Hex（十六进制）兼容性好、可直接用于数据库或日志，但体积比原始字节大 1 倍；Base64 体积更小，常用于配置或传输；Base64URL 把 + 和 / 替换为 - 和 _，并去掉填充 =，适合放在 URL、JWT 或文件名中，避免被转义。</p>
+      </div>
+      <div class="faq-item">
+        <h3>生成的 Token 安全吗？</h3>
+        <p>本工具使用浏览器内置的 crypto.getRandomValues 密码学安全随机数生成器生成，不可被预测。所有内容仅在本地生成，不会上传。生成后请妥善保存，密钥一旦泄露应立刻轮换。</p>
+      </div>
+      <div class="faq-item">
+        <h3>Token 需要多长才安全？</h3>
+        <p>用于会话令牌或 API Key 推荐至少 32 字节（256 位）的随机熵；短期或低敏感场景 16 字节也可接受。输出长度越长，暴力破解难度越高。请避免重复使用同一 Token 用于不同用途。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/token-generator.js"></script>
+</body>
+</html>

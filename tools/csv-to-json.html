@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSV转JSON - 在线CSV与JSON互相转换工具 | 在线工具大全</title>
+  <meta name="description" content="免费在线CSV转JSON工具，支持逗号、分号、Tab、竖线等分隔符，RFC4180引号字段解析，首行表头识别，JSON数组转回CSV。全部处理在浏览器本地完成，支持复制与下载。">
+  <meta name="keywords" content="CSV转JSON,JSON转CSV,CSV解析,CSV在线转换,表格转JSON,RFC4180,数据格式转换,逗号分隔,CSV下载">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/csv-to-json.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="CSV转JSON - 在线CSV与JSON互相转换工具">
+  <meta property="og:description" content="支持多种分隔符与RFC4180引号解析的在线CSV/JSON互转工具，可复制与下载结果。">
+  <meta property="og:url" content="https://example.com/tools/csv-to-json.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%84%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "CSV转JSON",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线CSV与JSON互相转换工具，支持多种分隔符、RFC4180引号解析、首行表头识别。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["CSV 转为 JSON 数组", "JSON 数组转回 CSV", "多分隔符（逗号/分号/Tab/竖线/自定义）", "首行表头识别", "RFC4180 引号字段解析", "复制与下载结果"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "字段中含有逗号或换行怎么办？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "本工具遵循 RFC4180 规范，使用双引号包裹的字段可以包含分隔符、换行和双引号（双写表示一个引号）。未正确包裹会导致解析错位，建议始终为含特殊字符的字段加引号。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "首行作为表头是什么意思？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "勾选后，CSV 第一行会被当作字段名称，输出为以表头为键的对象数组；不勾选则输出为二维数组（每个元素是一行的值数组），适合无表头的纯数据。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "解析报错提示某行有问题怎么办？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "报错信息会指出具体行号，最常见的原因是引号未成对闭合。请检查该行是否遗漏了结束引号，或字段内引号是否按规范写成两个双引号。"
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="en/tools/csv-to-json.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>CSV转JSON</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">📄</div>
+        <h1>CSV转JSON</h1>
+      </div>
+      <p class="tool-desc">在线 CSV 与 JSON 互相转换工具，支持多种分隔符与 RFC4180 引号字段解析，所有数据处理均在浏览器本地完成，不上传任何内容。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="op-row">
+        <div class="radio-row" id="modeRow" role="radiogroup" aria-label="转换方向">
+          <label class="checked"><input type="radio" name="mode" value="toJson" checked>CSV → JSON</label>
+          <label><input type="radio" name="mode" value="toCsv">JSON → CSV</label>
+        </div>
+      </div>
+
+      <!-- CSV → JSON -->
+      <div id="panelToJson">
+        <div class="form-grid">
+          <div class="form-item">
+            <label for="delim">分隔符</label>
+            <select id="delim" class="form-select">
+              <option value=",">逗号 ,</option>
+              <option value=";">分号 ;</option>
+              <option value="\t">Tab</option>
+              <option value="|">竖线 |</option>
+              <option value="__custom__">自定义</option>
+            </select>
+          </div>
+          <div class="form-item" id="customDelimWrap" hidden>
+            <label for="customDelim">自定义分隔符</label>
+            <input type="text" id="customDelim" class="form-input" maxlength="3" placeholder="如 | 或 ::">
+          </div>
+          <div class="form-item">
+            <label for="jsonFormat">输出格式</label>
+            <select id="jsonFormat" class="form-select">
+              <option value="pretty">美化（缩进）</option>
+              <option value="compact">压缩（单行）</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="checkbox-row">
+          <label><input type="checkbox" id="hasHeader" checked> 首行作为表头</label>
+          <label><input type="checkbox" id="trimWs" checked> 去除字段首尾空白</label>
+        </div>
+
+        <div class="split-2" style="margin-top:14px;">
+          <div class="form-item">
+            <label for="csvInput">CSV 内容（可粘贴或选择文件）</label>
+            <textarea id="csvInput" class="form-input" rows="12" placeholder="name,age,city&#10;张三,18,北京&#10;李四,21,上海" spellcheck="false"></textarea>
+          </div>
+          <div class="form-item">
+            <label for="jsonOutput">JSON 输出</label>
+            <textarea id="jsonOutput" class="form-input" rows="12" readonly placeholder="转换结果会显示在这里" spellcheck="false"></textarea>
+          </div>
+        </div>
+
+        <div class="op-row" style="margin-top:14px; margin-bottom:0;">
+          <button class="btn btn-primary" id="btnFile" type="button">选择 CSV 文件</button>
+          <input type="file" id="fileInput" accept=".csv,.txt" hidden>
+          <button class="btn" id="btnConvert" type="button">转换</button>
+          <button class="btn" id="btnCopyJson" type="button">复制结果</button>
+          <button class="btn" id="btnDownloadJson" type="button">下载 .json</button>
+          <span class="spacer"></span>
+          <button class="btn" id="btnClearJson" type="button">清空</button>
+        </div>
+
+        <div class="warn-note" id="errJson" hidden></div>
+        <p class="wc-note">说明：解析支持 RFC4180 规范，被双引号包裹的字段内可包含分隔符、换行与双引号（连续两个双引号表示一个引号）。若字段含特殊字符，请务必使用引号包裹。</p>
+      </div>
+
+      <!-- JSON → CSV -->
+      <div id="panelToCsv" hidden>
+        <div class="form-item" style="margin-bottom:14px;">
+          <label for="csvDelimOut">输出分隔符</label>
+          <select id="csvDelimOut" class="form-select" style="max-width:220px;">
+            <option value=",">逗号 ,</option>
+            <option value=";">分号 ;</option>
+            <option value="\t">Tab</option>
+            <option value="|">竖线 |</option>
+          </select>
+        </div>
+
+        <div class="split-2">
+          <div class="form-item">
+            <label for="jsonInput">JSON 数组（对象数组或二维数组）</label>
+            <textarea id="jsonInput" class="form-input" rows="12" placeholder='[{"name":"张三","age":18},{"name":"李四","age":21}]' spellcheck="false"></textarea>
+          </div>
+          <div class="form-item">
+            <label for="csvOutput">CSV 输出</label>
+            <textarea id="csvOutput" class="form-input" rows="12" readonly placeholder="转换结果会显示在这里" spellcheck="false"></textarea>
+          </div>
+        </div>
+
+        <div class="op-row" style="margin-top:14px; margin-bottom:0;">
+          <button class="btn btn-primary" id="btnConvertCsv" type="button">转换</button>
+          <button class="btn" id="btnCopyCsv" type="button">复制结果</button>
+          <button class="btn" id="btnDownloadCsv" type="button">下载 .csv</button>
+          <span class="spacer"></span>
+          <button class="btn" id="btnClearCsv" type="button">清空</button>
+        </div>
+
+        <div class="warn-note" id="errCsv" hidden></div>
+        <p class="wc-note">说明：对象数组会自动以首行键作为表头；二维数组则直接按行输出。含分隔符、引号或换行的字段会自动加引号转义。</p>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>字段中含有逗号或换行怎么办？</h3>
+        <p>本工具遵循 RFC4180 规范，使用双引号包裹的字段可以包含分隔符、换行和双引号（双写表示一个引号）。未正确包裹会导致解析错位，建议始终为含特殊字符的字段加引号。</p>
+      </div>
+      <div class="faq-item">
+        <h3>首行作为表头是什么意思？</h3>
+        <p>勾选后，CSV 第一行会被当作字段名称，输出为以表头为键的对象数组；不勾选则输出为二维数组（每个元素是一行的值数组），适合无表头的纯数据。</p>
+      </div>
+      <div class="faq-item">
+        <h3>解析报错提示某行有问题怎么办？</h3>
+        <p>报错信息会指出具体行号，最常见的原因是引号未成对闭合。请检查该行是否遗漏了结束引号，或字段内引号是否按规范写成两个双引号。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/csv-to-json.js"></script>
+</body>
+</html>

@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>随机抽签决策转盘 - 在线随机选择、转盘抽奖与随机数生成工具 | 在线工具大全</title>
+  <meta name="description" content="免费在线随机抽签与决策转盘工具，支持转盘抽奖、列表抽签、随机数生成、骰子投掷、抛硬币，全部在浏览器本地计算，公平无偏、无需注册，结果可一键复制。">
+  <meta name="keywords" content="随机抽签,决策转盘,转盘抽奖,随机数字,骰子,抛硬币,随机数生成,列表抽签,概率,公平随机">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/random-picker.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="随机抽签 &amp; 决策转盘 - 在线随机选择工具">
+  <meta property="og:description" content="支持转盘抽奖、列表抽签、随机数生成、骰子投掷、抛硬币的本地随机工具，公平无偏，结果可一键复制。">
+  <meta property="og:url" content="https://example.com/tools/random-picker.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%AF%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <style>
+    /* ---------- 模式切换 tab ---------- */
+    .mode-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+    .mode-tabs button {
+      height: 38px;
+      padding: 0 18px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--card);
+      color: var(--muted);
+      font-size: 14px;
+      font-family: var(--font);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .mode-tabs button:hover { color: var(--primary); border-color: var(--primary); }
+    .mode-tabs button.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+      -webkit-text-fill-color: #fff;
+      font-weight: 600;
+    }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ---------- 转盘 ---------- */
+    .wheel-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      align-items: flex-start;
+    }
+    .wheel-canvas-box { position: relative; flex-shrink: 0; }
+    #wheelCanvas {
+      border-radius: 50%;
+      box-shadow: var(--shadow);
+      background: #fff;
+      display: block;
+    }
+    .wheel-pointer {
+      position: absolute;
+      top: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 14px solid transparent;
+      border-right: 14px solid transparent;
+      border-top: 26px solid #ef4444;
+      filter: drop-shadow(0 2px 2px rgba(0,0,0,.2));
+      z-index: 2;
+    }
+    .wheel-side { flex: 1; min-width: 240px; }
+    .wheel-items-edit { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+    .wheel-item-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .wheel-item-row .swatch {
+      width: 18px; height: 18px; border-radius: 5px; flex-shrink: 0;
+      border: 1px solid rgba(0,0,0,.1);
+    }
+    .wheel-item-row input {
+      flex: 1; min-width: 0;
+      height: 34px; border: 1px solid var(--border); border-radius: 8px;
+      padding: 0 10px; font-size: 14px; font-family: var(--font);
+      background: #fbfcfe; color: var(--text); outline: none;
+    }
+    .wheel-item-row input:focus { border-color: var(--primary); background: #fff; }
+    .wheel-item-row .del {
+      flex-shrink: 0; width: 30px; height: 30px; border: 1px solid var(--border);
+      border-radius: 8px; background: var(--card); color: var(--muted);
+      cursor: pointer; font-size: 15px; line-height: 1;
+    }
+    .wheel-item-row .del:hover { color: #dc2626; border-color: #fca5a5; }
+    .wheel-result {
+      margin-top: 14px; padding: 14px 16px; border-radius: 11px;
+      background: var(--primary-light); border: 1px solid #bfdbfe;
+      font-size: 16px; font-weight: 600; color: var(--primary);
+      text-align: center;
+    }
+    .wheel-history {
+      margin-top: 12px; font-size: 13.5px; color: var(--muted);
+      max-height: 120px; overflow: auto; line-height: 1.9;
+    }
+    .wheel-history span { display: inline-block; margin-right: 10px; }
+
+    /* ---------- 列表抽签 ---------- */
+    .draw-stat {
+      margin-top: 12px; font-size: 14px; color: var(--muted);
+      display: flex; gap: 16px; flex-wrap: wrap;
+    }
+    .draw-result {
+      margin-top: 12px; padding: 14px 16px; border-radius: 11px;
+      background: var(--primary-light); border: 1px solid #bfdbfe;
+      font-size: 18px; font-weight: 700; color: var(--primary);
+      text-align: center; word-break: break-all;
+    }
+    .shuffle-list {
+      margin-top: 10px; font-size: 14px; line-height: 1.9; color: var(--text);
+    }
+
+    /* ---------- 随机数结果 ---------- */
+    .rng-output {
+      margin-top: 14px; width: 100%; min-height: 120px;
+      border: 1px solid var(--border); border-radius: 11px; background: #f8fafc;
+      padding: 14px 16px; font-family: Consolas, Menlo, monospace; font-size: 14px;
+      line-height: 1.8; color: var(--text); white-space: pre-wrap; word-break: break-all;
+    }
+
+    /* ---------- 骰子 ---------- */
+    .dice-area { display: flex; flex-wrap: wrap; gap: 14px; margin: 8px 0 14px; }
+    .die {
+      width: 64px; height: 64px; border-radius: 14px;
+      background: #fff; border: 1px solid var(--border);
+      box-shadow: var(--shadow); display: flex; align-items: center; justify-content: center;
+      font-size: 46px; line-height: 1; color: #1f2937;
+      transition: transform 0.1s;
+    }
+    .die.rolling { animation: diceShake 0.12s linear infinite; }
+    @keyframes diceShake {
+      0% { transform: translateY(0) rotate(0); }
+      25% { transform: translateY(-6px) rotate(-8deg); }
+      50% { transform: translateY(0) rotate(0); }
+      75% { transform: translateY(-4px) rotate(8deg); }
+      100% { transform: translateY(0) rotate(0); }
+    }
+    .dice-total {
+      margin-top: 8px; font-size: 16px; font-weight: 700; color: var(--primary);
+    }
+    .dice-history { margin-top: 10px; font-size: 13.5px; color: var(--muted); line-height: 1.9; }
+
+    /* ---------- 硬币 ---------- */
+    .coin-stage { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+    .coin {
+      width: 110px; height: 110px; border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #fde68a, #f59e0b 60%, #d97706);
+      border: 3px solid #b45309; box-shadow: var(--shadow);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 30px; font-weight: 800; color: #7c2d12;
+      transition: transform 1s cubic-bezier(.2,.8,.2,1);
+    }
+    .coin-wrap { perspective: 600px; }
+    .coin.flipping { animation: coinFlip 1s ease-in-out; }
+    @keyframes coinFlip {
+      0% { transform: rotateY(0); }
+      100% { transform: rotateY(1800deg); }
+    }
+    .coin-stat { font-size: 14px; color: var(--muted); }
+
+    .sub-note { font-size: 13px; color: var(--muted); margin-top: 10px; line-height: 1.7; }
+    .seed-box {
+      margin-top: 14px; padding: 12px 16px; border: 1px dashed var(--border);
+      border-radius: 10px; background: #fbfcfe;
+    }
+    .seed-box label { font-size: 13px; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+    .seed-box input[type="text"] {
+      height: 34px; border: 1px solid var(--border); border-radius: 8px;
+      padding: 0 10px; font-size: 14px; font-family: var(--font);
+      background: #fff; color: var(--text); outline: none; margin-left: 8px; width: 180px;
+    }
+    .seed-box input[type="text"]:focus { border-color: var(--primary); }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "随机抽签决策转盘",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线随机抽签与决策转盘工具，支持转盘抽奖、列表抽签、随机数生成、骰子投掷、抛硬币。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["决策转盘抽奖", "列表抽签", "随机数生成", "骰子投掷", "抛硬币", "公平种子复现模式", "本地计算"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "转盘抽奖的结果是公平的吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "是。转盘通过浏览器原生 crypto 随机数从所有条目中等概率抽取一个扇区，每个条目中奖概率完全相同，结果不可预测。开启公平种子模式后会改用确定性算法，便于演示复现。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "公平种子模式有什么用？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "输入同样的种子，随机抽取、骰子、抛硬币的结果将完全一致，便于在课堂上演示或复现某次结果。不开启时使用 crypto 真随机，每次结果都不同。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "随机数生成使用什么算法保证无偏？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "默认使用 Web Crypto 的 crypto.getRandomValues 结合拒绝采样，确保每个整数等概率且分布无偏；开启种子模式后改用 mulberry32 伪随机算法以保证可复现。"
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="en/tools/random-picker.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>随机抽签 &amp; 决策转盘</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🎯</div>
+        <h1>随机抽签 &amp; 决策转盘</h1>
+      </div>
+      <p class="tool-desc">在线随机选择工具：决策转盘抽奖、列表抽签、随机数生成、骰子投掷、抛硬币，全部在浏览器本地完成，公平无偏、无需联网。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="mode-tabs" id="modeTabs" role="tablist">
+        <button type="button" class="active" data-mode="wheel">决策转盘</button>
+        <button type="button" data-mode="list">列表抽签</button>
+        <button type="button" data-mode="number">随机数</button>
+        <button type="button" data-mode="dice">骰子</button>
+        <button type="button" data-mode="coin">抛硬币</button>
+      </div>
+
+      <!-- 决策转盘 -->
+      <div class="tab-panel active" id="panel-wheel">
+        <div class="wheel-wrap">
+          <div class="wheel-canvas-box">
+            <div class="wheel-pointer"></div>
+            <canvas id="wheelCanvas" width="320" height="320" aria-label="决策转盘"></canvas>
+          </div>
+          <div class="wheel-side">
+            <div class="wheel-items-edit" id="wheelItems"></div>
+            <div class="op-row" style="margin-bottom:8px;">
+              <button class="btn" type="button" id="btnAddItem">添加条目</button>
+              <button class="btn" type="button" id="btnImport">批量导入</button>
+            </div>
+            <div class="checkbox-row" style="margin-bottom:12px;">
+              <label><input type="checkbox" id="removeAfterWin"> 中奖后移除该项</label>
+            </div>
+            <div class="op-row" style="margin-bottom:0;">
+              <button class="btn btn-primary" type="button" id="btnSpin">开始旋转</button>
+              <button class="btn" type="button" id="btnWheelReset">重置</button>
+            </div>
+            <div class="wheel-result" id="wheelResult">点击「开始旋转」抽取结果</div>
+            <div class="wheel-history" id="wheelHistory"></div>
+          </div>
+        </div>
+        <div class="seed-box">
+          <label><input type="checkbox" id="seedMode"> 公平种子模式</label>
+          <input type="text" id="seedInput" placeholder="输入种子，例如：demo" disabled>
+          <span class="sub-note" style="display:block;margin-left:0;margin-top:8px;">开启后使用相同种子可复现随机结果，便于演示。</span>
+        </div>
+      </div>
+
+      <!-- 列表抽签 -->
+      <div class="tab-panel" id="panel-list">
+        <div class="form-item">
+          <label for="listInput">候选项（每行一个）</label>
+          <textarea id="listInput" class="form-input" rows="8" placeholder="每行输入一个候选项，例如：&#10;张三&#10;李四&#10;王五"></textarea>
+        </div>
+        <div class="checkbox-row" style="margin:10px 0;">
+          <label><input type="checkbox" id="listNoRepeat" checked> 不重复模式（抽完为止）</label>
+        </div>
+        <div class="op-row" style="margin-bottom:0;">
+          <button class="btn btn-primary" type="button" id="btnDrawOne">抽一个</button>
+          <button class="btn" type="button" id="btnShuffle">全部打乱</button>
+          <button class="btn" type="button" id="btnListReset">重置</button>
+          <span class="spacer"></span>
+          <button class="btn" type="button" id="btnCopyList">复制结果</button>
+        </div>
+        <div class="draw-stat">
+          <span id="listRemain">剩余 0 项</span>
+          <span id="listDrawn">已抽 0 项</span>
+        </div>
+        <div class="draw-result" id="listResult" hidden></div>
+        <div class="shuffle-list" id="shuffleList"></div>
+      </div>
+
+      <!-- 随机数 -->
+      <div class="tab-panel" id="panel-number">
+        <div class="form-grid">
+          <div class="form-item">
+            <label for="rngMin">最小值</label>
+            <input type="number" id="rngMin" class="form-input" value="1">
+          </div>
+          <div class="form-item">
+            <label for="rngMax">最大值</label>
+            <input type="number" id="rngMax" class="form-input" value="100">
+          </div>
+          <div class="form-item">
+            <label for="rngCount">数量</label>
+            <input type="number" id="rngCount" class="form-input" value="5" min="1" max="1000">
+          </div>
+        </div>
+        <div class="checkbox-row" style="margin-bottom:10px;">
+          <label><input type="checkbox" id="rngUnique"> 去重</label>
+          <label><input type="checkbox" id="rngDecimal"> 保留小数</label>
+          <label id="rngDigitsWrap" style="display:none;">小数位数 <input type="number" id="rngDigits" class="form-input" style="width:70px;height:32px;display:inline-block;" value="2" min="1" max="8"></label>
+        </div>
+        <div class="op-row" style="margin-bottom:0;">
+          <button class="btn btn-primary" type="button" id="btnRngGen">生成</button>
+          <button class="btn" type="button" id="btnRngCopy">复制结果</button>
+          <button class="btn" type="button" id="btnRngClear">清空</button>
+        </div>
+        <div class="rng-output" id="rngOutput" aria-label="随机数结果"></div>
+      </div>
+
+      <!-- 骰子 -->
+      <div class="tab-panel" id="panel-dice">
+        <div class="form-item" style="max-width:220px;">
+          <label for="diceCount">骰子数量（1-6）</label>
+          <input type="number" id="diceCount" class="form-input" value="2" min="1" max="6">
+        </div>
+        <div class="op-row" style="margin-bottom:0;">
+          <button class="btn btn-primary" type="button" id="btnRoll">投掷</button>
+          <button class="btn" type="button" id="btnDiceReset">清空记录</button>
+        </div>
+        <div class="dice-area" id="diceArea"></div>
+        <div class="dice-total" id="diceTotal"></div>
+        <div class="dice-history" id="diceHistory"></div>
+      </div>
+
+      <!-- 抛硬币 -->
+      <div class="tab-panel" id="panel-coin">
+        <div class="coin-stage">
+          <div class="coin-wrap">
+            <div class="coin" id="coin">正</div>
+          </div>
+          <button class="btn btn-primary" type="button" id="btnFlip">抛硬币</button>
+          <div class="coin-stat" id="coinResult">点击按钮开始抛掷</div>
+          <div class="coin-stat" id="coinStat">正面 0 次 · 反面 0 次 · 正面比例 0%</div>
+        </div>
+      </div>
+
+      <p class="sub-note">所有随机过程均在你的浏览器本地完成，不会上传任何数据。真随机使用 Web Crypto，种子模式使用 mulberry32 伪随机算法便于复现。</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>转盘抽奖的结果是公平的吗？</h3>
+        <p>是。转盘通过浏览器原生 crypto 随机数从所有条目中等概率抽取一个扇区，每个条目中奖概率完全相同，结果不可预测。开启公平种子模式后会改用确定性算法，便于演示复现。</p>
+      </div>
+      <div class="faq-item">
+        <h3>公平种子模式有什么用？</h3>
+        <p>输入同样的种子，随机抽取、骰子、抛硬币的结果将完全一致，便于在课堂上演示或复现某次结果。不开启时使用 crypto 真随机，每次结果都不同。</p>
+      </div>
+      <div class="faq-item">
+        <h3>随机数生成使用什么算法保证无偏？</h3>
+        <p>默认使用 Web Crypto 的 crypto.getRandomValues 结合拒绝采样，确保每个整数等概率且分布无偏；开启种子模式后改用 mulberry32 伪随机算法以保证可复现。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/random-picker.js"></script>
+</body>
+</html>

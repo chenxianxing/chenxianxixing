@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User-Agent解析 - 浏览器/系统/设备/爬虫识别 | 在线工具大全</title>
+  <meta name="description" content="免费在线User-Agent解析工具，粘贴或自动识别UA字符串，解析浏览器名称与版本、渲染引擎、操作系统、设备类型及是否为爬虫机器人。支持一键填入常用UA示例，所有解析在本地正则完成。">
+  <meta name="keywords" content="User-Agent解析,UA解析,浏览器识别,UserAgent,爬虫识别,设备类型,操作系统识别,UA在线解析,UA解析工具">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/user-agent-parser.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="User-Agent解析 - 浏览器/系统/设备/爬虫识别">
+  <meta property="og:description" content="粘贴或自动识别UA字符串，解析浏览器、渲染引擎、操作系统、设备类型及是否爬虫机器人，支持常用UA示例一键填入。">
+  <meta property="og:url" content="https://example.com/tools/user-agent-parser.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%95%B5%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "User-Agent解析",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线User-Agent解析工具，解析浏览器名称与版本、渲染引擎、操作系统、设备类型及是否为爬虫机器人，支持常用UA示例一键填入。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["自动识别当前浏览器UA", "解析浏览器与版本", "解析渲染引擎", "解析操作系统", "识别设备类型", "识别爬虫机器人", "复制解析JSON"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "User-Agent 能准确识别所有浏览器吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "UA 字符串由浏览器自行声明，理论上可被伪造，因此解析结果是基于字符串模式的“尽力识别”。常见浏览器（Chrome、Firefox、Safari、Edge、微信/QQ内置浏览器等）识别可靠；对小众或高度定制的浏览器，可能只能识别到内核层级。本工具所有匹配均为本地正则，不上传任何信息。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "如何判断访问者是不是爬虫或机器人？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "工具会检测 UA 中是否含 Googlebot、Baiduspider、Bingbot、Yandex、字节/神马等典型爬虫标识，或通用 Spider/Crawler/Bot 关键字。命中则标记为爬虫机器人，便于做统计或反爬分析。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "为什么同一台电脑不同浏览器内核写法不同？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "现代浏览器多基于 Chromium（Blink 引擎），但 UA 中会保留历史兼容字段（如 Safari 的版本、AppleWebKit 标识）。工具会综合各字段，优先以真实产品名（如 Edge、Chrome）覆盖内核名，给出更贴近实际的产品判断。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .ua-input-row { margin-bottom: 14px; }
+    .ua-input-row textarea {
+      width: 100%; min-height: 76px; resize: vertical; font-family: "SFMono-Regular", Consolas, Menlo, monospace; font-size: 13px;
+    }
+    .ua-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 16px; }
+    .ua-actions .spacer { flex: 1; }
+    .ua-sample { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 18px; }
+    .ua-sample .lbl { font-size: 13px; color: var(--muted); margin-right: 2px; }
+    .ua-chip {
+      font-size: 13px; padding: 6px 12px; border: 1px solid var(--border); border-radius: 999px;
+      background: var(--card); color: var(--text); cursor: pointer; transition: all 0.15s;
+    }
+    .ua-chip:hover { border-color: var(--primary); color: var(--primary); }
+    .ua-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 6px; }
+    .ua-card { background: #fbfcfe; border: 1px solid var(--border); border-radius: 11px; padding: 13px 16px; }
+    .ua-card .k { font-size: 12.5px; color: var(--muted); margin-bottom: 4px; }
+    .ua-card .v { font-size: 16px; font-weight: 600; color: var(--text); word-break: break-all; }
+    .ua-card .v .badge { font-size: 11px; font-weight: 400; vertical-align: middle; margin-left: 6px; }
+    .ua-json-wrap { margin-top: 18px; }
+    .ua-json-wrap .qp-result-label { margin-bottom: 6px; }
+    .ua-bot-warn { margin-top: 14px; }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="en/tools/user-agent-parser.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>User-Agent解析</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🕵️</div>
+        <h1>User-Agent解析</h1>
+      </div>
+      <p class="tool-desc">粘贴或自动识别 User-Agent 字符串，本地解析浏览器名称与版本、渲染引擎、操作系统与版本、设备类型以及是否为爬虫机器人。打开页面会自动填入当前浏览器 UA，所有解析在浏览器本地正则完成，不上传数据。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="ua-input-row">
+        <label for="uaInput">User-Agent 字符串</label>
+        <textarea id="uaInput" class="form-input" placeholder="粘贴 UA 字符串，页面加载时会自动填入当前浏览器 UA" spellcheck="false"></textarea>
+      </div>
+
+      <div class="ua-actions">
+        <button class="btn btn-primary" id="uaParse" type="button">解析</button>
+        <button class="btn" id="uaUseCurrent" type="button">填入当前浏览器UA</button>
+        <span class="spacer"></span>
+        <button class="btn" id="uaCopy" type="button">复制解析JSON</button>
+        <button class="btn" id="uaClear" type="button">清空</button>
+      </div>
+
+      <div class="ua-sample">
+        <span class="lbl">常用示例：</span>
+        <span class="ua-chip" data-key="chrome">桌面 Chrome</span>
+        <span class="ua-chip" data-key="iphone">iPhone Safari</span>
+        <span class="ua-chip" data-key="android">Android Chrome</span>
+        <span class="ua-chip" data-key="wechat">微信内置</span>
+        <span class="ua-chip" data-key="googlebot">Googlebot</span>
+      </div>
+
+      <div class="ua-grid" id="uaResult">
+        <div class="empty-tip" style="grid-column:1/-1;">输入 UA 后点击「解析」即可查看结果。</div>
+      </div>
+
+      <div class="ua-json-wrap">
+        <div class="qp-result-label">解析结果 JSON（可复制）</div>
+        <textarea id="uaJson" class="qp-url-box" spellcheck="false" readonly placeholder="解析结果将生成为 JSON 显示在此"></textarea>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>User-Agent 能准确识别所有浏览器吗？</h3>
+        <p>UA 字符串由浏览器自行声明，理论上可被伪造，因此解析结果是基于字符串模式的“尽力识别”。常见浏览器（Chrome、Firefox、Safari、Edge、微信/QQ内置浏览器等）识别可靠；对小众或高度定制的浏览器，可能只能识别到内核层级。本工具所有匹配均为本地正则，不上传任何信息。</p>
+      </div>
+      <div class="faq-item">
+        <h3>如何判断访问者是不是爬虫或机器人？</h3>
+        <p>工具会检测 UA 中是否含 Googlebot、Baiduspider、Bingbot、Yandex、字节/神马等典型爬虫标识，或通用 Spider/Crawler/Bot 关键字。命中则标记为爬虫机器人，便于做统计或反爬分析。</p>
+      </div>
+      <div class="faq-item">
+        <h3>为什么同一台电脑不同浏览器内核写法不同？</h3>
+        <p>现代浏览器多基于 Chromium（Blink 引擎），但 UA 中会保留历史兼容字段（如 Safari 的版本、AppleWebKit 标识）。工具会综合各字段，优先以真实产品名（如 Edge、Chrome）覆盖内核名，给出更贴近实际的产品判断。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/user-agent-parser.js"></script>
+</body>
+</html>

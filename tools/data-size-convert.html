@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>数据大小转换 - 字节KB/MB/GB/TB/PB/EB在线换算 | 在线工具大全</title>
+  <meta name="description" content="免费在线数据大小转换工具，支持 B/KB/MB/GB/TB/PB/EB 全单位实时换算，可一键切换 1024（KiB/MiB）与 1000（KB/MB）两种进制，附带常见文件大小趣味参照，计算在浏览器本地完成。">
+  <meta name="keywords" content="数据大小转换,字节换算,KB转MB,GB转MB,数据存储换算,进制换算,1024进制,1000进制,数据单位,文件大小换算">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/data-size-convert.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="数据大小转换 - 字节KB/MB/GB/TB/PB/EB在线换算">
+  <meta property="og:description" content="支持 B~EB 全单位实时换算、1024 与 1000 进制切换的在线数据大小转换工具，附带常见文件大小参照。">
+  <meta property="og:url" content="https://example.com/tools/data-size-convert.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%92%BE%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "数据大小转换",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线数据大小转换工具，支持 B/KB/MB/GB/TB/PB/EB 全单位实时换算，可切换 1024 与 1000 进制。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["B/KB/MB/GB/TB/PB/EB 换算", "1024 进制切换 (KiB/MiB)", "1000 进制切换 (KB/MB)", "实时换算", "常见文件大小参照", "一键复制"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "1024 进制和 1000 进制有什么区别？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "计算机以 2 为底，1 KiB = 1024 B；而存储厂商与网络常用十进制，1 KB = 1000 B。同一数值用两种进制换算结果不同，这就是硬盘标称容量与电脑显示容量有差异的原因。本工具可一键切换。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "KB 和 KiB 是同一个意思吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "严格来说不同：KB 是十进制千字节（1000 B），KiB 是二进制千比字节（1024 B）。日常口语常混用，但技术场景下应区分。本工具在 1024 进制下使用 KiB/MiB/GiB 等标注。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "为什么硬盘标称 1TB 但电脑只显示约 931GB？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "厂商按 1 TB = 1000 GB = 1,000,000,000,000 B 标注；操作系统按 1024 进制计算，1,000,000,000,000 / 1024 / 1024 / 1024 ≈ 931 GiB，显示为约 931 GB。两者数值一致，只是进制口径不同。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .ds-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: flex-end;
+      margin-bottom: 16px;
+    }
+    .ds-row .form-item { flex: 1; min-width: 150px; }
+    .ds-base {
+      display: inline-flex;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      overflow: hidden;
+      align-self: flex-end;
+    }
+    .ds-base label {
+      padding: 8px 16px;
+      font-size: 14px;
+      cursor: pointer;
+      background: #fbfcfe;
+      color: var(--muted);
+      border-right: 1px solid var(--border);
+    }
+    .ds-base label:last-child { border-right: none; }
+    .ds-base input { display: none; }
+    .ds-base label.checked {
+      background: var(--primary);
+      color: #fff;
+      -webkit-text-fill-color: #fff;
+    }
+    .ds-copy {
+      align-self: flex-end;
+    }
+    .ref-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .ref-card {
+      background: #fbfcfe;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 12px 14px;
+    }
+    .ref-card .name { font-size: 14px; font-weight: 600; }
+    .ref-card .size { font-size: 15px; color: var(--primary); margin-top: 4px; font-variant-numeric: tabular-nums; }
+    .ref-card .note { font-size: 12px; color: var(--muted); margin-top: 2px; line-height: 1.5; }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="en/tools/data-size-convert.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>数据大小转换</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">💾</div>
+        <h1>数据大小转换</h1>
+      </div>
+      <p class="tool-desc">在线数据大小转换工具，支持 B、KB、MB、GB、TB、PB、EB 全单位实时换算，可一键切换 1024（KiB/MiB）与 1000（KB/MB）两种进制，输入任一单位即刷新全表。</p>
+    </section>
+
+    <section class="tool-panel">
+
+      <div class="ds-row">
+        <div class="form-item" style="flex:1.3;">
+          <label for="dsValue">输入数值</label>
+          <input type="text" id="dsValue" class="form-input" placeholder="输入数值" inputmode="decimal" value="1">
+        </div>
+        <div class="form-item" style="flex:1.3;">
+          <label for="dsUnit">输入单位</label>
+          <select id="dsUnit" class="form-select"></select>
+        </div>
+        <div class="ds-base" id="dsBase" role="radiogroup" aria-label="进制">
+          <label class="checked"><input type="radio" name="dsbase" value="1024" checked>1024 进制</label>
+          <label><input type="radio" name="dsbase" value="1000">1000 进制</label>
+        </div>
+        <button class="btn ds-copy" id="btnCopyTable" type="button">复制全表</button>
+      </div>
+
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr><th>单位</th><th>换算结果</th></tr>
+          </thead>
+          <tbody id="dsTable"></tbody>
+        </table>
+      </div>
+
+      <p class="wc-note" id="dsTip"></p>
+
+      <h3 style="font-size:16px; margin:24px 0 4px;">常见文件大小参照（趣味）</h3>
+      <div class="ref-grid" id="dsRef"></div>
+
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>1024 进制和 1000 进制有什么区别？</h3>
+        <p>计算机以 2 为底，1 KiB = 1024 B；而存储厂商与网络常用十进制，1 KB = 1000 B。同一数值用两种进制换算结果不同，这就是硬盘标称容量与电脑显示容量有差异的原因。本工具可一键切换。</p>
+      </div>
+      <div class="faq-item">
+        <h3>KB 和 KiB 是同一个意思吗？</h3>
+        <p>严格来说不同：KB 是十进制千字节（1000 B），KiB 是二进制千比字节（1024 B）。日常口语常混用，但技术场景下应区分。本工具在 1024 进制下使用 KiB/MiB/GiB 等标注。</p>
+      </div>
+      <div class="faq-item">
+        <h3>为什么硬盘标称 1TB 但电脑只显示约 931GB？</h3>
+        <p>厂商按 1 TB = 1000 GB = 1,000,000,000,000 B 标注；操作系统按 1024 进制计算，1,000,000,000,000 / 1024 / 1024 / 1024 ≈ 931 GiB，显示为约 931 GB。两者数值一致，只是进制口径不同。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/data-size-convert.js"></script>
+</body>
+</html>

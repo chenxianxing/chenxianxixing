@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>时间戳转换 - Unix时间戳与日期时间互转工具 | 在线工具大全</title>
+  <meta name="description" content="免费在线Unix时间戳转换工具，支持秒/毫秒自动识别，本地时间、ISO 8601、UTC三种格式互转。提供实时时钟、快捷时间与常见时间戳参考，所有计算均在浏览器本地完成。">
+  <meta name="keywords" content="时间戳转换,Unix时间戳,时间戳在线转换,秒转日期,毫秒转日期,时间戳在线,unix时间,epoch,时间戳工具,UTC时间">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/timestamp-convert.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="时间戳转换 - Unix时间戳与日期时间互转工具">
+  <meta property="og:description" content="支持秒/毫秒自动识别，本地时间、ISO 8601、UTC三种格式互转的在线Unix时间戳转换工具，实时时钟、一键复制。">
+  <meta property="og:url" content="https://example.com/tools/timestamp-convert.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%8F%B1%EF%B8%8F%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "时间戳转换",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线Unix时间戳转换工具，支持秒/毫秒自动识别，本地时间、ISO 8601、UTC三种格式互转，提供实时时钟与快捷时间。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["秒/毫秒自动识别", "本地时间展示", "ISO 8601 格式", "UTC 格式", "日期时间反向转换", "实时时钟", "快捷时间按钮", "一键复制"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "时间戳的秒和毫秒如何区分？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Unix时间戳10位数字代表秒（自1970-01-01起的秒数），13位数字代表毫秒。本工具会自动识别位数：10位按秒解析，13位按毫秒解析，也可手动切换单位。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "本地时间、ISO 8601 和 UTC 有什么区别？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "本地时间按你设备所在时区显示；ISO 8601 通常带有时区偏移（如 +08:00）；UTC 是协调世界时（零时区）的表示。三者描述的是同一时刻，只是展示口径不同。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "为什么同一个时间戳在不同时区显示不同？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "时间戳本身与时区无关，记录的是绝对时刻。显示成具体日期时间时需要结合时区，因此北京（东八区）与伦敦看到的可读时间不同，但底层时间戳一致。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .ts-clock {
+      background: var(--primary-light);
+      border: 1px solid #bfdbfe;
+      border-radius: 12px;
+      padding: 18px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px 22px;
+      margin-bottom: 22px;
+    }
+    .ts-clock .label {
+      font-size: 13px;
+      color: #1e40af;
+      font-weight: 600;
+    }
+    .ts-clock .time {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--primary);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.5px;
+    }
+    .ts-clock .stamp {
+      font-size: 15px;
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 4px 10px;
+    }
+    .ts-block {
+      margin-bottom: 22px;
+    }
+    .ts-block h3 {
+      font-size: 16px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .ts-result-row {
+      display: grid;
+      grid-template-columns: 110px 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fbfcfe;
+      margin-bottom: 10px;
+    }
+    .ts-result-row .k {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .ts-result-row .v {
+      font-size: 15px;
+      font-variant-numeric: tabular-nums;
+      word-break: break-all;
+      font-family: "SFMono-Regular", Consolas, Menlo, "Courier New", monospace;
+    }
+    .ts-result-row .copy {
+      flex-shrink: 0;
+    }
+    .quick-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .ts-note {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-top: 12px;
+    }
+    @media (max-width: 640px) {
+      .ts-result-row { grid-template-columns: 1fr; }
+      .ts-clock .time { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="en/tools/timestamp-convert.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>时间戳转换</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">⏱️</div>
+        <h1>时间戳转换</h1>
+      </div>
+      <p class="tool-desc">Unix时间戳（秒/毫秒）与日期时间双向转换工具，自动识别单位，提供本地时间、ISO 8601、UTC 三种格式，附带实时时钟与快捷时间，所有计算均在浏览器本地完成。</p>
+    </section>
+
+    <section class="tool-panel">
+
+      <!-- 实时时钟 -->
+      <div class="ts-clock">
+        <div>
+          <div class="label">当前时间（本地）</div>
+          <div class="time" id="liveTime">--:--:--</div>
+        </div>
+        <div>
+          <div class="label">当前时间戳</div>
+          <div>
+            <span class="stamp" id="liveSec">秒 --</span>
+            <span class="stamp" id="liveMs">毫秒 --</span>
+          </div>
+        </div>
+        <span class="spacer" style="flex:1;"></span>
+        <button class="btn" id="btnCopySec" type="button">复制秒</button>
+        <button class="btn" id="btnCopyMs" type="button">复制毫秒</button>
+      </div>
+
+      <!-- 时间戳 → 日期 -->
+      <div class="ts-block">
+        <h3>时间戳 → 日期时间</h3>
+        <div class="form-row">
+          <div class="form-item" style="flex:1; min-width:200px;">
+            <label for="tsInput">Unix 时间戳</label>
+            <input type="text" id="tsInput" class="form-input" placeholder="例如：1700000000 或 1700000000000" inputmode="numeric">
+          </div>
+          <div class="form-item" style="width:130px;">
+            <label for="tsUnit">单位</label>
+            <select id="tsUnit" class="form-select">
+              <option value="auto">自动识别</option>
+              <option value="s">秒 (s)</option>
+              <option value="ms">毫秒 (ms)</option>
+            </select>
+          </div>
+        </div>
+        <div class="op-row" style="margin-bottom:8px;">
+          <button class="btn btn-primary" id="btnNow" type="button">填入当前</button>
+          <button class="btn" id="btnClearTs" type="button">清空</button>
+        </div>
+        <div id="tsResults">
+          <div class="empty-tip">输入时间戳后，将在此显示本地时间、ISO 8601、UTC 三种格式</div>
+        </div>
+      </div>
+
+      <!-- 日期 → 时间戳 -->
+      <div class="ts-block">
+        <h3>日期时间 → 时间戳</h3>
+        <div class="form-row">
+          <div class="form-item" style="flex:1; min-width:240px;">
+            <label for="dtInput">日期时间</label>
+            <input type="datetime-local" id="dtInput" class="form-input" step="1">
+          </div>
+          <div class="form-item" style="flex:1; min-width:240px;">
+            <label for="dtText">或文本格式（YYYY-MM-DD HH:mm:ss）</label>
+            <input type="text" id="dtText" class="form-input" placeholder="例如：2024-01-01 00:00:00">
+          </div>
+        </div>
+        <div class="op-row" style="margin-bottom:8px;">
+          <button class="btn btn-primary" id="btnDtToTs" type="button">转换为时间戳</button>
+          <button class="btn" id="btnCopyDtTs" type="button">复制结果</button>
+        </div>
+        <div id="dtResults">
+          <div class="empty-tip">选择或输入日期时间后，将显示对应的秒/毫秒时间戳</div>
+        </div>
+      </div>
+
+      <!-- 快捷时间 -->
+      <div class="ts-block">
+        <h3>快捷时间</h3>
+        <div class="quick-row">
+          <button class="btn" data-quick="today0">今天 0 点</button>
+          <button class="btn" data-quick="yesterday">昨天此刻</button>
+          <button class="btn" data-quick="monday">本周一 0 点</button>
+          <button class="btn" data-quick="month1">本月 1 号 0 点</button>
+          <button class="btn" data-quick="year1">今年 1 月 1 日 0 点</button>
+        </div>
+        <p class="ts-note">点击按钮将同时填写上方「时间戳→日期」输入框和「日期→时间戳」输入框，便于一键查看与复制。</p>
+      </div>
+
+      <!-- 常见参考表 -->
+      <div class="ts-block">
+        <h3>常见时间戳参考</h3>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr><th>时间点</th><th>秒 (10位)</th><th>毫秒 (13位)</th></tr>
+            </thead>
+            <tbody id="refTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>时间戳的秒和毫秒如何区分？</h3>
+        <p>Unix时间戳10位数字代表秒（自1970-01-01起的秒数），13位数字代表毫秒。本工具会自动识别位数：10位按秒解析，13位按毫秒解析，也可手动切换单位。</p>
+      </div>
+      <div class="faq-item">
+        <h3>本地时间、ISO 8601 和 UTC 有什么区别？</h3>
+        <p>本地时间按你设备所在时区显示；ISO 8601 通常带有时区偏移（如 +08:00）；UTC 是协调世界时（零时区）的表示。三者描述的是同一时刻，只是展示口径不同。</p>
+      </div>
+      <div class="faq-item">
+        <h3>为什么同一个时间戳在不同时区显示不同？</h3>
+        <p>时间戳本身与时区无关，记录的是绝对时刻。显示成具体日期时间时需要结合时区，因此北京（东八区）与伦敦看到的可读时间不同，但底层时间戳一致。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/timestamp-convert.js"></script>
+</body>
+</html>

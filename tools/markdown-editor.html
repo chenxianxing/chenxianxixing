@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Markdown编辑器 - 在线实时预览与导出工具 | 在线工具大全</title>
+  <meta name="description" content="免费在线Markdown编辑器，支持左右分栏实时预览、工具栏一键插入语法、草稿自动保存、导出带样式的HTML与下载.md文件，纯本地运行不上传，适合写作与笔记。">
+  <meta name="keywords" content="Markdown编辑器,在线Markdown,Markdown预览,Markdown导出,Markdown转HTML,Markdown写作,实时预览,md文件下载">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/markdown-editor.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Markdown编辑器 - 在线实时预览与导出工具">
+  <meta property="og:description" content="在线Markdown编辑器，支持实时预览、工具栏插入语法、草稿自动保存、导出HTML与下载.md，本地运行不上传。">
+  <meta property="og:url" content="https://example.com/tools/markdown-editor.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%9D%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Markdown编辑器",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线Markdown编辑器，支持左右分栏实时预览、工具栏插入语法、草稿自动保存、导出HTML与下载.md文件。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["左右分栏实时预览", "工具栏一键插入语法", "草稿自动保存", "导出带样式HTML", "下载.md文件", "本地运行不上传"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "草稿会自动保存吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "会。编辑内容会实时保存到浏览器localStorage，刷新或关闭页面后再次打开仍可恢复。点击“清除草稿”即可清空本地保存的内容。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "导出的HTML文件包含样式吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "包含。导出时会生成一份完整的HTML文档，内嵌基础排版样式（标题、列表、代码块、表格、引用等），用浏览器打开即可获得整洁的阅读效果。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "我的文档内容会被上传吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "不会。所有Markdown解析与导出均在浏览器本地完成，文档内容只保存在你自己的设备（localStorage）中，不会发送到任何服务器。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .md-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    .md-toolbar .btn {
+      padding: 0 10px;
+      height: 32px;
+      font-size: 13px;
+      min-width: 34px;
+    }
+    .md-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 720px) {
+      .md-split { grid-template-columns: 1fr; }
+    }
+    .md-pane {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .md-pane .pane-label {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #mdInput {
+      width: 100%;
+      min-height: 420px;
+      resize: vertical;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 16px;
+      font-size: 14px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, "Courier New", monospace;
+      line-height: 1.7;
+      color: var(--text);
+      background: #fbfcfe;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    #mdInput:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.10);
+      background: #fff;
+    }
+    .md-preview {
+      width: 100%;
+      min-height: 420px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: #fff;
+      padding: 18px 20px;
+      overflow: auto;
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--text);
+    }
+    .md-preview h1, .md-preview h2, .md-preview h3,
+    .md-preview h4, .md-preview h5, .md-preview h6 {
+      margin: 18px 0 10px;
+      line-height: 1.4;
+    }
+    .md-preview h1 { font-size: 26px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+    .md-preview h2 { font-size: 22px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+    .md-preview h3 { font-size: 18px; }
+    .md-preview p { margin: 10px 0; }
+    .md-preview ul, .md-preview ol { margin: 10px 0 10px 24px; }
+    .md-preview li { margin: 4px 0; }
+    .md-preview blockquote {
+      margin: 12px 0;
+      padding: 8px 16px;
+      border-left: 4px solid var(--primary);
+      background: var(--primary-light);
+      color: #1e40af;
+      border-radius: 6px;
+    }
+    .md-preview code {
+      background: #f1f5f9;
+      padding: 2px 6px;
+      border-radius: 5px;
+      font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+      font-size: 13px;
+    }
+    .md-preview pre {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      padding: 14px 16px;
+      border-radius: 10px;
+      overflow: auto;
+      margin: 12px 0;
+    }
+    .md-preview pre code { background: none; padding: 0; }
+    .md-preview table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 12px 0;
+      font-size: 14px;
+    }
+    .md-preview th, .md-preview td {
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      text-align: left;
+    }
+    .md-preview th { background: #f8fafc; }
+    .md-preview a { color: var(--primary); }
+    .md-preview img { max-width: 100%; border-radius: 8px; }
+    .md-preview hr { border: none; border-top: 1px solid var(--border); margin: 18px 0; }
+    .md-draft-hint {
+      font-size: 12px;
+      color: #059669;
+      display: none;
+    }
+    .md-draft-hint.show { display: inline; }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="en/tools/markdown-editor.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>Markdown编辑器</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">📝</div>
+        <h1>Markdown编辑器</h1>
+      </div>
+      <p class="tool-desc">在线Markdown编辑器，左侧编写、右侧实时预览，工具栏一键插入常用语法，草稿自动保存到本地，支持导出带样式HTML与下载.md文件。所有处理均在浏览器本地完成。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="md-toolbar" id="mdToolbar">
+        <button class="btn" type="button" data-md="bold" title="粗体">B</button>
+        <button class="btn" type="button" data-md="italic" title="斜体"><i>I</i></button>
+        <button class="btn" type="button" data-md="strike" title="删除线"><s>S</s></button>
+        <button class="btn" type="button" data-md="h1" title="标题1">H1</button>
+        <button class="btn" type="button" data-md="h2" title="标题2">H2</button>
+        <button class="btn" type="button" data-md="h3" title="标题3">H3</button>
+        <button class="btn" type="button" data-md="ul" title="无序列表">• 列表</button>
+        <button class="btn" type="button" data-md="ol" title="有序列表">1. 列表</button>
+        <button class="btn" type="button" data-md="quote" title="引用">❝ 引用</button>
+        <button class="btn" type="button" data-md="link" title="链接">🔗 链接</button>
+        <button class="btn" type="button" data-md="image" title="图片">🖼 图片</button>
+        <button class="btn" type="button" data-md="code" title="行内代码">&lt;/&gt; 代码</button>
+        <button class="btn" type="button" data-md="codeblock" title="代码块">{ } 代码块</button>
+        <button class="btn" type="button" data-md="table" title="表格">▦ 表格</button>
+        <button class="btn" type="button" data-md="hr" title="分割线">― 分割线</button>
+      </div>
+
+      <div class="md-split">
+        <div class="md-pane">
+          <div class="pane-label">
+            编辑区
+            <span class="md-draft-hint" id="draftHint">草稿已自动保存</span>
+          </div>
+          <textarea id="mdInput" spellcheck="false" placeholder="在此输入 Markdown 内容，右侧将实时预览…"></textarea>
+        </div>
+        <div class="md-pane">
+          <div class="pane-label">预览区</div>
+          <div class="md-preview" id="mdPreview"><span class="empty-tip" style="padding:40px 0;">预览将显示在这里</span></div>
+        </div>
+      </div>
+
+      <div class="op-row" style="margin-top:16px; margin-bottom:0;">
+        <button class="btn" id="btnSample" type="button">载入示例</button>
+        <button class="btn" id="btnExportHtml" type="button">导出 HTML</button>
+        <button class="btn" id="btnDownloadMd" type="button">下载 .md</button>
+        <button class="btn" id="btnClearDraft" type="button">清除草稿</button>
+        <span class="spacer"></span>
+        <button class="btn" id="btnClear" type="button">清空</button>
+      </div>
+
+      <p class="wc-note">说明：内容实时预览并自动保存到本地浏览器（localStorage），刷新页面仍可恢复。点击“清除草稿”可清空本地保存。导出的HTML内嵌基础样式，可直接分享或打印。</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>草稿会自动保存吗？</h3>
+        <p>会。编辑内容会实时保存到浏览器localStorage，刷新或关闭页面后再次打开仍可恢复。点击“清除草稿”即可清空本地保存的内容。</p>
+      </div>
+      <div class="faq-item">
+        <h3>导出的HTML文件包含样式吗？</h3>
+        <p>包含。导出时会生成一份完整的HTML文档，内嵌基础排版样式（标题、列表、代码块、表格、引用等），用浏览器打开即可获得整洁的阅读效果。</p>
+      </div>
+      <div class="faq-item">
+        <h3>我的文档内容会被上传吗？</h3>
+        <p>不会。所有Markdown解析与导出均在浏览器本地完成，文档内容只保存在你自己的设备（localStorage）中，不会发送到任何服务器。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/vendor/marked.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/markdown-editor.js"></script>
+</body>
+</html>

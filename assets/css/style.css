@@ -131,6 +131,51 @@ a:hover {
   font-weight: 600;
 }
 
+/* ---------- 语言切换（中文 / English） ---------- */
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 2px;
+  background: var(--card);
+  font-size: 12.5px;
+  line-height: 1.5;
+  flex-shrink: 0;
+}
+
+.lang-switch .lang-cur {
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 600;
+}
+
+.lang-switch .lang-link {
+  padding: 2px 10px;
+  border-radius: 999px;
+  color: var(--muted);
+}
+
+.lang-switch .lang-link:hover {
+  color: var(--primary);
+  background: var(--primary-light);
+  text-decoration: none;
+}
+
+@media (max-width: 640px) {
+  .lang-switch {
+    font-size: 12px;
+    margin-left: 4px;
+  }
+  .lang-switch .lang-cur,
+  .lang-switch .lang-link {
+    padding: 2px 7px;
+  }
+}
+
 /* ---------- 首页 Hero ---------- */
 .hero {
   text-align: center;
@@ -348,6 +393,66 @@ a:hover {
 
 .site-footer .links a:hover {
   color: var(--primary);
+}
+
+/* ---------- 分类导航 ---------- */
+.cat-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 auto 8px;
+  max-width: 760px;
+}
+
+.cat-nav a {
+  font-size: 13px;
+  color: var(--muted);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 5px 14px;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+
+.cat-nav a:hover {
+  color: var(--primary);
+  border-color: var(--primary);
+  background: var(--primary-light);
+  text-decoration: none;
+}
+
+/* ---------- 工具分类区块 ---------- */
+.tool-category {
+  margin-bottom: 34px;
+}
+
+.tool-category .cat-head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.tool-category .cat-head h2 {
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tool-category .cat-head .cat-desc {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.tool-category .cat-head .cat-count {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
 }
 
 /* ---------- 响应式 ---------- */

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JWT解析 - 在线JWT解码/Token解析工具 | 在线工具大全</title>
+  <meta name="description" content="免费在线JWT解析工具，实时解码三段式（Header.Payload.Signature）JSON Web Token，安全处理 base64url，高亮 iss/sub/aud/exp/iat/nbf/jti 标准字段并换算人类可读时间，所有解析在浏览器本地完成。">
+  <meta name="keywords" content="JWT解析,JWT解码,JWT在线解析,Token解析,JSON Web Token,base64url解码,JWT字段说明,JWT过期时间">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/jwt-decode.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="JWT解析 - 在线JWT解码/Token解析工具">
+  <meta property="og:description" content="实时解码三段式 JSON Web Token，高亮标准字段并换算人类可读时间，本地解析不上传。">
+  <meta property="og:url" content="https://example.com/tools/jwt-decode.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%90%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "JWT解析",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线JWT解析工具，实时解码三段式 JSON Web Token 并高亮标准字段。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["Header JSON 美化", "Payload JSON 美化", "Signature 原文展示", "base64url 安全解码", "标准字段高亮与时间换算", "各部分一键复制"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "JWT 由哪几部分组成？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "JWT（JSON Web Token）由三段用英文点号「.」连接而成：第一段是 Header（头部，声明算法与类型），第二段是 Payload（载荷，存放业务与标准声明），第三段是 Signature（签名，由前两段用密钥签名得到）。解码前两段可查看内容，但签名需在服务端用密钥校验。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "exp / iat / nbf 这些时间字段是什么？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "它们都是 Unix 秒级时间戳：exp 表示过期时间、iat 表示签发时间、nbf 表示在此时间之前不可用（Not Before）。本工具会将其换算成可读时间，并对 exp、iat、nbf 显示是否已过期 / 是否生效的徽标。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "在网页里粘贴 JWT 安全吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "本工具所有解析都在浏览器本地完成，不会把 Token 上传到任何服务器。但仍建议在不可信的第三方站点谨慎粘贴包含敏感信息（如身份、权限）的 Token。请仅在可信的本地工具中解析。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .jwt-output-row { margin-top: 0; }
+    .jwt-part-label { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+    .jwt-part-label .badge { font-size: 11px; }
+    .jwt-claims { margin-top: 14px; }
+    .jwt-claims .claim-std { color: var(--primary); font-weight: 600; }
+    .jwt-time { font-size: 12px; color: var(--muted); margin-left: 8px; }
+    .jwt-warn { margin-top: 14px; }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="en/tools/jwt-decode.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>JWT解析</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🔐</div>
+        <h1>JWT解析</h1>
+      </div>
+      <p class="tool-desc">在线 JSON Web Token 解析工具，实时解码三段式 Token（Header / Payload / Signature），安全处理 base64url，高亮标准字段并换算人类可读时间，所有解析在浏览器本地完成，不上传服务器。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="form-item">
+        <label for="jwtInput">JWT（粘贴完整的三段式 Token）</label>
+        <textarea id="jwtInput" class="form-input code-box editable" rows="4" spellcheck="false" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IuW8oOS4iSIsImlhdCI6MTUxNjIzOTAyMn0.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"></textarea>
+      </div>
+
+      <div class="warn-note" id="jwtError" hidden></div>
+
+      <div class="split-2 jwt-output-row" style="margin-top:16px;">
+        <div class="form-item">
+          <div class="jwt-part-label">
+            <label for="jwtHeader" style="margin:0;">Header</label>
+            <span class="badge blue">JSON 美化</span>
+            <span class="spacer" style="flex:1;"></span>
+            <button class="btn" id="btnCopyHeader" type="button">复制</button>
+          </div>
+          <textarea id="jwtHeader" class="form-input code-box" rows="8" readonly spellcheck="false" placeholder="Header（头部）解码结果"></textarea>
+        </div>
+        <div class="form-item">
+          <div class="jwt-part-label">
+            <label for="jwtPayload" style="margin:0;">Payload</label>
+            <span class="badge blue">JSON 美化</span>
+            <span class="spacer" style="flex:1;"></span>
+            <button class="btn" id="btnCopyPayload" type="button">复制</button>
+          </div>
+          <textarea id="jwtPayload" class="form-input code-box" rows="8" readonly spellcheck="false" placeholder="Payload（载荷）解码结果"></textarea>
+        </div>
+      </div>
+
+      <div class="form-item" style="margin-top:14px;">
+        <div class="jwt-part-label">
+          <label for="jwtSig" style="margin:0;">Signature</label>
+          <span class="badge">原文（不可读）</span>
+          <span class="spacer" style="flex:1;"></span>
+          <button class="btn" id="btnCopySig" type="button">复制</button>
+        </div>
+        <textarea id="jwtSig" class="form-input code-box" rows="3" readonly spellcheck="false" placeholder="Signature（签名）原文"></textarea>
+      </div>
+
+      <div class="jwt-claims" id="jwtClaims" hidden>
+        <label style="font-size:13px;color:var(--muted);font-weight:500;">标准字段（Standard Claims）</label>
+        <div class="table-wrap" style="margin-top:8px;">
+          <table class="data-table">
+            <thead>
+              <tr><th>字段</th><th>值</th><th>说明</th></tr>
+            </thead>
+            <tbody id="jwtClaimsBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="jwt-warn">
+        <div class="info-note" style="margin-top:0;">
+          <b>安全提示：</b>JWT 的前两段（Header、Payload）只是经过 base64url 编码，<b>并非加密</b>，任何人都能解码查看内容；真正的防伪在第三段的 Signature。请勿在不可信站点粘贴含有敏感身份或权限信息的 Token。本工具仅做本地解析，不上传任何数据。
+        </div>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>JWT 由哪几部分组成？</h3>
+        <p>JWT（JSON Web Token）由三段用英文点号「.」连接而成：第一段是 Header（头部，声明算法与类型），第二段是 Payload（载荷，存放业务与标准声明），第三段是 Signature（签名，由前两段用密钥签名得到）。解码前两段可查看内容，但签名需在服务端用密钥校验。</p>
+      </div>
+      <div class="faq-item">
+        <h3>exp / iat / nbf 这些时间字段是什么？</h3>
+        <p>它们都是 Unix 秒级时间戳：exp 表示过期时间、iat 表示签发时间、nbf 表示在此时间之前不可用（Not Before）。本工具会将其换算成可读时间，并对 exp、iat、nbf 显示是否已过期 / 是否生效的徽标。</p>
+      </div>
+      <div class="faq-item">
+        <h3>在网页里粘贴 JWT 安全吗？</h3>
+        <p>本工具所有解析都在浏览器本地完成，不会把 Token 上传到任何服务器。但仍建议在不可信的第三方站点谨慎粘贴包含敏感信息（如身份、权限）的 Token。请仅在可信的本地工具中解析。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/jwt-decode.js"></script>
+</body>
+</html>

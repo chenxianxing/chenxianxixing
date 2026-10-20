@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Query参数解析 - URL查询字符串解析与重组 | 在线工具大全</title>
+  <meta name="description" content="免费在线Query参数解析工具，输入完整URL或query string即可解析出参数键值表，支持编辑、增删、编码开关与实时重组URL，一键复制。所有解析在浏览器本地完成，不上传数据。">
+  <meta name="keywords" content="Query参数解析,URL参数解析,query string,URL重组,URL参数编辑,get参数,urlencode,参数提取,链接解析">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/query-parser.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Query参数解析 - URL查询字符串解析与重组">
+  <meta property="og:description" content="输入完整URL或query string即可解析出参数键值表，支持编辑、增删、编码开关与实时重组URL，一键复制。">
+  <meta property="og:url" content="https://example.com/tools/query-parser.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%97%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Query参数解析",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线Query参数解析工具，解析完整URL或query string为参数键值表，支持编辑、增删、编码开关与实时重组URL。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["解析URL/query string", "参数表可编辑", "增删参数行", "编码开关", "实时重组URL", "一键复制"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "工具支持解析哪些格式的输入？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "支持完整 URL（会自动提取问号后的 query 部分）、带问号的 query string（如 ?a=1&b=2）以及不带问号的纯参数串（如 a=1&b=2）。URL 中的 #hash 片段会被单独保留，不会被当作参数。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "编码开关起什么作用？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "开启后，重组 URL 时每个参数值都会经过 encodeURIComponent 编码，适合直接用于请求；关闭后则原样拼接，适合查看或构造带中文/特殊字符的可读链接。参数表中也会标注每一行当前是否为 URL 编码状态。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "粘贴进去的 URL 含 #hash 会怎样？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "工具会正确地把 # 之后的部分识别为 hash（片段标识符）并单独保留，不会混入参数。重组后的 URL 也会把 hash 原样拼接在末尾。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .qp-input-row { margin-bottom: 14px; }
+    .qp-input-row textarea {
+      width: 100%;
+      min-height: 84px;
+      resize: vertical;
+    }
+    .qp-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 16px; }
+    .qp-actions .spacer { flex: 1; }
+    .qp-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+    .qp-table th, .qp-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: middle; }
+    .qp-table th { background: #f8fafc; font-weight: 600; position: sticky; top: 0; }
+    .qp-table input[type="text"] { height: 34px; }
+    .qp-table .col-key { width: 30%; }
+    .qp-table .col-val { width: 42%; }
+    .qp-table .col-flag { width: 14%; white-space: nowrap; color: var(--muted); font-size: 12px; }
+    .qp-table .col-op { width: 14%; text-align: center; }
+    .qp-del {
+      border: 1px solid var(--border); background: var(--card); color: #dc2626;
+      border-radius: 8px; width: 30px; height: 30px; cursor: pointer; font-size: 15px; line-height: 1;
+    }
+    .qp-del:hover { background: #fef2f2; border-color: #fca5a5; }
+    .qp-result-label { font-size: 13px; color: var(--muted); margin: 4px 0 6px; }
+    .qp-url-box {
+      width: 100%; min-height: 70px; border: 1px solid var(--border); border-radius: 11px;
+      background: #f8fafc; padding: 12px 14px; font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+      font-size: 13.5px; line-height: 1.7; color: var(--text); white-space: pre-wrap; word-break: break-all;
+      resize: vertical;
+    }
+    .qp-url-box:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(37,99,235,0.10); background: #fff; outline: none; }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="en/tools/query-parser.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>Query参数解析</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🔗</div>
+        <h1>Query参数解析</h1>
+      </div>
+      <p class="tool-desc">输入完整 URL 或 query string（?a=1&b=2），自动解析为参数键值表格，支持编辑、增删、编码开关与实时重组 URL。所有解析均在浏览器本地完成，不上传任何数据。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="qp-input-row">
+        <label for="qpInput">输入 URL 或 query string</label>
+        <textarea id="qpInput" class="form-input" placeholder="例如：https://example.com/search?q=关键词&page=2#result 或 ?a=1&b=2 或 a=1&b=2" spellcheck="false"></textarea>
+      </div>
+
+      <div class="qp-actions">
+        <button class="btn btn-primary" id="qpParse" type="button">解析</button>
+        <button class="btn" id="qpLoad" type="button">载入当前页面URL</button>
+        <button class="btn" id="qpAdd" type="button">＋ 添加参数</button>
+        <span class="spacer"></span>
+        <label class="checkbox-row" style="font-size:13.5px;">
+          <input type="checkbox" id="qpEncode" checked> 重组时编码值 (encodeURIComponent)
+        </label>
+      </div>
+
+      <div class="table-wrap" style="max-height:none;">
+        <table class="qp-table">
+          <thead>
+            <tr>
+              <th class="col-key">参数名 Key</th>
+              <th class="col-val">参数值 Value</th>
+              <th class="col-flag">编码状态</th>
+              <th class="col-op">操作</th>
+            </tr>
+          </thead>
+          <tbody id="qpBody">
+          </tbody>
+        </table>
+      </div>
+
+      <div class="empty-tip" id="qpEmpty" hidden>暂无参数，输入上方内容后点击「解析」。</div>
+
+      <div style="margin-top:20px;">
+        <div class="qp-result-label">重组后的完整 URL（可编辑）</div>
+        <textarea id="qpUrl" class="qp-url-box" spellcheck="false" readonly></textarea>
+        <div class="op-row" style="margin-top:12px; margin-bottom:0;">
+          <button class="btn btn-primary" id="qpCopy" type="button">复制URL</button>
+          <button class="btn" id="qpClear" type="button">清空</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>工具支持解析哪些格式的输入？</h3>
+        <p>支持完整 URL（会自动提取问号后的 query 部分）、带问号的 query string（如 ?a=1&b=2）以及不带问号的纯参数串（如 a=1&b=2）。URL 中的 #hash 片段会被单独保留，不会被当作参数。</p>
+      </div>
+      <div class="faq-item">
+        <h3>编码开关起什么作用？</h3>
+        <p>开启后，重组 URL 时每个参数值都会经过 encodeURIComponent 编码，适合直接用于请求；关闭后则原样拼接，适合查看或构造带中文/特殊字符的可读链接。参数表中也会标注每一行当前是否为 URL 编码状态。</p>
+      </div>
+      <div class="faq-item">
+        <h3>粘贴进去的 URL 含 #hash 会怎样？</h3>
+        <p>工具会正确地把 # 之后的部分识别为 hash（片段标识符）并单独保留，不会混入参数。重组后的 URL 也会把 hash 原样拼接在末尾。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/query-parser.js"></script>
+</body>
+</html>

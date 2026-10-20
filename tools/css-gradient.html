@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS渐变生成器 - 在线线性/径向/圆锥渐变代码生成 | 在线工具大全</title>
+  <meta name="description" content="免费在线CSS渐变生成器，支持线性、径向、圆锥渐变，可视化调节角度、形状、位置与多色标，实时预览并提供可直接复制的CSS代码，含多套热门渐变预设模板。">
+  <meta name="keywords" content="CSS渐变生成器,渐变生成器,线性渐变,径向渐变,圆锥渐变,css gradient,渐变背景,渐变代码,渐变预设">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/css-gradient.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="CSS渐变生成器 - 在线线性/径向/圆锥渐变代码生成">
+  <meta property="og:description" content="支持线性、径向、圆锥渐变的可视化CSS渐变生成器，实时预览并一键复制CSS代码。">
+  <meta property="og:url" content="https://example.com/tools/css-gradient.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%88%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "CSS渐变生成器",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线CSS渐变生成器，支持线性、径向、圆锥渐变，可视化调节并实时生成可复制的CSS代码。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["线性渐变", "径向渐变", "圆锥渐变", "多色标增删", "实时预览", "一键复制CSS"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "线性渐变和径向渐变有什么区别？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "线性渐变沿一条直线方向过渡（可通过角度控制方向），适合营造斜向或上下过渡；径向渐变从中心向外呈圆形或椭圆形扩散，适合模拟光晕、按钮高光等效果。圆锥渐变则绕中心点旋转着色。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "生成的CSS代码如何直接使用？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "将工具生成的 background 属性复制后粘贴到目标元素的CSS规则中即可。绝大多数现代浏览器均原生支持 linear-gradient、radial-gradient 与 conic-gradient。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "可以设置多少个颜色停靠点？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "颜色停靠点数量没有固定上限，工具默认提供两个，可随时点击“添加色标”增加，也可以删除多余色标，最少保留两个以保证渐变有效。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    #gPreview {
+      width: 100%;
+      height: 200px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin: 6px 0 14px;
+    }
+    .g-controls {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 720px) { .g-controls { grid-template-columns: 1fr; } }
+    .slider-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    .slider-item .val { font-size: 13px; color: var(--primary); font-weight: 600; }
+    .stop-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #fbfcfe;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 10px;
+      margin-bottom: 8px;
+    }
+    .stop-item input[type="color"] {
+      width: 38px; height: 34px; padding: 2px;
+      border: 1px solid var(--border); border-radius: 8px; background: #fff; cursor: pointer; flex-shrink: 0;
+    }
+    .stop-item .stop-color-hex {
+      width: 92px;
+    }
+    .stop-item .stop-pos { flex: 1; }
+    .stop-item .stop-pos-val { width: 52px; text-align: right; font-size: 13px; color: var(--muted); }
+    .stop-item .stop-del {
+      border: none; background: #fef2f2; color: #dc2626;
+      width: 30px; height: 30px; border-radius: 8px; cursor: pointer; font-size: 16px; line-height: 1; flex-shrink: 0;
+    }
+    .stop-item .stop-del:hover { background: #fee2e2; }
+    .preset-row { display: flex; flex-wrap: wrap; gap: 10px; }
+    .preset-chip {
+      border: 1px solid var(--border); border-radius: 999px;
+      padding: 7px 14px; font-size: 13px; cursor: pointer; color: var(--text);
+      background: #fff; display: inline-flex; align-items: center; gap: 8px;
+    }
+    .preset-chip:hover { border-color: var(--primary); color: var(--primary); }
+    .preset-chip .swatch { width: 16px; height: 16px; border-radius: 5px; flex-shrink: 0; }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="en/tools/css-gradient.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>CSS渐变生成器</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🌈</div>
+        <h1>CSS渐变生成器</h1>
+      </div>
+      <p class="tool-desc">在线 CSS 渐变代码生成工具，支持线性、径向、圆锥三种渐变类型，可视化调节角度、形状、位置与多色标，实时预览并一键复制可直接使用的 CSS 代码。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="op-row">
+        <div class="radio-row" id="gTypeRow" role="radiogroup" aria-label="渐变类型">
+          <label class="checked"><input type="radio" name="gType" value="linear" checked>线性</label>
+          <label><input type="radio" name="gType" value="radial">径向</label>
+          <label><input type="radio" name="gType" value="conic">圆锥</label>
+        </div>
+        <span class="spacer"></span>
+        <button class="btn" id="btnCopyCss" type="button">复制 CSS</button>
+      </div>
+
+      <div id="gPreview"></div>
+
+      <div class="g-controls">
+        <div>
+          <div id="linearOpts">
+            <div class="slider-item">
+              <label for="gAngle">角度：<span class="val" id="gAngleVal">135</span>°</label>
+              <input type="range" id="gAngle" min="0" max="360" step="1" value="135">
+            </div>
+          </div>
+          <div id="radialOpts" hidden>
+            <div class="op-row" style="margin-bottom:12px;">
+              <div class="radio-row" id="gShapeRow" role="radiogroup" aria-label="径向形状">
+                <label class="checked"><input type="radio" name="gShape" value="circle" checked>圆</label>
+                <label><input type="radio" name="gShape" value="ellipse">椭圆</label>
+              </div>
+            </div>
+            <div class="form-item">
+              <label for="gPos">中心位置</label>
+              <select id="gPos" class="form-select">
+                <option value="center" selected>中心 center</option>
+                <option value="top">顶部 top</option>
+                <option value="bottom">底部 bottom</option>
+                <option value="left">左侧 left</option>
+                <option value="right">右侧 right</option>
+                <option value="top left">左上 top left</option>
+                <option value="top right">右上 top right</option>
+                <option value="bottom left">左下 bottom left</option>
+                <option value="bottom right">右下 bottom right</option>
+              </select>
+            </div>
+          </div>
+          <div id="conicOpts" hidden>
+            <div class="slider-item">
+              <label for="gAngleConic">起始角度：<span class="val" id="gAngleConicVal">0</span>°</label>
+              <input type="range" id="gAngleConic" min="0" max="360" step="1" value="0">
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label style="font-size:13px;color:var(--muted);font-weight:500;">颜色停靠点</label>
+          <div id="gStops" style="margin-top:6px;"></div>
+          <button class="btn" id="btnAddStop" type="button" style="margin-top:4px;">+ 添加色标</button>
+        </div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <label style="font-size:13px;color:var(--muted);font-weight:500;">生成的 CSS</label>
+        <div class="code-box" id="gCode" readonly style="margin-top:6px;"></div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <label style="font-size:13px;color:var(--muted);font-weight:500;">热门渐变预设</label>
+        <div class="preset-row" id="gPresets" style="margin-top:8px;"></div>
+      </div>
+
+      <p class="wc-note">说明：色标位置为该颜色在渐变中所占的百分比，可点击取色器或直接输入 HEX。复制的 CSS 为 <b>background</b> 属性，直接粘贴到目标元素样式即可生效。</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>线性渐变和径向渐变有什么区别？</h3>
+        <p>线性渐变沿一条直线方向过渡（可通过角度控制方向），适合营造斜向或上下过渡；径向渐变从中心向外呈圆形或椭圆形扩散，适合模拟光晕、按钮高光等效果。圆锥渐变则绕中心点旋转着色。</p>
+      </div>
+      <div class="faq-item">
+        <h3>生成的CSS代码如何直接使用？</h3>
+        <p>将工具生成的 background 属性复制后粘贴到目标元素的CSS规则中即可。绝大多数现代浏览器均原生支持 linear-gradient、radial-gradient 与 conic-gradient。</p>
+      </div>
+      <div class="faq-item">
+        <h3>可以设置多少个颜色停靠点？</h3>
+        <p>颜色停靠点数量没有固定上限，工具默认提供两个，可随时点击“添加色标”增加，也可以删除多余色标，最少保留两个以保证渐变有效。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/css-gradient.js"></script>
+</body>
+</html>

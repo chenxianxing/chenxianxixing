@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>文本对比 - 在线文本差异比较工具 | 在线工具大全</title>
+  <meta name="description" content="免费在线文本对比工具，基于LCS算法逐行比较两段文本差异，删除行红色高亮、新增行绿色高亮并显示行号，支持忽略空白与忽略大小写，统计新增、删除、相同行数，可复制差异报告。">
+  <meta name="keywords" content="文本对比,文本比较,文本差异,diff工具,行级对比,LCS算法,代码比对,在线diff">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/text-diff.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="文本对比 - 在线文本差异比较工具">
+  <meta property="og:description" content="在线文本对比工具，逐行比较差异，红绿高亮、行号显示、忽略空白与大小写，可复制差异报告。">
+  <meta property="og:url" content="https://example.com/tools/text-diff.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%8D%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "文本对比",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线文本对比工具，基于LCS算法逐行比较差异，红绿高亮并显示行号。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["逐行差异对比", "删除行红色/新增行绿色高亮", "行号显示", "忽略空白与大小写", "新增删除相同行数统计", "复制差异报告"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "文本对比采用什么算法？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "采用 LCS（最长公共子序列）动态规划算法进行逐行比较，能够找出两段文本之间的最少修改路径，并以删除、新增、相同三种状态呈现差异。行数少于 2000 时实时计算。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "忽略空白和忽略大小写有什么用？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "开启“忽略空白差异”后，仅空格、制表符、换行数量不同但内容相同的行会被视为相同；开启“忽略大小写”后，仅字母大小写不同的行也会被视为相同，从而聚焦真正的内容变动。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "可以导出或复制差异结果吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "可以。点击“复制差异报告”会把带 + / - 标记及统计信息的纯文本报告复制到剪贴板，方便粘贴到聊天、文档或提交记录中。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .diff-result {
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      overflow: auto;
+      max-height: 520px;
+      background: #fff;
+      font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .diff-row {
+      display: flex;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .diff-row .ln {
+      width: 48px;
+      flex-shrink: 0;
+      text-align: right;
+      padding: 2px 8px;
+      color: var(--muted);
+      user-select: none;
+      border-right: 1px solid #f1f5f9;
+    }
+    .diff-row .ln2 {
+      width: 48px;
+      flex-shrink: 0;
+      text-align: right;
+      padding: 2px 8px;
+      color: var(--muted);
+      user-select: none;
+      border-right: 1px solid #f1f5f9;
+      background: #fafafa;
+    }
+    .diff-row .txt {
+      padding: 2px 12px;
+      white-space: pre-wrap;
+      word-break: break-all;
+      flex: 1;
+    }
+    .diff-row.del { background: #fef2f2; }
+    .diff-row.del .txt { color: #b91c1c; }
+    .diff-row.add { background: #ecfdf5; }
+    .diff-row.add .txt { color: #047857; }
+    .diff-stats {
+      display: flex;
+      gap: 14px;
+      margin-top: 12px;
+      font-size: 13px;
+    }
+    .diff-stats .s-add { color: #059669; font-weight: 600; }
+    .diff-stats .s-del { color: #dc2626; font-weight: 600; }
+    .diff-stats .s-same { color: var(--muted); font-weight: 600; }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="en/tools/text-diff.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>文本对比</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🔍</div>
+        <h1>文本对比</h1>
+      </div>
+      <p class="tool-desc">在线文本差异对比工具，基于 LCS 算法逐行比较两段文本，删除行红色高亮、新增行绿色高亮并显示行号，支持忽略空白与忽略大小写，统计新增、删除、相同行数，可复制差异报告。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="op-row">
+        <label class="checkbox-row" style="font-size:13px;"><input type="checkbox" id="tdIgnoreWs"> 忽略空白差异</label>
+        <label class="checkbox-row" style="font-size:13px;"><input type="checkbox" id="tdIgnoreCase"> 忽略大小写</label>
+        <span class="spacer"></span>
+        <span class="badge" id="tdBigHint" hidden>行数较多，计算可能稍慢</span>
+      </div>
+
+      <div class="split-2">
+        <div class="form-item">
+          <label for="tdLeft">原文（旧文本）</label>
+          <textarea id="tdLeft" class="form-input" rows="10" placeholder="在此粘贴原始文本" spellcheck="false"></textarea>
+        </div>
+        <div class="form-item">
+          <label for="tdRight">修改后（新文本）</label>
+          <textarea id="tdRight" class="form-input" rows="10" placeholder="在此粘贴修改后的文本" spellcheck="false"></textarea>
+        </div>
+      </div>
+
+      <div class="op-row" style="margin-top:14px; margin-bottom:0;">
+        <button class="btn btn-primary" id="btnCompare" type="button">开始对比</button>
+        <button class="btn" id="btnSwap" type="button">交换左右</button>
+        <button class="btn" id="btnCopyReport" type="button">复制差异报告</button>
+        <span class="spacer"></span>
+        <button class="btn" id="btnClear" type="button">清空</button>
+      </div>
+
+      <div class="diff-stats" id="tdStats" hidden>
+        <span class="s-add" id="tdAdd">新增 0 行</span>
+        <span class="s-del" id="tdDel">删除 0 行</span>
+        <span class="s-same" id="tdSame">相同 0 行</span>
+      </div>
+
+      <h3 style="font-size:15px; margin:16px 0 8px;">对比结果</h3>
+      <div class="diff-result" id="tdResult"><span class="empty-tip" style="padding:28px 0;">输入两段文本并点击“开始对比”后，差异将显示在这里</span></div>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>文本对比采用什么算法？</h3>
+        <p>采用 LCS（最长公共子序列）动态规划算法进行逐行比较，能够找出两段文本之间的最少修改路径，并以删除、新增、相同三种状态呈现差异。行数少于 2000 时实时计算。</p>
+      </div>
+      <div class="faq-item">
+        <h3>忽略空白和忽略大小写有什么用？</h3>
+        <p>开启“忽略空白差异”后，仅空格、制表符、换行数量不同但内容相同的行会被视为相同；开启“忽略大小写”后，仅字母大小写不同的行也会被视为相同，从而聚焦真正的内容变动。</p>
+      </div>
+      <div class="faq-item">
+        <h3>可以导出或复制差异结果吗？</h3>
+        <p>可以。点击“复制差异报告”会把带 + / - 标记及统计信息的纯文本报告复制到剪贴板，方便粘贴到聊天、文档或提交记录中。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/text-diff.js"></script>
+</body>
+</html>

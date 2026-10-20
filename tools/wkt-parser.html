@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WKT几何解析 - WKT转GeoJSON与可视化预览 | 在线工具大全</title>
+  <meta name="description" content="免费在线WKT几何解析工具，支持POINT、LINESTRING、POLYGON及其MULTI与GEOMETRYCOLLECTION类型，识别Z/M坐标，输出几何类型、坐标点数、边界框、坐标表与符合RFC 7946的GeoJSON，并提供SVG预览。所有解析本地完成。">
+  <meta name="keywords" content="WKT解析,WKT转GeoJSON,Well-Known Text,几何解析,GeoJSON,RFC 7946,空间数据,坐标解析,SVG预览">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/wkt-parser.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="WKT几何解析 - WKT转GeoJSON与可视化预览">
+  <meta property="og:description" content="支持POINT/LINESTRING/POLYGON及MULTI与GEOMETRYCOLLECTION，识别Z/M坐标，输出GeoJSON并提供SVG预览。">
+  <meta property="og:url" content="https://example.com/tools/wkt-parser.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%97%BA%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "WKT几何解析",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线WKT几何解析工具，支持POINT、LINESTRING、POLYGON及其MULTI与GEOMETRYCOLLECTION，识别Z/M坐标，输出GeoJSON并提供SVG预览。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["解析WKT几何", "识别Z/M坐标", "输出GeoJSON(RFC7946)", "坐标点表格", "边界框bbox", "SVG可视化预览", "下载.json"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "工具支持哪些 WKT 几何类型？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "支持 POINT、LINESTRING、POLYGON、MULTIPOINT、MULTILINESTRING、MULTIPOLYGON 以及 GEOMETRYCOLLECTION。同时识别坐标后的 Z、M、ZM 维度标记（三维/带测量值），基础二维及常见三维写法均可正确解析。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "输出的 GeoJSON 符合规范吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "输出严格遵循 RFC 7946：包含 type、coordinates（或 geometries 用于几何集合）以及可选的顶层 bbox 字段。可直接用于地图库（如 Leaflet、Mapbox、OpenLayers）或地理数据处理流程。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "输入格式错误会怎样提示？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "解析时会先做括号配平与坐标数值校验。若括号不匹配或坐标不是合法数字，会在错误提示中尽量给出出错位置，便于快速定位并修正 WKT 文本。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .wkt-input-row textarea {
+      width: 100%; min-height: 120px; resize: vertical;
+      font-family: "SFMono-Regular", Consolas, Menlo, monospace; font-size: 13.5px;
+    }
+    .wkt-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 12px; margin-bottom: 6px; }
+    .wkt-actions .spacer { flex: 1; }
+    .wkt-err { margin-top: 12px; }
+    .wkt-section-title { font-size: 15px; font-weight: 600; margin: 22px 0 8px; }
+    .wkt-table td.num { font-variant-numeric: tabular-nums; }
+    .wkt-table td.dim { color: var(--muted); }
+    #wktSvg {
+      width: 100%; max-width: 640px; height: auto; display: block; margin: 0 auto;
+      background: #f8fafc; border: 1px solid var(--border); border-radius: 11px;
+    }
+    .wkt-json-box {
+      width: 100%; min-height: 200px; border: 1px solid var(--border); border-radius: 11px;
+      background: #f8fafc; padding: 14px 16px; font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+      font-size: 13px; line-height: 1.6; color: var(--text); white-space: pre; overflow: auto;
+      resize: vertical;
+    }
+    .wkt-json-box:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(37,99,235,0.10); background: #fff; outline: none; }
+    .wkt-bbox {
+      font-size: 13px; color: var(--muted); background: #fbfcfe; border: 1px solid var(--border);
+      border-radius: 9px; padding: 8px 12px; display: inline-block; font-variant-numeric: tabular-nums;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="en/tools/wkt-parser.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>WKT几何解析</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🗺️</div>
+        <h1>WKT几何解析</h1>
+      </div>
+      <p class="tool-desc">输入 Well-Known Text（WKT）几何文本，本地解析几何类型、坐标点数、嵌套层级与边界框 bbox，生成符合 RFC 7946 的 GeoJSON 并支持 SVG 可视化预览。支持 Z/M 维度标记，不上传任何数据。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="wkt-input-row">
+        <label for="wktInput">WKT 文本</label>
+        <textarea id="wktInput" class="form-input" spellcheck="false" placeholder="例如：POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10))"></textarea>
+      </div>
+
+      <div class="wkt-actions">
+        <button class="btn btn-primary" id="wktParse" type="button">解析</button>
+        <button class="btn" id="wktSample" type="button">载入示例</button>
+        <button class="btn" id="wktClear" type="button">清空</button>
+        <span class="spacer"></span>
+        <label class="checkbox-row" style="font-size:13.5px;">
+          <input type="checkbox" id="wktExtra" checked> 保留 Z/M 维度
+        </label>
+      </div>
+
+      <div class="warn-note wkt-err" id="wktError" hidden></div>
+
+      <div class="result-grid" id="wktStats" hidden>
+        <div class="result-card"><div class="num" id="stType">-</div><div class="label">几何类型</div></div>
+        <div class="result-card"><div class="num" id="stCount">-</div><div class="label">坐标点数</div></div>
+        <div class="result-card"><div class="num" id="stLevel">-</div><div class="label">嵌套层级</div></div>
+        <div class="result-card"><div class="num" id="stDim">-</div><div class="label">维度</div></div>
+      </div>
+
+      <div id="wktBboxWrap" hidden style="margin-top:14px;">
+        <span class="wkt-bbox" id="wktBbox"></span>
+      </div>
+
+      <div class="wkt-section-title">坐标点列表</div>
+      <div class="table-wrap" id="wktTableWrap" hidden>
+        <table class="data-table wkt-table">
+          <thead id="wktThead"></thead>
+          <tbody id="wktTbody"></tbody>
+        </table>
+      </div>
+
+      <div class="wkt-section-title">SVG 预览</div>
+      <div id="wktSvgWrap">
+        <div class="empty-tip" id="wktSvgEmpty">解析后将在此显示几何图形预览。</div>
+        <svg id="wktSvg" viewBox="0 0 640 400" hidden xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+
+      <div class="wkt-section-title">GeoJSON 输出（符合 RFC 7946）</div>
+      <textarea id="wktJson" class="wkt-json-box" spellcheck="false" readonly placeholder="解析结果将生成 GeoJSON 显示在此"></textarea>
+      <div class="op-row" style="margin-top:12px; margin-bottom:0;">
+        <button class="btn btn-primary" id="wktCopy" type="button">复制 GeoJSON</button>
+        <button class="btn" id="wktDownload" type="button">下载 .json</button>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>工具支持哪些 WKT 几何类型？</h3>
+        <p>支持 POINT、LINESTRING、POLYGON、MULTIPOINT、MULTILINESTRING、MULTIPOLYGON 以及 GEOMETRYCOLLECTION。同时识别坐标后的 Z、M、ZM 维度标记（三维/带测量值），基础二维及常见三维写法均可正确解析。</p>
+      </div>
+      <div class="faq-item">
+        <h3>输出的 GeoJSON 符合规范吗？</h3>
+        <p>输出严格遵循 RFC 7946：包含 type、coordinates（或 geometries 用于几何集合）以及可选的顶层 bbox 字段。可直接用于地图库（如 Leaflet、Mapbox、OpenLayers）或地理数据处理流程。</p>
+      </div>
+      <div class="faq-item">
+        <h3>输入格式错误会怎样提示？</h3>
+        <p>解析时会先做括号配平与坐标数值校验。若括号不匹配或坐标不是合法数字，会在错误提示中尽量给出出错位置，便于快速定位并修正 WKT 文本。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/wkt-parser.js"></script>
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>正则表达式在线测试 - 实时匹配验证与替换工具 | 在线工具大全</title>
+  <meta name="description" content="免费在线正则表达式测试工具，实时高亮匹配结果，支持分组捕获查看、替换测试（$1/$&语法）、常用正则速查（邮箱/手机号/URL/IP等），输入即测，本地运行不上传。">
+  <meta name="keywords" content="正则表达式在线测试,正则测试,正则匹配,regex在线测试,正则验证,正则替换,常用正则表达式,正则表达式工具">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/regex-tester.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="正则表达式在线测试 - 实时匹配验证与替换工具">
+  <meta property="og:description" content="在线正则表达式测试工具，实时高亮匹配结果，支持分组捕获、替换测试与常用正则速查，本地运行不上传。">
+  <meta property="og:url" content="https://example.com/tools/regex-tester.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%B0%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "正则表达式在线测试",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线正则表达式测试工具，实时高亮匹配结果，支持分组捕获查看、替换测试与常用正则速查。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["实时匹配高亮", "分组捕获查看", "替换测试（$1/$&）", "常用正则速查", "匹配耗时统计", "本地运行不上传"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "正则表达式测试结果会上传服务器吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "不会。所有匹配计算均在您的浏览器本地通过JavaScript RegExp完成，正则和测试文本都不会离开您的设备。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "修饰符 g、i、m、s 分别表示什么？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "g表示全局匹配（查找所有匹配而非仅第一个）；i表示忽略大小写；m表示多行模式（^和$匹配每行开头结尾）；s表示点号匹配换行符；u表示Unicode模式；y表示粘性匹配（从lastIndex处开始）。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "替换中的 $1、$& 是什么意思？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "$1到$9表示引用第1到第9个捕获分组的内容；$&表示整个匹配文本；$`表示匹配文本之前的内容；$'表示匹配文本之后的内容；$$表示字面量美元符号。"
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="en/tools/regex-tester.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>正则表达式在线测试</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🧪</div>
+        <h1>正则表达式在线测试</h1>
+      </div>
+      <p class="tool-desc">输入正则表达式与测试文本，实时高亮所有匹配结果，查看分组捕获内容，支持替换测试。所有计算均在浏览器本地完成，不上传任何数据。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="form-row">
+        <div class="form-item" style="flex:1; min-width:260px;">
+          <label for="rePattern">正则表达式</label>
+          <input type="text" id="rePattern" class="form-input" placeholder="例如：\d{3}-\d{3,4} 或 [\w.-]+@[\w.-]+\.\w+" spellcheck="false">
+        </div>
+        <div class="form-item">
+          <label>修饰符</label>
+          <div class="checkbox-row" id="reFlags">
+            <label><input type="checkbox" value="g" checked> g 全局</label>
+            <label><input type="checkbox" value="i"> i 忽略大小写</label>
+            <label><input type="checkbox" value="m"> m 多行</label>
+            <label><input type="checkbox" value="s"> s 点匹配换行</label>
+            <label><input type="checkbox" value="u"> u Unicode</label>
+            <label><input type="checkbox" value="y"> y 粘性</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-item" style="margin-bottom:14px;">
+        <label for="reText">测试文本</label>
+        <textarea id="reText" class="form-input" rows="7" placeholder="输入需要匹配的测试文本，每行一条或用自然段落均可" spellcheck="false"></textarea>
+      </div>
+
+      <div class="warn-note" id="reError" hidden></div>
+
+      <div class="op-row" style="margin-bottom:0;">
+        <span class="badge blue" id="reCount">匹配 0 处</span>
+        <span class="badge" id="reTime">耗时 0 ms</span>
+        <span class="spacer"></span>
+        <button class="btn" id="btnClear" type="button">清空</button>
+      </div>
+
+      <h3 style="font-size:15px; margin:16px 0 8px;">匹配预览</h3>
+      <div class="code-box" id="rePreview" style="min-height:80px;"><span class="empty-tip" style="padding:12px 0;">输入正则和测试文本后，匹配结果将高亮显示在这里</span></div>
+
+      <h3 style="font-size:15px; margin:18px 0 8px;">匹配详情</h3>
+      <div class="table-wrap" id="reTableWrap" hidden>
+        <table class="data-table">
+          <thead>
+            <tr><th>#</th><th>匹配内容</th><th>位置</th><th>长度</th><th>分组捕获</th></tr>
+          </thead>
+          <tbody id="reTableBody"></tbody>
+        </table>
+      </div>
+      <div class="empty-tip" id="reNoMatch">暂无匹配</div>
+
+      <h3 style="font-size:15px; margin:18px 0 8px;">替换测试 <span class="badge">支持 $1 $&amp; $` $' $$</span></h3>
+      <div class="form-row">
+        <div class="form-item" style="flex:1; min-width:240px;">
+          <label for="reReplaceTo">替换为</label>
+          <input type="text" id="reReplaceTo" class="form-input" placeholder="例如：$1-$2 或 ***（脱敏）" spellcheck="false">
+        </div>
+        <div class="form-item" style="flex:1; min-width:240px;">
+          <label for="reReplaceCount">替换次数</label>
+          <input type="text" id="reReplaceCount" class="form-input" value="0" readonly>
+        </div>
+      </div>
+      <div class="code-box" id="reReplaceOut">替换结果会显示在这里</div>
+
+      <h3 style="font-size:15px; margin:18px 0 8px;">常用正则速查</h3>
+      <div class="op-row" id="rePresets" style="margin-bottom:0;"></div>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>正则表达式测试结果会上传服务器吗？</h3>
+        <p>不会。所有匹配计算均在您的浏览器本地通过JavaScript RegExp完成，正则和测试文本都不会离开您的设备。</p>
+      </div>
+      <div class="faq-item">
+        <h3>修饰符 g、i、m、s 分别表示什么？</h3>
+        <p>g表示全局匹配（查找所有匹配而非仅第一个）；i表示忽略大小写；m表示多行模式（^和$匹配每行开头结尾）；s表示点号匹配换行符；u表示Unicode模式；y表示粘性匹配（从lastIndex处开始）。</p>
+      </div>
+      <div class="faq-item">
+        <h3>替换中的 $1、$&amp; 是什么意思？</h3>
+        <p>$1到$9表示引用第1到第9个捕获分组的内容；$&amp;表示整个匹配文本；$`表示匹配文本之前的内容；$'表示匹配文本之后的内容；$$表示字面量美元符号。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/regex-tester.js"></script>
+</body>
+</html>

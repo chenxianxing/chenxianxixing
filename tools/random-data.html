@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>随机数据生成 - 在线批量测试数据生成器 | 在线工具大全</title>
+  <meta name="description" content="免费在线随机数据生成工具，支持中文姓名、手机号、邮箱、身份证、日期、整数、小数、车牌、UUID、布尔与自定义字段，可输出每行一项、CSV、JSON 或自定义分隔符，仅用于测试。">
+  <meta name="keywords" content="随机数据生成,测试数据,假数据,批量生成,随机姓名,随机手机号,随机邮箱,随机身份证,JSON数据,CSV数据">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/random-data.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="随机数据生成 - 在线批量测试数据生成器">
+  <meta property="og:description" content="支持多种字段类型的在线随机测试数据生成器，可导出每行一项、CSV 或 JSON。">
+  <meta property="og:url" content="https://example.com/tools/random-data.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%B2%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "随机数据生成",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线批量随机测试数据生成器，支持多种字段类型与多种导出格式。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["中文姓名/手机号/邮箱/身份证", "日期/整数/小数/车牌/UUID/布尔", "自定义前缀+随机数字", "行数 1-1000", "导出每行一项/CSV/JSON/自定义分隔符", "一键复制与下载"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "生成的身份证号是真实有效的吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "不是。身份证号由算法随机生成，包含正确的校验位，但对应号码不一定存在，且严禁用于任何真实业务或冒充他人，仅可用于测试。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "支持哪些导出格式？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "支持四种格式：每行一项（空格分隔）、CSV（含表头）、JSON（对象数组）以及自定义分隔符（自行指定连接符）。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "最多可以生成多少行？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "单次最多可生成 1000 行数据，满足绝大多数接口测试、表单压测与样例数据需求。"
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="en/tools/random-data.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>随机数据生成</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🎲</div>
+        <h1>随机数据生成</h1>
+      </div>
+      <p class="tool-desc">在线批量随机测试数据生成器，支持中文姓名、手机号、邮箱、身份证等多种字段，可导出每行一项、CSV、JSON 或自定义分隔符，全部浏览器本地生成。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="form-grid">
+        <div class="form-item">
+          <label for="rowCount">生成行数（1-1000）</label>
+          <input type="number" id="rowCount" class="form-input" min="1" max="1000" value="20">
+        </div>
+        <div class="form-item">
+          <label for="intMin">整数范围 最小</label>
+          <input type="number" id="intMin" class="form-input" value="1">
+        </div>
+        <div class="form-item">
+          <label for="intMax">整数范围 最大</label>
+          <input type="number" id="intMax" class="form-input" value="100">
+        </div>
+        <div class="form-item">
+          <label for="decMin">小数范围 最小</label>
+          <input type="number" id="decMin" class="form-input" value="0" step="any">
+        </div>
+        <div class="form-item">
+          <label for="decMax">小数范围 最大</label>
+          <input type="number" id="decMax" class="form-input" value="100" step="any">
+        </div>
+        <div class="form-item">
+          <label for="decDigits">小数位数</label>
+          <input type="number" id="decDigits" class="form-input" min="0" max="8" value="2">
+        </div>
+        <div class="form-item">
+          <label for="customPrefix">自定义 前缀</label>
+          <input type="text" id="customPrefix" class="form-input" value="ID" placeholder="如 ID">
+        </div>
+        <div class="form-item">
+          <label for="customDigits">自定义 随机位数</label>
+          <input type="number" id="customDigits" class="form-input" min="1" max="20" value="4">
+        </div>
+      </div>
+
+      <label class="form-label" style="margin-bottom:8px; display:block;">选择字段（按勾选顺序生成列）</label>
+      <div class="checkbox-row" id="fieldList" style="gap:18px; margin-bottom:6px;">
+        <label><input type="checkbox" value="name" checked> 中文姓名</label>
+        <label><input type="checkbox" value="phone" checked> 手机号</label>
+        <label><input type="checkbox" value="email"> 邮箱</label>
+        <label><input type="checkbox" value="idcard"> 身份证号</label>
+        <label><input type="checkbox" value="date"> 日期</label>
+        <label><input type="checkbox" value="int"> 整数</label>
+        <label><input type="checkbox" value="decimal"> 小数</label>
+        <label><input type="checkbox" value="plate"> 车牌号</label>
+        <label><input type="checkbox" value="uuid"> UUID</label>
+        <label><input type="checkbox" value="bool"> 布尔值</label>
+        <label><input type="checkbox" value="custom"> 自定义</label>
+      </div>
+      <div class="op-row" style="margin-top:0;">
+        <button class="btn" id="btnSelAll" type="button">全选</button>
+        <button class="btn" id="btnSelNone" type="button">清空</button>
+      </div>
+
+      <div class="form-grid" style="margin-top:6px;">
+        <div class="form-item">
+          <label>输出格式</label>
+          <select id="outFormat" class="form-select" style="max-width:240px;">
+            <option value="line">每行一项（空格分隔）</option>
+            <option value="csv">CSV（含表头）</option>
+            <option value="json">JSON（对象数组）</option>
+            <option value="custom">自定义分隔符</option>
+          </select>
+        </div>
+        <div class="form-item" id="customSepWrap" hidden>
+          <label for="customSep">自定义分隔符</label>
+          <input type="text" id="customSep" class="form-input" maxlength="3" value="|" placeholder="如 | 或 ,">
+        </div>
+      </div>
+
+      <div class="op-row" style="margin-top:6px;">
+        <button class="btn btn-primary" id="btnGen" type="button">生成数据</button>
+        <button class="btn" id="btnCopy" type="button">复制结果</button>
+        <button class="btn" id="btnDownload" type="button">下载</button>
+        <span class="spacer"></span>
+        <span class="badge blue" id="genCount">未生成</span>
+      </div>
+
+      <div class="form-item" style="margin-top:14px;">
+        <label for="rdOutput">生成结果</label>
+        <textarea id="rdOutput" class="form-input" rows="14" readonly placeholder="点击「生成数据」后结果会显示在这里" spellcheck="false"></textarea>
+      </div>
+
+      <div class="warn-note">注意：本工具生成的所有数据均为随机虚构，仅用于测试与演示，并非真实信息，请勿用于任何真实业务或违法用途。</div>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>生成的身份证号是真实有效的吗？</h3>
+        <p>不是。身份证号由算法随机生成，包含正确的校验位，但对应号码不一定存在，且严禁用于任何真实业务或冒充他人，仅可用于测试。</p>
+      </div>
+      <div class="faq-item">
+        <h3>支持哪些导出格式？</h3>
+        <p>支持四种格式：每行一项（空格分隔）、CSV（含表头）、JSON（对象数组）以及自定义分隔符（自行指定连接符）。</p>
+      </div>
+      <div class="faq-item">
+        <h3>最多可以生成多少行？</h3>
+        <p>单次最多可生成 1000 行数据，满足绝大多数接口测试、表单压测与样例数据需求。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/random-data.js"></script>
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mermaid在线编辑器 - 流程图/时序图/类图图表生成 | 在线工具大全</title>
+  <meta name="description" content="免费在线 Mermaid 编辑器，支持流程图、时序图、类图、ER图、甘特图、思维导图、饼图的实时预览与导出，所有图表均在浏览器本地渲染，内容不上传，无需注册。">
+  <meta name="keywords" content="Mermaid编辑器,Mermaid在线,流程图,时序图,类图,ER图,甘特图,思维导图,饼图,图表生成,Mermaid预览">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/mermaid-editor.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Mermaid在线编辑器 - 流程图/时序图/类图图表生成">
+  <meta property="og:description" content="支持流程图、时序图、类图、ER图、甘特图、思维导图、饼图的实时预览与导出的在线 Mermaid 编辑器。">
+  <meta property="og:url" content="https://example.com/tools/mermaid-editor.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%8A%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <style>
+    .mm-preview {
+      width: 100%;
+      min-height: 360px;
+      height: 100%;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background:
+        linear-gradient(45deg, #f1f5f9 25%, transparent 25%) 0 0 / 20px 20px,
+        linear-gradient(-45deg, #f1f5f9 25%, transparent 25%) 0 0 / 20px 20px,
+        linear-gradient(45deg, transparent 75%, #f1f5f9 75%) 0 0 / 20px 20px,
+        linear-gradient(-45deg, transparent 75%, #f1f5f9 75%) 0 0 / 20px 20px,
+        #fbfcfe;
+      padding: 16px;
+      overflow: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .mm-preview #svgWrap {
+      transform-origin: center center;
+      transition: transform 0.15s ease;
+      max-width: 100%;
+    }
+    .mm-preview #svgWrap svg {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+    .mm-preview .empty-tip {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .mm-preview.has-svg .empty-tip {
+      display: none;
+    }
+    @media (max-width: 720px) {
+      .split-2 { grid-template-columns: 1fr; }
+      .mm-preview { min-height: 280px; }
+    }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Mermaid在线编辑器",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线 Mermaid 编辑器，支持流程图、时序图、类图、ER图、甘特图、思维导图、饼图的实时预览与导出，浏览器本地渲染。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["实时预览", "流程图", "时序图", "类图", "ER图", "甘特图", "思维导图", "饼图", "导出 SVG", "导出 PNG", "主题切换"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Mermaid 编辑器需要联网吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "不需要。所有图表都在你的浏览器本地使用 Mermaid 库渲染，输入的代码和图表内容不会上传到任何服务器，适合处理内部或敏感流程。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "支持导出哪些格式？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "支持将当前图表导出为 SVG 矢量图和 PNG 位图。SVG 可无损缩放并继续编辑，PNG 适合直接插入文档或演示稿。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "为什么图表渲染失败？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "通常是 Mermaid 语法有误，例如缺少分号、节点连接符写错或使用了不支持的关键字。请根据下方错误提示修正对应语法，再点击渲染。"
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="en/tools/mermaid-editor.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>Mermaid在线编辑器</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">📊</div>
+        <h1>Mermaid在线编辑器</h1>
+      </div>
+      <p class="tool-desc">输入 Mermaid 语法即可实时生成流程图、时序图、类图、ER图、甘特图、思维导图与饼图，支持缩放、主题切换与导出，全程浏览器本地渲染。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="op-row">
+        <span class="form-label">示例：</span>
+        <button class="btn" data-sample="flowchart">流程图</button>
+        <button class="btn" data-sample="sequence">时序图</button>
+        <button class="btn" data-sample="class">类图</button>
+        <button class="btn" data-sample="er">ER图</button>
+        <button class="btn" data-sample="gantt">甘特图</button>
+        <button class="btn" data-sample="mindmap">思维导图</button>
+        <button class="btn" data-sample="pie">饼图</button>
+      </div>
+
+      <div class="split-2">
+        <div class="form-item">
+          <label for="mmInput">Mermaid 代码</label>
+          <textarea id="mmInput" class="form-input" rows="18" spellcheck="false" placeholder="在此输入 Mermaid 语法，例如：flowchart TD&#10;A[开始] --> B{判断}&#10;B -->|是| C[执行]&#10;B -->|否| D[结束]"></textarea>
+          <div class="op-row" style="margin-top:8px; margin-bottom:0;">
+            <button class="btn btn-primary" id="btnRender" type="button">渲染</button>
+            <button class="btn" id="btnClear" type="button">清空</button>
+            <button class="btn" id="btnCopy" type="button">复制代码</button>
+            <button class="btn" id="btnSample" type="button">载入示例</button>
+          </div>
+        </div>
+
+        <div class="form-item">
+          <label>预览</label>
+          <div id="preview" class="mm-preview">
+            <div id="svgWrap"></div>
+            <div class="empty-tip" id="mmEmpty">在左侧输入代码或点击上方示例，预览将在此显示</div>
+          </div>
+          <div class="op-row" style="margin-top:8px; margin-bottom:0;">
+            <button class="btn" id="btnZoomIn" type="button">放大</button>
+            <button class="btn" id="btnZoomOut" type="button">缩小</button>
+            <button class="btn" id="btnZoomReset" type="button">重置缩放</button>
+            <button class="btn" id="btnFit" type="button">适应宽度</button>
+            <span class="spacer"></span>
+            <button class="btn" id="btnSvg" type="button">下载 SVG</button>
+            <button class="btn" id="btnPng" type="button">下载 PNG</button>
+          </div>
+          <div class="op-row" style="margin-bottom:0;">
+            <span class="form-label">主题</span>
+            <div class="radio-row" id="themeRow" role="radiogroup" aria-label="图表主题">
+              <label class="checked"><input type="radio" name="mmtheme" value="default" checked>default</label>
+              <label><input type="radio" name="mmtheme" value="neutral">neutral</label>
+              <label><input type="radio" name="mmtheme" value="dark">dark</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="warn-note" id="mmError" hidden></div>
+
+      <p class="wc-note">说明：<b>100% 浏览器本地渲染</b>，你输入的内容不会上传到任何服务器。若渲染失败，请检查 Mermaid 语法（如分号、连接符、关键字是否正确），错误信息会显示在上方提示区。</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>Mermaid 编辑器需要联网吗？</h3>
+        <p>不需要。所有图表都在你的浏览器本地使用 Mermaid 库渲染，输入的代码和图表内容不会上传到任何服务器，适合处理内部或敏感流程。</p>
+      </div>
+      <div class="faq-item">
+        <h3>支持导出哪些格式？</h3>
+        <p>支持将当前图表导出为 SVG 矢量图和 PNG 位图。SVG 可无损缩放并继续编辑，PNG 适合直接插入文档或演示稿。</p>
+      </div>
+      <div class="faq-item">
+        <h3>为什么图表渲染失败？</h3>
+        <p>通常是 Mermaid 语法有误，例如缺少分号、节点连接符写错或使用了不支持的关键字。请根据下方错误提示修正对应语法，再点击渲染。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/vendor/mermaid.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/mermaid-editor.js"></script>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URL编码解码 - 在线URLEncode/Decode转换工具 | 在线工具大全</title>
+  <meta name="description" content="免费在线URL编码解码工具，支持encodeURIComponent、encodeURI、decodeURIComponent、decodeURI四种模式，实时转换、一键复制，处理中英文URL与特殊字符，无需注册。">
+  <meta name="keywords" content="URL编码,URL解码,URLEncode,URLDecode,encodeURIComponent,decodeURIComponent,百分号编码,url编码在线转换,url转义">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/url-encode.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="URL编码解码 - 在线URLEncode/Decode转换工具">
+  <meta property="og:description" content="支持encodeURIComponent、encodeURI、decodeURIComponent、decodeURI四种模式的在线URL编码解码工具，实时转换、一键复制。">
+  <meta property="og:url" content="https://example.com/tools/url-encode.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%B0%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "URL编码解码",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线URL编码解码工具，支持encodeURIComponent、encodeURI、decodeURIComponent、decodeURI四种模式。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["URL编码（encodeURIComponent）", "URL编码（encodeURI）", "URL解码（decodeURIComponent）", "URL解码（decodeURI）", "实时转换", "一键复制"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "encodeURI 和 encodeURIComponent 有什么区别？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "encodeURI 用于编码完整URL，不会转义 : / ? # & = 等URL结构字符；encodeURIComponent 用于编码URL参数值，会转义除字母、数字和 - _ . ! ~ * ' ( ) 之外的所有字符。编码整个URL用encodeURI，编码参数值用encodeURIComponent。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "URL编码是必须的吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "当URL中含有中文、空格、emoji或 & # ? 等特殊字符时必须编码，否则可能导致请求错误或参数解析异常。浏览器地址栏看到的中文通常是已经过编码后显示的结果。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "解码失败提示错误怎么办？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "decodeURIComponent 遇到不合法的百分号序列（如 %zz、单独的 %）会抛出URIError。请检查输入是否为有效的URL编码字符串，可尝试切换为 decodeURI 模式。"
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="en/tools/url-encode.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>URL编码解码</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🔗</div>
+        <h1>URL编码解码</h1>
+      </div>
+      <p class="tool-desc">在线URLEncode/Decode转换工具，支持 encodeURIComponent、encodeURI、decodeURIComponent、decodeURI 四种模式，输入即时转换，所有处理均在浏览器本地完成。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="op-row">
+        <div class="radio-row" id="modeRow" role="radiogroup" aria-label="转换模式">
+          <label class="checked"><input type="radio" name="mode" value="encodeComponent" checked>编码 Component</label>
+          <label><input type="radio" name="mode" value="encodeURI">编码 URI</label>
+          <label><input type="radio" name="mode" value="decodeComponent">解码 Component</label>
+          <label><input type="radio" name="mode" value="decodeURI">解码 URI</label>
+        </div>
+        <span class="spacer"></span>
+        <label class="checkbox-row" style="font-size:13px;"><input type="checkbox" id="autoConvert" checked> 实时转换</label>
+      </div>
+
+      <div class="split-2">
+        <div class="form-item">
+          <label for="ueInput">原始内容</label>
+          <textarea id="ueInput" class="form-input" rows="10" placeholder="输入需要编码或解码的内容，例如：https://example.com/搜索?q=中文" spellcheck="false"></textarea>
+        </div>
+        <div class="form-item">
+          <label for="ueOutput">转换结果</label>
+          <textarea id="ueOutput" class="form-input" rows="10" readonly placeholder="转换结果会显示在这里" spellcheck="false"></textarea>
+        </div>
+      </div>
+
+      <div class="op-row" style="margin-top:14px; margin-bottom:0;">
+        <button class="btn btn-primary" id="btnConvert" type="button">立即转换</button>
+        <button class="btn" id="btnSwap" type="button">结果转为输入</button>
+        <button class="btn" id="btnCopy" type="button">复制结果</button>
+        <span class="spacer"></span>
+        <button class="btn" id="btnClear" type="button">清空</button>
+      </div>
+
+      <div class="warn-note" id="ueError" hidden></div>
+
+      <p class="wc-note">说明：<b>encodeURIComponent</b> 会转义除字母数字和 - _ . ! ~ * ' ( ) 之外的所有字符，适合编码URL参数值；<b>encodeURI</b> 保留 : / ? # &amp; = 等URL结构字符，适合编码完整URL。解码时如提示错误，说明输入不是合法的百分号编码序列。</p>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>encodeURI 和 encodeURIComponent 有什么区别？</h3>
+        <p>encodeURI 用于编码完整URL，不会转义 : / ? # &amp; = 等URL结构字符；encodeURIComponent 用于编码URL参数值，会转义除字母、数字和 - _ . ! ~ * ' ( ) 之外的所有字符。编码整个URL用encodeURI，编码参数值用encodeURIComponent。</p>
+      </div>
+      <div class="faq-item">
+        <h3>URL编码是必须的吗？</h3>
+        <p>当URL中含有中文、空格、emoji或 &amp; # ? 等特殊字符时必须编码，否则可能导致请求错误或参数解析异常。浏览器地址栏看到的中文通常是已经过编码后显示的结果。</p>
+      </div>
+      <div class="faq-item">
+        <h3>解码失败提示错误怎么办？</h3>
+        <p>decodeURIComponent 遇到不合法的百分号序列（如 %zz、单独的 %）会抛出URIError。请检查输入是否为有效的URL编码字符串，可尝试切换为 decodeURI 模式。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/url-encode.js"></script>
+</body>
+</html>

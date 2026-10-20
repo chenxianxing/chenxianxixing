@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JWT签名验证 - 在线 JWT 校验与解析工具 | 在线工具大全</title>
+  <meta name="description" content="免费在线 JWT 签名验证与解析工具，支持 HS256/384/512 与 RS256/384/512，自动识别算法，校验签名是否通过，并解析 Header 与 Payload 标准字段，所有计算均在浏览器本地完成，不会上传。">
+  <meta name="keywords" content="JWT验证,JWT解析,JWT签名,JWT校验,HS256,RS256,JWT在线验证,JSON Web Token,公钥验证">
+  <meta name="author" content="在线工具大全">
+  <meta name="robots" content="index, follow">
+  <!-- TODO: 站点正式上线并绑定域名后，请将下方 og:url / canonical 中的 https://example.com 替换为真实域名 -->
+  <link rel="canonical" href="https://example.com/tools/jwt-verify.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="JWT签名验证 - 在线 JWT 校验与解析工具">
+  <meta property="og:description" content="支持 HS256/384/512 与 RS256/384/512 的在线 JWT 校验与解析工具，所有计算均在本地完成。">
+  <meta property="og:url" content="https://example.com/tools/jwt-verify.html">
+  <meta property="og:site_name" content="在线工具大全">
+  <meta property="og:locale" content="zh_CN">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%AA%BC%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tool.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "JWT签名验证",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "在线 JWT 签名验证与解析工具，支持 HS/RSA 系列算法，所有计算在本地完成。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "featureList": ["HS256/384/512 验证", "RS256/384/512 验证", "自动识别算法", "Header/Payload 解析", "标准字段高亮", "本地计算不联网"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "对称签名（HS*）和非对称签名（RS*）有什么区别？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "HS256/384/512 使用同一个密钥（secret）进行签名与验证，签发方和验证方必须共享密钥，常见于内部服务。RS256/384/512 使用一对 RSA 密钥：私钥签名、公钥验证，公钥可以公开分发，验证方无需持有私钥，更适合多方协作或对外暴露。本工具对 RS* 只需提供公钥即可验证。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "为什么必须通过 http://localhost 或 https 才能验证？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "JWT 验证依赖浏览器 Web Crypto 接口（crypto.subtle），该接口仅在安全上下文（https 或 http://localhost）中可用。直接双击打开（file://）时浏览器会禁用该接口，工具会提示相关错误。请通过本地服务器访问。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "验证“通过”是否代表令牌有效且未过期？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "“通过”仅表示签名正确、确实由持有对应密钥的一方签发，不代表令牌未过期或未生效。过期（exp）、生效时间（nbf）等声明需要业务系统自行校验，本工具会展示这些字段供你查看，但不会自动判定业务有效性。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .jwt-key-hint {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+    .jwt-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 8px 16px;
+      border-radius: 10px;
+      margin-bottom: 4px;
+    }
+    .jwt-status.pass { background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; }
+    .jwt-status.fail { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+    .jwt-status.unknown { background: #f3f4f6; color: var(--muted); border: 1px solid var(--border); }
+    .jwt-sig {
+      margin-top: 14px;
+      font-size: 13px;
+    }
+    .jwt-sig .row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 8px;
+      align-items: flex-start;
+    }
+    .jwt-sig .k {
+      flex-shrink: 0;
+      width: 92px;
+      color: var(--muted);
+    }
+    .jwt-sig .v {
+      font-family: "SFMono-Regular", Consolas, Menlo, "Courier New", monospace;
+      word-break: break-all;
+      color: var(--text);
+    }
+    .jwt-sig .v.match { color: #059669; }
+    .jwt-sig .v.mismatch { color: #dc2626; }
+    .jwt-section-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin: 18px 0 6px;
+    }
+    .jwt-std {
+      background: #eff6ff;
+      border-radius: 4px;
+      padding: 0 2px;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">
+        <span class="brand-logo">🧰</span>
+        <span>在线工具大全<span class="brand-sub">免费在线工具</span></span>
+      </a>
+      <nav class="site-nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+              <span class="lang-switch"><span class="lang-cur">中文</span><a class="lang-link" href="en/tools/jwt-verify.html">English</a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="tool-hero">
+      <nav class="breadcrumb">
+        <a href="../index.html">首页</a> &gt; <a href="../index.html#tools">全部工具</a> &gt; <span>JWT签名验证</span>
+      </nav>
+      <div class="tool-title-row">
+        <div class="tool-big-icon">🪼</div>
+        <h1>JWT签名验证</h1>
+      </div>
+      <p class="tool-desc">在线 JWT 签名验证与解析工具，支持 HS256/384/512 与 RS256/384/512，自动识别算法并校验签名，解析 Header 与 Payload，所有计算均在浏览器本地完成，不会上传。</p>
+    </section>
+
+    <section class="tool-panel">
+      <div class="form-item">
+        <label for="jwtInput">JWT（三段式，以 . 分隔）</label>
+        <textarea id="jwtInput" class="form-input" rows="5" placeholder="粘贴完整的 JWT，例如：eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIn0.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c" spellcheck="false"></textarea>
+      </div>
+
+      <div class="form-item">
+        <label for="jwtKey" id="jwtKeyLabel">密钥（HMAC secret）</label>
+        <textarea id="jwtKey" class="form-input" rows="5" placeholder="HS* 算法填写共享密钥（文本）；RS* 算法填写 RSA 公钥 PEM" spellcheck="false"></textarea>
+        <div class="jwt-key-hint" id="jwtKeyHint">检测到算法后会自动提示应填写的内容。</div>
+      </div>
+
+      <div class="op-row">
+        <button class="btn btn-primary" id="btnVerify" type="button">验证签名</button>
+      </div>
+
+      <div class="warn-note" id="jwtSecureNote" hidden>
+        ⚠️ 当前页面处于非安全上下文（file:// 等），浏览器禁用了 Web Crypto 接口（crypto.subtle），无法执行签名验证。请通过本地服务器以 <b>http://localhost</b> 或 https 访问本工具。
+      </div>
+
+      <div class="info-note">
+        🔒 <b>隐私说明：</b>JWT 与密钥仅在你的浏览器本地参与计算，不会上传到任何服务器。对称签名（HS*）使用同一密钥验证；非对称签名（RS*）只需提供公钥即可验证私钥签名。
+      </div>
+
+      <div id="jwtResult" hidden>
+        <div class="jwt-status unknown" id="jwtStatus">等待验证</div>
+        <div class="jwt-sig" id="jwtSig"></div>
+
+        <div class="jwt-section-title">Header（头部）</div>
+        <div class="code-box" id="jwtHeader"></div>
+
+        <div class="jwt-section-title">Payload（载荷）</div>
+        <div class="code-box" id="jwtPayload"></div>
+      </div>
+
+      <div class="empty-tip" id="jwtEmpty">粘贴 JWT 并填写密钥后，点击「验证签名」查看结果。</div>
+    </section>
+
+    <section class="faq-section">
+      <h2>常见问题</h2>
+      <div class="faq-item">
+        <h3>对称签名（HS*）和非对称签名（RS*）有什么区别？</h3>
+        <p>HS256/384/512 使用同一个密钥（secret）进行签名与验证，签发方和验证方必须共享密钥，常见于内部服务。RS256/384/512 使用一对 RSA 密钥：私钥签名、公钥验证，公钥可以公开分发，验证方无需持有私钥，更适合多方协作或对外暴露。本工具对 RS* 只需提供公钥即可验证。</p>
+      </div>
+      <div class="faq-item">
+        <h3>为什么必须通过 http://localhost 或 https 才能验证？</h3>
+        <p>JWT 验证依赖浏览器 Web Crypto 接口（crypto.subtle），该接口仅在安全上下文（https 或 http://localhost）中可用。直接双击打开（file://）时浏览器会禁用该接口，工具会提示相关错误。请通过本地服务器访问。</p>
+      </div>
+      <div class="faq-item">
+        <h3>验证“通过”是否代表令牌有效且未过期？</h3>
+        <p>“通过”仅表示签名正确、确实由持有对应密钥的一方签发，不代表令牌未过期或未生效。过期（exp）、生效时间（nbf）等声明需要业务系统自行校验，本工具会展示这些字段供你查看，但不会自动判定业务有效性。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span data-year>2026</span> 在线工具大全 · 所有工具永久免费</span>
+      <div class="links">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#tools">全部工具</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/jwt-verify.js"></script>
+</body>
+</html>
